@@ -21,5 +21,11 @@
     <ClCompile Include="002_Operator.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="004_Loop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="003_Loop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
