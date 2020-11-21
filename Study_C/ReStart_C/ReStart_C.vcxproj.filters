@@ -30,5 +30,22 @@
     <ClCompile Include="005_Loop.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="006_Forloop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="turboc.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="007_MoveSharp.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="008_MoveSharp.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="turboc.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
