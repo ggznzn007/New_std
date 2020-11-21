@@ -27,5 +27,8 @@
     <ClCompile Include="003_Loop.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="005_Loop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
