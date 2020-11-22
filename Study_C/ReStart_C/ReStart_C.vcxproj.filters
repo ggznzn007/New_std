@@ -42,6 +42,12 @@
     <ClCompile Include="008_MoveSharp.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="009_MoveSharp.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="010_DrawWall.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">

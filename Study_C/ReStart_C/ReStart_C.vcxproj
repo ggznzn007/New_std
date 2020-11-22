@@ -161,7 +161,13 @@
     <ClCompile Include="007_MoveSharp.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="008_MoveSharp.c" />
+    <ClCompile Include="008_MoveSharp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="009_MoveSharp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="010_DrawWall.c" />
     <ClCompile Include="turboc.c" />
   </ItemGroup>
   <ItemGroup>
