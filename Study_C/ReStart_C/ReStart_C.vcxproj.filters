@@ -48,6 +48,12 @@
     <ClCompile Include="010_DrawWall.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="011_SelectMenu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="012_ChopTree.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
