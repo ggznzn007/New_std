@@ -176,6 +176,7 @@
     <ClCompile Include="012_ChopTree.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="013_Function.c" />
     <ClCompile Include="turboc.c" />
   </ItemGroup>
   <ItemGroup>

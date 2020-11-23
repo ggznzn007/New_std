@@ -54,6 +54,9 @@
     <ClCompile Include="012_ChopTree.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="013_Function.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
