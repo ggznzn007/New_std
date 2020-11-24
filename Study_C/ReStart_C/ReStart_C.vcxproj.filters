@@ -57,6 +57,15 @@
     <ClCompile Include="013_Function.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="014_LocalVar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="015_DrawLine.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="016_Array.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
