@@ -66,6 +66,24 @@
     <ClCompile Include="016_Array.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="017_StrArray.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="018_TwodimArray.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="019_TwodimArray.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="020_Dowhlie_For.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="021_Dowhile_For.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="022_Dowhile.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
