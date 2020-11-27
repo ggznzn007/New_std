@@ -102,6 +102,15 @@
     <ClCompile Include="028_Using_ptr.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="029_Using_ptr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="030_Using_ptr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="031_Using_ptr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
