@@ -111,6 +111,21 @@
     <ClCompile Include="031_Using_ptr.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="032_Using_ptr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="033_Using_ptr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="034_Movebar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="035_Movebar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="036_DoubleMoveSharp.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
