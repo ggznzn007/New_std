@@ -139,7 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="01_Max_Min.c" />
+    <ClCompile Include="01_Max_Min.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="02_Time.c" />
     <ClCompile Include="turboc.c" />
   </ItemGroup>
   <ItemGroup>

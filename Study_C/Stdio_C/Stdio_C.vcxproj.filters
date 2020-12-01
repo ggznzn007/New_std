@@ -21,6 +21,9 @@
     <ClCompile Include="01_Max_Min.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="02_Time.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
