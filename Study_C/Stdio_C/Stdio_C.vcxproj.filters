@@ -24,6 +24,12 @@
     <ClCompile Include="02_Time.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="03_Time.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="04_TimeSlicing.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
