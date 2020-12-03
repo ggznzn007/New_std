@@ -1,3 +1,2 @@
-﻿  06_Struct.c
-C:\Users\ggznz\reposit\New\Study_C\Stdio_C\06_Struct.c(30,13): warning C4013: 'strcpy_s'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+﻿  07_FileWrite.c
   Stdio_C.vcxproj -> C:\Users\ggznz\reposit\New\Study_C\Stdio_C\Debug\Stdio_C.exe
