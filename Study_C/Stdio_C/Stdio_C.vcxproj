@@ -157,7 +157,13 @@
     <ClCompile Include="06_Struct.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="07_FileWrite.c" />
+    <ClCompile Include="07_FileWrite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="08_FileWrite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="09_FileWrite.c" />
     <ClCompile Include="turboc.c" />
   </ItemGroup>
   <ItemGroup>
