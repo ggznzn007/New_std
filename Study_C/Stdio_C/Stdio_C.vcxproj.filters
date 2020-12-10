@@ -63,6 +63,12 @@
     <ClCompile Include="15_StructRead.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="16_StructArrayWrite.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="17_StructArrayRead.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="turboc.h">
