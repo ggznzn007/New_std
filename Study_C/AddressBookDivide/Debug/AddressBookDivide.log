@@ -1,0 +1,14 @@
+﻿  addressBookController.c
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\addressBookController.c(45,18): warning C4013: 'userInputAddress'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\addressBookController.c(126,17): warning C4013: 'saveAddressBook'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  addressBookModel.c
+  addressBookView.c
+  main.c
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\main.c(10,17): warning C4013: 'loadAddressBook'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\main.c(13,11): warning C4013: 'viewMenu'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\main.c(14,21): warning C4013: 'getSelNum'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\main.c(15,22): warning C4013: 'processWork'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\main.c(16,15): warning C4013: 'laterProcess'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  turboc.c
+  코드를 생성하고 있습니다...
+  AddressBookDivide.vcxproj -> C:\Users\ggznz\reposit\New\Study_C\AddressBookDivide\Debug\AddressBookDivide.exe
