@@ -5,3 +5,10 @@ C:\Users\ggznz\reposit\Cs_Study\Cs_std\bin\Debug\Cs_std.exe
 C:\Users\ggznz\reposit\Cs_Study\Cs_std\bin\Debug\Cs_std.pdb
 C:\Users\ggznz\reposit\Cs_Study\Cs_std\obj\Debug\Cs_std.exe
 C:\Users\ggznz\reposit\Cs_Study\Cs_std\obj\Debug\Cs_std.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\bin\Debug\Cs_std.exe.config
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\bin\Debug\Cs_std.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\bin\Debug\Cs_std.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\obj\Debug\Cs_std.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\obj\Debug\Cs_std.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\obj\Debug\Cs_std.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std\obj\Debug\Cs_std.pdb
