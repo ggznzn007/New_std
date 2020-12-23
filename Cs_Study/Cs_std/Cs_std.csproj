@@ -45,6 +45,8 @@
   <ItemGroup>
     <None Include="02_Generic_Class.cs" />
     <Compile Include="03_Dynamic.cs" />
+    <None Include="04_LinkedList.cs" />
+    <Compile Include="05_Using_LinkedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
