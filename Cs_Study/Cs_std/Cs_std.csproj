@@ -50,7 +50,8 @@
     <None Include="06_Stack.cs" />
     <None Include="07_Queue.cs" />
     <None Include="08_ArrayList.cs" />
-    <Compile Include="09_List_T.cs" />
+    <None Include="09_List_T.cs" />
+    <Compile Include="10_Sort_Alpha.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
