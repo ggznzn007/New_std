@@ -49,7 +49,8 @@
     <None Include="05_Using_LinkedList.cs" />
     <None Include="06_Stack.cs" />
     <None Include="07_Queue.cs" />
-    <Compile Include="08_ArrayList.cs" />
+    <None Include="08_ArrayList.cs" />
+    <Compile Include="09_List_T.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
