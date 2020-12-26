@@ -52,7 +52,8 @@
     <None Include="08_ArrayList.cs" />
     <None Include="09_List_T.cs" />
     <None Include="10_Sort_Alpha.cs" />
-    <Compile Include="11_Sort_IComparer.cs" />
+    <None Include="11_Sort_IComparer.cs" />
+    <Compile Include="12_SortArrayPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
