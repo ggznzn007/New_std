@@ -32,22 +32,22 @@ namespace IComparableSort
         }
     }
 
-    class Artists : IComparable
-    {//IComparable 인터페이스를 기반으로 Artists 클래스를 정의
+    class Artists : IComparable //IComparable 인터페이스를 기반으로 Artists 클래스를 정의
+    {
         public string Name { get; set; }
         public string Country { get; set; }
         public int Birth { get; set; }
         public int Die { get; set; }
 
         public Artists(string name, string country, int birth, int die)
-        {
+        {//Artists 클래스는 4개의 속성과 생성자 메소드를 갖는다
             Name = name;
             Country = country;
             Birth = birth;
             Die = die;
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object obj)//obj를 Artists로 캐스팅하고 Birth를 비교하여 리턴한다
         {
             Artists a = (Artists)obj;
             return this.Birth.CompareTo(a.Birth);
