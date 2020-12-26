@@ -22,7 +22,7 @@ namespace IComparableSort
             {
                 if (artist.Birth > 1800 && artist.Birth <= 1900)
                     artists19c.Add(artist);
-            }
+            }//famousArtists 베열에서 조건에 맞는 객체를 artists19c리스트에 추가
 
             //IComparable를 사용하여 정렬
             artists19c.Sort();
