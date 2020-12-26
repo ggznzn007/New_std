@@ -53,7 +53,8 @@
     <None Include="09_List_T.cs" />
     <None Include="10_Sort_Alpha.cs" />
     <None Include="11_Sort_IComparer.cs" />
-    <Compile Include="12_SortArrayPair.cs" />
+    <None Include="12_SortArrayPair.cs" />
+    <Compile Include="13_IComparable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
