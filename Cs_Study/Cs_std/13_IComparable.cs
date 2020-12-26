@@ -24,7 +24,7 @@ namespace IComparableSort
                     artists19c.Add(artist);
             }//famousArtists 베열에서 조건에 맞는 객체를 artists19c리스트에 추가
 
-            //IComparable를 사용하여 정렬
+            //IComparable를 사용하여 정렬하고 재정의된 ToString메소드로 출력
             artists19c.Sort();
             Console.WriteLine("19세기 미술가를 탄생 순 정렬: IComparable");
             foreach (var a in artists19c)
