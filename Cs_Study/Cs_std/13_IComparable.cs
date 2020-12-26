@@ -15,7 +15,7 @@ namespace IComparableSort
                 new Artists("파블로 피카소","스페인",1881,1973),
                 new Artists("베르메르","네덜란드",1632,1675),
                 new Artists("르노아르", "프랑스",1841,1919)
-            };
+            }; //객체 생성
 
             List<Artists> artists19c = new List<Artists>();
             foreach (var artist in famousArtists)
