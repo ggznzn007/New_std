@@ -33,7 +33,7 @@ namespace IComparableSort
     }
 
     class Artists : IComparable
-    {
+    {//IComparable 인터페이스를 기반으로 Artists 클래스를 정의
         public string Name { get; set; }
         public string Country { get; set; }
         public int Birth { get; set; }
