@@ -40,20 +40,20 @@ namespace IComparableSort
         public int Die { get; set; }
 
         public Artists(string name, string country, int birth, int die)
-        {//Artists 클래스는 4개의 속성과 생성자 메소드를 갖는다
+        {                             //Artists 클래스는 4개의 속성과 생성자 메소드를 갖는다
             Name = name;
             Country = country;
             Birth = birth;
             Die = die;
         }
 
-        public int CompareTo(object obj)//obj를 Artists로 캐스팅하고 Birth를 비교하여 리턴한다
+        public int CompareTo(object obj) //obj를 Artists로 캐스팅하고 Birth를 비교하여 리턴한다
         {
             Artists a = (Artists)obj;
             return this.Birth.CompareTo(a.Birth);
         }
 
-        public override string ToString()
+        public override string ToString() //ToString 메소드를 재정의한다
         {
             return string.Format(" {0}, {1}, {2}, {3}", Name, Country, Birth, Die);
         }
