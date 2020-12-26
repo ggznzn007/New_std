@@ -17,7 +17,7 @@ namespace IComparableSort
                 new Artists("르노아르", "프랑스",1841,1919)
             }; //객체 생성
 
-            List<Artists> artists19c = new List<Artists>();
+            List<Artists> artists19c = new List<Artists>();//리스트 생성
             foreach (var artist in famousArtists)
             {
                 if (artist.Birth > 1800 && artist.Birth <= 1900)
