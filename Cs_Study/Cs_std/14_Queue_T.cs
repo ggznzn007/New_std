@@ -18,7 +18,8 @@ namespace Queue_T
             Console.WriteLine(" Dequeuing '{0}'", que.Dequeue());
             Console.WriteLine(" Peek: '{0}'", que.Peek());
 
-            Queue<string> que2 = new Queue<string>();
+            Queue<string> que2 = new Queue<string>(que.ToArray());
+
         }
     }
 }
