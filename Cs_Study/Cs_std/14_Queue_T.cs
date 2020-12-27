@@ -22,7 +22,7 @@ namespace Queue_T
             PrintQueue("que2:", que2);
 
             string[] array = new string[que.Count];
-
+            que.CopyTo(array, 0);
         }
     }
 }
