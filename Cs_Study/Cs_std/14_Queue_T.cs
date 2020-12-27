@@ -23,6 +23,11 @@ namespace Queue_T
 
             string[] array = new string[que.Count];
             que.CopyTo(array, 0);
+            Queue<string> que3 = new Queue<string>(array);
+            PrintQueue("que3:", que3);
+
+
+
         }
     }
 }
