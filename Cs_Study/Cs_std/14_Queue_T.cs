@@ -35,6 +35,8 @@ namespace Queue_T
         private static void PrintQueue(string s, Queue<string> q)
         {
             Console.Write("{0,8}", s);
+            foreach (var item in q)
+                Console.Write("{0,-8}", item);
         }
     }
 }
