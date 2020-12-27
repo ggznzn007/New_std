@@ -7,7 +7,7 @@ namespace Queue_T
     {
         static void Main(string[] args)
         {
-            Queue<string> que = new Queue<string>();
+            Queue<string> que = new Queue<string>();//큐 객체 생성
             que.Enqueue("Tiger");
             que.Enqueue("Lion");
             que.Enqueue("Zebra");
