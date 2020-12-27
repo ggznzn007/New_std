@@ -29,7 +29,8 @@ namespace Queue_T
             PrintQueue("que3:", que3);
 
             Console.WriteLine("que.Contains(Lion) = {0}", que.Contains("Lion"));
-            que3.Clear();
+            //Contains 메소드를 사용하여 Lion 요소를 가지고 있는지 여부를 출력 -> 가지고 있어서 true 출력
+            que3.Clear();// 3번째 큐 초기화
             Console.WriteLine("Count = {0}, {1}, {2}", que.Count, que2.Count, que3.Count);
 
         }
