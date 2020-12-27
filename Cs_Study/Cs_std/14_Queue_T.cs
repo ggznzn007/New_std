@@ -18,8 +18,9 @@ namespace Queue_T
             Console.WriteLine(" Dequeuing '{0}'", que.Dequeue());
             //디큐를 사용하여 값을 가져오고 맨 앞의 값의 타이거가 리턴 후 없어짐
             Console.WriteLine(" Peek: '{0}'", que.Peek());
+            //픽을 사용하여 맨 앞의 값을 출력하지만 값은 없어지지않음
 
-            Queue<string> que2 = new Queue<string>(que.ToArray());
+            Queue<string> que2 = new Queue<string>(que.ToArray()); //2번째 큐 객체생성
             PrintQueue("que2:", que2);
 
             string[] array = new string[que.Count];
