@@ -13,9 +13,10 @@ namespace Queue_T
             que.Enqueue("Zebra");
             que.Enqueue("Cow");
             que.Enqueue("Rabbit");
-            PrintQueue("que: ", que);
+            PrintQueue("que: ", que);//5개의 값을 저장하고 출력
 
             Console.WriteLine(" Dequeuing '{0}'", que.Dequeue());
+            //디큐를 사용하여 값을 가져오고 맨 앞의 값의 타이거가 리턴 후 없어짐
             Console.WriteLine(" Peek: '{0}'", que.Peek());
 
             Queue<string> que2 = new Queue<string>(que.ToArray());
