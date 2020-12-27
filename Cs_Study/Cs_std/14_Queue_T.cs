@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic;// Queue<T>를 사용 할때 제네릭 네임스페이스가 필요함
 
 namespace Queue_T
 {
