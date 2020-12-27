@@ -31,5 +31,10 @@ namespace Queue_T
             Console.WriteLine("Count = {0}, {1}, {2}", que.Count, que2.Count, que3.Count);
 
         }
+
+        private static void PrintQueue(string s, Queue<string> q)
+        {
+            Console.Write("{0,8}", s);
+        }
     }
 }
