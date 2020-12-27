@@ -19,6 +19,9 @@ namespace Queue_T
             Console.WriteLine(" Peek: '{0}'", que.Peek());
 
             Queue<string> que2 = new Queue<string>(que.ToArray());
+            PrintQueue("que2:", que2);
+
+            string[] array = new string[que.Count];
 
         }
     }
