@@ -26,7 +26,7 @@ namespace Queue_T
             Queue<string> que3 = new Queue<string>(array);
             PrintQueue("que3:", que3);
 
-
+            Console.WriteLine("que.Contains(Lion) = {0}", que.Contains("Lion"));
 
         }
     }
