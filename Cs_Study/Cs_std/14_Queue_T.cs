@@ -20,12 +20,12 @@ namespace Queue_T
             Console.WriteLine(" Peek: '{0}'", que.Peek());
             //픽을 사용하여 맨 앞의 값을 출력하지만 값은 없어지지않음
 
-            Queue<string> que2 = new Queue<string>(que.ToArray()); //2번째 큐 객체생성
+            Queue<string> que2 = new Queue<string>(que.ToArray()); //2번째 큐 객체 생성
             PrintQueue("que2:", que2);
 
-            string[] array = new string[que.Count];
-            que.CopyTo(array, 0);
-            Queue<string> que3 = new Queue<string>(array);
+            string[] array = new string[que.Count];// 큐의 크기로 배열을 생성
+            que.CopyTo(array, 0);//큐의 값을 배열에 복사
+            Queue<string> que3 = new Queue<string>(array);// 복사한 배열로 3번째 큐 객체 생성
             PrintQueue("que3:", que3);
 
             Console.WriteLine("que.Contains(Lion) = {0}", que.Contains("Lion"));
