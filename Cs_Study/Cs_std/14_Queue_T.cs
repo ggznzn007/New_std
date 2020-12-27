@@ -32,6 +32,7 @@ namespace Queue_T
             //Contains 메소드를 사용하여 Lion 요소를 가지고 있는지 여부를 출력 -> 가지고 있어서 true 출력
             que3.Clear();// 3번째 큐 초기화
             Console.WriteLine("Count = {0}, {1}, {2}", que.Count, que2.Count, que3.Count);
+            //1,2,3번 모든 큐의 Count속성을 출력합니다. -> 4,4,0 
 
         }
 
