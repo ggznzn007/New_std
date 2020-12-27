@@ -37,6 +37,7 @@ namespace Queue_T
             Console.Write("{0,8}", s);
             foreach (var item in q)
                 Console.Write("{0,-8}", item);
+            Console.WriteLine();
         }
     }
 }
