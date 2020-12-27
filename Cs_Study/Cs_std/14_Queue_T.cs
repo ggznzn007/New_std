@@ -27,6 +27,8 @@ namespace Queue_T
             PrintQueue("que3:", que3);
 
             Console.WriteLine("que.Contains(Lion) = {0}", que.Contains("Lion"));
+            que3.Clear();
+            Console.WriteLine("Count = {0}, {1}, {2}", que.Count, que2.Count, que3.Count);
 
         }
     }
