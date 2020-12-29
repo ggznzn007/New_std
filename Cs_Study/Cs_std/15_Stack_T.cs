@@ -15,7 +15,23 @@ namespace Stack_T
             Console.Write(" = ");
 
             Stack<double> nStack = new Stack<double>();
-            
+            foreach (var s in token)
+            {
+                if (isOperator(s))
+                {
+                    switch (s)
+                    {
+                        case "+":
+                            nStack.Push(nStack.Pop() + nStack.Pop()); break;
+                        case "-":
+                            nStack.Push(-(nStack.Pop() - nStack.Pop())); break;
+                        case "*":
+                            nStack.Push(nStack.Pop() * nStack.Pop()); break;
+                        case "/":
+                            nStack.Push(1.0 / (nStack.Pop() / nStack.Pop())); break;
+                    }
+                }
+            }
         }
     }
 }
