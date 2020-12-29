@@ -31,7 +31,20 @@ namespace Stack_T
                             nStack.Push(1.0 / (nStack.Pop() / nStack.Pop())); break;
                     }
                 }
+                else
+                {
+                    nStack.Push(double.Parse(s));
+                }
             }
+            Console.WriteLine(nStack.Pop());
+        }
+
+        private static bool isOperator(string s)
+        {
+            if (s == "+" || s == "-" || s == "*" || s == "/")
+                return true;
+            else
+                return false;
         }
     }
 }
