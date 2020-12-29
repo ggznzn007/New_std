@@ -13,7 +13,7 @@ namespace Stack_T
             foreach (var i in token)
                 Console.Write(" {0}", i);
             Console.Write(" = ");
-
+            //수식을 입력 받아 Split 메소드로 빈칸을 나누어 token배열에 저장하고 출력
             Stack<double> nStack = new Stack<double>();
             foreach (var s in token)
             {
