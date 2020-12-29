@@ -14,9 +14,10 @@ namespace Stack_T
                 Console.Write(" {0}", i);
             Console.Write(" = ");
             //수식을 입력 받아 Split 메소드로 빈칸을 나누어 token배열에 저장하고 출력
-            Stack<double> nStack = new Stack<double>();
+            Stack<double> nStack = new Stack<double>();//제네릭 Stack 객체 생성
             foreach (var s in token)
-            {
+            {//token 배열의 내용을 하나씩 읽어와서 연산자 여부 체크,
+             //연산자이면 if문 실행, 아니면, else문에 의해 더블로 바꾸어 푸쉬
                 if (isOperator(s))
                 {
                     switch (s)
