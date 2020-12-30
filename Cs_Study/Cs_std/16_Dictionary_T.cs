@@ -25,7 +25,8 @@ namespace Dictionary_T
             {
                 Console.WriteLine(e.Message);
             }
-            //
+            //try catch문 안에서 옐로우를 출력하려고 하면, 옐로우라는 키값이 없어서
+            // KeyNotFoundException이 발생
             try
             {
                 Console.WriteLine("Yellow => {0}", colorTable["Yellow"]);
