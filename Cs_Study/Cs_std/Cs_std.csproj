@@ -56,7 +56,8 @@
     <None Include="12_SortArrayPair.cs" />
     <None Include="13_IComparable.cs" />
     <None Include="14_Queue_T.cs" />
-    <Compile Include="15_Stack_T.cs" />
+    <None Include="15_Stack_T.cs" />
+    <Compile Include="16_Dictionary_T.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
