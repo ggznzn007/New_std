@@ -8,7 +8,7 @@ namespace Dictionary_T
         static void Main(string[] args)
         {
             Dictionary<string, string> colorTable = new Dictionary<string, string>();
-
+            //제네릴 Dictionary 객체 생성
             colorTable.Add("Red", "빨간색");
             colorTable.Add("Green", "초록색");
             colorTable.Add("Blue", "파란색");
