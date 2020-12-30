@@ -33,6 +33,10 @@ namespace Dictionary_T
             {
                 Console.WriteLine(e.Message);
             }
+
+            Console.WriteLine("\n" + colorTable["Red"]);
+            Console.WriteLine(colorTable["Green"]);
+            Console.WriteLine(colorTable["Blue"]);
         }
     }
 }
