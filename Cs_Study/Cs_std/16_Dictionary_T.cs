@@ -12,7 +12,7 @@ namespace Dictionary_T
             colorTable.Add("Red", "빨간색");
             colorTable.Add("Green", "초록색");
             colorTable.Add("Blue", "파란색");
-
+            //3개의 키, 값 쌍을 저장
             foreach (var v in colorTable)
                 Console.WriteLine("colorTable[{0}] = {1}", v.Key, v.Value);
 
