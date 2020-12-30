@@ -15,7 +15,8 @@ namespace Dictionary_T
             //3개의 키, 값 쌍을 저장
             foreach (var v in colorTable)//foreach문으로 모든 자료 출력
                 Console.WriteLine("colorTable[{0}] = {1}", v.Key, v.Value);
-
+            //try catch문 안에서 레드 빨강으로 새로운값 저장 시
+            // 이미 레드 키값이 존재하므로 ArgumentException이 발생
             try
             {
                 colorTable.Add("Red", "빨강");
@@ -24,7 +25,7 @@ namespace Dictionary_T
             {
                 Console.WriteLine(e.Message);
             }
-
+            //
             try
             {
                 Console.WriteLine("Yellow => {0}", colorTable["Yellow"]);
