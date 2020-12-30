@@ -9,6 +9,11 @@ namespace Dictionary_T
         {
             Dictionary<string, string> colorTable = new Dictionary<string, string>();
 
+            colorTable.Add("Red", "빨간색");
+            colorTable.Add("Green", "초록색");
+            colorTable.Add("Blue", "파란색");
+
+
         }
     }
 }
