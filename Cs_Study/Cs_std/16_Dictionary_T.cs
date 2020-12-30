@@ -13,7 +13,26 @@ namespace Dictionary_T
             colorTable.Add("Green", "초록색");
             colorTable.Add("Blue", "파란색");
 
+            foreach (var v in colorTable)
+                Console.WriteLine("colorTable[{0}] = {1}", v.Key, v.Value);
 
+            try
+            {
+                colorTable.Add("Red", "빨강");
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            try
+            {
+                Console.WriteLine("Yellow => {0}", colorTable["Yellow"]);
+            }
+            catch(KeyNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
