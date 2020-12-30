@@ -39,6 +39,7 @@ namespace Dictionary_T
             Console.WriteLine("\n" + colorTable["Red"]);
             Console.WriteLine(colorTable["Green"]);
             Console.WriteLine(colorTable["Blue"]);
+            //빨간,초록,파란 순서대로 값이 출력됩니다
         }
     }
 }
