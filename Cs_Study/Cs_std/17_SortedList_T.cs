@@ -31,6 +31,21 @@ namespace SortedList_T
 
             foreach (var kvp in s2)
                 Console.WriteLine("{0, -10} ", kvp);
+            Console.WriteLine();
+
+            int val;
+            if (s2.TryGetValue("ten", out val))
+                Console.WriteLine("key: ten, value: {0}", val);
+            else
+                Console.WriteLine("[ten] : Key is not valid.");
+
+            if (s2.TryGetValue("one", out val))
+                Console.WriteLine("key: one, value: {0}", val);
+
+            Console.WriteLine(s2.ContainsKey("one")); // return true
+            Console.WriteLine(s2.ContainsKey("ten")); // return false
+            Console.WriteLine(s2.ContainsKey("one")); // return true
+            Console.WriteLine(s2.ContainsKey("one")); // return true
         }
     }
 }
