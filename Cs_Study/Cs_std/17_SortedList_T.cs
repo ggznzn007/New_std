@@ -44,8 +44,9 @@ namespace SortedList_T
 
             Console.WriteLine(s2.ContainsKey("one")); // return true
             Console.WriteLine(s2.ContainsKey("ten")); // return false
-            Console.WriteLine(s2.ContainsKey("one")); // return true
-            Console.WriteLine(s2.ContainsKey("one")); // return true
+            Console.WriteLine(s2.ContainsValue(2)); // return true
+            Console.WriteLine(s2.ContainsValue(6)); // return false
+            
         }
     }
 }
