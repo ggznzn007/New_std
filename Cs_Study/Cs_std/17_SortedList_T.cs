@@ -56,6 +56,7 @@ namespace SortedList_T
             s2.Remove("one"); //키가 'one'인 요소 삭제 
             s2.RemoveAt(0); //첫번째 요소 삭제 
 
+            //s2의 각 요소를 출력, 앞에서 두 개의 요소가 삭제되었으므로 3과 2가 출력됨
             foreach (KeyValuePair<string, int> kvp in s2)
                 Console.Write("{0, -10} ", kvp);
             Console.WriteLine();
