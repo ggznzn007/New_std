@@ -34,6 +34,9 @@ namespace SortedList_T
             Console.WriteLine();
 
             int val;
+           /*s2.TryGetValue("ten", out val)메소드는 s2에서 ten을 키로 하는 값이 있으면 변수 val에 값을 저장하고
+                true를 리턴하고, ten을 키로 하는 값이 없으면 false를 리턴*/
+            
             if (s2.TryGetValue("ten", out val))
                 Console.WriteLine("key: ten, value: {0}", val);
             else
