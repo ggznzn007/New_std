@@ -46,7 +46,13 @@ namespace SortedList_T
             Console.WriteLine(s2.ContainsKey("ten")); // return false
             Console.WriteLine(s2.ContainsValue(2)); // return true
             Console.WriteLine(s2.ContainsValue(6)); // return false
-            
+
+            s2.Remove("one"); //키가 'one'인 요소 삭제 
+            s2.RemoveAt(0); //첫번째 요소 삭제 
+
+            foreach (KeyValuePair<string, int> kvp in s2)
+                Console.Write("{0, -10} ", kvp);
+            Console.WriteLine();
         }
     }
 }
