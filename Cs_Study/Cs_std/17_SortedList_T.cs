@@ -21,15 +21,15 @@ namespace SortedList_T
                 Console.Write("{0, -10} ", kvp);
             Console.WriteLine();
 
-            SortedList<string, int> s2 = new SortedList<string, int>();
+            SortedList<string, int> s2 = new SortedList<string, int>();//s2 객체 생성 후 4개 값 저장
             s2.Add("one", 1);
             s2.Add("two", 2);
             s2.Add("three", 3);
             s2.Add("four", 4);
 
-            Console.WriteLine(s2["two"]);
+            Console.WriteLine(s2["two"]);// 다음과 같은 방법으로 키에 해당하는 값 출력가능
 
-            foreach (var kvp in s2)
+            foreach (var kvp in s2)//s2 각 요소 출력 **키가 string타입이므로 사전식으로 정렬되어 출력
                 Console.WriteLine("{0, -10} ", kvp);
             Console.WriteLine();
 
