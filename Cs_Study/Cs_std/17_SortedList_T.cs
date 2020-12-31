@@ -6,18 +6,18 @@ namespace SortedList_T
     class Program
     {
         static void Main(string[] args)
-        {
+        {// 제네릭 소트리스트 객체 생성 후 4개의 키-값 쌍을 저장
             SortedList<int, string> s1 = new SortedList<int, string>();
             s1.Add(3, "Three");
             s1.Add(4, "Four");
             s1.Add(1, "One");
             s1.Add(2, "Two");
 
-            for (int i = 0; i < s1.Count; i++)
+            for (int i = 0; i < s1.Count; i++)//s1에 저장되어있는 각 요소를 출력 **키에 의해 정렬됨
                 Console.Write("k: {0}, v: {1} / ", s1.Keys[i], s1.Values[i]);
             Console.WriteLine();
 
-            foreach (var kvp in s1)
+            foreach (var kvp in s1)//s1 모든 요소 출력
                 Console.Write("{0, -10} ", kvp);
             Console.WriteLine();
 
