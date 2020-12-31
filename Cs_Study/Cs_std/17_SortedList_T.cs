@@ -42,13 +42,16 @@ namespace SortedList_T
             else
                 Console.WriteLine("[ten] : Key is not valid.");
 
+            //one을 키로 하여 값을 val에 저장하고 val는 1이 되고 출력
             if (s2.TryGetValue("one", out val))
                 Console.WriteLine("key: one, value: {0}", val);
 
-            Console.WriteLine(s2.ContainsKey("one")); // return true
-            Console.WriteLine(s2.ContainsKey("ten")); // return false
-            Console.WriteLine(s2.ContainsValue(2)); // return true
-            Console.WriteLine(s2.ContainsValue(6)); // return false
+            //매개변수를 키로 하는 요소가 있으면 return true 아니면 return false
+            Console.WriteLine(s2.ContainsKey("one")); 
+            Console.WriteLine(s2.ContainsKey("ten"));
+            //매개변수를 값으로 하는 요소가 있으면 return true 아니면 return false
+            Console.WriteLine(s2.ContainsValue(2)); 
+            Console.WriteLine(s2.ContainsValue(6));
 
             s2.Remove("one"); //키가 'one'인 요소 삭제 
             s2.RemoveAt(0); //첫번째 요소 삭제 
