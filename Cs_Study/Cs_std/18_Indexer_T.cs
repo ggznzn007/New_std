@@ -12,4 +12,18 @@ namespace Indexer_T
             set { array[i] = value; }
         }
     }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var myString = new MyCollection<string>();
+            myString[0] = "Hello, World!";
+            myString[1] = "Hello, C#";
+            myString[1] = "Hello, Indexer!";
+
+            for (int i = 0; i < 3; i++)
+                Console.WriteLine(myString[i]);
+        }
+    }
 }
