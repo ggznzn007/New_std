@@ -58,7 +58,8 @@
     <None Include="14_Queue_T.cs" />
     <None Include="15_Stack_T.cs" />
     <None Include="16_Dictionary_T.cs" />
-    <Compile Include="17_SortedList_T.cs" />
+    <None Include="17_SortedList_T.cs" />
+    <Compile Include="18_Indexer_T.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
