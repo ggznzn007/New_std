@@ -4,12 +4,12 @@ namespace Indexer_T
 {
     class MyCollection<T>// 제네릭 클래스 마이컬렉션 T를 정의
     {
-        private T[] array = new T[100];
+        private T[] array = new T[100];// 클래스의 필드로 T형 자료를 100개 저장 가능한 배열
 
         public T this[int i]// 인덱스 정의
-        {
-            get { return array[i]; }
-            set { array[i] = value; }
+        {//this 키워드를 사용해서 정수 인덱스를 사용가능
+            get { return array[i]; }//array[i]를 리턴
+            set { array[i] = value; }//value 키워드를 사용하여 array[i]를 설정 
         }
     }
 
