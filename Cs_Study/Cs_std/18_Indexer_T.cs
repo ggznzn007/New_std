@@ -2,7 +2,7 @@
 
 namespace Indexer_T
 {
-    class MyCollection<T>
+    class MyCollection<T>// 제네릭 클래스 마이컬렉션 T를 정의
     {
         private T[] array = new T[100];
 
