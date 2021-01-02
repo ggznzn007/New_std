@@ -4,8 +4,8 @@ namespace Delegate_Anonymous
 {
     class Program
     {
-        delegate bool MemberTest(int x);
-
+        delegate bool MemberTest(int x);//델리게이트 생성
+        //매개변수로 정수 하나를 사용하고 부울값을 리턴하는 메소드 사용가능
         static void Main(string[] args)
         {
             var arr = new[] { 3, 34, 6, 34, 7, 8, 24, 3, 675, 8, 23 };
