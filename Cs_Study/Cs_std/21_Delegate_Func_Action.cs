@@ -12,6 +12,9 @@ namespace Func_Action
             //이름없는 무명 델리게이트로 정의
             int n = Count(arr, delegate (int x) { return x % 2 == 0; });//배열과 델리게이트가 매개변수
             Console.WriteLine("짝수의 개수: " + n);
+
+            n = Count(arr, delegate (int x) { return x % 2 != 0; });
+            Console.WriteLine("홀수의 개수: " + n);
         }
 
         private static int Count(int[] arr, Func<int, bool>testMethod)//Count() 메소드 정의
