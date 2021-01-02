@@ -24,5 +24,8 @@ namespace Delegate_B
             }
             return cnt;
         }
+
+        static public bool IsOdd(int n) { return n % 2 != 0; }
+        static public bool IsEven(int n) { return n % 2 == 0; }
     }
 }
