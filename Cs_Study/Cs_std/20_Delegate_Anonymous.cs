@@ -1,1 +1,31 @@
-﻿
+﻿using System;
+
+namespace Delegate_Anonymous
+{
+    class Program
+    {
+        delegate bool MemberTest(int x);
+
+        static void Main(string[] args)
+        {
+            var arr = new[] { 3, 34, 6, 34, 7, 8, 24, 3, 675, 8, 23 };
+
+            int na = Count(arr, delegate (int x) { return x % 2 == 0; });
+            Console.WriteLine("짝수의 개수: " + n);
+
+            n = Count(arr, delegate (int x) { return x % 2 != 0; });
+            Console.WriteLine("홀수의 개수: " + n);
+        }
+
+        private static int Count(int[] arr, MemberTest testMethod)
+        {
+            int cnt = 0;
+            foreach(var n in arr)
+            {
+                if (testMethod(n))
+                    cnt++;
+            }
+            return cnt;
+        }
+    }
+}
