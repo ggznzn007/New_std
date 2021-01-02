@@ -4,8 +4,8 @@ namespace Delegate_B
 {
     class Program
     {
-        delegate bool MemberTest(int a);
-
+        delegate bool MemberTest(int a);//델리게이트 생성
+        //매개변수로 정수 하나를 사용하고 리턴값이 부울인 메소드 사용가능
         static void Main(string[] args)
         {
             int[] arr = new int[] { 3, 5, 4, 2, 6, 4, 6, 8, 54, 23, 4, 6, 4 };
