@@ -9,8 +9,8 @@ namespace Func_Action
         static void Main(string[] args)
         {
             var arr = new[] { 3, 34, 6, 34, 7, 8, 24, 3, 675, 8, 23 };
-
-            int n = Count(arr, delegate (int x) { return x % 2 == 0; });
+            //이름없는 무명 델리게이트로 정의
+            int n = Count(arr, delegate (int x) { return x % 2 == 0; });//배열과 델리게이트가 매개변수
             Console.WriteLine("짝수의 개수: " + n);
         }
 
