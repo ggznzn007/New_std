@@ -60,7 +60,8 @@
     <None Include="16_Dictionary_T.cs" />
     <None Include="17_SortedList_T.cs" />
     <None Include="18_Indexer_T.cs" />
-    <Compile Include="19_Delegate_basic.cs" />
+    <None Include="19_Delegate_basic.cs" />
+    <Compile Include="20_Delegate_Anonymous.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
