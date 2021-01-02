@@ -14,8 +14,8 @@ namespace Func_Action
             Console.WriteLine("짝수의 개수: " + n);
         }
 
-        private static int Count(int[] arr, Func<int, bool>testMethod)
-        {
+        private static int Count(int[] arr, Func<int, bool>testMethod)//Count() 메소드 정의
+        {//델리게이트 대신에 Func<> 사용 매개변수로 int와 리턴값으로 부울값을 가진다
             int cnt = 0;
             foreach(var n in arr)
             {
