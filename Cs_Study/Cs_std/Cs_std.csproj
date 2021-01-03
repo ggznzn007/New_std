@@ -62,7 +62,8 @@
     <None Include="18_Indexer_T.cs" />
     <None Include="19_Delegate_basic.cs" />
     <None Include="20_Delegate_Anonymous.cs" />
-    <Compile Include="21_Delegate_Func_Action.cs" />
+    <None Include="21_Delegate_Func_Action.cs" />
+    <Compile Include="22_Lamda_01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
