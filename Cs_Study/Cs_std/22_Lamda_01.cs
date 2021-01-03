@@ -15,6 +15,15 @@ namespace Lamda_1
             Console.WriteLine("홀수의 개수: " + n);
         }
 
-
+        private static int Count(int[] arr, Func<int,bool> testMethod)
+        {
+            int cnt = 0;
+            foreach(var n in arr)
+            {
+                if (testMethod(n))
+                    cnt++;
+            }
+            return cnt;
+        }
     }
 }
