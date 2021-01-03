@@ -34,18 +34,18 @@ namespace Lamda_02
             Console.WriteLine("{0}은 {1}.",
                 s1.Name, isTeen(s1) ? "청소년입니다" : "청소년이 아닙니다");//isTeen값 리턴
 
-            IsAdult isAdult = (s) =>
+            IsAdult isAdult = (s) =>// 문 람다로 정의 18세이상이면 트루를 리턴
             {
                 int adultAge = 18;
                 return s.Age >= adultAge;
             };
 
-            Student s2 = new Student() { Name = "Robin", Age = 20 };
+            Student s2 = new Student() { Name = "Robin", Age = 20 };// s2객체 생성
             Console.WriteLine("{0}은 {1}.",
-                s2.Name, isAdult(s2) ? "성인입니다" : "성인이 아닙니다");
+                s2.Name, isAdult(s2) ? "성인입니다" : "성인이 아닙니다");//isAdult값 리턴
         }
 
-        public class Student
+        public class Student//Student 클래스 정의 이름과 나이를 속성으로 가진다
         {
             public string Name { get; set; }
             public int Age { get; set; }
