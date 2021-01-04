@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+LINQ는 Language-INtegrated Query의 약자로 C#에 통합된 질의 기능
+SQL과 같은 Query언어를 C#에 도입한 것
+from, where, orderby, select 등의 연산자가 사용
+=> data컬렉션에 있는 데이터 item으로 부터 item이 짝수이면 item값으로 정렬하여 선택한다는 의미
+LINQ를 사용하려면 원본 데이터가 IEnumerable, IEnumerable<T> 인터페이스를 상속하는 형식이어야 한다
+이에 해당하는 컬렉션은 배열과 리스트 등이 있다
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;// Linq 추가
 
