@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq;// Linq 추가
 
 namespace LinqBasic
 {
     class Program
     {
         static void Main(string[] args)
-        {
+        {//정수 리스트 data를 정의하고 초기화
             List<int> data = new List<int> { 123, 45, 12, 89, 456, 1, 4, 74, 46 };
             List<int> lstSortedEven = new List<int>();
 
