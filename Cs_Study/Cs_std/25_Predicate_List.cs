@@ -21,8 +21,15 @@ namespace ListAndLamda
             List<string> longName = myList.FindAll(s => s.Length > 5);
             foreach(var item in longName)
             {
-
+                Console.Write(item + " ");
             }
+            Console.WriteLine();
+
+            Console.Write("대문자로 변환: ");
+            List<string> capList = myList.ConvertAll(s => s.ToUpper());
+            foreach (var item in capList)
+                Console.Write(item + " ");
+            Console.WriteLine();
         }
     }
 }
