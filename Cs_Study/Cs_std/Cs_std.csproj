@@ -65,7 +65,8 @@
     <None Include="21_Delegate_Func_Action.cs" />
     <None Include="22_Lamda_01.cs" />
     <None Include="23_Lamda_02.cs" />
-    <Compile Include="24_Predicate.cs" />
+    <None Include="24_Predicate.cs" />
+    <Compile Include="25_Predicate_List.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
