@@ -66,7 +66,8 @@
     <None Include="22_Lamda_01.cs" />
     <None Include="23_Lamda_02.cs" />
     <None Include="24_Predicate.cs" />
-    <Compile Include="25_Predicate_List.cs" />
+    <None Include="25_Predicate_List.cs" />
+    <Compile Include="26_Linq_basic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
