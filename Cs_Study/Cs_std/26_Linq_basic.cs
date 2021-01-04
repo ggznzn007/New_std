@@ -18,15 +18,15 @@ namespace LinqBasic
             }
             lstSortedEven.Sort();//lstSortedEven을 Sort메소드를 사용하여 정렬
 
-            Console.WriteLine("Using foreach: ");
+            Console.WriteLine("Using foreach: ");//lstSortedEven 출력
             foreach (var item in lstSortedEven)
                 Console.Write(item + " ");
             Console.WriteLine();
 
-            var sortedEven = from item in data
-                             where item % 2 == 0
-                             orderby item
-                             select item;
+            var sortedEven = from item in data//LINQ로 data에서 짝수를 찾아 정렬하여
+                             where item % 2 == 0//sortedEven에 추가하고 이때 sortedEven은
+                             orderby item//IEnumerable<int>형이 됩니다
+                             select item;//var 대신 IEnumerable<int>로 명시
 
             Console.WriteLine("\nUsing Linq: ");
             foreach (var item in sortedEven)
