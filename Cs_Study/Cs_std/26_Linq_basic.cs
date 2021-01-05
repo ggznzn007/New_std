@@ -9,7 +9,7 @@ LINQ를 사용하려면 원본 데이터가 IEnumerable, IEnumerable<T> 인터�
 using System;
 using System.Collections.Generic;
 using System.Linq;// Linq 추가
-
+ 
 namespace LinqBasic
 {
     class Program
