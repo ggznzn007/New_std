@@ -36,6 +36,12 @@ namespace LinqToList
                     select item).ToArray<int>();
         }
 
-
+        private static void Print(string s, IEnumerable<int> data)
+        {
+            Console.WriteLine(s);
+            foreach (var i in data)
+                Console.Write(" " + i);
+            Console.WriteLine();
+        }
     }
 }
