@@ -16,7 +16,7 @@ namespace LinqToList
             Print("Ordered Odd: ", lstOdd);
 
             int[] arrEven;
-            arrEven = SelectOddAndSort(lstData);
+            arrEven = SelectEvenAndSort(lstData);
             Print("Ordered Even: ", arrEven);
         }
 
@@ -27,5 +27,15 @@ namespace LinqToList
                     orderby item
                     select item).ToList<int>();
         }
+
+        private static int[] SelectEvenAndSort(List<int> lstData)
+        {
+            return (from item in lstData
+                    where item % 2 == 0
+                    orderby item
+                    select item).ToArray<int>();
+        }
+
+
     }
 }
