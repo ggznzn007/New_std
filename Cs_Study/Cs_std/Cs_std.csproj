@@ -68,7 +68,8 @@
     <None Include="24_Predicate.cs" />
     <None Include="25_Predicate_List.cs" />
     <None Include="26_Linq_basic.cs" />
-    <Compile Include="27_Linq_basic2.cs" />
+    <None Include="27_Linq_basic2.cs" />
+    <Compile Include="28_Linq_To_List.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
