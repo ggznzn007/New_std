@@ -19,7 +19,19 @@ namespace LinqBasic2
 
             Print("20보다 큰 짝수 검색결과: ", lstEven);
 
+            var lstSorted = from item in lstEven
+                            orderby item ascending
+                            select item * 2;
 
+            Print("2를 곱해서 오름차순 정렬: ", lstSorted);
+        }
+
+        private static void Print(string s, IEnumerable<int> data)
+        {
+            Console.WriteLine(s);
+            foreach (var i in data)
+                Console.Write(" " + i);
+            Console.WriteLine();
         }
     }
 }
