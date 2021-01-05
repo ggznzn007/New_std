@@ -14,13 +14,13 @@ namespace LinqBasic2
 
             var lstEven = from item in data
                           where (item > 20 && item % 2 == 0)
-                          orderby item descending
+                          orderby item descending//descending == 내림차순
                           select item;
             //data 요소 중 20보다 크고 짝수이면 lstEven에 추가하고 출력
             Print("20보다 큰 짝수 검색결과: ", lstEven);
 
             var lstSorted = from item in lstEven
-                            orderby item ascending
+                            orderby item ascending//ascending == 오름차순
                             select item * 2;
             //lstEven 요소에 2를 곱하고 오름차순으로 정렬하여 lstSorted에 추가하고 출력
             Print("2를 곱해서 오름차순 정렬: ", lstSorted);
