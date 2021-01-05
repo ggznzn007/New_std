@@ -20,6 +20,12 @@ namespace LinqToList
             Print("Ordered Even: ", arrEven);
         }
 
-
+        private static List<int> SelectOddAndSort(List<int> lstData)
+        {
+            return (from item in lstData
+                    where item % 2 == 1
+                    orderby item
+                    select item).ToList<int>();
+        }
     }
 }
