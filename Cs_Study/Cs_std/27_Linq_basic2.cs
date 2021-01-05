@@ -9,8 +9,8 @@ namespace LinqBasic2
         static void Main(string[] args)
         {
             List<int> data = new List<int> { 123, 45, 12, 89, 456, 1, 4, 74, 46 };
-
-            Print("data : ", data);
+            //정수 리스트 data를 정의하고 초기화
+            Print("data : ", data);//Print메소드를 이용해서 data 내용 출력
 
             var lstEven = from item in data
                           where (item > 20 && item % 2 == 0)
