@@ -37,8 +37,8 @@ namespace LinqToList
         }//List<int>를 매개변수로 받아서 짝수인 자료를 정렬 후 ToArray메소드를 통해 배열로 변환
 
         private static void Print(string s, IEnumerable<int> data)//Print 메소드 정의
-        {
-            Console.WriteLine(s);
+        {//string과 IEnumerable<int>를 매개변수로 가진다
+            Console.WriteLine(s);//리스트와 배열을 동시에 처리하기 위해 IEnumerable<T>를 매개변수로!
             foreach (var i in data)
                 Console.Write(" " + i);
             Console.WriteLine();
