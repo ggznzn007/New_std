@@ -18,6 +18,10 @@ namespace Variable
             Console.WriteLine("님!");
 
             Console.Write("나이는 ");
+            Console.Write(age);
+            Console.Write("세, 키는 ");
+            Console.Write(height);
+            Console.WriteLine("cm 이군요!");            
         }
     }
 }
