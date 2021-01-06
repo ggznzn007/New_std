@@ -48,7 +48,21 @@ namespace CS_01
             Console.WriteLine("v1={0}, v2 = {1}", v1, v2);
             Console.WriteLine($"v1 = {v1}, v2 = {v2}");*/
 
+            //ConsoleFormat
+            Console.Clear(); // 05
 
+            Console.WriteLine("Standard Numeric Format Specifiers");
+            Console.WriteLine(
+                "(C) Currency:........{0:C}\n" +
+                "(D) Decimal:.........{0:D}\n" +
+                "(E) Scientific:......{0:E}\n" +
+                "(F) Fixed point:.....{0:F}\n" +
+                "(G) General:.........{0:G}\n" +
+                "(N) Number:..........{0:N}\n" +
+                "(P) Percent:.........{1:P}\n" +
+                "(R) Round-trip:......{1:R}\n" +
+                "(X) Hexademical:.....{0:X}\n",
+                -12345678, -1234.5678f);
         }
     }
 }
