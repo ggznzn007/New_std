@@ -54,6 +54,24 @@ namespace Float_Double_Decimal
                 Console.WriteLine(e.Message);
             }*/
 
+            // 04 Convert
+            int x, y;
+
+            Console.WriteLine("첫번째 숫자를 입력하세요: ");
+            x = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("두번째 숫자를 입력하세요: ");
+            y = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("{0} + {1} = {2}", x, y, x + y);
+
+            // 2진수, 8진수, 10진수, 16진수로 출력하기
+            short value = short.MaxValue; // Int16.MaxValue
+            Console.WriteLine("\n2진수, 8진수, 10진수, 16진수로 출력하기");
+
+            int baseNum = 2;
+            string s = Convert.ToString(value, baseNum);
+            int i = Convert.ToInt32(s, baseNum);
+            Console.WriteLine("i = {0}, {1,2}진수= {2,16}", i, baseNum, s);
+
 
         }
     }
