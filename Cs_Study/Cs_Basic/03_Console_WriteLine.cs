@@ -40,6 +40,14 @@ namespace CS_01
             primes = String.Format("10 이하의 소수: {0}, {1}, {2}, {3}", 2, 3, 5, 7);
             Console.WriteLine(primes);*/
 
+            /*int v1 = 100; // 04
+            double v2 = 1.234;
+
+            Console.WriteLine(v1.ToString() + ", " + v2.ToString());
+            Console.WriteLine("v1 = " + v1 + ", v2 = " + v2);
+            Console.WriteLine("v1={0}, v2 = {1}", v1, v2);
+            Console.WriteLine($"v1 = {v1}, v2 = {v2}");*/
+
 
         }
     }
