@@ -64,7 +64,7 @@ namespace Float_Double_Decimal
             Console.WriteLine("{0} + {1} = {2}", x, y, x + y);
 
             // 2진수, 8진수, 10진수, 16진수로 출력하기
-            short value = short.MaxValue; // Int16.MaxValue
+            short value = short.MaxValue; // Int16.MaxValue == 32767
             Console.WriteLine("\n2진수, 8진수, 10진수, 16진수로 출력하기");
 
             int baseNum = 2;
