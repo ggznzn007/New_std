@@ -42,7 +42,10 @@
     <None Include="02_String.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="03_Console_WriteLine.cs" />
+    <None Include="03_Console_WriteLine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="04_Flot_Dble_Decml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
