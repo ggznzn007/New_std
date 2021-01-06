@@ -72,6 +72,20 @@ namespace Float_Double_Decimal
             int i = Convert.ToInt32(s, baseNum);
             Console.WriteLine("i = {0}, {1,2}진수= {2,16}", i, baseNum, s);
 
+            baseNum = 8;
+            s = Convert.ToString(value, baseNum);
+            i = Convert.ToInt32(s, baseNum);
+            Console.WriteLine("i = {0}, {1,2}진수= {2,16}", i, baseNum, s);
+
+            baseNum = 10;
+            s = Convert.ToString(value, baseNum);
+            i = Convert.ToInt32(s, baseNum);
+            Console.WriteLine("i = {0}, {1,2}진수= {2,16}", i, baseNum, s);
+
+            baseNum = 16;
+            s = Convert.ToString(value, baseNum);
+            i = Convert.ToInt32(s, baseNum);
+            Console.WriteLine("i = {0}, {1,2}진수= {2,16}", i, baseNum, s);
 
         }
     }
