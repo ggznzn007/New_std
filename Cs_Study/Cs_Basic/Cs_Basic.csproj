@@ -39,7 +39,10 @@
     <None Include="01_Variable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="02_String.cs" />
+    <None Include="02_String.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="03_Console_WriteLine.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
