@@ -45,7 +45,10 @@
     <None Include="03_Console_WriteLine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="04_Flot_Dble_Decml.cs" />
+    <None Include="04_Flot_Dble_Decml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="05_Operators.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
