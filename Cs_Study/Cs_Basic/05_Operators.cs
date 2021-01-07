@@ -85,7 +85,7 @@ namespace _Operators
             result = (first != second);
             Console.WriteLine("{0} != {1} : {2}", first, second, result);*/
 
-            // 06 Logical Operators
+            /*// 06 Logical Operators
             bool result;
             int first = 10, second = 20;
 
@@ -99,8 +99,23 @@ namespace _Operators
             Console.WriteLine("{0} ^ {1}:{2}", true, false, result);
 
             result = !(first > second);
-            Console.WriteLine("!{0}:{1}", first > second, result);
+            Console.WriteLine("!{0}:{1}", first > second, result);*/
 
+            // 07 Bitwise Operators
+            int x = 14, y = 11, result;
+
+            result = x | y;
+            Console.WriteLine("{0} | {1} = {2}", x, y, result);
+            result = x & y;
+            Console.WriteLine("{0} & {1} = {2}", x, y, result);
+            result = x ^ y;
+            Console.WriteLine("{0} ^ {1} = {2}", x, y, result);
+            result = ~x;
+            Console.WriteLine("~{0} = {1}", x, result);
+            result = x<<2;
+            Console.WriteLine("{0} << 2 = {1}", x, y, result);
+            result = y>>1;
+            Console.WriteLine("{0} >> 1 = {1}", y, result);
 
         }
     }
