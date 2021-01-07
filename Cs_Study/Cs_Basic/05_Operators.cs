@@ -117,7 +117,7 @@ namespace _Operators
             result = y>>1;
             Console.WriteLine("{0} >> 1 = {1}", y, result);*/
 
-            // 08 Conditional Operators
+            /*// 08 Conditional Operators
             int input = Convert.ToInt32(Console.ReadLine());
 
             string result = (input > 0) ? "양수입니다." : "음수입니다.";
@@ -128,9 +128,17 @@ namespace _Operators
             for(int i = 1; i <=50;i++)
             {
                 Console.WriteLine("{0,3}{1}", i, i % 10 != 0 ? "" : "\n");
-            }
+            }*/
 
+            // 09 CompoundAssignment
+            int x = 32;
 
+            Console.WriteLine(x += 2);
+            Console.WriteLine(x -= 8);
+            Console.WriteLine(x *= 3);
+            Console.WriteLine(x /= 2);
+            Console.WriteLine(x++);
+            Console.WriteLine(--x);
         }
     }
 }
