@@ -30,7 +30,7 @@ namespace _Operators
             Console.WriteLine(123.45 / 67.89);
             Console.WriteLine(123.45 % 67.89);*/
 
-            // 03 DivdeByZero, try ~ catch == 예외처리
+            /*// 03 DivdeByZero, try ~ catch == 예외처리
             int x = 10, y = 0;
 
             try
@@ -40,7 +40,13 @@ namespace _Operators
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-            }
+            }*/
+
+            // 04 OverflowException_checked
+            Console.WriteLine("int.MaxValue = {0}", int.MaxValue);
+            int x = int.MaxValue, y = 0;
+            y = x + 10;
+            Console.WriteLine("int.MaxValue +10 = {0}", y);
         }
     }
 }
