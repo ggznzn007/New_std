@@ -42,11 +42,11 @@ namespace _Operators
                 Console.WriteLine(e.Message);
             }*/
 
-            // 04 OverflowException_checked
-            /*Console.WriteLine("int.MaxValue = {0}", int.MaxValue);
+            /*// 04 OverflowException_checked
+            *//*Console.WriteLine("int.MaxValue = {0}", int.MaxValue);
             int x = int.MaxValue, y = 0;
             y = x + 10;
-            Console.WriteLine("int.MaxValue +10 = {0}", y);*/
+            Console.WriteLine("int.MaxValue +10 = {0}", y);*//*
 
             int x = int.MaxValue, y = 0;
 
@@ -61,7 +61,29 @@ namespace _Operators
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine("int.MaxValue + 10 = {0}", y);
+            Console.WriteLine("int.MaxValue + 10 = {0}", y);*/
+
+            // 05 Relational Operators
+            bool result;
+            int first = 10, second = 20;
+
+            result = (first == second);
+            Console.WriteLine("{0} == {1} : {2}", first, second, result);
+
+            result = (first > second);
+            Console.WriteLine("{0} > {1} : {2}", first, second, result);
+
+            result = (first < second);
+            Console.WriteLine("{0} < {1} : {2}", first, second, result);
+
+            result = (first >= second);
+            Console.WriteLine("{0} >= {1} : {2}", first, second, result);
+
+            result = (first <= second);
+            Console.WriteLine("{0} <= {1} : {2}", first, second, result);
+
+            result = (first != second);
+            Console.WriteLine("{0} != {1} : {2}", first, second, result);
         }
     }
 }
