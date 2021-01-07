@@ -101,7 +101,7 @@ namespace _Operators
             result = !(first > second);
             Console.WriteLine("!{0}:{1}", first > second, result);*/
 
-            // 07 Bitwise Operators
+            /*// 07 Bitwise Operators
             int x = 14, y = 11, result;
 
             result = x | y;
@@ -115,7 +115,21 @@ namespace _Operators
             result = x<<2;
             Console.WriteLine("{0} << 2 = {1}", x, y, result);
             result = y>>1;
-            Console.WriteLine("{0} >> 1 = {1}", y, result);
+            Console.WriteLine("{0} >> 1 = {1}", y, result);*/
+
+            // 08 Conditional Operators
+            int input = Convert.ToInt32(Console.ReadLine());
+
+            string result = (input > 0) ? "양수입니다." : "음수입니다.";
+            Console.WriteLine("{0}는 {1}", input, result);
+            Console.WriteLine("{0}는 {1}", input,
+              (input % 2 == 0) ? "짝수입니다." : "홀수입니다.");
+
+            for(int i = 1; i <=50;i++)
+            {
+                Console.WriteLine("{0,3}{1}", i, i % 10 != 0 ? "" : "\n");
+            }
+
 
         }
     }
