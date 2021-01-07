@@ -63,7 +63,7 @@ namespace _Operators
             }
             Console.WriteLine("int.MaxValue + 10 = {0}", y);*/
 
-            // 05 Relational Operators
+            /*// 05 Relational Operators
             bool result;
             int first = 10, second = 20;
 
@@ -83,7 +83,25 @@ namespace _Operators
             Console.WriteLine("{0} <= {1} : {2}", first, second, result);
 
             result = (first != second);
-            Console.WriteLine("{0} != {1} : {2}", first, second, result);
+            Console.WriteLine("{0} != {1} : {2}", first, second, result);*/
+
+            // 06 Logical Operators
+            bool result;
+            int first = 10, second = 20;
+
+            result = (first == second) || (first > 5);
+            Console.WriteLine("{0} || {1}:{2}", first == second, first > 5, result);
+
+            result = (first == second) && (first > 5);
+            Console.WriteLine("{0} && {1}:{2}", first == second, first > 5, result);
+
+            result = true ^ false;
+            Console.WriteLine("{0} ^ {1}:{2}", true, false, result);
+
+            result = !(first > second);
+            Console.WriteLine("!{0}:{1}", first > second, result);
+
+
         }
     }
 }
