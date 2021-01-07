@@ -15,7 +15,7 @@ namespace _Operators
             int a = 10, b = 20, c;
             Console.WriteLine(c = a + b);*/
 
-            // 02 ArithmeticOperators
+            /*// 02 ArithmeticOperators
             Console.WriteLine("정수의 계산");
             Console.WriteLine(123 + 45);
             Console.WriteLine(123 - 45);
@@ -28,7 +28,19 @@ namespace _Operators
             Console.WriteLine(123.45 - 67.89);
             Console.WriteLine(123.45 * 67.89);
             Console.WriteLine(123.45 / 67.89);
-            Console.WriteLine(123.45 % 67.89);
+            Console.WriteLine(123.45 % 67.89);*/
+
+            // 03 DivdeByZero, try ~ catch == 예외처리
+            int x = 10, y = 0;
+
+            try
+            {
+                Console.WriteLine(x / y);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
