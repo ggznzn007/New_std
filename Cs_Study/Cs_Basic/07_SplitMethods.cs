@@ -60,7 +60,7 @@ namespace _SplitMethods
                 Console.WriteLine("'{0}' is in the string '{1}'", s2, s1);
             }
 */
-            // 04 String Format
+            /*// 04 String Format
             string max = String.Format("0x{0:X} {0:E} {0:N}", Int64.MaxValue);
             Console.WriteLine(max);
 
@@ -77,7 +77,34 @@ namespace _SplitMethods
 
             TimeSpan duration = new TimeSpan(1, 12, 23, 62);
             string output = String.Format("소요 시간: {0:c}", duration);
-            Console.WriteLine(output);
+            Console.WriteLine(output);*/
+
+            // 05 GroupSeparator
+            while(true)
+            {
+                Console.WriteLine("표시할 숫자를 입력하세요(종료:-1): ");
+                string s = Console.ReadLine();
+                double v = double.Parse(s);
+                if (v == 1)
+                    break;
+                Console.WriteLine(NumberWithGroupSeperator(s));
+            }
+        }
+
+        private static string NumberWithGroupSeperator(string s)
+        {
+            int pos = 0;
+            double v = Double.Parse(s);
+
+            if (s.Contains("."))
+            {
+                pos = s.Length - s.IndexOf('.');
+                string formatStr = "{0:N" + (pos - 1) + "}";
+                s = string.Format(formatStr, v);
+            }
+            else
+                s = string.Format("{0:N0}", v);
+            return s;
         }
     }
 }
