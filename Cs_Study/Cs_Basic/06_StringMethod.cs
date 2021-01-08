@@ -23,8 +23,29 @@ namespace _StringMethods
             Console.WriteLine('/' + s.TrimStart() + '/');
             Console.WriteLine('/' + s.TrimEnd() + '/');
 
+            string[] a = s.Split(',');
+            foreach (var i in a)
+                Console.WriteLine('/' + i + '/');
 
+            char[] destination = new char[10];
+            s.CopyTo(8, destination, 0, 6);
+            Console.WriteLine(destination);
 
+            Console.WriteLine('/' + s.Substring(8) + '/');
+            Console.WriteLine('/' + s.Substring(8,5) + '/');
+
+            Console.WriteLine(s.Contains("11"));
+            Console.WriteLine(s.IndexOf('o'));
+            Console.WriteLine(s.LastIndexOf('o'));
+            Console.WriteLine(s.CompareTo("abc"));
+
+            Console.WriteLine(String.Concat("Hi~", s));
+            Console.WriteLine(String.Compare("abc", s));
+            Console.WriteLine(t = String.Copy(s));
+
+            String[] val = { "apple", "orange", "grape", "pear" };
+            String result = String.Join(", ", val);
+            Console.WriteLine(result);
         }
     }
 }
