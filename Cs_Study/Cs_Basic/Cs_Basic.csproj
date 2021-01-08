@@ -49,7 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="05_Operators.cs" />
-    <Compile Include="06_StringMethod.cs" />
+    <None Include="06_StringMethod.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="07_SplitMethods.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
