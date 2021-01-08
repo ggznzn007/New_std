@@ -19,7 +19,7 @@ namespace _SplitMethods
             }
             Console.WriteLine("결과는 {0}", sum);*/
 
-            // 02 String Concat
+            /*// 02 String Concat
             string userName = "bikang";
             string date = DateTime.Today.ToShortDateString();
 
@@ -40,7 +40,26 @@ namespace _SplitMethods
             string s = String.Concat(animals);
             Console.WriteLine(s);
             s = String.Join(", ", animals);
-            Console.WriteLine(s);
+            Console.WriteLine(s);*/
+
+            // 03 String Contains
+            string s1 = "mouse, cow, tiger, rabit, dragon";
+            string s2 = "Cow";
+            bool b = s1.Contains(s2);
+            Console.WriteLine("'{0}' is in the string '{1}': {2}", s2, s1, b);
+
+            if(b)
+            {
+                int index = s1.IndexOf(s2);
+                if (index >= 0)
+                    Console.WriteLine("'{0} begins at index {1}", s2, index);
+            }
+
+            if(s1.IndexOf(s2, StringComparison.CurrentCultureIgnoreCase)>=0)
+            {
+                Console.WriteLine("'{0}' is in the string '{1}'", s2, s1);
+            }
+
 
         }
     }
