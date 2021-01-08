@@ -33,7 +33,14 @@ namespace _SplitMethods
             string strInterpolation = $"Hello {userName}. Today is {date}.";
             Console.WriteLine(strInterpolation);
 
+            string strConcat = String.Concat("Hello ", userName, ". Today is ", date, ".");
+            Console.WriteLine(strConcat);
 
+            string[] animals = { "mouse", "cow", "tiger", "rabit", "dragon" };
+            string s = String.Concat(animals);
+            Console.WriteLine(s);
+            s = String.Join(", ", animals);
+            Console.WriteLine(s);
 
         }
     }
