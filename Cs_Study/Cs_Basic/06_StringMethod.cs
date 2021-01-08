@@ -6,7 +6,7 @@ namespace _StringMethods
     {
         static void Main(string[] args)
         {
-            string s = "Hello, World!";
+            string s = " Hello, World! ";
             string t;
 
             Console.WriteLine(s.Length);
