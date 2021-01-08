@@ -42,7 +42,7 @@ namespace _SplitMethods
             s = String.Join(", ", animals);
             Console.WriteLine(s);*/
 
-            // 03 String Contains
+            /*// 03 String Contains
             string s1 = "mouse, cow, tiger, rabit, dragon";
             string s2 = "Cow";
             bool b = s1.Contains(s2);
@@ -59,7 +59,7 @@ namespace _SplitMethods
             {
                 Console.WriteLine("'{0}' is in the string '{1}'", s2, s1);
             }
-
+*/
             // 04 String Format
             string max = String.Format("0x{0:X} {0:E} {0:N}", Int64.MaxValue);
             Console.WriteLine(max);
