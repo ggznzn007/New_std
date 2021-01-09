@@ -24,7 +24,10 @@ namespace _Const_Readonly
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(ConstEx.number); // const사용
+            Console.WriteLine(ConstEx.number); // const 사용
+
+            ReadonlyEx inst1 = new ReadonlyEx(); // readonly 사용
+            Console.WriteLine(inst1.number);
 
 
         }
