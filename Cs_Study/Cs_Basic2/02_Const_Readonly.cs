@@ -24,6 +24,8 @@ namespace _Const_Readonly
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(ConstEx.number); // const사용
+
 
         }
     }
