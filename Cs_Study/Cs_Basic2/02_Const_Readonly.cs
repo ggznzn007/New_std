@@ -29,7 +29,8 @@ namespace _Const_Readonly
             ReadonlyEx inst1 = new ReadonlyEx(); // readonly 사용
             Console.WriteLine(inst1.number);
 
-
+            ReadonlyEx inst2 = new ReadonlyEx(100); // readonly 사용
+            Console.WriteLine(inst2.number);
         }
     }
 }

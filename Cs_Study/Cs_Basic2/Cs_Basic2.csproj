@@ -5,4 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="01_Enum.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="01_Enum.cs" />
+  </ItemGroup>
+
 </Project>
