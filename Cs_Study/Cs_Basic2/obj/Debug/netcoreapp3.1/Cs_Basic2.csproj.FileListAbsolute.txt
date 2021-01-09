@@ -1,0 +1,13 @@
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.deps.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.runtimeconfig.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.runtimeconfig.dev.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.dll
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\bin\Debug\netcoreapp3.1\Cs_Basic2.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.AssemblyInfoInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.AssemblyInfo.cs
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.dll
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic2\obj\Debug\netcoreapp3.1\Cs_Basic2.genruntimeconfig.cache
