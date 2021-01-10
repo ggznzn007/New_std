@@ -7,10 +7,12 @@
 
   <ItemGroup>
     <Compile Remove="01_Enum.cs" />
+    <Compile Remove="02_Const_Readonly.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_Enum.cs" />
+    <None Include="02_Const_Readonly.cs" />
   </ItemGroup>
 
 </Project>
