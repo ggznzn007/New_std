@@ -8,11 +8,13 @@
   <ItemGroup>
     <Compile Remove="01_Enum.cs" />
     <Compile Remove="02_Const_Readonly.cs" />
+    <Compile Remove="03_Value_Reference.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_Enum.cs" />
     <None Include="02_Const_Readonly.cs" />
+    <None Include="03_Value_Reference.cs" />
   </ItemGroup>
 
 </Project>
