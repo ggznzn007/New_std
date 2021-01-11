@@ -18,8 +18,15 @@ namespace _Nullable
             int j = x ?? 0;
             Console.WriteLine("x = {0}, j = {1}", x, j);
 
+            Console.WriteLine("x >= 10 ? {0}", x >= 10);
+            Console.WriteLine("x < 10 ? {0}", x < 10);
 
-            
+            if (Nullable.Compare<int>(i, j) < 0)
+                Console.WriteLine("i < j");
+            else if (Nullable.Compare<int>(i, j) > 0)
+                Console.WriteLine("i > j");
+            else
+                Console.WriteLine("i = j");
         }
     }
 }
