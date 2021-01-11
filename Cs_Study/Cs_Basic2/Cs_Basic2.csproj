@@ -13,6 +13,7 @@
     <Compile Remove="05_Null_Condi_Operator.cs" />
     <Compile Remove="06_Default.cs" />
     <Compile Remove="07_Nullable.cs" />
+    <Compile Remove="08_Object.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <None Include="05_Null_Condi_Operator.cs" />
     <None Include="06_Default.cs" />
     <None Include="07_Nullable.cs" />
+    <None Include="08_Object.cs" />
   </ItemGroup>
 
 </Project>
