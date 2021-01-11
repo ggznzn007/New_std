@@ -8,6 +8,17 @@ namespace _Object
         {
             int i = 123;
             object o = i; // i값을 박싱하여 o로 복사합니다.
+            i = i + 10;// i값을 바꿉니다. o는 변하지 않습니다.
+            int j = (int)o;// o값을 언박싱하여 j로 복사합니다.
+            // i값이 변해도 o에 저장된 값은 영향을 받지 않습니다.
+            Console.WriteLine("The value-type value i = {0}", i);
+            Console.WriteLine("The object-type value o = {0}", o);
+            Console.WriteLine("The value-type value j = {0}", j);
+
+            object p = o;
+            o = 100;
+            Console.WriteLine("The object-type value o = {0}", o);
+            Console.WriteLine("The object-type value p = {0}", p);
         }
     }
 }
