@@ -11,6 +11,7 @@
     <Compile Remove="03_Value_Reference.cs" />
     <Compile Remove="04_PassingArray_Object.cs" />
     <Compile Remove="05_Null_Condi_Operator.cs" />
+    <Compile Remove="06_Default.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <None Include="03_Value_Reference.cs" />
     <None Include="04_PassingArray_Object.cs" />
     <None Include="05_Null_Condi_Operator.cs" />
+    <None Include="06_Default.cs" />
   </ItemGroup>
 
 </Project>
