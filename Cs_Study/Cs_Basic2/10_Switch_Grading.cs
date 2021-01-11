@@ -6,6 +6,8 @@ namespace _Grading
     {
         static void Main(string[] args)
         {
+            while(true)
+            {
             Console.Write("해당학생의 점수를 입력하세요:  ");
             int score = int.Parse(Console.ReadLine());
             string grade = null;
@@ -43,6 +45,7 @@ namespace _Grading
                     break;
             }
             Console.WriteLine("학점은 {0}", grade);
+            }
         }
     }
 }

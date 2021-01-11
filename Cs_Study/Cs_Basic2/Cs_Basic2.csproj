@@ -14,6 +14,7 @@
     <Compile Remove="06_Default.cs" />
     <Compile Remove="07_Nullable.cs" />
     <Compile Remove="08_Object.cs" />
+    <Compile Remove="09_If_Else_Leapyear.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
     <None Include="06_Default.cs" />
     <None Include="07_Nullable.cs" />
     <None Include="08_Object.cs" />
+    <None Include="09_If_Else_Leapyear.cs" />
   </ItemGroup>
 
 </Project>
