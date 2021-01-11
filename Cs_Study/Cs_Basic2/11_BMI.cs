@@ -26,7 +26,7 @@ namespace _BMI
             else 
                 comment = "고도비만입니다. 그만 좀 쳐먹어!!! 운동 좀 해라!!!";
 
-            Console.WriteLine("BMI = {0:F1}, \"{1}\"입니다", bmi, comment);
+            Console.WriteLine("BMI = {0:F1}, \"{1}", bmi, comment);
         }
     }
 }
