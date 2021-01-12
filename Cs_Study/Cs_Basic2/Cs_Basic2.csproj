@@ -18,6 +18,7 @@
     <Compile Remove="10_Switch_Grading.cs" />
     <Compile Remove="11_BMI.cs" />
     <Compile Remove="12_Loop.cs" />
+    <Compile Remove="13_Number_Multiplication.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
     <None Include="10_Switch_Grading.cs" />
     <None Include="11_BMI.cs" />
     <None Include="12_Loop.cs" />
+    <None Include="13_Number_Multiplication.cs" />
   </ItemGroup>
 
 </Project>
