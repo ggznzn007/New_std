@@ -16,6 +16,7 @@
     <Compile Remove="08_Object.cs" />
     <Compile Remove="09_If_Else_Leapyear.cs" />
     <Compile Remove="10_Switch_Grading.cs" />
+    <Compile Remove="11_BMI.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <None Include="08_Object.cs" />
     <None Include="09_If_Else_Leapyear.cs" />
     <None Include="10_Switch_Grading.cs" />
+    <None Include="11_BMI.cs" />
   </ItemGroup>
 
 </Project>
