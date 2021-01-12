@@ -21,6 +21,7 @@
     <Compile Remove="13_Number_Multiplication.cs" />
     <Compile Remove="14_Min_Max_Avg.cs" />
     <Compile Remove="15_Fact_Prime_PI.cs" />
+    <Compile Remove="16_InfinteLoop.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,7 @@
     <None Include="13_Number_Multiplication.cs" />
     <None Include="14_Min_Max_Avg.cs" />
     <None Include="15_Fact_Prime_PI.cs" />
+    <None Include="16_InfinteLoop.cs" />
   </ItemGroup>
 
 </Project>
