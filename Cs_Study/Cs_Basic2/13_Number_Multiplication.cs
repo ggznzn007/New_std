@@ -18,10 +18,13 @@ namespace _NumberMultiTable
             }
 
             // 02 MultiplicationTable (구구단)
+            while(true)
+            {
             Console.WriteLine("구구단의 출력할 단수를 입력하세요 : ");
             int n = int.Parse(Console.ReadLine());
             for (int j = 1; j <= 9; j++)
             { Console.WriteLine("{0} X {1} = {2}", n, j, n * j); }
+            }
         }
     }
 }
