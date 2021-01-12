@@ -22,7 +22,19 @@ namespace _Loop
             int sumEven = 0;
             for (int y = 1; y<=100;y++)
             { if (y % 2 == 0) sumEven += y; }
+            Console.WriteLine("1부터 100까지 짝수의 합은 {0}", sumEven);
 
+            // 04) 1 ~ 100까지 실수의 합
+            float sumFloat = 0;
+            for (int z = 1; z<=100;z++)
+            { sumFloat += z; }
+            Console.WriteLine("1부터 100까지 실수의 합은 {0}", sumFloat);
+
+            // 05) 1 ~ 100까지 역수의 합
+            double sumDouble = 0;
+            for(int j = 1;j<=100;j++)
+            { sumDouble += 1.0 / j; }
+            Console.WriteLine("1부터 100까지 역수의 합은 {0}", sumDouble);
         }
     }
 }
