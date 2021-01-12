@@ -19,6 +19,7 @@
     <Compile Remove="11_BMI.cs" />
     <Compile Remove="12_Loop.cs" />
     <Compile Remove="13_Number_Multiplication.cs" />
+    <Compile Remove="14_Min_Max_Avg.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,7 @@
     <None Include="11_BMI.cs" />
     <None Include="12_Loop.cs" />
     <None Include="13_Number_Multiplication.cs" />
+    <None Include="14_Min_Max_Avg.cs" />
   </ItemGroup>
 
 </Project>
