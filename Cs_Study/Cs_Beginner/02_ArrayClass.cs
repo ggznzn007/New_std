@@ -16,8 +16,18 @@ namespace _ArrayClass
             int[] c = new int[10];
             Array.Copy(a, 0, c, 1, 3); // 배열 복사 방법 2
             PrintArray(c);
-            
-            
+
+            a.CopyTo(c, 3); // 배열 복사 방법 3
+            PrintArray(c);
+
+            Array.Sort(a); // 오름차순 정렬
+            PrintArray(a);
+
+            Array.Reverse(a); // 내림차순 정렬
+            PrintArray(a);
+
+            Array.Clear(a, 0, a.Length); // 배열 초기화
+            PrintArray(a);
         }
         private static void PrintArray(int[] a)
         {
