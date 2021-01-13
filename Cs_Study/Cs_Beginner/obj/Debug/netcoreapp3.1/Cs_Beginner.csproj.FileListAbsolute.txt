@@ -1,0 +1,13 @@
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.deps.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.runtimeconfig.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.runtimeconfig.dev.json
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.dll
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\bin\Debug\netcoreapp3.1\Cs_Beginner.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.AssemblyInfoInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.AssemblyInfo.cs
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.dll
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Beginner\obj\Debug\netcoreapp3.1\Cs_Beginner.genruntimeconfig.cache
