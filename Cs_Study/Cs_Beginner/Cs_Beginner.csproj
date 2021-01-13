@@ -7,10 +7,12 @@
 
   <ItemGroup>
     <Compile Remove="01_ArrayBasic.cs" />
+    <Compile Remove="02_ArrayClass.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_ArrayBasic.cs" />
+    <None Include="02_ArrayClass.cs" />
   </ItemGroup>
 
 </Project>

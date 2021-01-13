@@ -24,7 +24,7 @@ namespace _MultiDimArr
                 Console.Write("arrB[{0}] : ", i);
                 for (int j = 0; j < arrB[i].Length; j++)
                     Console.Write("{0} ", arrB[i][j]);
-                Console.WriteLine();
+                Console.WriteLine();    
             }
         }
     }
