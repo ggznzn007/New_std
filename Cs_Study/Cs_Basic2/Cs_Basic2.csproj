@@ -22,6 +22,7 @@
     <Compile Remove="14_Min_Max_Avg.cs" />
     <Compile Remove="15_Fact_Prime_PI.cs" />
     <Compile Remove="16_InfinteLoop.cs" />
+    <Compile Remove="17_Break_Sumfact_TimeTable.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,7 @@
     <None Include="14_Min_Max_Avg.cs" />
     <None Include="15_Fact_Prime_PI.cs" />
     <None Include="16_InfinteLoop.cs" />
+    <None Include="17_Break_Sumfact_TimeTable.cs" />
   </ItemGroup>
 
 </Project>
