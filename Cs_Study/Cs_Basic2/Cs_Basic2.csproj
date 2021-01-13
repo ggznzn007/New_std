@@ -23,6 +23,7 @@
     <Compile Remove="15_Fact_Prime_PI.cs" />
     <Compile Remove="16_InfinteLoop.cs" />
     <Compile Remove="17_Break_Sumfact_TimeTable.cs" />
+    <Compile Remove="18_PrimeNumbers.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
     <None Include="15_Fact_Prime_PI.cs" />
     <None Include="16_InfinteLoop.cs" />
     <None Include="17_Break_Sumfact_TimeTable.cs" />
+    <None Include="18_PrimeNumbers.cs" />
   </ItemGroup>
 
 </Project>
