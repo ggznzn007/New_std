@@ -41,13 +41,16 @@ namespace _Binary_Search
             {
                 count++;
                 int mid = (low + high) / 2;
-                if(key ==v[mid])
+                if (key == v[mid])
                 {
                     Console.WriteLine("v[{0}] = {1}", mid, key);
                     Console.WriteLine("이진탐색의 비교횟수는 {0}회입니다.", count);
                     break;
                 }
-
+                else if (key > v[mid])
+                    low = mid + 1;
+                else
+                    high = mid - 1;
             }
         }
 
