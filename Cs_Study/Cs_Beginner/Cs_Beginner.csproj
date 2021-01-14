@@ -9,12 +9,14 @@
     <Compile Remove="01_ArrayBasic.cs" />
     <Compile Remove="02_ArrayClass.cs" />
     <Compile Remove="03_MultiDimensionArr.cs" />
+    <Compile Remove="04_ArrSort.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_ArrayBasic.cs" />
     <None Include="02_ArrayClass.cs" />
     <None Include="03_MultiDimensionArr.cs" />
+    <None Include="04_ArrSort.cs" />
   </ItemGroup>
 
 </Project>
