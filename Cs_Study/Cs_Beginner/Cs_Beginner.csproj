@@ -11,6 +11,7 @@
     <Compile Remove="03_MultiDimensionArr.cs" />
     <Compile Remove="04_ArrSort.cs" />
     <Compile Remove="05_RandomClass.cs" />
+    <Compile Remove="06_Array_Random.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <None Include="03_MultiDimensionArr.cs" />
     <None Include="04_ArrSort.cs" />
     <None Include="05_RandomClass.cs" />
+    <None Include="06_Array_Random.cs" />
   </ItemGroup>
 
 </Project>

@@ -10,14 +10,14 @@ namespace _Binary_Search
             int[] v = new int[30];
 
             for (int i = 0; i < v.Length; i++)
-                v[i] = r.Next(1000);
-            PrintArray("정렬 전", v);
+                v[i] = r.Next(10000);
+            PrintArray("정렬 전\n", v);
 
             // 1) 정렬
             Array.Sort(v);
-            PrintArray("정렬 후", v);
+            PrintArray("정렬 후\n", v);
 
-            Console.Write("=> 검색할 숫자를 입력하세요: ");
+            Console.Write("\n=> 검색할 숫자를 입력하세요: ");
             int key = int.Parse(Console.ReadLine());
             int count = 0; // 비교횟수
 
@@ -28,7 +28,7 @@ namespace _Binary_Search
                 if(v[i]==key)
                 {
                     Console.WriteLine("v[{0}] = {1}", i, key);
-                    Console.WriteLine("선형탐색의 비교횟수는 {0}회입니다.", count);
+                    Console.WriteLine("선형탐색의 비교횟수는 {0}회입니다.\n", count);
                     break;
                 }
             }
@@ -44,7 +44,7 @@ namespace _Binary_Search
                 if (key == v[mid])
                 {
                     Console.WriteLine("v[{0}] = {1}", mid, key);
-                    Console.WriteLine("이진탐색의 비교횟수는 {0}회입니다.", count);
+                    Console.WriteLine("이진탐색의 비교횟수는 {0}회입니다.\n", count);
                     break;
                 }
                 else if (key > v[mid])
@@ -58,7 +58,7 @@ namespace _Binary_Search
         {
             Console.WriteLine(s);
             for (int i = 0; i < v.Length; i++)
-                Console.Write("{0,5}{1}", v[i], (i % 10 == 9) ? "\n" : "");
+                Console.Write("{0,5}{1}", v[i], (i % 10 == 9) ? "\n\n" : "");
         }
     }
 }
