@@ -14,6 +14,7 @@
     <Compile Remove="06_Array_Random.cs" />
     <Compile Remove="07_BinarySearch.cs" />
     <Compile Remove="08_BubbleSort.cs" />
+    <Compile Remove="09_Class_Struct.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
     <None Include="06_Array_Random.cs" />
     <None Include="07_BinarySearch.cs" />
     <None Include="08_BubbleSort.cs" />
+    <None Include="09_Class_Struct.cs" />
   </ItemGroup>
 
 </Project>
