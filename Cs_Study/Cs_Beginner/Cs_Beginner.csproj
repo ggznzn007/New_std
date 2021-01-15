@@ -15,6 +15,7 @@
     <Compile Remove="07_BinarySearch.cs" />
     <Compile Remove="08_BubbleSort.cs" />
     <Compile Remove="09_Class_Struct.cs" />
+    <Compile Remove="10_Fields_Constants.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
     <None Include="07_BinarySearch.cs" />
     <None Include="08_BubbleSort.cs" />
     <None Include="09_Class_Struct.cs" />
+    <None Include="10_Fields_Constants.cs" />
   </ItemGroup>
 
 </Project>
