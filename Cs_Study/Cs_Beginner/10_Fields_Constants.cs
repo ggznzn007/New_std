@@ -25,7 +25,13 @@ namespace _Fields_Constants
     {
         static void Main(string[] args)
         {
+            Product p = new Product();
+            p.name = "시계";
+            p.price = 100000;
 
+            Console.WriteLine("{0} : {1:C}", p.name, p.price);
+            Console.WriteLine("원주율: {0}", MyMath.PI);
+            Console.WriteLine("한 달은 평균 {0:F3}일", MyCalender.daysPerMonth);
         }
     }
 }
