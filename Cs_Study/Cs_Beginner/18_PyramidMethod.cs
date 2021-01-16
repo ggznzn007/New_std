@@ -6,10 +6,13 @@ namespace _Pyramid
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\n\t\t@@@ 피라미드 만들기 @@@\t\t\n");
-            Console.Write("피라미드의 범위를 입력해주세요(1 ~ n) >>  ");
-            int n = int.Parse(Console.ReadLine());
-            DrawPyramid(n);
+            while (true)
+            {
+                Console.WriteLine("\n\t\t@@@ 피라미드 만들기 @@@\t\t\n");
+                Console.Write("피라미드의 범위를 입력해주세요(1 ~ n) >>  ");
+                int n = int.Parse(Console.ReadLine());
+                DrawPyramid(n);
+            }
         }
 
         static void DrawPyramid(int n)
