@@ -20,6 +20,7 @@
     <Compile Remove="12_Constructtor.cs" />
     <Compile Remove="13_Property.cs" />
     <Compile Remove="14_StaticMethod.cs" />
+    <Compile Remove="15_IsPrime.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <None Include="12_Constructtor.cs" />
     <None Include="13_Property.cs" />
     <None Include="14_StaticMethod.cs" />
+    <None Include="15_IsPrime.cs" />
   </ItemGroup>
 
 </Project>

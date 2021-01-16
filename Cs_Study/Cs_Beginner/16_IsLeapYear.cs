@@ -9,10 +9,10 @@ namespace _IsLeapYear
             // 윤년을 찾는 프로그램
             while (true)
             {
-                Console.WriteLine("\n\t\t윤년을 찾아라!!!\t\t");
-                Console.WriteLine("윤년을 찾을 범위를 입력해주세요 :  ");
+                Console.WriteLine("\n\t\t윤년을 찾아라!!!\t\t\n");
+                Console.Write("윤년을 찾을 범위를 입력해주세요 :  ");
                 int y = int.Parse(Console.ReadLine());
-                for (int year = 1; year < y; year++)
+                for (int year = 1999; year < y; year++)
                     if (IsLeapYear(year))
                         Console.Write("{0} ", year);
                 Console.WriteLine();
