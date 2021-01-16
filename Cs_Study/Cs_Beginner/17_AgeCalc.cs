@@ -24,7 +24,18 @@ namespace _AgeCalc
             // 올해의 1월 1일부터 오늘까지의 날짜 수
             totalDays += DayOfYear(tYear, tMonth, tDay);
 
+            // 태어난 해의 생일부터 마지막 날까지의 날짜 수
+            int yearDays = IsLeapYear(bYear) ? 366 : 365;
+            totalDays += yearDays - DayOfYear(bYear, bMonth, bDay);
 
+            for(int year = bYear+1;year<tYear;year++)
+            {
+                if (IsLeapYear(year))
+                    totalDays += 366;
+                else
+                    totalDays += 365;
+            }
+            Console.WriteLine("Total Days From birthday : {0}일", totalDays);
         }
 
         // 평년을 기준으로 각 월의 누적 날짜 수
