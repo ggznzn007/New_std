@@ -6,36 +6,39 @@ namespace _AgeCalc
     {
         static void Main(string[] agrs)
         {
-            Console.WriteLine("\n\t\t####### 생애 계산 프로그램 #######\t\t\n");
-            Console.Write("생일을 입력해주세요(yyyy/mm/dd) :  ");
-            string birth = Console.ReadLine();
-            string[] bArr = birth.Split('/');
-
-            int bYear = int.Parse(bArr[0]);
-            int bMonth = int.Parse(bArr[1]);
-            int bDay = int.Parse(bArr[2]);
-
-            int tYear = DateTime.Today.Year;
-            int tMonth = DateTime.Today.Month;
-            int tDay = DateTime.Today.Day;
-
-            int totalDays = 0;
-
-            // 올해의 1월 1일부터 오늘까지의 날짜 수
-            totalDays += DayOfYear(tYear, tMonth, tDay);
-
-            // 태어난 해의 생일부터 마지막 날까지의 날짜 수
-            int yearDays = IsLeapYear(bYear) ? 366 : 365;
-            totalDays += yearDays - DayOfYear(bYear, bMonth, bDay);
-
-            for(int year = bYear+1;year<tYear;year++)
+            while (true)
             {
-                if (IsLeapYear(year))
-                    totalDays += 366;
-                else
-                    totalDays += 365;
+                Console.WriteLine("\n\t\t####### 생애 계산 프로그램 #######\t\t\n");
+                Console.Write("생일을 입력해주세요(yyyy/mm/dd) :  ");
+                string birth = Console.ReadLine();
+                string[] bArr = birth.Split('/');
+
+                int bYear = int.Parse(bArr[0]);
+                int bMonth = int.Parse(bArr[1]);
+                int bDay = int.Parse(bArr[2]);
+
+                int tYear = DateTime.Today.Year;
+                int tMonth = DateTime.Today.Month;
+                int tDay = DateTime.Today.Day;
+
+                int totalDays = 0;
+
+                // 올해의 1월 1일부터 오늘까지의 날짜 수
+                totalDays += DayOfYear(tYear, tMonth, tDay);
+
+                // 태어난 해의 생일부터 마지막 날까지의 날짜 수
+                int yearDays = IsLeapYear(bYear) ? 366 : 365;
+                totalDays += yearDays - DayOfYear(bYear, bMonth, bDay);
+
+                for (int year = bYear + 1; year < tYear; year++)
+                {
+                    if (IsLeapYear(year))
+                        totalDays += 366;
+                    else
+                        totalDays += 365;
+                }
+                Console.WriteLine("Total Days From birthday : {0}일", totalDays);
             }
-            Console.WriteLine("Total Days From birthday : {0}일", totalDays);
         }
 
         // 평년을 기준으로 각 월의 누적 날짜 수

@@ -21,6 +21,7 @@
     <Compile Remove="13_Property.cs" />
     <Compile Remove="14_StaticMethod.cs" />
     <Compile Remove="15_IsPrime.cs" />
+    <Compile Remove="16_IsLeapYear.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,7 @@
     <None Include="13_Property.cs" />
     <None Include="14_StaticMethod.cs" />
     <None Include="15_IsPrime.cs" />
+    <None Include="16_IsLeapYear.cs" />
   </ItemGroup>
 
 </Project>
