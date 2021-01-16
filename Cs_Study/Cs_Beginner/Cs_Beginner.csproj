@@ -17,6 +17,7 @@
     <Compile Remove="09_Class_Struct.cs" />
     <Compile Remove="10_Fields_Constants.cs" />
     <Compile Remove="11_InstanceMethod.cs" />
+    <Compile Remove="12_Constructtor.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
     <None Include="09_Class_Struct.cs" />
     <None Include="10_Fields_Constants.cs" />
     <None Include="11_InstanceMethod.cs" />
+    <None Include="12_Constructtor.cs" />
   </ItemGroup>
 
 </Project>
