@@ -19,6 +19,7 @@
     <Compile Remove="11_InstanceMethod.cs" />
     <Compile Remove="12_Constructtor.cs" />
     <Compile Remove="13_Property.cs" />
+    <Compile Remove="14_StaticMethod.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,7 @@
     <None Include="11_InstanceMethod.cs" />
     <None Include="12_Constructtor.cs" />
     <None Include="13_Property.cs" />
+    <None Include="14_StaticMethod.cs" />
   </ItemGroup>
 
 </Project>
