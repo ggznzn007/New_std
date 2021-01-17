@@ -27,6 +27,7 @@
     <Compile Remove="19_Factorial.cs" />
     <Compile Remove="20_AddMethod.cs" />
     <Compile Remove="21_Power.cs" />
+    <Compile Remove="22_Area_Circle.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,7 @@
     <None Include="19_Factorial.cs" />
     <None Include="20_AddMethod.cs" />
     <None Include="21_Power.cs" />
+    <None Include="22_Area_Circle.cs" />
   </ItemGroup>
 
 </Project>
