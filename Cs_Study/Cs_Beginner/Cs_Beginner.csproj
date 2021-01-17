@@ -28,6 +28,7 @@
     <Compile Remove="20_AddMethod.cs" />
     <Compile Remove="21_Power.cs" />
     <Compile Remove="22_Area_Circle.cs" />
+    <Compile Remove="23_Recursive_Power.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +54,7 @@
     <None Include="20_AddMethod.cs" />
     <None Include="21_Power.cs" />
     <None Include="22_Area_Circle.cs" />
+    <None Include="23_Recursive_Power.cs" />
   </ItemGroup>
 
 </Project>
