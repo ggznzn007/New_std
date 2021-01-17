@@ -23,6 +23,7 @@
     <Compile Remove="15_IsPrime.cs" />
     <Compile Remove="16_IsLeapYear.cs" />
     <Compile Remove="17_AgeCalc.cs" />
+    <Compile Remove="18_PyramidMethod.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
     <None Include="15_IsPrime.cs" />
     <None Include="16_IsLeapYear.cs" />
     <None Include="17_AgeCalc.cs" />
+    <None Include="18_PyramidMethod.cs" />
   </ItemGroup>
 
 </Project>
