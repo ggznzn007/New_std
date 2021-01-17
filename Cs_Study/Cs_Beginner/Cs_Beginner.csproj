@@ -29,6 +29,7 @@
     <Compile Remove="21_Power.cs" />
     <Compile Remove="22_Area_Circle.cs" />
     <Compile Remove="23_Recursive_Power.cs" />
+    <Compile Remove="24_Recursive_Factorial.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +56,7 @@
     <None Include="21_Power.cs" />
     <None Include="22_Area_Circle.cs" />
     <None Include="23_Recursive_Power.cs" />
+    <None Include="24_Recursive_Factorial.cs" />
   </ItemGroup>
 
 </Project>
