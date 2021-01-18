@@ -32,6 +32,7 @@
     <Compile Remove="24_Recursive_Factorial.cs" />
     <Compile Remove="25_Recursive_Reciprocal.cs" />
     <Compile Remove="26_HanoiTower.cs" />
+    <Compile Remove="27_RecursiveBinarySearch.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +62,7 @@
     <None Include="24_Recursive_Factorial.cs" />
     <None Include="25_Recursive_Reciprocal.cs" />
     <None Include="26_HanoiTower.cs" />
+    <None Include="27_RecursiveBinarySearch.cs" />
   </ItemGroup>
 
 </Project>
