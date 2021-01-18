@@ -35,6 +35,7 @@
     <Compile Remove="27_RecursiveBinarySearch.cs" />
     <Compile Remove="28_ExecutionTime.cs" />
     <Compile Remove="29_DateTimeStr.cs" />
+    <Compile Remove="30_TimeSpanStr.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +68,7 @@
     <None Include="27_RecursiveBinarySearch.cs" />
     <None Include="28_ExecutionTime.cs" />
     <None Include="29_DateTimeStr.cs" />
+    <None Include="30_TimeSpanStr.cs" />
   </ItemGroup>
 
 </Project>
