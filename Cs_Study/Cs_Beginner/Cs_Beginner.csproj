@@ -31,6 +31,7 @@
     <Compile Remove="23_Recursive_Power.cs" />
     <Compile Remove="24_Recursive_Factorial.cs" />
     <Compile Remove="25_Recursive_Reciprocal.cs" />
+    <Compile Remove="26_HanoiTower.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +60,7 @@
     <None Include="23_Recursive_Power.cs" />
     <None Include="24_Recursive_Factorial.cs" />
     <None Include="25_Recursive_Reciprocal.cs" />
+    <None Include="26_HanoiTower.cs" />
   </ItemGroup>
 
 </Project>
