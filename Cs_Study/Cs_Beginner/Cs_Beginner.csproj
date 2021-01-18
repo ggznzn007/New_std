@@ -33,6 +33,7 @@
     <Compile Remove="25_Recursive_Reciprocal.cs" />
     <Compile Remove="26_HanoiTower.cs" />
     <Compile Remove="27_RecursiveBinarySearch.cs" />
+    <Compile Remove="28_ExecutionTime.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +64,7 @@
     <None Include="25_Recursive_Reciprocal.cs" />
     <None Include="26_HanoiTower.cs" />
     <None Include="27_RecursiveBinarySearch.cs" />
+    <None Include="28_ExecutionTime.cs" />
   </ItemGroup>
 
 </Project>
