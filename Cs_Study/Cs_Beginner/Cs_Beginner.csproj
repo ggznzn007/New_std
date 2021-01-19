@@ -40,6 +40,7 @@
     <Compile Remove="32_DateTimeFormat.cs" />
     <Compile Remove="33_MethodArguments.cs" />
     <Compile Remove="34_Params.cs" />
+    <Compile Remove="35_OptionNameArg.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +78,7 @@
     <None Include="32_DateTimeFormat.cs" />
     <None Include="33_MethodArguments.cs" />
     <None Include="34_Params.cs" />
+    <None Include="35_OptionNameArg.cs" />
   </ItemGroup>
 
 </Project>
