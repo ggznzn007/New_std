@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\bin\Debug\02_WinFormHello.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\bin\Debug\02_WinFormHello.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\bin\Debug\02_WinFormHello.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\02_WinFormHello.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\_02_WinFormHello.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\_02_WinFormHello.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\02_WinFormHello.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\02_WinFormHello.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\02_WinFormHello.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\02_WinFormHello\obj\Debug\02_WinFormHello.pdb
