@@ -38,6 +38,7 @@
     <Compile Remove="30_TimeSpanStr.cs" />
     <Compile Remove="31_LifeTimeCalc.cs" />
     <Compile Remove="32_DateTimeFormat.cs" />
+    <Compile Remove="33_MethodArguments.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +74,7 @@
     <None Include="30_TimeSpanStr.cs" />
     <None Include="31_LifeTimeCalc.cs" />
     <None Include="32_DateTimeFormat.cs" />
+    <None Include="33_MethodArguments.cs" />
   </ItemGroup>
 
 </Project>
