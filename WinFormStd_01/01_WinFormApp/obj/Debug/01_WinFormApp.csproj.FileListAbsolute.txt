@@ -1,0 +1,9 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\bin\Debug\01_WinFormApp.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\bin\Debug\01_WinFormApp.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\bin\Debug\01_WinFormApp.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\01_WinFormApp.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\_01_WinFormApp.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\01_WinFormApp.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\01_WinFormApp.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\01_WinFormApp.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\01_WinFormApp\obj\Debug\01_WinFormApp.pdb
