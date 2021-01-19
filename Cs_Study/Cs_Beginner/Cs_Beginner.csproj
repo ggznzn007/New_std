@@ -39,6 +39,7 @@
     <Compile Remove="31_LifeTimeCalc.cs" />
     <Compile Remove="32_DateTimeFormat.cs" />
     <Compile Remove="33_MethodArguments.cs" />
+    <Compile Remove="34_Params.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +76,7 @@
     <None Include="31_LifeTimeCalc.cs" />
     <None Include="32_DateTimeFormat.cs" />
     <None Include="33_MethodArguments.cs" />
+    <None Include="34_Params.cs" />
   </ItemGroup>
 
 </Project>
