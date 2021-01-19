@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\bin\Debug\03_MessageBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\bin\Debug\03_MessageBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\bin\Debug\03_MessageBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\03_MessageBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\_03_MessageBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\03_MessageBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\03_MessageBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\03_MessageBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\03_MessageBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\03_MessageBox\obj\Debug\_03_MessageBox.Form1.resources
