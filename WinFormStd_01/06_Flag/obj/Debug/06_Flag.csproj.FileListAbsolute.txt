@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\bin\Debug\06_Flag.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\bin\Debug\06_Flag.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\bin\Debug\06_Flag.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\06_Flag.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\_06_Flag.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\_06_Flag.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\06_Flag.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\06_Flag.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\06_Flag.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\06_Flag\obj\Debug\06_Flag.pdb
