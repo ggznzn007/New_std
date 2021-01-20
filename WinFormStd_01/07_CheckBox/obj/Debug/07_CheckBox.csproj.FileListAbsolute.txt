@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\bin\Debug\07_CheckBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\bin\Debug\07_CheckBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\bin\Debug\07_CheckBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\07_CheckBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\_07_CheckBox.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\_07_CheckBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\07_CheckBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\07_CheckBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\07_CheckBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\07_CheckBox\obj\Debug\07_CheckBox.pdb
