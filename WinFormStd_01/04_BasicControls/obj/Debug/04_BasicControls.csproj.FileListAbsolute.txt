@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\bin\Debug\04_BasicControls.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\bin\Debug\04_BasicControls.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\bin\Debug\04_BasicControls.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\04_BasicControls.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\_04_BasicControls.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\_04_BasicControls.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\04_BasicControls.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\04_BasicControls.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\04_BasicControls.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\04_BasicControls\obj\Debug\04_BasicControls.pdb
