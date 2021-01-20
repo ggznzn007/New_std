@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\bin\Debug\08_RadioButton.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\bin\Debug\08_RadioButton.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\bin\Debug\08_RadioButton.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\08_RadioButton.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\_08_RadioButton.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\_08_RadioButton.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\08_RadioButton.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\08_RadioButton.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\08_RadioButton.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\08_RadioButton\obj\Debug\08_RadioButton.pdb
