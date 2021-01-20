@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\05_Labelc.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\_05_Labelc.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\_05_Labelc.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\05_Labelc.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\05_Labelc.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\bin\Debug\05_Labelc.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\bin\Debug\05_Labelc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\bin\Debug\05_Labelc.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\05_Labelc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\05_Labelc\obj\Debug\05_Labelc.pdb
