@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\bin\Debug\11_MaskedTextBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\bin\Debug\11_MaskedTextBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\bin\Debug\11_MaskedTextBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\11_MaskedTextBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\_11_MaskedTextBox.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\_11_MaskedTextBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\11_MaskedTextBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\11_MaskedTextBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\11_MaskedTextBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\11_MaskedTextBox\obj\Debug\11_MaskedTextBox.pdb
