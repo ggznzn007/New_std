@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\bin\Debug\12_RgbScrollBar.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\bin\Debug\12_RgbScrollBar.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\bin\Debug\12_RgbScrollBar.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\12_RgbScrollBar.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\_12_RgbScrollBar.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\_12_RgbScrollBar.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\12_RgbScrollBar.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\12_RgbScrollBar.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\12_RgbScrollBar.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\12_RgbScrollBar\obj\Debug\12_RgbScrollBar.pdb
