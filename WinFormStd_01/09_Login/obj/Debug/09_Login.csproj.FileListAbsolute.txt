@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\bin\Debug\09_Login.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\bin\Debug\09_Login.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\bin\Debug\09_Login.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\09_Login.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\_09_Login.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\_09_Login.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\09_Login.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\09_Login.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\09_Login.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\09_Login\obj\Debug\09_Login.pdb
