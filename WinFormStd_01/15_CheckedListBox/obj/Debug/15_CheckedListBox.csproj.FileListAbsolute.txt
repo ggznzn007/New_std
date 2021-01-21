@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\bin\Debug\15_CheckedListBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\bin\Debug\15_CheckedListBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\bin\Debug\15_CheckedListBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\15_CheckedListBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\_15_CheckedListBox.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\_15_CheckedListBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\15_CheckedListBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\15_CheckedListBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\15_CheckedListBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\15_CheckedListBox\obj\Debug\15_CheckedListBox.pdb
