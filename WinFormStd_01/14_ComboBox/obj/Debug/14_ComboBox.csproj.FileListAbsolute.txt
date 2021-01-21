@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\bin\Debug\14_ComboBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\bin\Debug\14_ComboBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\bin\Debug\14_ComboBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\14_ComboBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\_14_ComboBox.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\_14_ComboBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\14_ComboBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\14_ComboBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\14_ComboBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\14_ComboBox\obj\Debug\14_ComboBox.pdb
