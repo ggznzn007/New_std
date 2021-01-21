@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\bin\Debug\13_ListBox.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\bin\Debug\13_ListBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\bin\Debug\13_ListBox.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\13_ListBox.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\_13_ListBox.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\_13_ListBox.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\13_ListBox.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\13_ListBox.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\13_ListBox.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\13_ListBox\obj\Debug\13_ListBox.pdb
