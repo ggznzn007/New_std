@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\bin\Debug\16_GradeCalc.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\bin\Debug\16_GradeCalc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\bin\Debug\16_GradeCalc.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\16_GradeCalc.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\_16_GradeCalc.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\_16_GradeCalc.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\16_GradeCalc.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\16_GradeCalc.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\16_GradeCalc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\16_GradeCalc\obj\Debug\16_GradeCalc.pdb
