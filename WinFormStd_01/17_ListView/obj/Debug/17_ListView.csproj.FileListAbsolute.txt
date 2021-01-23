@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\bin\Debug\17_ListView.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\bin\Debug\17_ListView.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\bin\Debug\17_ListView.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\17_ListView.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\_17_ListView.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\_17_ListView.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\17_ListView.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\17_ListView.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\17_ListView.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\17_ListView\obj\Debug\17_ListView.pdb
