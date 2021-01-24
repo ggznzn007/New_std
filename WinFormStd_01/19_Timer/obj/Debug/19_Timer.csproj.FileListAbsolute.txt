@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\bin\Debug\19_Timer.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\bin\Debug\19_Timer.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\bin\Debug\19_Timer.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\19_Timer.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\_19_Timer.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\_19_Timer.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\19_Timer.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\19_Timer.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\19_Timer.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\19_Timer\obj\Debug\19_Timer.pdb

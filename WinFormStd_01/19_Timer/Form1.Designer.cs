@@ -30,12 +30,42 @@ namespace _19_Timer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.Timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(111, 124);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(45, 15);
+            this.lblTime.TabIndex = 0;
+            this.lblTime.Text = "label1";
+            // 
+            // Timer1
+            // 
+            this.Timer1.Enabled = true;
+            this.Timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(806, 319);
+            this.Controls.Add(this.lblTime);
+            this.Name = "Form1";
+            this.Text = "디지털 시계";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Timer Timer1;
     }
 }
 
