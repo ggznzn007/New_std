@@ -57,12 +57,20 @@ namespace _18_TreeView
             if(e.Node.Text == "앤(1707~1714)")
             {
                 pictureBox1.Image = Bitmap.FromFile("../../Images/Anne.jpg");
-                txtMemo.Text = "";
+                txtMemo.Text = "앤(Anne, 1665년 2월 6일 - 1714년 8월 1일, " +
+                    "재위 1702년 4월 23일 ~ 1714년 8월 1일)은 잉글랜드-스코틀랜드" +
+                    " 동군연합의 마지막 여왕이자 최초의 그레이트브리튼 왕국의 여왕 및 아일랜드의" +
+                    " 여왕이다. 스튜어트 왕조의 마지막 군주이기도 하다. 브랜디를 좋아하여 " +
+                    "‘브랜디 낸(Brandy Nan)’으로도 알려져 있다.";
             }
             else if(e.Node.Text=="조지 1세(1714~1727)")
             {
                 pictureBox1.Image = Bitmap.FromFile("../../Images/King_George_I.jpg");
-                txtMemo.Text = "";
+                txtMemo.Text = " 영국 하노버 왕가의 시조로 재위기간은 1714년 8월 1일부터" +
+                    " 1727년 6월 11일까지다. 신성 로마 제국의 제후국 중 하나인" +
+                    " 하노버 선제후국의 선제후이자 브라운슈바이크뤼네부르크 " +
+                    "공작 에른스트 아우구스트와 팔츠의 조피 사이에서 태어났으며, " +
+                    "영국 왕 제임스 1세의 외외증손자(딸의 외손자)가 된다.";
             }
         }
     }
