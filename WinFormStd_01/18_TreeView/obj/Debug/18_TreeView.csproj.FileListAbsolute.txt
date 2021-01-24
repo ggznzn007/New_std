@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\bin\Debug\18_TreeView.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\bin\Debug\18_TreeView.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\bin\Debug\18_TreeView.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\18_TreeView.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\_18_TreeView.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\_18_TreeView.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\18_TreeView.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\18_TreeView.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\18_TreeView.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\18_TreeView\obj\Debug\18_TreeView.pdb
