@@ -35,8 +35,35 @@ namespace _18_TreeView
             hanover.Nodes.Add("조지 4세(1820~1830)");
             hanover.Nodes.Add("윌리엄 4세(1830~1837)");
             hanover.Nodes.Add("빅토리아(1837~1901)");
+
+            sachsen.Nodes.Add("에드워드 7세(1901~1910)");
+
+            windsor.Nodes.Add("조지 5세(1910~1936)");
+            windsor.Nodes.Add("에드워드 8세(1936~1936)");
+            windsor.Nodes.Add("조지 6세(1936~1952)");
+            windsor.Nodes.Add("엘리자베스 2세(1952~현재)");
+
+            root.Nodes.Add(stuart);
+            root.Nodes.Add(hanover);
+            root.Nodes.Add(sachsen);
+            root.Nodes.Add(windsor);
+
+            treeView1.Nodes.Add(root);
+            treeView1.ExpandAll();
         }
 
-       
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if(e.Node.Text == "앤(1707~1714)")
+            {
+                pictureBox1.Image = Bitmap.FromFile("../../Images/Anne.jpg");
+                txtMemo.Text = "";
+            }
+            else if(e.Node.Text=="조지 1세(1714~1727)")
+            {
+                pictureBox1.Image = Bitmap.FromFile("../../Images/King_George_I.jpg");
+                txtMemo.Text = "";
+            }
+        }
     }
 }
