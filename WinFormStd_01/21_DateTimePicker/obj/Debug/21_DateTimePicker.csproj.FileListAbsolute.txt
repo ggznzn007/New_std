@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\bin\Debug\21_DateTimePicker.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\bin\Debug\21_DateTimePicker.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\bin\Debug\21_DateTimePicker.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\21_DateTimePicker.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\_21_DateTimePicker.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\_21_DateTimePicker.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\21_DateTimePicker.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\21_DateTimePicker.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\21_DateTimePicker.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\21_DateTimePicker\obj\Debug\21_DateTimePicker.pdb
