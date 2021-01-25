@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\bin\Debug\20_Track_ProgressBar.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\bin\Debug\20_Track_ProgressBar.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\bin\Debug\20_Track_ProgressBar.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\20_Track_ProgressBar.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\_20_Track_ProgressBar.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\_20_Track_ProgressBar.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\20_Track_ProgressBar.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\20_Track_ProgressBar.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\20_Track_ProgressBar.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\20_Track_ProgressBar\obj\Debug\20_Track_ProgressBar.pdb
