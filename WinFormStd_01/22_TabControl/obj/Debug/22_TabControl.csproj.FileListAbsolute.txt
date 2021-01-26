@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\bin\Debug\22_TabControl.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\bin\Debug\22_TabControl.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\bin\Debug\22_TabControl.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\_22_TabControl.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\_22_TabControl.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.pdb
