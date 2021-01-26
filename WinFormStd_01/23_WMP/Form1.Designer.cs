@@ -41,13 +41,13 @@ namespace _23_WMP
             this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(7, 10);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(778, 443);
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(728, 419);
             this.axWindowsMediaPlayer1.TabIndex = 0;
             // 
             // btnFile
             // 
             this.btnFile.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnFile.Location = new System.Drawing.Point(607, 467);
+            this.btnFile.Location = new System.Drawing.Point(575, 455);
             this.btnFile.Name = "btnFile";
             this.btnFile.Size = new System.Drawing.Size(160, 45);
             this.btnFile.TabIndex = 1;

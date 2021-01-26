@@ -1,0 +1,15 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\bin\Debug\23_WMP.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\bin\Debug\23_WMP.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\bin\Debug\23_WMP.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\bin\Debug\Interop.WMPLib.dll
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\Interop.WMPLib.dll
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.csproj.ResolveComReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\_23_WMP.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\_23_WMP.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\23_WMP\obj\Debug\23_WMP.pdb
