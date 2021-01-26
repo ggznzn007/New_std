@@ -20,8 +20,8 @@ namespace _23_WMP
             axWindowsMediaPlayer1.stretchToFit = true;
 
             btnFile.Location = new Point(
-                ClientSize.Width - btnFile.Size.Width - 7,
-                ClientSize.Height - btnFile.Size.Height - 7);
+                ClientSize.Width - btnFile.Size.Width - 5,
+                ClientSize.Height - btnFile.Size.Height - 5);
         }
 
         private void btnFile_Click(object sender, EventArgs e)
@@ -38,8 +38,8 @@ namespace _23_WMP
             axWindowsMediaPlayer1.Size = this.ClientSize;
 
             btnFile.Location = new Point(
-                ClientSize.Width - btnFile.Size.Width - 7,
-                ClientSize.Height - btnFile.Size.Height - 7);
+                ClientSize.Width - btnFile.Size.Width - 5,
+                ClientSize.Height - btnFile.Size.Height - 5);
         }
     }
 }
