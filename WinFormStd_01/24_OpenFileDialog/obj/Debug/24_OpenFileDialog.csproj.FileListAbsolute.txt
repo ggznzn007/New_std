@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\bin\Debug\24_OpenFileDialog.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\bin\Debug\24_OpenFileDialog.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\bin\Debug\24_OpenFileDialog.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\24_OpenFileDialog.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\_24_OpenFileDialog.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\_24_OpenFileDialog.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\24_OpenFileDialog.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\24_OpenFileDialog.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\24_OpenFileDialog.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\24_OpenFileDialog\obj\Debug\24_OpenFileDialog.pdb
