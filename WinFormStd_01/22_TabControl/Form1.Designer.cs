@@ -145,6 +145,7 @@ namespace _22_TabControl
             this.btnReset.TabIndex = 2;
             this.btnReset.Text = "해제";
             this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // lblAlarmSet
             // 

@@ -62,5 +62,14 @@ namespace _22_TabControl
                 + tTime.ToLongTimeString();
             tabControl1.SelectedTab = tabPage2;
         }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            setAlarm = false;
+            lblAlarmSet.ForeColor = Color.Gray;
+            lblAlarm.ForeColor = Color.Gray;
+            lblAlarm.Text = "Alarm : ";
+            tabControl1.SelectedTab = tabPage2;
+        }
     }
 }
