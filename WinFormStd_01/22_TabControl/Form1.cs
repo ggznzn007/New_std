@@ -49,5 +49,18 @@ namespace _22_TabControl
                 }
             }
         }
+
+        private void btnSet_Click(object sender, EventArgs e)
+        {
+            dDay = DateTime.Parse(datePicker.Text);
+            tTime = DateTime.Parse(timePicker.Text);
+
+            setAlarm = true;
+            lblAlarmSet.ForeColor = Color.Red;
+            lblAlarm.ForeColor = Color.Blue;
+            lblAlarm.Text = "Alarm : " + dDay.ToShortTimeString() + " "
+                + tTime.ToLongTimeString();
+            tabControl1.SelectedTab = tabPage2;
+        }
     }
 }

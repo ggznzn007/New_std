@@ -133,6 +133,7 @@ namespace _22_TabControl
             this.btnSet.TabIndex = 2;
             this.btnSet.Text = "설정";
             this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // btnReset
             // 
