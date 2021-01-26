@@ -38,8 +38,15 @@ namespace _22_TabControl
             this.label2 = new System.Windows.Forms.Label();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.lblAlarmSet = new System.Windows.Forms.Label();
+            this.lblAlarm = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblTime = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -70,6 +77,9 @@ namespace _22_TabControl
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.lblAlarm);
+            this.tabPage2.Controls.Add(this.lblAlarmSet);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -135,6 +145,57 @@ namespace _22_TabControl
             this.btnReset.Text = "해제";
             this.btnReset.UseVisualStyleBackColor = true;
             // 
+            // lblAlarmSet
+            // 
+            this.lblAlarmSet.AutoSize = true;
+            this.lblAlarmSet.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblAlarmSet.Location = new System.Drawing.Point(36, 34);
+            this.lblAlarmSet.Name = "lblAlarmSet";
+            this.lblAlarmSet.Size = new System.Drawing.Size(99, 28);
+            this.lblAlarmSet.TabIndex = 0;
+            this.lblAlarmSet.Text = "알람 설정";
+            // 
+            // lblAlarm
+            // 
+            this.lblAlarm.AutoSize = true;
+            this.lblAlarm.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblAlarm.Location = new System.Drawing.Point(36, 93);
+            this.lblAlarm.Name = "lblAlarm";
+            this.lblAlarm.Size = new System.Drawing.Size(87, 28);
+            this.lblAlarm.TabIndex = 0;
+            this.lblAlarm.Text = "Alarm : ";
+            // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblDate.Location = new System.Drawing.Point(21, 42);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(57, 28);
+            this.lblDate.TabIndex = 0;
+            this.lblDate.Text = "Date";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lblTime);
+            this.groupBox1.Controls.Add(this.lblDate);
+            this.groupBox1.Location = new System.Drawing.Point(41, 155);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(626, 248);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "현재시간";
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblTime.Location = new System.Drawing.Point(33, 127);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(116, 54);
+            this.lblTime.TabIndex = 0;
+            this.lblTime.Text = "Time";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -142,10 +203,14 @@ namespace _22_TabControl
             this.ClientSize = new System.Drawing.Size(755, 511);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Alarm 시계";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -161,6 +226,11 @@ namespace _22_TabControl
         private System.Windows.Forms.Button btnSet;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label lblDate;
+        private System.Windows.Forms.Label lblAlarm;
+        private System.Windows.Forms.Label lblAlarmSet;
     }
 }
 
