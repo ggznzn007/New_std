@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace _22_TabControl
 {
@@ -16,6 +17,7 @@ namespace _22_TabControl
         private DateTime dDay;
         private DateTime tTime;
         private bool setAlarm;
+        WindowsMediaPlayer myPlayer = new WindowsMediaPlayer();    
         public Form1()
         {
             InitializeComponent();
@@ -45,7 +47,8 @@ namespace _22_TabControl
                     cTime.Hour==tTime.Hour&&cTime.Minute==tTime.Minute)
                 {
                     setAlarm = false;
-                    MessageBox.Show("Alarm!!!");
+                    myPlayer.URL = @"C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\Music\BmAlarm.mp3";
+                    myPlayer.controls.play();
                 }
             }
         }
@@ -70,6 +73,7 @@ namespace _22_TabControl
             lblAlarm.ForeColor = Color.Gray;
             lblAlarm.Text = "Alarm : ";
             tabControl1.SelectedTab = tabPage2;
+            myPlayer.controls.stop();
         }
     }
 }

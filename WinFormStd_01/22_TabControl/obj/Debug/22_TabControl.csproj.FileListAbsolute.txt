@@ -8,3 +8,5 @@ C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.c
 C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.csproj.CoreCompileInputs.cache
 C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.exe
 C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\Interop.WMPLib.dll
+C:\Users\ggznz\reposit\New\WinFormStd_01\22_TabControl\obj\Debug\22_TabControl.csproj.ResolveComReference.cache
