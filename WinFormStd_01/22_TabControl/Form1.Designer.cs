@@ -34,6 +34,10 @@ namespace _22_TabControl
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
             this.timePicker = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnSet = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +54,10 @@ namespace _22_TabControl
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnReset);
+            this.tabPage1.Controls.Add(this.btnSet);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.timePicker);
             this.tabPage1.Controls.Add(this.datePicker);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
@@ -85,6 +93,48 @@ namespace _22_TabControl
             this.timePicker.Size = new System.Drawing.Size(356, 25);
             this.timePicker.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Location = new System.Drawing.Point(35, 66);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 28);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "날짜 설정";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(35, 165);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(99, 28);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "시간 설정";
+            // 
+            // btnSet
+            // 
+            this.btnSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSet.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSet.Location = new System.Drawing.Point(241, 318);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(153, 50);
+            this.btnSet.TabIndex = 2;
+            this.btnSet.Text = "설정";
+            this.btnSet.UseVisualStyleBackColor = true;
+            // 
+            // btnReset
+            // 
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnReset.Location = new System.Drawing.Point(434, 318);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(153, 50);
+            this.btnReset.TabIndex = 2;
+            this.btnReset.Text = "해제";
+            this.btnReset.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -95,6 +145,7 @@ namespace _22_TabControl
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -106,6 +157,10 @@ namespace _22_TabControl
         private System.Windows.Forms.DateTimePicker timePicker;
         private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnSet;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
