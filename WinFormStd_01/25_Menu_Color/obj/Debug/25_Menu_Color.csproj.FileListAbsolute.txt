@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\bin\Debug\25_Menu_Color.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\bin\Debug\25_Menu_Color.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\bin\Debug\25_Menu_Color.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\25_Menu_Color.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\_25_Menu_Color.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\_25_Menu_Color.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\25_Menu_Color.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\25_Menu_Color.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\25_Menu_Color.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\25_Menu_Color\obj\Debug\25_Menu_Color.pdb
