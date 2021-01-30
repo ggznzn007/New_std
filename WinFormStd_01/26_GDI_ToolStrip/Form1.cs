@@ -18,6 +18,9 @@ namespace _26_GDI_ToolStrip
         private Pen pen = new Pen(Color.Black, 2);
         private Pen eraser;
         Point startP; // 시작점
+        Point endP; // 끝점
+        Point currP; // 현재 위치
+        Point preP; // 이전 위치
         public Form1()
         {
             InitializeComponent();
