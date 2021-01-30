@@ -79,7 +79,7 @@ namespace _26_GDI_ToolStrip
             switch(drawMode)
             {
                 case DrawMode.LINE:
-                    g.DrawLine(eraser, startP, endP);
+                    g.DrawLine(eraser, startP, preP);
                     g.DrawLine(pen, startP, currP);
                     break;
                 case DrawMode.RECTAGLE:
@@ -90,7 +90,7 @@ namespace _26_GDI_ToolStrip
                     break;
                 case DrawMode.CIRCLE:
                     g.DrawEllipse(eraser, new Rectangle(startP,
-                        new Size(preP.X - startP.X, currP.Y - startP.Y)));
+                        new Size(preP.X - startP.X, preP.Y - startP.Y)));
                     g.DrawEllipse(pen, new Rectangle(startP,
                         new Size(currP.X - startP.X, currP.Y - startP.Y)));
                     break;

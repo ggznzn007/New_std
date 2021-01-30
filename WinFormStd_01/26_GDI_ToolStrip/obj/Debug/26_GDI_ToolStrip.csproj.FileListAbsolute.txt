@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\bin\Debug\26_GDI_ToolStrip.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\bin\Debug\26_GDI_ToolStrip.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\bin\Debug\26_GDI_ToolStrip.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\26_GDI_ToolStrip.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\_26_GDI_ToolStrip.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\_26_GDI_ToolStrip.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\26_GDI_ToolStrip.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\26_GDI_ToolStrip.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\26_GDI_ToolStrip.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\26_GDI_ToolStrip\obj\Debug\26_GDI_ToolStrip.pdb
