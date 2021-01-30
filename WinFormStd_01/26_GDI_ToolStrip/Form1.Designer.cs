@@ -33,7 +33,7 @@ namespace _26_GDI_ToolStrip
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStatusStripLabel1 = new System.Windows.Forms.StatusStrip();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,22 +67,21 @@ namespace _26_GDI_ToolStrip
             this.toolStripLabel2.Size = new System.Drawing.Size(39, 22);
             this.toolStripLabel2.Text = "색깔";
             // 
-            // statusStrip1
+            // toolStatusStripLabel1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 493);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 24);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            
+            this.toolStatusStripLabel1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStatusStripLabel1.Location = new System.Drawing.Point(0, 495);
+            this.toolStatusStripLabel1.Name = "toolStatusStripLabel1";
+            this.toolStatusStripLabel1.Size = new System.Drawing.Size(800, 22);
+            this.toolStatusStripLabel1.TabIndex = 1;
+            this.toolStatusStripLabel1.Text = "statusStrip1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 517);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.toolStatusStripLabel1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "Form1";
             this.Text = "GraphicProgram";
@@ -99,7 +98,7 @@ namespace _26_GDI_ToolStrip
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip toolStatusStripLabel1;
     }
 }
 

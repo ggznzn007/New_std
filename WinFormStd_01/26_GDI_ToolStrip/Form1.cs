@@ -24,8 +24,13 @@ namespace _26_GDI_ToolStrip
         public Form1()
         {
             InitializeComponent();
+
+            g = CreateGraphics();
+            toolStatusStripLabel1.Text = "Line Mode";
+            this.BackColor = Color.White;
+            this.eraser = new Pen(this.BackColor, 2);
         }
 
-        
+       
     }
 }
