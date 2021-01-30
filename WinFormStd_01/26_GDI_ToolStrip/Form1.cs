@@ -13,6 +13,11 @@ namespace _26_GDI_ToolStrip
     enum DrawMode { LINE,RECTAGLE,CIRCLE,CURVED_LINE};
     public partial class Form1 : Form
     {
+        private DrawMode drawMode;
+        private Graphics g;
+        private Pen pen = new Pen(Color.Black, 2);
+        private Pen eraser;
+        Point startP; // 시작점
         public Form1()
         {
             InitializeComponent();
