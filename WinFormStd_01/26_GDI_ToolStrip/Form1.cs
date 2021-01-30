@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace _26_GDI_ToolStrip
 {
+    enum DrawMode { LINE,RECTAGLE,CIRCLE,CURVED_LINE};
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
         }
+
+        
     }
 }
