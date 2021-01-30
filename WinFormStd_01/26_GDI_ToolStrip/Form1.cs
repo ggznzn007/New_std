@@ -31,6 +31,28 @@ namespace _26_GDI_ToolStrip
             this.eraser = new Pen(this.BackColor, 2);
         }
 
-       
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+            drawMode = DrawMode.LINE;
+            toolStatusStripLabel1.Text = "Line Mode";
+        }
+
+        private void toolStripLabel2_Click(object sender, EventArgs e)
+        {
+            drawMode = DrawMode.RECTAGLE;
+            toolStatusStripLabel1.Text = "Retangle Mode";
+        }
+
+        private void toolStripLabel3_Click(object sender, EventArgs e)
+        {
+            drawMode = DrawMode.CIRCLE;
+            toolStatusStripLabel1.Text = "Circle Mode";
+        }
+
+        private void toolStripLabel4_Click(object sender, EventArgs e)
+        {
+            drawMode = DrawMode.CURVED_LINE;
+            toolStatusStripLabel1.Text = "Curved_Line Mode";
+        }
     }
 }
