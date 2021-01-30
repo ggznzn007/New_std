@@ -103,6 +103,7 @@ namespace _26_GDI_ToolStrip
             this.toolStripLabel5.Name = "toolStripLabel5";
             this.toolStripLabel5.Size = new System.Drawing.Size(39, 22);
             this.toolStripLabel5.Text = "색깔";
+            this.toolStripLabel5.Click += new System.EventHandler(this.toolStripLabel5_Click);
             // 
             // Form1
             // 
@@ -113,6 +114,9 @@ namespace _26_GDI_ToolStrip
             this.Controls.Add(this.toolStrip1);
             this.Name = "Form1";
             this.Text = "GraphicProgram";
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

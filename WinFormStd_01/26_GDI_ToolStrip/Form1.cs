@@ -54,5 +54,71 @@ namespace _26_GDI_ToolStrip
             drawMode = DrawMode.CURVED_LINE;
             toolStatusStripLabel1.Text = "Curved_Line Mode";
         }
+
+        private void toolStripLabel5_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+                pen.Color = colorDialog.Color;
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            startP = new Point(e.X, e.Y);
+            preP = startP;
+            currP = startP;
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+            preP = currP;
+            currP = new Point(e.X, e.Y);
+
+            switch(drawMode)
+            {
+                case DrawMode.LINE:
+                    g.DrawLine(eraser, startP, endP);
+                    g.DrawLine(pen, startP, currP);
+                    break;
+                case DrawMode.RECTAGLE:
+                    g.DrawRectangle(eraser, new Rectangle(startP,
+                        new Size(preP.X - startP.X, preP.Y - startP.Y)));
+                    g.DrawRectangle(pen, new Rectangle(startP,
+                        new Size(currP.X - startP.X, currP.Y - startP.Y)));
+                    break;
+                case DrawMode.CIRCLE:
+                    g.DrawEllipse(eraser, new Rectangle(startP,
+                        new Size(preP.X - startP.X, currP.Y - startP.Y)));
+                    g.DrawEllipse(pen, new Rectangle(startP,
+                        new Size(currP.X - startP.X, currP.Y - startP.Y)));
+                    break;
+                case DrawMode.CURVED_LINE:
+                    g.DrawLine(pen, preP, currP);
+                    break;
+            }
+        }
+
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            endP = new Point(e.X, e.Y);
+            switch(drawMode)
+            {
+                case DrawMode.LINE:
+                    g.DrawLine(pen, startP, endP);
+                    break;
+                case DrawMode.RECTAGLE:
+                    g.DrawRectangle(pen, new Rectangle(startP,
+                        new Size(endP.X - startP.X, endP.Y - startP.Y)));
+                    break;
+                case DrawMode.CIRCLE:
+                    g.DrawEllipse(pen, new Rectangle(startP,
+                        new Size(endP.X - startP.X, endP.Y - startP.Y)));
+                    break;
+                case DrawMode.CURVED_LINE:
+                    break;
+            }
+        }
     }
 }
