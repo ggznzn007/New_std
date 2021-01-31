@@ -23,7 +23,9 @@
             <Button x:Name="btnBMI" Margin="120, 20,20,20"
                     Width="120" Height="50"
                     Click="btnBMI_Click" Content="BMI 측정"/>
-            <Label Name="lblResult" Margin="10" Width="284" FontWeight="Bold" FontSize="15" Height="177">결과는:</Label>
+            <Button x:Name="btnClr" Margin="143,5,35.8,5" Height="30"
+                    Click="btnClr_Click" Content="지우기"/>
+            <Label Name="lblResult" Margin="10,10,2.8,10" Width="284" FontWeight="Bold" FontSize="15" Height="133">결과는:</Label>
 
         </StackPanel>
 
