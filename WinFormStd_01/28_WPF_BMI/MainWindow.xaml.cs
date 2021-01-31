@@ -23,7 +23,12 @@ namespace _28_WPF_BMI
         public MainWindow()
         {
             InitializeComponent();
+            lblH.Foreground = Brushes.White;
+            lblW.Foreground = Brushes.White;
+            lblResult.Foreground = Brushes.White;
+            
         }
+        
 
         private void btnBMI_Click(object sender, RoutedEventArgs e)
         {
@@ -37,19 +42,30 @@ namespace _28_WPF_BMI
             double bmi = w / (h * h);
             string comment = null;
             if (bmi < 18.5)
-                comment = "저체중입니다. 많이 드세요.";
+                comment = "저체중입니다. \n많이 드세요.";
             else if (bmi < 23)
-                comment = "정상체중입니다. 계속 유지하세요.";
+                comment = "정상체중입니다. \n계속 유지하세요.";
             else if (bmi < 25)
-                comment = "경도비만입니다. 적당한 운동이 필요해요.";
+                comment = "경도비만입니다. \n적당한 운동이 필요해요.";
             else if (bmi < 30)
-                comment = "비만입니다. 운동을 열심히 하세요!!!";
+                comment = "비만입니다. \n운동을 열심히 하세요!!!";
             else
-                comment = "고도비만입니다. 그만 좀 쳐먹어!!! 운동 좀 해라!!!";
+                comment = "고도비만입니다. \n그만 좀 쳐먹어!!! 운동 좀 해라!!!";
 
             // Form에서는 Label.Text 인데, WPF에서는 label.Content
-            lblResult.Content = string.Format("당신의 비만도는 {0:F2},\n{1}", bmi, comment);
+            lblResult.Content = string.Format("당신의 비만도는 {0:F2}\n{1}", bmi, comment);
 
         }
+
+        private void txtHeight_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtHeight.Foreground = Brushes.Red;
+        }
+
+        private void txtWeight_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtWeight.Foreground = Brushes.Blue;
+        }
+
     }
 }
