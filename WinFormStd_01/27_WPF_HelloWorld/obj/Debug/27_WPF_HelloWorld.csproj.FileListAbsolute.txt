@@ -1,0 +1,15 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\bin\Debug\27_WPF_HelloWorld.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\bin\Debug\27_WPF_HelloWorld.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\bin\Debug\27_WPF_HelloWorld.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\MainWindow.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\App.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld_MarkupCompile.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld_MarkupCompile.lref
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\MainWindow.baml
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.g.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\_27_WPF_HelloWorld.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\27_WPF_HelloWorld\obj\Debug\27_WPF_HelloWorld.pdb
