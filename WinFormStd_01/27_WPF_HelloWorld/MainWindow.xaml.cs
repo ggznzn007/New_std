@@ -24,5 +24,19 @@ namespace _27_WPF_HelloWorld
         {
             InitializeComponent();
         }
+
+        private void label1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(label1.Foreground !=Brushes.White)
+            {
+                label1.Foreground = Brushes.White;
+                this.Background = Brushes.Blue;
+            }
+            else
+            {
+                label1.Foreground = SystemColors.WindowTextBrush;
+                this.Background = SystemColors.WindowBrush;
+            }
+        }
     }
 }
