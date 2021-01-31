@@ -6,15 +6,19 @@
         xmlns:local="clr-namespace:_28_WPF_BMI"
         mc:Ignorable="d"
         Title="BMI(비만도) 측정 프로그램" Height="500" Width="500">
-    <Grid Background="DarkBlue">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="95,78,101.6,72.4" Width="297" Height="320">
+    <Grid Background="DarkGreen">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="95,78,101.6,72.4" Width="297" Height="320" Grid.ColumnSpan="2">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <Label Name ="lblH" Width="100" FontSize="15">키(cm)</Label>
                 <TextBox Name="txtHeight" FontSize="15" Width="150" TextChanged="txtHeight_TextChanged"></TextBox>
             </StackPanel>
             <StackPanel Margin="10" Orientation="Horizontal">
                 <Label Name ="lblW" Width="100" FontSize="15">체중(kg)</Label>
-                <TextBox Name="txtWeight" FontSize="15" Width="150" TextChanged="txtWeight_TextChanged"></TextBox>
+                <TextBox Name="txtWeight" FontSize="15" Width="150" TextChanged="txtWeight_TextChanged" KeyDown="txtWeight_KeyDown"></TextBox>
             </StackPanel>
             <Button x:Name="btnBMI" Margin="120, 20,20,20"
                     Width="120" Height="50"

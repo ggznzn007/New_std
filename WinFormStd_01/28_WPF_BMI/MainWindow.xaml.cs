@@ -27,7 +27,8 @@ namespace _28_WPF_BMI
             lblW.Foreground = Brushes.White;
             lblResult.Foreground = Brushes.White;
             
-        }
+        }      
+        
         
 
         private void btnBMI_Click(object sender, RoutedEventArgs e)
@@ -37,6 +38,7 @@ namespace _28_WPF_BMI
                 lblResult.Content = "키와 체중을 입력하세요";
                 return;
             }
+
             double h = Convert.ToDouble(txtHeight.Text) / 100.0;
             double w = Double.Parse(txtWeight.Text);
             double bmi = w / (h * h);
@@ -55,6 +57,13 @@ namespace _28_WPF_BMI
             // Form에서는 Label.Text 인데, WPF에서는 label.Content
             lblResult.Content = string.Format("당신의 비만도는 {0:F2}\n{1}", bmi, comment);
 
+        }
+        private void txtWeight_KeyDown(object sender, KeyEventArgs e)
+        { // 엔터키를 눌렀을 때 버튼을 눌렀을 때와 같은 효과 나타내기 코드
+            if(e.Key==Key.Enter)
+            {
+                this.btnBMI_Click(sender,e);
+            }
         }
 
         private void txtHeight_TextChanged(object sender, TextChangedEventArgs e)
