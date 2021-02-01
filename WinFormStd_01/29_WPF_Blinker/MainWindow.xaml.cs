@@ -42,5 +42,15 @@ namespace _29_WPF_Blinker
                 btnRed.Background = Brushes.Red;
             }
         }
+
+        private void btnGreen_Click(object sender, RoutedEventArgs e)
+        {
+            t.Start();
+        }
+
+        private void btnRed_Click(object sender, RoutedEventArgs e)
+        {
+            t.Stop();
+        }
     }
 }
