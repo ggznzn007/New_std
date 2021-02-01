@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_30_WPF_Calc"
         mc:Ignorable="d"
-        Title="심플 계산기" Height="380" Width="320">
+        Title="심플 계산기" Height="390" Width="350" Background="Black">
     <StackPanel Margin="10">
         <TextBox Margin="5" Height="60" Name ="txtResult" FontSize="30"
-                 HorizontalAlignment="Right"
-                 VerticalAlignment="Bottom">0</TextBox>
+               HorizontalAlignment="Right" Background="Black"
+               VerticalAlignment="Bottom">0</TextBox>
         <Grid Height="260" >
             <Grid.RowDefinitions >
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -53,9 +54,17 @@
             <Button Grid.Row="3" Grid.Column="1" Margin="5" FontSize="16"
                     Background="DeepPink" Click="btn_Click">0</Button>
             <Button Grid.Row="3" Grid.Column="2" Margin="5" FontSize="16"
-                    Background="DeepPink" Click="Equal_Click">＝</Button>
+                    Background="DeepPink" Click="Equal_Click" KeyDown="Equal_KeyDown">＝</Button>
             <Button Grid.Row="3" Grid.Column="3" Margin="5" FontSize="16"
                     Background="PaleGoldenrod" Click="btnOp_Click">÷</Button>
+            <Button Grid.Row="4" Grid.Column="0" Margin="5" FontSize="16"
+                    Background="PaleGoldenrod" Click="Power_Click">^</Button>
+            <Button Grid.Row="4" Grid.Column="1" Margin="5" FontSize="16"
+                    Background="PaleGoldenrod" Click="btnCE_Click">CE</Button>
+            <Button Grid.Row="4" Grid.Column="2" Margin="5" FontSize="16"
+                    Background="PaleGoldenrod" Click="btnC_Click">C</Button>
+            <Button Grid.Row="4" Grid.Column="3" Margin="5" FontSize="16"
+                    Background="PaleGoldenrod" Click="btnRes_Click">%</Button>
         </Grid>
     </StackPanel>
 </Window>

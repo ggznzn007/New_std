@@ -26,7 +26,8 @@ namespace _30_WPF_Calc
         public MainWindow()
         {
             InitializeComponent();
-
+            txtResult.Foreground = Brushes.White;
+            
         }
 
             // 숫자 버튼 처리
@@ -75,6 +76,51 @@ namespace _30_WPF_Calc
             else if (myOperator == '÷')
                 txtResult.Text = (savedValue /
                     double.Parse(txtResult.Text)).ToString();
+            else if (myOperator == '^')
+                txtResult.Text = ((savedValue *
+                    double.Parse(txtResult.Text) * savedValue * double.Parse(txtResult.Text))).ToString();
+            else if (myOperator == '%')
+                txtResult.Text = (savedValue %
+                    double.Parse(txtResult.Text)).ToString();
         }
+
+        private void Equal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Enter)
+            {
+                Equal_Click(sender, e);
+            }
+        }
+        private void Power_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            savedValue = double.Parse(txtResult.Text);
+            myOperator = btn.Content.ToString()[0];
+            newButton = true;
+        }
+
+        private void btnCE_Click(object sender, RoutedEventArgs e)
+        {
+            txtResult.Text = "0";
+        }
+
+        private void btnC_Click(object sender, RoutedEventArgs e)
+        {
+            txtResult.Text = "0";
+        }
+
+        private void btnRes_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            savedValue = double.Parse(txtResult.Text);
+            myOperator = btn.Content.ToString()[0];
+            newButton = true;
+        }
+
+       
+
+        
     }
 }
