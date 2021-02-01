@@ -26,6 +26,31 @@ namespace _30_WPF_Calc
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+            // 숫자 버튼 처리
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // Operator 4개의 처리
+        private void btnOp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // 소수점 처리
+        private void Dot_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // = 버튼 처리
+        private void Equal_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
