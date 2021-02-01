@@ -22,6 +22,9 @@ namespace _29_WPF_Blinker
     public partial class MainWindow : Window
     {
         DispatcherTimer t = new DispatcherTimer();
+        Random r = new Random();
+        byte[] colorbyte = new byte[10];
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +36,7 @@ namespace _29_WPF_Blinker
         {
             if(btnRed.Background==Brushes.Red)
             {
+                r.NextBytes(colorbyte);
                 btnRed.ClearValue(Button.BackgroundProperty);
                 btnGreen.Background = Brushes.Green;
             }
