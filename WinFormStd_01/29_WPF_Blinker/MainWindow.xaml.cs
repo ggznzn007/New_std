@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading; // DispatcherTimer 사용 목적
 
 namespace _29_WPF_Blinker
 {
@@ -20,6 +21,7 @@ namespace _29_WPF_Blinker
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer t = new DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
