@@ -25,41 +25,37 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Row="0" Grid.Column="0" Margin="5" FontSize="16"
-                    Click="btn_Click">7</Button>
+                    Background="HotPink" Click="btn_Click">7</Button>
             <Button Grid.Row="0" Grid.Column="1" Margin="5" FontSize="16"
-                    Click="btn_Click">8</Button>
+                    Background="HotPink" Click="btn_Click">8</Button>
             <Button Grid.Row="0" Grid.Column="2" Margin="5" FontSize="16"
-                    Click="btn_Click">9</Button>
+                    Background="HotPink" Click="btn_Click">9</Button>
             <Button Grid.Row="0" Grid.Column="3" Margin="5" FontSize="16"
-                    Click="btnOp_Click">+</Button>
+                    Background="PaleGoldenrod" Click="btnOp_Click">+</Button>
             <Button Grid.Row="1" Grid.Column="0" Margin="5" FontSize="16"
-                    Click="btn_Click">4</Button>
+                    Background="LightPink" Click="btn_Click">4</Button>
             <Button Grid.Row="1" Grid.Column="1" Margin="5" FontSize="16"
-                    Click="btn_Click">5</Button>
+                    Background="LightPink" Click="btn_Click">5</Button>
             <Button Grid.Row="1" Grid.Column="2" Margin="5" FontSize="16"
-                    Click="btn_Click">6</Button>
+                    Background="LightPink" Click="btn_Click">6</Button>
             <Button Grid.Row="1" Grid.Column="3" Margin="5" FontSize="16"
-                    Click="btnOp_Click">-</Button>
+                    Background="PaleGoldenrod" Click="btnOp_Click">-</Button>
             <Button Grid.Row="2" Grid.Column="0" Margin="5" FontSize="16"
-                    Click="btn_Click">1</Button>
+                    Background="Plum" Click="btn_Click">1</Button>
             <Button Grid.Row="2" Grid.Column="1" Margin="5" FontSize="16"
-                    Click="btn_Click">2</Button>
+                    Background="Plum" Click="btn_Click">2</Button>
             <Button Grid.Row="2" Grid.Column="2" Margin="5" FontSize="16"
-                    Click="btn_Click">3</Button>
+                    Background="Plum" Click="btn_Click">3</Button>
             <Button Grid.Row="2" Grid.Column="3" Margin="5" FontSize="16"
-                    Click="btnOp_Click">×</Button>
+                    Background="PaleGoldenrod" Click="btnOp_Click">×</Button>
             <Button Grid.Row="3" Grid.Column="0" Margin="5" FontSize="16"
-                    Click="Dot_Click">.</Button>
+                    Background="DeepPink" Click="Dot_Click">.</Button>
             <Button Grid.Row="3" Grid.Column="1" Margin="5" FontSize="16"
-                    Click="btn_Click">0</Button>
+                    Background="DeepPink" Click="btn_Click">0</Button>
             <Button Grid.Row="3" Grid.Column="2" Margin="5" FontSize="16"
-                    Click="Equal_Click">＝</Button>
+                    Background="DeepPink" Click="Equal_Click">＝</Button>
             <Button Grid.Row="3" Grid.Column="3" Margin="5" FontSize="16"
-                    Click="btnOp_Click">÷</Button>
-        </Grid>
-        
-        <Grid>
-        
+                    Background="PaleGoldenrod" Click="btnOp_Click">÷</Button>
         </Grid>
     </StackPanel>
 </Window>

@@ -20,6 +20,9 @@ namespace _30_WPF_Calc
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool newButton;
+        private double savedValue;
+        private char myOperator;
         public MainWindow()
         {
             InitializeComponent();
