@@ -25,6 +25,22 @@ namespace _29_WPF_Blinker
         public MainWindow()
         {
             InitializeComponent();
+            t.Interval = new TimeSpan(5000000); // 단위 Tick, 0.5초
+            t.Tick += T_Tick;
+        }
+
+        private void T_Tick(object sender, EventArgs e)
+        {
+            if(btnRed.Background==Brushes.Red)
+            {
+                btnRed.ClearValue(Button.BackgroundProperty);
+                btnGreen.Background = Brushes.Green;
+            }
+            else
+            {
+                btnGreen.ClearValue(Button.BackgroundProperty);
+                btnRed.Background = Brushes.Red;
+            }
         }
     }
 }
