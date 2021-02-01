@@ -56,13 +56,25 @@ namespace _30_WPF_Calc
         // 소수점 처리
         private void Dot_Click(object sender, RoutedEventArgs e)
         {
-
+            if (txtResult.Text.Contains(".") == false)
+                txtResult.Text += ".";
         }
 
-        // = 버튼 처리
+        // = 버튼으로 계산 처리
         private void Equal_Click(object sender, RoutedEventArgs e)
         {
-
+            if (myOperator == '+')
+                txtResult.Text = (savedValue +
+                    double.Parse(txtResult.Text)).ToString();
+            else if (myOperator == '-')
+                txtResult.Text = (savedValue -
+                    double.Parse(txtResult.Text)).ToString();
+            else if (myOperator == '×')
+                txtResult.Text = (savedValue *
+                    double.Parse(txtResult.Text)).ToString();
+            else if (myOperator == '÷')
+                txtResult.Text = (savedValue /
+                    double.Parse(txtResult.Text)).ToString();
         }
     }
 }
