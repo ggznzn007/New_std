@@ -32,7 +32,15 @@ namespace _30_WPF_Calc
             // 숫자 버튼 처리
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-
+            Button btn = sender as Button;
+            string number = btn.Content.ToString();
+            if (txtResult.Text == "0" || newButton == true)
+            {
+                txtResult.Text = number;
+                newButton = false;
+            }
+            else
+                txtResult.Text = txtResult.Text + number;
         }
 
         // Operator 4개의 처리
