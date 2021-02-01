@@ -46,7 +46,11 @@ namespace _30_WPF_Calc
         // Operator 4개의 처리
         private void btnOp_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
 
+            savedValue = double.Parse(txtResult.Text);
+            myOperator = btn.Content.ToString()[0];
+            newButton = true;
         }
 
         // 소수점 처리
