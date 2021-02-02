@@ -106,5 +106,7 @@ namespace _31_WF_Calc
                 s = string.Format("{0:N0}", v);
             return s;
         }
+
+       
     }
 }

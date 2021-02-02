@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\bin\Debug\31_WF_Calc.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\bin\Debug\31_WF_Calc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\bin\Debug\31_WF_Calc.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\31_WF_Calc.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\_31_WF_Calc.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\_31_WF_Calc.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\31_WF_Calc.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\31_WF_Calc.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\31_WF_Calc.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\31_WF_Calc\obj\Debug\31_WF_Calc.pdb

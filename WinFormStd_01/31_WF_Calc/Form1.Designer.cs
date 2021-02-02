@@ -237,6 +237,7 @@ namespace _31_WF_Calc
             this.button13.TabIndex = 1;
             this.button13.Text = "÷";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.btnOp_Click);
             // 
             // button14
             // 
@@ -249,6 +250,7 @@ namespace _31_WF_Calc
             this.button14.TabIndex = 1;
             this.button14.Text = "7";
             this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.btn_Click);
             // 
             // button15
             // 
@@ -261,6 +263,7 @@ namespace _31_WF_Calc
             this.button15.TabIndex = 1;
             this.button15.Text = "8";
             this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.btn_Click);
             // 
             // button16
             // 
@@ -273,6 +276,7 @@ namespace _31_WF_Calc
             this.button16.TabIndex = 1;
             this.button16.Text = "9";
             this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.btn_Click);
             // 
             // button17
             // 
@@ -285,6 +289,7 @@ namespace _31_WF_Calc
             this.button17.TabIndex = 1;
             this.button17.Text = "×";
             this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.btnOp_Click);
             // 
             // button18
             // 
@@ -297,6 +302,7 @@ namespace _31_WF_Calc
             this.button18.TabIndex = 1;
             this.button18.Text = "4";
             this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.btn_Click);
             // 
             // button19
             // 
@@ -309,6 +315,7 @@ namespace _31_WF_Calc
             this.button19.TabIndex = 1;
             this.button19.Text = "5";
             this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.btn_Click);
             // 
             // button20
             // 
@@ -321,6 +328,7 @@ namespace _31_WF_Calc
             this.button20.TabIndex = 1;
             this.button20.Text = "6";
             this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.btn_Click);
             // 
             // button21
             // 
@@ -333,6 +341,7 @@ namespace _31_WF_Calc
             this.button21.TabIndex = 1;
             this.button21.Text = "-";
             this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.btnOp_Click);
             // 
             // button22
             // 
@@ -345,6 +354,7 @@ namespace _31_WF_Calc
             this.button22.TabIndex = 1;
             this.button22.Text = "1";
             this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.btn_Click);
             // 
             // button23
             // 
@@ -357,6 +367,7 @@ namespace _31_WF_Calc
             this.button23.TabIndex = 1;
             this.button23.Text = "2";
             this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.btn_Click);
             // 
             // button24
             // 
@@ -369,6 +380,7 @@ namespace _31_WF_Calc
             this.button24.TabIndex = 1;
             this.button24.Text = "3";
             this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.btn_Click);
             // 
             // button25
             // 
@@ -381,6 +393,7 @@ namespace _31_WF_Calc
             this.button25.TabIndex = 1;
             this.button25.Text = "+";
             this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.btnOp_Click);
             // 
             // button26
             // 
@@ -405,6 +418,7 @@ namespace _31_WF_Calc
             this.button27.TabIndex = 1;
             this.button27.Text = "0";
             this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.btn_Click);
             // 
             // btnDot
             // 
@@ -430,6 +444,7 @@ namespace _31_WF_Calc
             this.button29.TabIndex = 1;
             this.button29.Text = "=";
             this.button29.UseVisualStyleBackColor = true;
+            this.button29.Click += new System.EventHandler(this.btnEqual_Click);
             // 
             // Form1
             // 
