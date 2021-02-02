@@ -31,8 +31,8 @@ namespace _31_WF_Calc
         {
             this.txtExp = new System.Windows.Forms.TextBox();
             this.txtResult = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnMC = new System.Windows.Forms.Button();
+            this.btnMR = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -58,7 +58,7 @@ namespace _31_WF_Calc
             this.button25 = new System.Windows.Forms.Button();
             this.button26 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
-            this.button28 = new System.Windows.Forms.Button();
+            this.btnDot = new System.Windows.Forms.Button();
             this.button29 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -82,29 +82,29 @@ namespace _31_WF_Calc
             this.txtResult.TabIndex = 0;
             this.txtResult.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // button1
+            // btnMC
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(9, 114);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(77, 56);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "MC";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnMC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMC.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMC.Location = new System.Drawing.Point(9, 114);
+            this.btnMC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMC.Name = "btnMC";
+            this.btnMC.Size = new System.Drawing.Size(77, 56);
+            this.btnMC.TabIndex = 1;
+            this.btnMC.Text = "MC";
+            this.btnMC.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnMR
             // 
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.Location = new System.Drawing.Point(93, 114);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 56);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "MR";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnMR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMR.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnMR.Location = new System.Drawing.Point(93, 114);
+            this.btnMR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMR.Name = "btnMR";
+            this.btnMR.Size = new System.Drawing.Size(70, 56);
+            this.btnMR.TabIndex = 1;
+            this.btnMR.Text = "MR";
+            this.btnMR.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -406,17 +406,18 @@ namespace _31_WF_Calc
             this.button27.Text = "0";
             this.button27.UseVisualStyleBackColor = true;
             // 
-            // button28
+            // btnDot
             // 
-            this.button28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button28.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button28.Location = new System.Drawing.Point(199, 521);
-            this.button28.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button28.Name = "button28";
-            this.button28.Size = new System.Drawing.Size(96, 70);
-            this.button28.TabIndex = 1;
-            this.button28.Text = ".";
-            this.button28.UseVisualStyleBackColor = true;
+            this.btnDot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDot.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnDot.Location = new System.Drawing.Point(199, 521);
+            this.btnDot.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDot.Name = "btnDot";
+            this.btnDot.Size = new System.Drawing.Size(96, 70);
+            this.btnDot.TabIndex = 1;
+            this.btnDot.Text = ".";
+            this.btnDot.UseVisualStyleBackColor = true;
+            this.btnDot.Click += new System.EventHandler(this.btnDot_Click);
             // 
             // button29
             // 
@@ -438,14 +439,14 @@ namespace _31_WF_Calc
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnMR);
             this.Controls.Add(this.button29);
             this.Controls.Add(this.button25);
             this.Controls.Add(this.button21);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.button9);
-            this.Controls.Add(this.button28);
+            this.Controls.Add(this.btnDot);
             this.Controls.Add(this.button24);
             this.Controls.Add(this.button20);
             this.Controls.Add(this.button16);
@@ -463,7 +464,7 @@ namespace _31_WF_Calc
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnMC);
             this.Controls.Add(this.txtResult);
             this.Controls.Add(this.txtExp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -478,8 +479,8 @@ namespace _31_WF_Calc
 
         private System.Windows.Forms.TextBox txtExp;
         private System.Windows.Forms.TextBox txtResult;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnMC;
+        private System.Windows.Forms.Button btnMR;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
@@ -505,7 +506,7 @@ namespace _31_WF_Calc
         private System.Windows.Forms.Button button25;
         private System.Windows.Forms.Button button26;
         private System.Windows.Forms.Button button27;
-        private System.Windows.Forms.Button button28;
+        private System.Windows.Forms.Button btnDot;
         private System.Windows.Forms.Button button29;
     }
 }
