@@ -107,6 +107,12 @@ namespace _31_WF_Calc
             return s;
         }
 
-       
+        private void btnEqual_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                btnEqual_Click(sender, e);
+            }
+        }
     }
 }

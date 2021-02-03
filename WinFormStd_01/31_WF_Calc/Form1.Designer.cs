@@ -445,6 +445,7 @@ namespace _31_WF_Calc
             this.button29.Text = "=";
             this.button29.UseVisualStyleBackColor = true;
             this.button29.Click += new System.EventHandler(this.btnEqual_Click);
+            this.button29.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnEqual_KeyDown);
             // 
             // Form1
             // 
