@@ -127,10 +127,19 @@ namespace _31_WF_Calc
         // 제곱
         private void btnSqr_Click(object sender, EventArgs e)
         {
-            
+            txtExp.Text = "sqr(" + txtResult.Text + ") ";
+            txtResult.Text = (Double.Parse(txtResult.Text) *
+                Double.Parse(txtResult.Text)).ToString();
+            txtResult.Text = GroupSeparator(txtResult.Text);
         }
 
-        
+        // 역수
+        private void btnRecip_Click(object sender, EventArgs e)
+        {
+            txtExp.Text = "1 / (" + txtResult.Text + ") ";
+            txtResult.Text = (1 / Double.Parse(txtResult.Text)).ToString();
+            txtResult.Text = GroupSeparator(txtResult.Text);
+        }
 
     }
 }

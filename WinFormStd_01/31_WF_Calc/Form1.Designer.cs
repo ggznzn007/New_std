@@ -191,7 +191,7 @@ namespace _31_WF_Calc
             this.button9.TabIndex = 1;
             this.button9.Text = "1/x";
             this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.btnSqrt_Click);
+            this.button9.Click += new System.EventHandler(this.btnRecip_Click);
             // 
             // button10
             // 
