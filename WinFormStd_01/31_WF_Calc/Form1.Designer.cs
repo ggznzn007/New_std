@@ -165,6 +165,7 @@ namespace _31_WF_Calc
             this.button7.TabIndex = 1;
             this.button7.Text = "√";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.btnSqrt_Click);
             // 
             // button8
             // 
@@ -177,6 +178,7 @@ namespace _31_WF_Calc
             this.button8.TabIndex = 1;
             this.button8.Text = "x²";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.btnSqr_Click);
             // 
             // button9
             // 
@@ -189,6 +191,7 @@ namespace _31_WF_Calc
             this.button9.TabIndex = 1;
             this.button9.Text = "1/x";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.btnSqrt_Click);
             // 
             // button10
             // 

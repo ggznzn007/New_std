@@ -114,5 +114,23 @@ namespace _31_WF_Calc
                 btnEqual_Click(sender, e);
             }
         }
+
+        // 제곱근
+        private void btnSqrt_Click(object sender, EventArgs e)
+        {
+            txtExp.Text = "√(" + txtResult.Text + ") ";
+            txtResult.Text =
+                Math.Sqrt(Double.Parse(txtResult.Text)).ToString();
+            txtResult.Text = GroupSeparator(txtResult.Text);
+        }
+
+        // 제곱
+        private void btnSqr_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        
+
     }
 }
