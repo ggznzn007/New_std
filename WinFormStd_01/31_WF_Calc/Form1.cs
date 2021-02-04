@@ -149,6 +149,27 @@ namespace _31_WF_Calc
             txtResult.Text = GroupSeparator(txtResult.Text);
         }
 
-
+        // % 버튼
+        private void btnPercent_Click(object sender, EventArgs e)
+        {
+            if(percentFlag==true)
+            {
+                double p = Double.Parse(txtResult.Text);
+                p = saved * p / 100.0;
+                txtResult.Text = p.ToString();
+                txtExp.Text += txtResult.Text;
+                percentFlag = false;
+            }
+        }
+        
+        // Memory Save
+        private void btnMS_Click(object sender, EventArgs e)
+        {
+            memory = Double.Parse(txtResult.Text);
+            btnMC.Enabled = true;
+            btnMR.Enabled = true;
+            memFlag = true;
+        }
+        
     }
 }
