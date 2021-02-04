@@ -141,5 +141,14 @@ namespace _31_WF_Calc
             txtResult.Text = GroupSeparator(txtResult.Text);
         }
 
+        // 부호 플러스마이너스 버튼
+        private void btnPlusMinus_Click(object sender, EventArgs e)
+        {
+            double v = Double.Parse(txtResult.Text);
+            txtResult.Text = (-v).ToString();
+            txtResult.Text = GroupSeparator(txtResult.Text);
+        }
+
+
     }
 }

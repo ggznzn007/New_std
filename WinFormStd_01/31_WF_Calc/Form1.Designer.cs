@@ -409,6 +409,7 @@ namespace _31_WF_Calc
             this.button26.TabIndex = 1;
             this.button26.Text = "±";
             this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.btnPlusMinus_Click);
             // 
             // button27
             // 
