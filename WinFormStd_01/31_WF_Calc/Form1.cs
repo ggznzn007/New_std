@@ -170,6 +170,19 @@ namespace _31_WF_Calc
             btnMR.Enabled = true;
             memFlag = true;
         }
-        
+
+        // Memory Read
+        private void btnMR_Click(object sender, EventArgs e)
+        {
+            txtResult.Text = memory.ToString();
+            memFlag = true;
+            txtResult.Text = GroupSeparator(txtResult.Text);
+        }
+
+        // Memory Clear
+        private void btnMC_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

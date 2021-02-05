@@ -93,6 +93,7 @@ namespace _31_WF_Calc
             this.btnMC.TabIndex = 1;
             this.btnMC.Text = "MC";
             this.btnMC.UseVisualStyleBackColor = true;
+            this.btnMC.Click += new System.EventHandler(this.btnMC_Click);
             // 
             // btnMR
             // 
@@ -105,7 +106,7 @@ namespace _31_WF_Calc
             this.btnMR.TabIndex = 1;
             this.btnMR.Text = "MR";
             this.btnMR.UseVisualStyleBackColor = true;
-            this.btnMR.Click += new System.EventHandler(this.btnMS_Click);
+            this.btnMR.Click += new System.EventHandler(this.btnMR_Click);
             // 
             // button3
             // 
@@ -142,6 +143,7 @@ namespace _31_WF_Calc
             this.button5.TabIndex = 1;
             this.button5.Text = "MS";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.btnMS_Click);
             // 
             // button6
             // 
