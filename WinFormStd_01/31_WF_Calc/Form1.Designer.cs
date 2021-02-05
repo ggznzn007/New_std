@@ -119,6 +119,7 @@ namespace _31_WF_Calc
             this.button3.TabIndex = 1;
             this.button3.Text = "M+";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.btnMPlus_Click);
             // 
             // button4
             // 
@@ -131,6 +132,7 @@ namespace _31_WF_Calc
             this.button4.TabIndex = 1;
             this.button4.Text = "M-";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.btnMMinus_Click);
             // 
             // button5
             // 
@@ -208,6 +210,7 @@ namespace _31_WF_Calc
             this.button10.TabIndex = 1;
             this.button10.Text = "CE";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.btnCE_Click);
             // 
             // button11
             // 
@@ -220,6 +223,7 @@ namespace _31_WF_Calc
             this.button11.TabIndex = 1;
             this.button11.Text = "C";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.btnC_Click);
             // 
             // button12
             // 
@@ -232,6 +236,7 @@ namespace _31_WF_Calc
             this.button12.TabIndex = 1;
             this.button12.Text = "←";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // button13
             // 

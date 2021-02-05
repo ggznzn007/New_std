@@ -182,7 +182,47 @@ namespace _31_WF_Calc
         // Memory Clear
         private void btnMC_Click(object sender, EventArgs e)
         {
+            txtResult.Text = "0";
+            memory = 0;
+            btnMR.Enabled = false;
+            btnMC.Enabled = false;
+        }
 
+        // M+ 클릭
+        private void btnMPlus_Click(object sender, EventArgs e)
+        {
+            memory += Double.Parse(txtResult.Text);
+        }
+
+        // M- 클릭
+        private void btnMMinus_Click(object sender, EventArgs e)
+        {
+            memory -= Double.Parse(txtResult.Text);
+        }
+
+        // 지금 txtResult에 있는 값을 0으로
+        private void btnCE_Click(object sender, EventArgs e)
+        {
+            txtResult.Text = "0";
+        }
+
+        // 초기화
+        private void btnC_Click(object sender, EventArgs e)
+        {
+            txtResult.Text = "0";
+            txtExp.Text = "";
+            saved = 0;
+            op = '\0';
+            opFlag = false;
+            percentFlag = false;
+        }
+
+        // 맨 뒤에 한글자 지우기
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+            txtResult.Text = txtResult.Text.Remove(txtResult.Text.Length - 1);
+            if (txtResult.Text.Length == 0)
+                txtResult.Text = "0";
         }
     }
 }
