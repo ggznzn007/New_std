@@ -83,6 +83,21 @@ namespace _34_WF_Analog_Clock
             DrawLine((int)(hourHand * Math.Sin(radHr)),
                 (int)(-hourHand * Math.Cos(radHr)),
                 0, 0, Brushes.RoyalBlue, 8, center.X, center.Y);
+            // 분침
+            DrawLine((int)(minHand * Math.Sin(radMin)),
+                (int)(-minHand * Math.Cos(radMin)),
+                0, 0, Brushes.SkyBlue, 6, center.X, center.Y);
+            // 초침
+            DrawLine((int)(secHand * Math.Sin(radSec)),
+                (int)(-secHand * Math.Cos(radSec)),
+                0, 0, Brushes.OrangeRed, 3, center.X, center.Y);
+            // 시계 배꼽
+            int coreSize = 16;
+            Rectangle r = new Rectangle(center.X - coreSize / 2,
+                center.Y - coreSize / 2, coreSize, coreSize);
+            g.FillEllipse(Brushes.Black, r);
+            Pen p = new Pen(Brushes.HotPink, 4);
+            g.DrawEllipse(p, r);
         }
 
         private void DrawLine(int x1,int y1,int x2,int y2, Brush color,
