@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_33_WPF_Digital_Clock"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Digital Clock" Height="350" Width="600" Background="OrangeRed">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Name="dClock"
+                   FontSize="48"
+                   Foreground="White"
+                   FontWeight="Bold"></TextBlock>
     </Grid>
+    
 </Window>
