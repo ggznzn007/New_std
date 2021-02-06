@@ -12,9 +12,86 @@ namespace _34_WF_Analog_Clock
 {
     public partial class Form1 : Form
     {
+        Graphics g; // 그래픽스 객체
+        private Point center; // 중심점
+        private double radius; // 반지름
+        private int hourHand; // 시침 길이
+        private int minHand; // 분침 길이
+        private int secHand; // 초침 길이
+        private Timer timer1; // 타이머
+        private const int clientSize = 300; //클라이언트 사이즈
+        private const int clockSize = 200; // 시계판 지름
         public Form1()
         {
             InitializeComponent();
+
+            this.ClientSize = new Size(clientSize, clientSize);
+            this.Text = "Analog Clock";
+            panel1.BackColor = Color.WhiteSmoke;
+            this.Padding = new Padding(10);
+
+            g = panel1.CreateGraphics();
+
+            aClockSetting(); // 아날로그 시계 세팅
+            TimerSetting(); // 타이머 세팅
+        }
+
+        private void aClockSetting()
+        {
+            center = new Point(panel1.Width / 2, panel1.Height / 2);
+            radius = panel1.Height / 2;
+
+            hourHand = (int)(radius * 0.45);
+            minHand = (int)(radius * 0.55);
+            secHand = (int)(radius * 0.65);
+        }
+
+        private void TimerSetting()
+        {
+            timer1 = new Timer();
+            timer1.Interval = 1000; // 1초에 한번씩
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime c = DateTime.Now; // 현재 시간
+
+            panel1.Refresh();
+
+            DrawClockFace(); // 시계판 그리기
+
+            // 시침, 분침, 초침의 각도(단위: 라디안)
+            double radHr = (c.Hour % 12 + c.Minute / 60.0) * 30 * Math.PI / 180;
+            double radMin = (c.Minute + c.Second / 60.0) * 6 * Math.PI / 180;
+            double radSec = (c.Second) * 6 * Math.PI / 180;
+
+            DrawHands(radHr, radMin, radSec); // 바늘 그리기
+        }
+
+        private void DrawClockFace()
+        {
+            Pen pen = new Pen(Brushes.LawnGreen, 30);
+            g.DrawEllipse(pen, center.X - clockSize / 2,
+                center.Y - clockSize / 2, clockSize, clockSize);
+        }
+
+        private void DrawHands(double radHr,double radMin, double radSec)
+        {
+            // 시침
+            DrawLine((int)(hourHand * Math.Sin(radHr)),
+                (int)(-hourHand * Math.Cos(radHr)),
+                0, 0, Brushes.RoyalBlue, 8, center.X, center.Y);
+        }
+
+        private void DrawLine(int x1,int y1,int x2,int y2, Brush color,
+            int thick, int cx, int cy)
+        {
+            Pen pen = new Pen(color, thick);
+            pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            g.DrawLine(pen, x1 + cx, y1 + cy, x2 + cx, y2 + cy);
         }
     }
 }
