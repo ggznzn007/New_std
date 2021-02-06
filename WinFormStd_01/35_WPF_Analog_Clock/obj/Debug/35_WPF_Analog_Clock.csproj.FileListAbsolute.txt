@@ -1,0 +1,15 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\bin\Debug\35_WPF_Analog_Clock.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\bin\Debug\35_WPF_Analog_Clock.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\bin\Debug\35_WPF_Analog_Clock.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\MainWindow.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\App.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock_MarkupCompile.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock_MarkupCompile.lref
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\MainWindow.baml
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.g.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\_35_WPF_Analog_Clock.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\35_WPF_Analog_Clock\obj\Debug\35_WPF_Analog_Clock.pdb

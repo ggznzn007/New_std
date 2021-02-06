@@ -38,9 +38,9 @@ namespace _35_WPF_Analog_Clock
         {
             center = new Point(canvas1.Width / 2, canvas1.Height / 2);
             radius = canvas1.Width / 2;
-            hHand = (int)(radius * 0.45);
-            mHand = (int)(radius * 0.55);
-            sHand = (int)(radius * 0.65);
+            hHand = (int)(radius * 0.55);
+            mHand = (int)(radius * 0.75);
+            sHand = (int)(radius * 0.82);
         }
 
         private void TimerSetting()
@@ -68,7 +68,7 @@ namespace _35_WPF_Analog_Clock
         private void DrawClockFace()
         {
             aClock.Stroke = Brushes.HotPink;
-            aClock.StrokeThickness = 40;
+            aClock.StrokeThickness = 30;
             canvas1.Children.Add(aClock);
         }
 
@@ -77,21 +77,21 @@ namespace _35_WPF_Analog_Clock
         {
             // 시침
             DrawLine(hHand * Math.Sin(radHr), -hHand * Math.Cos(radHr),
-                0, 0, Brushes.Black, 9, new Thickness(center.X, center.Y, 0, 0));
+                0, 0, Brushes.Black, 11, new Thickness(center.X, center.Y, 0, 0));
             // 분침
             DrawLine(mHand * Math.Sin(radMin), -mHand * Math.Cos(radMin),
-                0, 0, Brushes.DarkGray, 7, new Thickness(center.X, center.Y, 0, 0));
+                0, 0, Brushes.DarkGray, 8, new Thickness(center.X, center.Y, 0, 0));
             // 초침
             DrawLine(sHand * Math.Sin(radSec), -sHand * Math.Cos(radSec),
-                0, 0, Brushes.Pink, 4, new Thickness(center.X, center.Y, 0, 0));
+                0, 0, Brushes.Pink, 5, new Thickness(center.X, center.Y, 0, 0));
 
             Ellipse core = new Ellipse();
             core.Margin = new Thickness(canvas1.Width / 2 - 10,
                 canvas1.Height / 2 - 10, 0, 0);
             core.Stroke = Brushes.SteelBlue;
             core.Fill = Brushes.HotPink;
-            core.Width = 30;
-            core.Height = 30;
+            core.Width = 20;
+            core.Height = 20;
             canvas1.Children.Add(core);
         }
 
