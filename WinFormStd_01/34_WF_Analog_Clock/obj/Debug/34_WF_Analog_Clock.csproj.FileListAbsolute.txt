@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\bin\Debug\34_WF_Analog_Clock.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\bin\Debug\34_WF_Analog_Clock.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\bin\Debug\34_WF_Analog_Clock.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\34_WF_Analog_Clock.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\_34_WF_Analog_Clock.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\_34_WF_Analog_Clock.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\34_WF_Analog_Clock.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\34_WF_Analog_Clock.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\34_WF_Analog_Clock.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\34_WF_Analog_Clock\obj\Debug\34_WF_Analog_Clock.pdb

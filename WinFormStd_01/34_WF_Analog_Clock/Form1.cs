@@ -27,7 +27,7 @@ namespace _34_WF_Analog_Clock
 
             this.ClientSize = new Size(clientSize, clientSize);
             this.Text = "Analog Clock";
-            panel1.BackColor = Color.WhiteSmoke;
+            panel1.BackColor = Color.LightPink;
             this.Padding = new Padding(10);
 
             g = panel1.CreateGraphics();
@@ -72,7 +72,7 @@ namespace _34_WF_Analog_Clock
 
         private void DrawClockFace()
         {
-            Pen pen = new Pen(Brushes.LawnGreen, 30);
+            Pen pen = new Pen(Brushes.HotPink, 30);
             g.DrawEllipse(pen, center.X - clockSize / 2,
                 center.Y - clockSize / 2, clockSize, clockSize);
         }
