@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_36_WPF_RotationClock"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="WPF Analog Clock" Height="700" Width="700">
     <Grid>
-        
+        <Canvas Name="aClock" Width="600" Height="600">
+            <Rectangle Width="600" Height="600" Stroke="HotPink"/>
+            <Ellipse Width="600" Height="600" Stroke="DeepPink"
+                     StrokeThickness="4"/>
+            <Line X1="0" Y1="300" X2="600" Y2="300" Stroke="Pink" />
+            <Line X1="300" Y1="0" X2="300" Y2="600" Stroke="Pink" />
+            <!-- 아래 3개의 Line은 시계바늘-->
+            <Line Name="sHand" Stroke="LightPink" StrokeThickness="4"
+                  StrokeEndLineCap="Round"/>
+            <Line Name="mHand" Stroke="DarkGray" StrokeThickness="8"
+                  StrokeEndLineCap="Round"/>
+            <Line Name="hHand" Stroke="Black" StrokeThickness="12"
+                  StrokeEndLineCap="Round"/>
+            <!-- 아래 Ellipse는 배꼽-->
+            <Ellipse Name="center" Width="40" Height="40" Margin="280"
+                     Stroke="FloralWhite" StrokeThickness="4" Fill="LightGray"/>
+        </Canvas>
     </Grid>
+     
+    
 </Window>
