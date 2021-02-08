@@ -46,7 +46,7 @@ namespace _36_WPF_RotationClock
         {
             // 눈금 60개를 Line 배열로 만든다
             Line[] marking = new Line[60];
-            int W = 300; // 시계 넗이
+            int W = 600; // 시계 넗이
 
             for(int i = 0; i<60;i++)
             {
@@ -58,18 +58,18 @@ namespace _36_WPF_RotationClock
                 if(i%5==0) // 매 다섯번째 눈금은 큰 눈금으로 한다
                 {
                     marking[i].StrokeThickness = 5;
-                    marking[i].Y2 = 20;
+                    marking[i].Y2 = 40;
                 }
                 else
                 {
                     marking[i].StrokeThickness = 2;
-                    marking[i].Y2 = 10;
+                    marking[i].Y2 = 20;
                 }
 
                 // 눈금 하나 당 중심점을 기준으로 6도씩 회전(RotationTransform)
                 RotateTransform rt = new RotateTransform(6 * i);
-                rt.CenterX = 150; // 회전 중심점
-                rt.CenterY = 150; // 회전 중심점
+                rt.CenterX = 300; // 회전 중심점
+                rt.CenterY = 300; // 회전 중심점
                 marking[i].RenderTransform = rt;
                 aClock.Children.Add(marking[i]);
             }
@@ -77,23 +77,23 @@ namespace _36_WPF_RotationClock
 
         private void MakeClockHands()
         {
-            int W = 300; // 시계판 넓이
-            int H = 300; // 시계판 높이
+            int W = 600; // 시계판 넓이
+            int H = 600; // 시계판 높이
 
             sHand.X1 = W / 2;
             sHand.Y1 = H / 2;
             sHand.X2 = W / 2;
-            sHand.Y2 = 20;
+            sHand.Y2 = 45;
 
             mHand.X1 = W / 2;
             mHand.Y1 = H / 2;
             mHand.X2 = W / 2;
-            mHand.Y2 = 40;
+            mHand.Y2 = 65;
 
             hHand.X1 = W / 2;
             hHand.Y1 = H / 2;
             hHand.X2 = W / 2;
-            hHand.Y2 = 60;
+            hHand.Y2 = 95;
         }
         private void Dt_Tick(object sender, EventArgs e)
         {
@@ -127,6 +127,10 @@ namespace _36_WPF_RotationClock
             sRt.CenterY = sHand.Y1;
             sHand.RenderTransform = sRt;
             aClock.Children.Add(sHand);
+
+            // 배꼽
+            aClock.Children.Remove(center);
+            aClock.Children.Add(center);
         }
     }
 }
