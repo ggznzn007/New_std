@@ -10,8 +10,13 @@
         <Grid Name="grid1" Margin="10" DockPanel.Dock="Top">
             <Canvas Name="canvas1" Height="400" Width="400">
                 <Rectangle Stroke="Black" Width="400" Height="400"></Rectangle>
+                <Ellipse Stroke="SlateBlue" Width="400" Height="400"></Ellipse>
             </Canvas>
         </Grid>
+        <StatusBar DockPanel.Dock="Bottom" Background="White"
+                   Margin="20,0,20,10">
+            <TextBlock Name="txtStatus"/>
+        </StatusBar>
     </DockPanel>
     
 </Window>

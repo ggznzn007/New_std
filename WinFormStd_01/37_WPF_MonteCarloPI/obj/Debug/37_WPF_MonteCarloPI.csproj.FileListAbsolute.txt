@@ -1,0 +1,15 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\bin\Debug\37_WPF_MonteCarloPI.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\bin\Debug\37_WPF_MonteCarloPI.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\bin\Debug\37_WPF_MonteCarloPI.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\MainWindow.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\App.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI_MarkupCompile.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI_MarkupCompile.lref
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\MainWindow.baml
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.g.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\_37_WPF_MonteCarloPI.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\37_WPF_MonteCarloPI\obj\Debug\37_WPF_MonteCarloPI.pdb
