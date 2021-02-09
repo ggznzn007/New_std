@@ -13,6 +13,7 @@ namespace _40_WF_ChartControl2
 {
     public partial class Form1 : Form
     {
+        public int students = 20;
         public Form1()
         {
             InitializeComponent();
@@ -28,12 +29,13 @@ namespace _40_WF_ChartControl2
 
             chart1.ChartAreas.Add("ChartArea2");
             chart1.Series["Series2"].ChartArea = "ChartArea2";
+            //chart1.Series["Series2"].ChartType= SeriesChartType.Line;
 
             Random r = new Random();
-            for(int i = 0;i<100;i++)
+            for(int i = 1;i<=students;i++)
             {
-                chart1.Series["Series1"].Points.AddXY(i, r.Next(100));
-                chart1.Series["Series2"].Points.AddXY(i, r.Next(100));
+                chart1.Series["Series1"].Points.AddXY(i, r.Next(70,100));
+                chart1.Series["Series2"].Points.AddXY(i, r.Next(70,100));
             }
         }
 

@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\bin\Debug\40_WF_ChartControl2.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\bin\Debug\40_WF_ChartControl2.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\bin\Debug\40_WF_ChartControl2.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\40_WF_ChartControl2.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\_40_WF_ChartControl2.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\_40_WF_ChartControl2.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\40_WF_ChartControl2.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\40_WF_ChartControl2.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\40_WF_ChartControl2.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\40_WF_ChartControl2\obj\Debug\40_WF_ChartControl2.pdb
