@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="370" Width="540">
     <StackPanel>
-        
+        <Button Content="Browse" Width="100" Height="30" Margin=" 10"
+                Click="Btn_Click"></Button>
+        <ListBox Name="lbFiles" Width="500" Height="250"
+                 Margin="10"></ListBox>
     </StackPanel>
 </Window>
