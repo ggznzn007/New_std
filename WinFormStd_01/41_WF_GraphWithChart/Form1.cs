@@ -49,6 +49,17 @@ namespace _41_WF_GraphWithChart
             {
                 chart1.Series.Add("Cos");
                 chart1.Series["Cos"].ChartType = SeriesChartType.Line;
+                chart1.Series["Cos"].Color = Color.Orange;
+                chart1.Series["Cos"].BorderWidth = 2;
+                chart1.Series["Cos"].LegendText = "cos(x)/x";
+            }
+
+            for(double x = -20; x<20; x+=0.1)
+            {
+                double y = Math.Sin(x) / x;
+                chart1.Series[0].Points.AddXY(x, y);
+                y = Math.Cos(x) / x;
+                chart1.Series["Cos"].Points.AddXY(x, y);
             }
         }
     }
