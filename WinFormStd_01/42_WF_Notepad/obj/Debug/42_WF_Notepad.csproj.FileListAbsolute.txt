@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\bin\Debug\42_WF_Notepad.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\bin\Debug\42_WF_Notepad.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\bin\Debug\42_WF_Notepad.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\42_WF_Notepad.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\_42_WF_Notepad.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\_42_WF_Notepad.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\42_WF_Notepad.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\42_WF_Notepad.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\42_WF_Notepad.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\42_WF_Notepad\obj\Debug\42_WF_Notepad.pdb

@@ -31,16 +31,16 @@ namespace _42_WF_Notepad
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.편집ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.새로만들기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.열기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.끝내기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.편집ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.복사하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.붙여넣기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtMemo = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.복사하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.붙여넣기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +67,34 @@ namespace _42_WF_Notepad
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.파일ToolStripMenuItem.Text = "파일";
             // 
+            // 새로만들기ToolStripMenuItem
+            // 
+            this.새로만들기ToolStripMenuItem.Name = "새로만들기ToolStripMenuItem";
+            this.새로만들기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.새로만들기ToolStripMenuItem.Text = "새로만들기";
+            this.새로만들기ToolStripMenuItem.Click += new System.EventHandler(this.새로만들기ToolStripMenuItem_Click);
+            // 
+            // 열기ToolStripMenuItem
+            // 
+            this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
+            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.열기ToolStripMenuItem.Text = "열기";
+            this.열기ToolStripMenuItem.Click += new System.EventHandler(this.열기ToolStripMenuItem_Click);
+            // 
+            // 저장ToolStripMenuItem
+            // 
+            this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.저장ToolStripMenuItem.Text = "저장";
+            this.저장ToolStripMenuItem.Click += new System.EventHandler(this.저장ToolStripMenuItem_Click);
+            // 
+            // 끝내기ToolStripMenuItem
+            // 
+            this.끝내기ToolStripMenuItem.Name = "끝내기ToolStripMenuItem";
+            this.끝내기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.끝내기ToolStripMenuItem.Text = "끝내기";
+            this.끝내기ToolStripMenuItem.Click += new System.EventHandler(this.끝내기ToolStripMenuItem_Click);
+            // 
             // 편집ToolStripMenuItem
             // 
             this.편집ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -76,29 +104,19 @@ namespace _42_WF_Notepad
             this.편집ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.편집ToolStripMenuItem.Text = "편집";
             // 
-            // 새로만들기ToolStripMenuItem
+            // 복사하기ToolStripMenuItem
             // 
-            this.새로만들기ToolStripMenuItem.Name = "새로만들기ToolStripMenuItem";
-            this.새로만들기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.새로만들기ToolStripMenuItem.Text = "새로만들기";
+            this.복사하기ToolStripMenuItem.Name = "복사하기ToolStripMenuItem";
+            this.복사하기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.복사하기ToolStripMenuItem.Text = "복사하기";
+            this.복사하기ToolStripMenuItem.Click += new System.EventHandler(this.복사하기ToolStripMenuItem_Click);
             // 
-            // 열기ToolStripMenuItem
+            // 붙여넣기ToolStripMenuItem
             // 
-            this.열기ToolStripMenuItem.Name = "열기ToolStripMenuItem";
-            this.열기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.열기ToolStripMenuItem.Text = "열기";
-            // 
-            // 저장ToolStripMenuItem
-            // 
-            this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.저장ToolStripMenuItem.Text = "저장";
-            // 
-            // 끝내기ToolStripMenuItem
-            // 
-            this.끝내기ToolStripMenuItem.Name = "끝내기ToolStripMenuItem";
-            this.끝내기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.끝내기ToolStripMenuItem.Text = "끝내기";
+            this.붙여넣기ToolStripMenuItem.Name = "붙여넣기ToolStripMenuItem";
+            this.붙여넣기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.붙여넣기ToolStripMenuItem.Text = "붙여넣기";
+            this.붙여넣기ToolStripMenuItem.Click += new System.EventHandler(this.붙여넣기ToolStripMenuItem_Click);
             // 
             // txtMemo
             // 
@@ -112,18 +130,6 @@ namespace _42_WF_Notepad
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // 복사하기ToolStripMenuItem
-            // 
-            this.복사하기ToolStripMenuItem.Name = "복사하기ToolStripMenuItem";
-            this.복사하기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.복사하기ToolStripMenuItem.Text = "복사하기";
-            // 
-            // 붙여넣기ToolStripMenuItem
-            // 
-            this.붙여넣기ToolStripMenuItem.Name = "붙여넣기ToolStripMenuItem";
-            this.붙여넣기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.붙여넣기ToolStripMenuItem.Text = "붙여넣기";
             // 
             // Form1
             // 

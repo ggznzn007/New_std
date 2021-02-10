@@ -26,7 +26,6 @@ namespace _42_WF_Notepad
         {
             modifyFlag = true;
         }
-
         private void 새로만들기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileProcessBeforeClose();
@@ -34,7 +33,7 @@ namespace _42_WF_Notepad
             txtMemo.Text = "";
             modifyFlag = false;
             fileName = "noname.txt";
-        }
+        }           
 
         private void FileProcessBeforeClose()
         {
@@ -62,6 +61,31 @@ namespace _42_WF_Notepad
 
                 }
             }
+        }
+
+        private void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 저장ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 끝내기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 복사하기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 붙여넣기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
