@@ -29,7 +29,11 @@ namespace _42_WF_Notepad
 
         private void 새로만들기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            FileProcessBeforeClose();
+
+            txtMemo.Text = "";
+            modifyFlag = false;
+            fileName = "noname.txt";
         }
 
         private void FileProcessBeforeClose()
