@@ -65,27 +65,64 @@ namespace _42_WF_Notepad
 
         private void 열기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // 현재 열려있는 파일이 수정되었다면 먼저 저장할 필요가 있다.
+            FileProcessBeforeClose();
 
+            openFileDialog1.ShowDialog();
+            fileName = openFileDialog1.FileName;
+            this.Text = fileName + " - myNotePad";
+            try
+            {
+                StreamReader r = File.OpenText(fileName);
+                txtMemo.Text = r.ReadToEnd();
+
+                modifyFlag = false;
+                r.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void 저장ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(fileName=="noname.txt")
+            {
+                saveFileDialog1.ShowDialog();
+                fileName = saveFileDialog1.FileName;
+            }
+            StreamWriter sw = File.CreateText(fileName);
+            sw.WriteLine(txtMemo.Text);
 
+            modifyFlag = false;
+            sw.Close();
         }
 
         private void 끝내기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FileProcessBeforeClose();
+            Close();
         }
 
         private void 복사하기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            RichTextBox contents = (RichTextBox)ActiveControl;
+            if(contents!=null)
+            {
+                Clipboard.SetDataObject(contents.SelectedText);
+            }
         }
 
         private void 붙여넣기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            RichTextBox contents = (RichTextBox)ActiveControl;
+            if(contents!=null)
+            {
+                IDataObject data = Clipboard.GetDataObject();
+                contents.SelectedText = data.GetData(DataFormats.Text).ToString();
+                modifyFlag = true;
+            }
         }
     }
 }
