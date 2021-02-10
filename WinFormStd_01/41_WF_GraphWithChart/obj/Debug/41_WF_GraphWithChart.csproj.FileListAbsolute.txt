@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\bin\Debug\41_WF_GraphWithChart.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\bin\Debug\41_WF_GraphWithChart.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\bin\Debug\41_WF_GraphWithChart.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\41_WF_GraphWithChart.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\_41_WF_GraphWithChart.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\_41_WF_GraphWithChart.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\41_WF_GraphWithChart.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\41_WF_GraphWithChart.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\41_WF_GraphWithChart.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\41_WF_GraphWithChart\obj\Debug\41_WF_GraphWithChart.pdb
