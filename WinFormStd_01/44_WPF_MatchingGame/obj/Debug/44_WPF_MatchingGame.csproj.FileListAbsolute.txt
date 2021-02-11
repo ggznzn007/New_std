@@ -1,0 +1,15 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\bin\Debug\44_WPF_MatchingGame.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\bin\Debug\44_WPF_MatchingGame.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\bin\Debug\44_WPF_MatchingGame.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\MainWindow.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\App.g.cs
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame_MarkupCompile.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame_MarkupCompile.lref
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\MainWindow.baml
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.g.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\_44_WPF_MatchingGame.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\44_WPF_MatchingGame\obj\Debug\44_WPF_MatchingGame.pdb

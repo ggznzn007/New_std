@@ -42,7 +42,7 @@ namespace _44_WPF_MatchingGame
                 Button c = new Button();
                 c.Background = Brushes.White;
                 c.Margin = new Thickness(10);
-                c.Content = MakeImage("../../Images/check.png");
+                c.Content = MakeImage("../Images/check.png");
                 c.Tag = TagSet(); // 그림의 인덱스 세팅
                 c.Click += C_Click;
                 board.Children.Add(c);
@@ -84,7 +84,7 @@ namespace _44_WPF_MatchingGame
 
             string[] icon = {"딸기","레몬","블루베리","배","사과",
             "수박","파인애플", "포도"};
-            btn.Content = MakeImage("../../Images/" + icon[(int)btn.Tag] + ".png");
+            btn.Content = MakeImage("../Images/" + icon[(int)btn.Tag] + ".png");
 
             // 두 개의 버튼을 수선대로 눌렀을 때 처리
             if(first==null) // 지금 누른 버튼이 첫 버튼이면
@@ -117,8 +117,8 @@ namespace _44_WPF_MatchingGame
         private void MyTimer_Tick(object sender, EventArgs e)
         {
             myTimer.Stop();
-            first.Content = MakeImage("../../Images/check.png");
-            second.Content = MakeImage("../../Images/check.png");
+            first.Content = MakeImage("../Images/check.png");
+            second.Content = MakeImage("../Images/check.png");
             first = null;
             second = null;
         }
