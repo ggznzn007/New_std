@@ -54,38 +54,40 @@ namespace _43_ImageViewer
             this.종료ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 28);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 420);
+            this.pictureBox1.Size = new System.Drawing.Size(800, 422);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // 이미지선택ToolStripMenuItem
             // 
             this.이미지선택ToolStripMenuItem.Name = "이미지선택ToolStripMenuItem";
-            this.이미지선택ToolStripMenuItem.Size = new System.Drawing.Size(103, 26);
+            this.이미지선택ToolStripMenuItem.Size = new System.Drawing.Size(103, 24);
             this.이미지선택ToolStripMenuItem.Text = "이미지 선택";
+            this.이미지선택ToolStripMenuItem.Click += new System.EventHandler(this.이미지선택ToolStripMenuItem_Click);
             // 
             // sizeModeToolStripMenuItem
             // 
             this.sizeModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.크기모드ToolStripMenuItem});
             this.sizeModeToolStripMenuItem.Name = "sizeModeToolStripMenuItem";
-            this.sizeModeToolStripMenuItem.Size = new System.Drawing.Size(90, 26);
+            this.sizeModeToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
             this.sizeModeToolStripMenuItem.Text = "SizeMode";
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.종료ToolStripMenuItem.Text = "종료";
+            this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
             // 크기모드ToolStripMenuItem
             // 
@@ -104,30 +106,35 @@ namespace _43_ImageViewer
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
             this.normalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.normalToolStripMenuItem.Text = "Normal";
+            this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // stretchImageToolStripMenuItem
             // 
             this.stretchImageToolStripMenuItem.Name = "stretchImageToolStripMenuItem";
             this.stretchImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.stretchImageToolStripMenuItem.Text = "StretchImage";
+            this.stretchImageToolStripMenuItem.Click += new System.EventHandler(this.stretchImageToolStripMenuItem_Click);
             // 
             // autoSizeToolStripMenuItem
             // 
             this.autoSizeToolStripMenuItem.Name = "autoSizeToolStripMenuItem";
             this.autoSizeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.autoSizeToolStripMenuItem.Text = "AutoSize";
+            this.autoSizeToolStripMenuItem.Click += new System.EventHandler(this.autoSizeToolStripMenuItem_Click);
             // 
             // centerImageToolStripMenuItem
             // 
             this.centerImageToolStripMenuItem.Name = "centerImageToolStripMenuItem";
             this.centerImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.centerImageToolStripMenuItem.Text = "CenterImage";
+            this.centerImageToolStripMenuItem.Click += new System.EventHandler(this.centerImageToolStripMenuItem_Click);
             // 
             // zoomToolStripMenuItem
             // 
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
             this.zoomToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.zoomToolStripMenuItem.Text = "Zoom";
+            this.zoomToolStripMenuItem.Click += new System.EventHandler(this.zoomToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
