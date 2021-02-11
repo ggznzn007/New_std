@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\bin\Debug\43_ImageViewer.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\bin\Debug\43_ImageViewer.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\bin\Debug\43_ImageViewer.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\43_ImageViewer.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\_43_ImageViewer.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\_43_ImageViewer.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\43_ImageViewer.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\43_ImageViewer.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\43_ImageViewer.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\43_ImageViewer\obj\Debug\43_ImageViewer.pdb
