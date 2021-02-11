@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace _44_WPF_MatchingGame
 {
@@ -20,9 +21,25 @@ namespace _44_WPF_MatchingGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        Button first;
+        Button Second;
+        DispatcherTimer myTimer = new DispatcherTimer();
+        int matched = 0;
+        int[] rnd = new int[16]; // 랜덤숫자가 중복되는지 체크용
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void BoardSet() // 16버튼 초기화
+        {
+            for(int i =0;i<16;i++)
+            {
+                Button c = new Button();
+                c.Background = Brushes.White;
+                c.Margin = new Thickness(10);
+            }
         }
     }
 }
