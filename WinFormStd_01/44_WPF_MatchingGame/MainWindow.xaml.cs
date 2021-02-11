@@ -49,10 +49,6 @@ namespace _44_WPF_MatchingGame
             }
         }
 
-        private void C_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private Image MakeImage(string v) // v는 이미지 파일의 경로
         {
@@ -81,6 +77,42 @@ namespace _44_WPF_MatchingGame
                 }
             }
             return i % 8; // 태그는 0~7까지, 8개의 그림을 표시
+        }
+        private void C_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            string[] icon = {"딸기","레몬","블루베리","배","사과",
+            "수박","파인애플", "포도"};
+            btn.Content = MakeImage("../../Images/" + icon[(int)btn.Tag] + ".png");
+
+            // 두 개의 버튼을 수선대로 눌렀을 때 처리
+            if(first==null) // 지금 누른 버튼이 첫 버튼이면
+            {
+                first = btn;
+                return;
+            }
+            second = btn;
+
+            if((int)first.Tag==(int)second.Tag) // 매치가 되었을 때
+            {
+                first = null;
+                second = null;
+                matched += 2;
+                if(matched >= 16)
+                {
+                    MessageBoxResult res = MessageBox.Show(
+                        "성공! 다시하시겠습니까, "+"Success"+ MessageBoxButton.YesNo);
+                    if (res == MessageBoxResult.Yes)
+                        NewGame();
+                    else
+                        Close();
+                }
+                else // 매치가 되지 않았을 때 다시 덮어주기
+                {
+                    myTimer.Start();
+                }
+            }
         }
         private void MyTimer_Tick(object sender, EventArgs e)
         {
