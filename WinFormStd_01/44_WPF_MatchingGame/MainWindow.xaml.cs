@@ -22,7 +22,7 @@ namespace _44_WPF_MatchingGame
     public partial class MainWindow : Window
     {
         Button first;
-        Button Second;
+        Button second;
         DispatcherTimer myTimer = new DispatcherTimer();
         int matched = 0;
         int[] rnd = new int[16]; // 랜덤숫자가 중복되는지 체크용
@@ -34,10 +34,6 @@ namespace _44_WPF_MatchingGame
             myTimer.Tick += MyTimer_Tick;
         }
 
-        private void MyTimer_Tick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void BoardSet() // 16버튼 초기화
         {
@@ -85,6 +81,23 @@ namespace _44_WPF_MatchingGame
                 }
             }
             return i % 8; // 태그는 0~7까지, 8개의 그림을 표시
+        }
+        private void MyTimer_Tick(object sender, EventArgs e)
+        {
+            myTimer.Stop();
+            first.Content = MakeImage("../../Images/check.png");
+            second.Content = MakeImage("../../Images/check.png");
+            first = null;
+            second = null;
+        }
+
+        private void NewGame()
+        {
+            for (int i = 0; i < 16; i++)
+                rnd[i] = 0;
+            board.Children.Clear();
+            BoardSet();
+            matched = 0;
         }
     }
 }
