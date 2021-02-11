@@ -37,12 +37,12 @@ namespace _44_WPF_MatchingGame
 
         private void BoardSet() // 16버튼 초기화
         {
-            for(int i =0;i<16;i++)
+            for (int i = 0; i < 16; i++)
             {
                 Button c = new Button();
                 c.Background = Brushes.White;
                 c.Margin = new Thickness(10);
-                c.Content = MakeImage("../Images/check.png");
+                c.Content = MakeImage("../../Images/check.png");
                 c.Tag = TagSet(); // 그림의 인덱스 세팅
                 c.Click += C_Click;
                 board.Children.Add(c);
@@ -67,10 +67,10 @@ namespace _44_WPF_MatchingGame
         {
             int i;
             Random r = new Random();
-            while(true)
+            while (true)
             {
                 i = r.Next(16); // 0 ~ 15까지
-                if(rnd[i]==0)
+                if (rnd[i] == 0)
                 {
                     rnd[i] = 1;
                     break;
@@ -82,27 +82,28 @@ namespace _44_WPF_MatchingGame
         {
             Button btn = sender as Button;
 
-            string[] icon = {"딸기","레몬","블루베리","배","사과",
+            string[] icon = {"딸기","레몬","배","블루베리","사과",
             "수박","파인애플", "포도"};
-            btn.Content = MakeImage("../Images/" + icon[(int)btn.Tag] + ".png");
+            btn.Content = MakeImage("../../Images/" + icon[(int)btn.Tag] + 
+                ".png");
 
             // 두 개의 버튼을 수선대로 눌렀을 때 처리
-            if(first==null) // 지금 누른 버튼이 첫 버튼이면
+            if (first == null) // 지금 누른 버튼이 첫 버튼이면
             {
                 first = btn;
                 return;
             }
             second = btn;
 
-            if((int)first.Tag==(int)second.Tag) // 매치가 되었을 때
+            if ((int)first.Tag == (int)second.Tag) // 매치가 되었을 때
             {
                 first = null;
                 second = null;
                 matched += 2;
-                if(matched >= 16)
+                if (matched >= 16)
                 {
                     MessageBoxResult res = MessageBox.Show(
-                        "성공! 다시하시겠습니까, "+"Success"+ MessageBoxButton.YesNo);
+                        "성공! 다시하시겠습니까, " + "Success" + MessageBoxButton.YesNo);
                     if (res == MessageBoxResult.Yes)
                         NewGame();
                     else
@@ -117,8 +118,8 @@ namespace _44_WPF_MatchingGame
         private void MyTimer_Tick(object sender, EventArgs e)
         {
             myTimer.Stop();
-            first.Content = MakeImage("../Images/check.png");
-            second.Content = MakeImage("../Images/check.png");
+            first.Content = MakeImage("../../Images/check.png");
+            second.Content = MakeImage("../../Images/check.png");
             first = null;
             second = null;
         }

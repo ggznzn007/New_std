@@ -94,8 +94,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\딸기.png" />
+    <Resource Include="Images\레몬.png" />
+    <Resource Include="Images\배.png" />
+    <Resource Include="Images\블루베리.png" />
+    <Resource Include="Images\사과.png" />
+    <Resource Include="Images\수박.png" />
+    <Resource Include="Images\파인애플.png" />
+    <Resource Include="Images\포도.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
