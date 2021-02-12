@@ -103,7 +103,7 @@ namespace _44_WPF_MatchingGame
                 if (matched >= 16)
                 {
                     MessageBoxResult res = MessageBox.Show(
-                        "성공! 다시하시겠습니까, " + "Success" + MessageBoxButton.YesNo);
+                        "성공! 다시하시겠습니까? " + MessageBoxButton.YesNo);
                     if (res == MessageBoxResult.Yes)
                         NewGame();
                     else
