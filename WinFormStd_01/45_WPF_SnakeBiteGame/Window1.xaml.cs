@@ -114,9 +114,9 @@ namespace _45_WPF_SnakeBiteGame
                 else if (move == "Left")
                     snakes[0].Tag = new Point(pnt.X - size, pnt.Y);
                 else if (move == "Up")
-                    snakes[0].Tag = new Point(pnt.X, pnt.Y + size);
-                else if (move == "Down")
                     snakes[0].Tag = new Point(pnt.X, pnt.Y - size);
+                else if (move == "Down")
+                    snakes[0].Tag = new Point(pnt.X, pnt.Y + size);
                 EatEgg(); // 알을 먹었는지 체크
             }
 

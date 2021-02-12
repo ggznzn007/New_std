@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="SnakeBite" SizeToContent="WidthAndHeight" KeyDown="Window_KeyDown">
     <Grid Height="380" Width="480">
-        <Canvas Name="Canvas1" Background="LightGray">
+        <Canvas Name="Canvas1" Background="LightSteelBlue">
             <TextBlock Name="score" Text="Eggs = 0" Foreground="White"
                        FontSize="14" Canvas.Left="200" Canvas.Top="20"/>
             <TextBlock Name="time" Text="Time = 00:00:00" Foreground="White"

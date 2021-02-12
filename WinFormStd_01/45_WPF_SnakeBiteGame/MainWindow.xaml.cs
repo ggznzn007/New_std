@@ -28,7 +28,7 @@ namespace _45_WPF_SnakeBiteGame
 
         private void btn1_Click(object sender, RoutedEventArgs e)
         {
-            Window w = new Window();
+            Window1 w = new Window1();
             w.Show();
         }
 
