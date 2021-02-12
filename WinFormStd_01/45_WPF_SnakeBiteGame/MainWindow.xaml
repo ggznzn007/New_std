@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="SnakeBite" Height="350" Width="525" Background="Black">
     <Grid>
-        <TextBlock Margin="20,20" Background="Black">SnakeBite</TextBlock>
+        <TextBlock Margin="20,20" Background="DeepPink">SnakeBite</TextBlock>
         <TextBlock Margin="20,35">Eat 25 to pause while playing</TextBlock>
         <TextBlock Margin="20,50">Press ESC to pause while playing</TextBlock>
         <Button Content="Play" Name="btn1" Width="100" Height="40"
