@@ -17,17 +17,17 @@ namespace _47_WF_PhoneBook
             DisplayStudents();
         }
 
-        private void DisplayStudents()
+        private void ConnectionOpen()
         {
             if(conn==null)
             {
                 conn = new OleDbConnection(connStr);
                 conn.Open();
             }
+        }
 
-            string sql = "SELECT * FROM StudentTable";
-            comm = new OleDbCommand(sql, conn);
-
+        private void ReadAndAddToListBox()
+        {
             reader = comm.ExecuteReader();
             while(reader.Read())
             {
@@ -40,8 +40,24 @@ namespace _47_WF_PhoneBook
                 listBox1.Items.Add(x);
             }
             reader.Close();
+        }
+
+        private void ConnectionClose()
+        {
             conn.Close();
             conn = null;
+        }
+
+        private void DisplayStudents()
+        {
+            ConnectionOpen();
+
+
+                       string sql = "SELECT * FROM StudentTable";
+            comm = new OleDbCommand(sql, conn);
+
+            ReadAndAddToListBox();
+            ConnectionClose();
         }
     }
 }
