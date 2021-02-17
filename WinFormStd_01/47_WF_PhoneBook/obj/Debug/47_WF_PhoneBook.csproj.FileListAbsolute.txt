@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\bin\Debug\47_WF_PhoneBook.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\bin\Debug\47_WF_PhoneBook.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\bin\Debug\47_WF_PhoneBook.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\47_WF_PhoneBook.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\_47_WF_PhoneBook.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\_47_WF_PhoneBook.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\47_WF_PhoneBook.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\47_WF_PhoneBook.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\47_WF_PhoneBook.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\47_WF_PhoneBook\obj\Debug\47_WF_PhoneBook.pdb
