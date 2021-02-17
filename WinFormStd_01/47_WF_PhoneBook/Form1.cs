@@ -59,5 +59,83 @@ namespace _47_WF_PhoneBook
             ReadAndAddToListBox();
             ConnectionClose();
         }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox lb = sender as ListBox;
+
+            if (lb.SelectedItem == null)
+                return;
+
+            string[] s = lb.SelectedItem.ToString().Split('\t');
+            txtID.Text = s[0];
+            txtSId.Text = s[1];
+            txtSName.Text = s[2];
+            txtPhone.Text = s[3];
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            if (txtSName.Text == "" || txtPhone.Text == "" || txtSId.Text == "")
+                return;
+
+            ConnectionOpen();
+
+            string sql = string.Format("insert into " +
+                "StudentTable(SId, SName, Phone) VALUES({0}, '{1}','{2}')",
+                txtSId.Text, txtSName.Text, txtPhone.Text);
+
+            comm = new OleDbCommand(sql, conn);
+            if (comm.ExecuteNonQuery() == 1)
+                MessageBox.Show("삽입성공!");
+
+            ConnectionClose();
+            listBox1.Items.Clear();
+            DisplayStudents();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (txtSName.Text == "" && txtPhone.Text == "" && txtSId.Text == "")
+                return;
+
+            ConnectionOpen();
+
+            string sql = "";
+            if (txtSId.Text != "")
+                sql = string.Format("SELECT * FROM StudentTable WHERE SID={0}",
+                    txtSId.Text);
+            else if (txtSName.Text != "")
+                sql = string.Format(
+                    "SELECT * FROM StudentTable WHERE Phone='{0}'", txtSName.Text);
+            else if (txtPhone.Text != "")
+                sql = string.Format(
+                    "SELECT * FROM StudentTable WHERE Phone='{0}'", txtPhone.Text);
+
+            listBox1.Items.Clear();
+            comm = new OleDbCommand(sql, conn);
+            ReadAndAddToListBox();
+            ConnectionClose();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnViewAll_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

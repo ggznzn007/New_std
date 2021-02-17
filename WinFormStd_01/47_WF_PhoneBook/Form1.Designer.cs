@@ -39,7 +39,7 @@ namespace _47_WF_PhoneBook
             this.label4 = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.btnViewAll = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnQuit = new System.Windows.Forms.Button();
@@ -55,6 +55,7 @@ namespace _47_WF_PhoneBook
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(658, 274);
             this.listBox1.TabIndex = 0;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -137,16 +138,18 @@ namespace _47_WF_PhoneBook
             this.btnViewAll.TabIndex = 3;
             this.btnViewAll.Text = "전체 조회";
             this.btnViewAll.UseVisualStyleBackColor = true;
+            this.btnViewAll.Click += new System.EventHandler(this.btnViewAll_Click);
             // 
-            // btnAdd
+            // btnInsert
             // 
-            this.btnAdd.Font = new System.Drawing.Font("맑은 고딕", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btnAdd.Location = new System.Drawing.Point(419, 373);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(113, 43);
-            this.btnAdd.TabIndex = 3;
-            this.btnAdd.Text = "추가";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnInsert.Font = new System.Drawing.Font("맑은 고딕", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnInsert.Location = new System.Drawing.Point(419, 373);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(113, 43);
+            this.btnInsert.TabIndex = 3;
+            this.btnInsert.Text = "추가";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // btnSearch
             // 
@@ -157,6 +160,7 @@ namespace _47_WF_PhoneBook
             this.btnSearch.TabIndex = 3;
             this.btnSearch.Text = "검색";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnClear
             // 
@@ -167,6 +171,7 @@ namespace _47_WF_PhoneBook
             this.btnClear.TabIndex = 3;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnQuit
             // 
@@ -187,6 +192,7 @@ namespace _47_WF_PhoneBook
             this.btnUpdate.TabIndex = 3;
             this.btnUpdate.Text = "수정";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
@@ -197,6 +203,7 @@ namespace _47_WF_PhoneBook
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // Form1
             // 
@@ -208,7 +215,7 @@ namespace _47_WF_PhoneBook
             this.Controls.Add(this.btnQuit);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.btnViewAll);
             this.Controls.Add(this.txtPhone);
             this.Controls.Add(this.label4);
@@ -238,7 +245,7 @@ namespace _47_WF_PhoneBook
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Button btnViewAll;
-        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnQuit;
