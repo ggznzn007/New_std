@@ -120,22 +120,49 @@ namespace _47_WF_PhoneBook
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            ConnectionOpen();
 
+            string sql = string.Format("UPDATE StudentTable SET SID={0}," +
+                "SName='{1}', Phone='{2}' WHERE ID={3}",
+                txtSId.Text, txtSName.Text, txtPhone.Text, txtID.Text);
+
+            comm = new OleDbCommand(sql, conn);
+            if (comm.ExecuteNonQuery() == 1)
+                MessageBox.Show("수정 성공!");
+
+            ConnectionClose();
+            listBox1.Items.Clear();
+            DisplayStudents();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            ConnectionOpen();
 
+            string sql = string.Format("DELETE FROM StudentTable WHERE ID={0}",
+                txtID.Text);
+
+            comm = new OleDbCommand(sql, conn);
+            if (comm.ExecuteNonQuery() == 1)
+                MessageBox.Show("삭제 성공!");
+
+            ConnectionClose();
+            listBox1.Items.Clear();
+            DisplayStudents();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-
+            txtID.Text = "";
+            txtSName.Text = "";
+            txtPhone.Text = "";
+            txtSId.Text = "";
         }
 
         private void btnViewAll_Click(object sender, EventArgs e)
         {
-
+            listBox1.Items.Clear();
+            DisplayStudents();
         }
     }
 }
