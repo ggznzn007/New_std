@@ -34,6 +34,8 @@ namespace _48_WF_Omok
             this.보기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.수순ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.그리기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.이미지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +60,9 @@ namespace _48_WF_Omok
             // 
             // 보기ToolStripMenuItem
             // 
+            this.보기ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.그리기ToolStripMenuItem,
+            this.이미지ToolStripMenuItem});
             this.보기ToolStripMenuItem.Name = "보기ToolStripMenuItem";
             this.보기ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.보기ToolStripMenuItem.Text = "보기";
@@ -76,6 +81,20 @@ namespace _48_WF_Omok
             this.panel1.Size = new System.Drawing.Size(800, 501);
             this.panel1.TabIndex = 1;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            // 
+            // 그리기ToolStripMenuItem
+            // 
+            this.그리기ToolStripMenuItem.Name = "그리기ToolStripMenuItem";
+            this.그리기ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.그리기ToolStripMenuItem.Text = "그리기";
+            this.그리기ToolStripMenuItem.Click += new System.EventHandler(this.그리기ToolStripMenuItem_Click);
+            // 
+            // 이미지ToolStripMenuItem
+            // 
+            this.이미지ToolStripMenuItem.Name = "이미지ToolStripMenuItem";
+            this.이미지ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.이미지ToolStripMenuItem.Text = "이미지";
+            this.이미지ToolStripMenuItem.Click += new System.EventHandler(this.이미지ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -101,6 +120,8 @@ namespace _48_WF_Omok
         private System.Windows.Forms.ToolStripMenuItem 보기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 수순ToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem 그리기ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 이미지ToolStripMenuItem;
     }
 }
 

@@ -18,6 +18,7 @@ namespace _48_WF_Omok
         enum STONE { none, black, white};
         STONE[,] badookpan = new STONE[19, 19];
         bool flag = false; // false == 검은돌, true == 흰돌
+        bool imageFlag = false;
         public Form1()
         {
             InitializeComponent();
@@ -61,6 +62,8 @@ namespace _48_WF_Omok
                         pointSize, pointSize);
                 }
         }
+
+
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             // e.X는 픽셀 단위, x는 바둑판 좌표
@@ -76,17 +79,40 @@ namespace _48_WF_Omok
             // 검은돌 차례
             if(flag==false)
             {
+                if(imageFlag==false)
                 g.FillEllipse(bBrush, r);
+                else
+                {
+                    Bitmap bmp = new Bitmap("../../Images/black.png");
+                    g.DrawImage(bmp, r);
+                }
                 flag = true;
                 badookpan[x, y] = STONE.black;
             }
             else
             {
+                if(imageFlag==false)
                 g.FillEllipse(wBrush, r);
+                else
+                {
+                    Bitmap bmp = new Bitmap("../../Images/white.png");
+                    g.DrawImage(bmp, r);
+                }
                 flag = false;
                 badookpan[x, y] = STONE.white;
             }
         }
+
+        private void 그리기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageFlag = false;
+        }
+
+        private void 이미지ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageFlag = true;
+        }
+        
 
 
     }
