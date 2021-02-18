@@ -37,6 +37,7 @@ namespace _48_WF_Omok
         {
             base.OnPaint(e);
             DrawBoard();
+            DrawStones();
         }
 
 
@@ -61,6 +62,33 @@ namespace _48_WF_Omok
                         margin + squareSize * y - pointSize / 2,
                         pointSize, pointSize);
                 }
+        }
+
+        // 자료구조에서 바둑돌의 값을 읽어서 다시 그려준다
+        private void DrawStones()
+        {
+            for (int x = 0; x < 19; x++)
+                for (int y = 0; y < 19; y++)
+                    if (badookpan[x, y] == STONE.white)
+                        if (imageFlag == false)
+                            g.FillEllipse(wBrush, margin + x * squareSize - stoneSize / 2,
+                                margin + y * squareSize - stoneSize / 2, stoneSize, stoneSize);
+                        else
+                        {
+                            Bitmap bmp = new Bitmap("../../Images/white.png");
+                            g.DrawImage(bmp, margin + x * squareSize - stoneSize / 2,
+                                margin + y * squareSize - stoneSize / 2, stoneSize, stoneSize);
+                        }
+                    else if (badookpan[x, y] == STONE.black)
+                        if (imageFlag == false)
+                            g.FillEllipse(bBrush, margin + x * squareSize - stoneSize / 2,
+                                margin + y * squareSize - stoneSize / 2, stoneSize, stoneSize);
+                        else
+                        {
+                            Bitmap bmp = new Bitmap("../../Images/black.png");
+                            g.DrawImage(bmp, margin + x * squareSize - stoneSize / 2,
+                                margin + y * squareSize - stoneSize / 2, stoneSize, stoneSize);
+                        }
         }
 
 
