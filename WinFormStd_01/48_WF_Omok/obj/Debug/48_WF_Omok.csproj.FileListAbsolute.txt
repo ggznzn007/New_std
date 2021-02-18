@@ -1,0 +1,9 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\bin\Debug\48_WF_Omok.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\bin\Debug\48_WF_Omok.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\bin\Debug\48_WF_Omok.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\48_WF_Omok.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\_48_WF_Omok.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\48_WF_Omok.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\48_WF_Omok.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\48_WF_Omok.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\48_WF_Omok\obj\Debug\48_WF_Omok.pdb

@@ -15,10 +15,13 @@ namespace _48_WF_Omok
         Pen pen;
         Brush wBrush, bBrush;
 
-        enum STONE { none, black, white};
+        enum STONE { none, black, white };
         STONE[,] badookpan = new STONE[19, 19];
         bool flag = false; // false == 검은돌, true == 흰돌
         bool imageFlag = false;
+
+
+
         public Form1()
         {
             InitializeComponent();
@@ -44,7 +47,7 @@ namespace _48_WF_Omok
         {
             g = panel1.CreateGraphics();
 
-            for(int i =0; i<19;i++)
+            for (int i = 0; i < 19; i++)
             {
                 g.DrawLine(pen, new Point(margin + i * squareSize, margin),// 세로선
                     new Point(margin + i * squareSize, margin + 18 * squareSize));
@@ -53,8 +56,8 @@ namespace _48_WF_Omok
             }
 
             // 화점 그리기
-            for(int x = 3; x<=15;x+=6)
-                for(int y = 3; y<=15;y+=6)
+            for (int x = 3; x <= 15; x += 6)
+                for (int y = 3; y <= 15; y += 6)
                 {
                     g.FillEllipse(bBrush,
                         margin + squareSize * x - pointSize / 2,
@@ -77,10 +80,10 @@ namespace _48_WF_Omok
                 margin + squareSize * y - stoneSize / 2, stoneSize, stoneSize);
 
             // 검은돌 차례
-            if(flag==false)
+            if (flag == false)
             {
-                if(imageFlag==false)
-                g.FillEllipse(bBrush, r);
+                if (imageFlag == false)
+                    g.FillEllipse(bBrush, r);
                 else
                 {
                     Bitmap bmp = new Bitmap("../../Images/black.png");
@@ -91,8 +94,8 @@ namespace _48_WF_Omok
             }
             else
             {
-                if(imageFlag==false)
-                g.FillEllipse(wBrush, r);
+                if (imageFlag == false)
+                    g.FillEllipse(wBrush, r);
                 else
                 {
                     Bitmap bmp = new Bitmap("../../Images/white.png");
@@ -112,7 +115,7 @@ namespace _48_WF_Omok
         {
             imageFlag = true;
         }
-        
+
 
 
     }
