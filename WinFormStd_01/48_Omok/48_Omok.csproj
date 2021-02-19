@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}</ProjectGuid>
+    <ProjectGuid>{4A26C22D-0CB3-4545-96BD-09556A68E8AF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>_48_WF_Omok</RootNamespace>
-    <AssemblyName>48_WF_Omok</AssemblyName>
+    <RootNamespace>_48_Omok</RootNamespace>
+    <AssemblyName>48_Omok</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -79,7 +79,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Images\black.png" />
     <Content Include="Images\white.png" />

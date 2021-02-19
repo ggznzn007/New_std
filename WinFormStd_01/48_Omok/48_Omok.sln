@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "48_WF_Omok", "48_WF_Omok.csproj", "{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "48_Omok", "48_Omok.csproj", "{4A26C22D-0CB3-4545-96BD-09556A68E8AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF61AB4B-C5AD-49B1-875E-8A1C59B2CEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A26C22D-0CB3-4545-96BD-09556A68E8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A26C22D-0CB3-4545-96BD-09556A68E8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A26C22D-0CB3-4545-96BD-09556A68E8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A26C22D-0CB3-4545-96BD-09556A68E8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D5080A75-1929-4100-978E-465CC3A67352}
+		SolutionGuid = {E8B1C602-0BFC-40B8-A364-51D1F6B27597}
 	EndGlobalSection
 EndGlobal

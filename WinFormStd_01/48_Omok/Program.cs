@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace _48_WF_Omok
+namespace _48_Omok
 {
     static class Program
     {
