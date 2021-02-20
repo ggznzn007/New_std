@@ -8,3 +8,5 @@ C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSe
 C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.csproj.CoreCompileInputs.cache
 C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.exe
 C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\bin\Debug\SensorData.mdf
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\bin\Debug\SensorData_log.ldf
