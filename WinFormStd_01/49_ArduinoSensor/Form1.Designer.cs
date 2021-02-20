@@ -43,9 +43,9 @@ namespace _49_ArduinoSensor
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -87,9 +87,9 @@ namespace _49_ArduinoSensor
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnDisconnect);
+            this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Location = new System.Drawing.Point(382, 39);
             this.groupBox1.Name = "groupBox1";
@@ -109,7 +109,7 @@ namespace _49_ArduinoSensor
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(242, 59);
+            this.textBox1.Location = new System.Drawing.Point(268, 59);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(92, 21);
             this.textBox1.TabIndex = 4;
@@ -156,32 +156,32 @@ namespace _49_ArduinoSensor
             this.chart1.TabIndex = 7;
             this.chart1.Text = "chart1";
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(24, 63);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(116, 37);
+            this.btnConnect.TabIndex = 2;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Location = new System.Drawing.Point(22, 106);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(116, 37);
+            this.btnDisconnect.TabIndex = 2;
+            this.btnDisconnect.Text = "Disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 63);
+            this.button1.Location = new System.Drawing.Point(25, 159);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 37);
+            this.button1.Size = new System.Drawing.Size(116, 71);
             this.button1.TabIndex = 2;
-            this.button1.Text = "Connect";
+            this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(22, 106);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 37);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Disconnect";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(25, 159);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(116, 71);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button1";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -235,9 +235,9 @@ namespace _49_ArduinoSensor
         private System.Windows.Forms.ToolStripMenuItem 시뮬레이션ToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnDisconnect;
+        private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox2;

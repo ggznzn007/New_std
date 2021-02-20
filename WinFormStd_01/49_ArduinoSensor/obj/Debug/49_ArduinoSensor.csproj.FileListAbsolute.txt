@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\bin\Debug\49_ArduinoSensor.exe.config
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\bin\Debug\49_ArduinoSensor.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\bin\Debug\49_ArduinoSensor.pdb
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\_49_ArduinoSensor.Form1.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\_49_ArduinoSensor.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.exe
+C:\Users\ggznz\reposit\New\WinFormStd_01\49_ArduinoSensor\obj\Debug\49_ArduinoSensor.pdb
