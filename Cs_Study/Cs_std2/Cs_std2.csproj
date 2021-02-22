@@ -36,7 +36,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01_BubbleSort.cs" />
+    <None Include="01_BubbleSort.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="02_ShellSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
