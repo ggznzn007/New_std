@@ -39,7 +39,10 @@
     <None Include="01_BubbleSort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="02_ShellSort.cs" />
+    <None Include="02_ShellSort.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="03_HeapSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

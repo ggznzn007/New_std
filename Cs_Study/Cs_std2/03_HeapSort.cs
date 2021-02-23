@@ -26,11 +26,16 @@ namespace HeapSort01
                 heapHeapify(arr, length, largest);
             }
         }
-        static void Main()
+        static void Main(string[] args)
         {
             int[] arr = { 9, 1, 22, 4, 0, -1, 1, 22, 100, 10 };
+            foreach ( int num in arr )
+            Console.Write(" " + num);
+            Console.WriteLine();
+
             heapSort(arr);
-            Console.Write(string.Join(",", arr));
+            foreach (int num in arr)
+            Console.Write("," +num);
             // -1,0,1,1,4,9,10,22,22,100
         }
     }
