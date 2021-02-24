@@ -42,7 +42,10 @@
     <None Include="02_ShellSort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="03_HeapSort.cs" />
+    <None Include="03_HeapSort.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="04_RadixSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
