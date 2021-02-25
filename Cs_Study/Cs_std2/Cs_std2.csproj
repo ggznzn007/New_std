@@ -48,7 +48,10 @@
     <None Include="04_RadixSort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="05_GnomeSort.cs" />
+    <None Include="05_GnomeSort.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="06_SelectionSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
