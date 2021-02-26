@@ -51,7 +51,8 @@
     <None Include="05_GnomeSort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="08_InsertionSort.cs" />
+    <None Include="08_InsertionSort.cs" />
+    <Compile Include="09_BucketSort.cs" />
     <None Include="06_SelectionSort.cs" />
     <None Include="07_QuickSort.cs" />
   </ItemGroup>
