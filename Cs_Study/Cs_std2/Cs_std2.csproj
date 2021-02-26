@@ -51,7 +51,8 @@
     <None Include="05_GnomeSort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="06_SelectionSort.cs" />
+    <None Include="06_SelectionSort.cs" />
+    <Compile Include="07_QuickSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

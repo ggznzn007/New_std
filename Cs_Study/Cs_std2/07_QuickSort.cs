@@ -11,7 +11,7 @@ namespace QuickSort01
             quick_sort(nArr, 0, nArr.Length - 1);
 
             for (int i = 0; i < nArr.Length; i++)
-                Console.Write(nArr[i] + "\t");
+                Console.Write(nArr[i] + "\n");
         }
         private static int ArryDivide(int[] Arry, int left, int right)
         {
