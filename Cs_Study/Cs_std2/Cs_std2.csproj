@@ -52,7 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="10_CountSort.cs" />
-    <Compile Include="11_MergeSort.cs" />
+    <None Include="11_MergeSort.cs" />
+    <Compile Include="12_CombSort.cs" />
     <Compile Include="Int.cs" />
     <None Include="08_InsertionSort.cs" />
     <None Include="09_BucketSort.cs" />
