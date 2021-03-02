@@ -10,7 +10,7 @@ namespace RandomVal01
 
             int[] arr = new int[10];
             int minVal = 0;
-            int maxVal = 10;
+            int maxVal = 100;
 
             for (int i = 0; i < arr.Length; i++)
                 arr[i] = r.Next(minVal, maxVal + 1);
