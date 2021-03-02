@@ -36,7 +36,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="01_Create_Arr.cs" />
+    <None Include="01_Create_Arr.cs" />
+    <Compile Include="02_Random_Val.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
