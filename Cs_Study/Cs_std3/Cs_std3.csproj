@@ -51,7 +51,10 @@
     <None Include="07_Remove_Element.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="08_Min_Val.cs" />
+    <None Include="08_Min_Val.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="09_Max_Val.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
