@@ -45,7 +45,10 @@
     <None Include="05_Element_Occurs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="06_Delete_Element.cs" />
+    <None Include="06_Delete_Element.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="07_Remove_Element.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
