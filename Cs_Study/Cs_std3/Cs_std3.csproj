@@ -41,7 +41,8 @@
     <None Include="02_Random_Val.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="04_Multi_Arr.cs" />
+    <None Include="04_Multi_Arr.cs" />
+    <Compile Include="05_Element_Occurs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
