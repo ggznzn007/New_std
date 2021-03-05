@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="04_Multi_Arr.cs" />
-    <Compile Include="05_Element_Occurs.cs" />
+    <None Include="05_Element_Occurs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="06_Delete_Element.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
