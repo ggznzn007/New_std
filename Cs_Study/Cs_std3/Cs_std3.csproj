@@ -57,7 +57,10 @@
     <None Include="09_Max_Val.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="10_Avg_Val.cs" />
+    <None Include="10_Avg_Val.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="11_Join.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
