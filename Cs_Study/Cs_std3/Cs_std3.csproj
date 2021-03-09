@@ -60,7 +60,8 @@
     <None Include="10_Avg_Val.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="11_Join.cs" />
+    <None Include="11_Join.cs" />
+    <Compile Include="12_CopyArr.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
