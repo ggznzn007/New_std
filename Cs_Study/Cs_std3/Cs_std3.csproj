@@ -60,7 +60,8 @@
     <None Include="10_Avg_Val.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="13_ReflectArr.cs" />
+    <None Include="13_ReflectArr.cs" />
+    <Compile Include="14_InsertArr.cs" />
     <None Include="11_Join.cs" />
     <None Include="12_CopyArr.cs" />
   </ItemGroup>
