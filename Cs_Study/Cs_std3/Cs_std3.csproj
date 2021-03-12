@@ -60,8 +60,9 @@
     <None Include="10_Avg_Val.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="17_ConsoleTimer.cs" />
     <None Include="15_arrLength.cs" />
-    <Compile Include="16_Clock.cs" />
+    <None Include="16_Clock.cs" />
     <None Include="13_ReflectArr.cs" />
     <None Include="14_InsertArr.cs" />
     <None Include="11_Join.cs" />

@@ -9,15 +9,15 @@ namespace ConTimer
         {
             Console.Write("Enter the time in seconds: ");
             int time = Convert.ToInt32(Console.ReadLine());
-            for(int i = 0; i<time;i++)
+            for (int i = 0; i < time; i++)
             {
                 Thread.Sleep(500);
-                Console.WriteLine("Tic");
+                Console.WriteLine("Tic\n");
                 Thread.Sleep(500);
-                Console.WriteLine("Tok");
+                Console.WriteLine("Tok\n");
             }
 
-            Console.WriteLine("Time is up!");
+            Console.WriteLine("\nTime is up!");
         }
     }
 }
