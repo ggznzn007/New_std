@@ -61,13 +61,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="17_ConsoleTimer.cs" />
-    <Compile Include="18_Day_Week.cs" />
+    <None Include="18_Day_Week.cs" />
     <None Include="15_arrLength.cs" />
     <None Include="16_Clock.cs" />
     <None Include="13_ReflectArr.cs" />
     <None Include="14_InsertArr.cs" />
     <None Include="11_Join.cs" />
     <None Include="12_CopyArr.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="19_Month_Num.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
