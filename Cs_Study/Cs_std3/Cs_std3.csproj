@@ -60,7 +60,8 @@
     <None Include="10_Avg_Val.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="17_ConsoleTimer.cs" />
+    <None Include="17_ConsoleTimer.cs" />
+    <Compile Include="18_Day_Week.cs" />
     <None Include="15_arrLength.cs" />
     <None Include="16_Clock.cs" />
     <None Include="13_ReflectArr.cs" />
