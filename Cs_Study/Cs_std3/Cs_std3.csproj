@@ -70,7 +70,10 @@
     <None Include="12_CopyArr.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="19_Month_Num.cs" />
+    <None Include="19_Month_Num.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="20_StopWatch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
