@@ -73,9 +73,12 @@
     <None Include="19_Month_Num.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="22_Except02.cs" />
+    <None Include="22_Except02.cs" />
     <None Include="20_StopWatch.cs" />
     <None Include="21_Except01.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="23_Throw.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
