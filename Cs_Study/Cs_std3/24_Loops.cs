@@ -82,7 +82,7 @@ namespace loops
         }
     }*/
 
-    class Infinite
+    /*class Infinite
     {
         static void Main()
         {
@@ -91,10 +91,25 @@ namespace loops
                 Console.WriteLine("This loop is infinite.");
             }
 
-           /* while(true)
+           *//* while(true)
             {
                 Console.WriteLine("This loop is infinite.");
-            }*/
+            }*//*
+        }
+    }*/
+
+    class Embedded_Cycle
+    {
+        static void Main()
+        {
+            for(int i = 0; i<10;i++)
+            {
+                for(int j = 0; j<10;j++)
+                {
+                    Console.Write(" " + i + "" + j);
+                }
+                Console.WriteLine("");
+            }
         }
     }
 }
