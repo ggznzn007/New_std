@@ -113,7 +113,7 @@ namespace loops
         }
     }*/
 
-    class MultiTable
+    /*class MultiTable
     {
         static void Main()
         {
@@ -126,6 +126,17 @@ namespace loops
                 }
                 Console.WriteLine();
             }
+        }
+    }*/
+
+    class ForWithoutBody
+    {
+        static void Main()
+        {
+            int sum = 0;
+            for (int i = 0; i < 5; sum += i++) ;
+
+            Console.WriteLine(sum);
         }
     }
 }
