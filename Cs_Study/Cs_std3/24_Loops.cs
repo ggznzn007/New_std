@@ -11,7 +11,7 @@ namespace loops
         }
     }*/
 
-    class While
+    /*class While
     {
         static void Main()
         {
@@ -21,6 +21,19 @@ namespace loops
                 Console.Write(" " + i);
                 i++;
             }
+        }
+    }*/
+
+    class Dowhile
+    {
+        static void Main()
+        {
+            int i = 1;
+            do
+            {
+                Console.Write(" " + i);
+                i++;
+            } while (i <= 10);
         }
     }
 }
