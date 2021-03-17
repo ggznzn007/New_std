@@ -98,7 +98,7 @@ namespace loops
         }
     }*/
 
-    class Embedded_Cycle
+    /*class Embedded_Cycle
     {
         static void Main()
         {
@@ -111,5 +111,7 @@ namespace loops
                 Console.WriteLine("");
             }
         }
-    }
+    }*/
+
+
 }
