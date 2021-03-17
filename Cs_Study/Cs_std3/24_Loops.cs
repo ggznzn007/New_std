@@ -24,7 +24,7 @@ namespace loops
         }
     }*/
 
-    class Dowhile
+    /*class Dowhile
     {
         static void Main()
         {
@@ -34,6 +34,35 @@ namespace loops
                 Console.Write(" " + i);
                 i++;
             } while (i <= 10);
+        }
+    }*/
+
+    /*class Foreach
+    {
+        static void Main()
+        {
+            int[] arr = new int[10];
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = i + 1;
+
+            foreach(int variable in arr)
+            {
+                Console.Write(" " + variable);
+            }
+        }
+    }*/
+
+    class BreakStatement
+    {
+        static void Main()
+        {
+            for(int i = 1; i<=10;i++)
+            {
+                if (i == 6)
+                    break;
+                Console.Write(" " + i);
+            }
+            Console.WriteLine("\nLoop is ended.");
         }
     }
 }
