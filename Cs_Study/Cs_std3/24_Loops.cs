@@ -66,7 +66,7 @@ namespace loops
         }
     }*/
 
-    class Continue
+    /*class Continue
     {
         static void Main()
         {
@@ -79,6 +79,22 @@ namespace loops
                 }
                 Console.Write(" " + i);
             }
+        }
+    }*/
+
+    class Infinite
+    {
+        static void Main()
+        {
+            for(; ; )
+            {
+                Console.WriteLine("This loop is infinite.");
+            }
+
+           /* while(true)
+            {
+                Console.WriteLine("This loop is infinite.");
+            }*/
         }
     }
 }
