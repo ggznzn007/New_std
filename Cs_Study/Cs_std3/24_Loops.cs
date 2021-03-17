@@ -52,7 +52,7 @@ namespace loops
         }
     }*/
 
-    class BreakStatement
+    /*class BreakStatement
     {
         static void Main()
         {
@@ -63,6 +63,22 @@ namespace loops
                 Console.Write(" " + i);
             }
             Console.WriteLine("\nLoop is ended.");
+        }
+    }*/
+
+    class Continue
+    {
+        static void Main()
+        {
+            for(int i = 1; i<=10;i++)
+            {
+                if(i==5)
+                {
+                    Console.Write(" _");
+                    continue;
+                }
+                Console.Write(" " + i);
+            }
         }
     }
 }
