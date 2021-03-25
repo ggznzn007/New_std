@@ -81,7 +81,10 @@
     <None Include="23_Throw.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="24_Loops.cs" />
+    <None Include="24_Loops.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="25_Where_State.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
