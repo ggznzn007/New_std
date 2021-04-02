@@ -39,5 +39,8 @@
     <ClCompile Include="08_Stack_std02.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="09_Stack_std03.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
