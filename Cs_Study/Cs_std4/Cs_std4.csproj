@@ -36,8 +36,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="03_List.cs" />
     <None Include="01_Even_Odd.cs" />
-    <Compile Include="02_Factorial.cs" />
+    <None Include="02_Factorial.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
