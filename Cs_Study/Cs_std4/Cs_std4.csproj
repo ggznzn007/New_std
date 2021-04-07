@@ -36,7 +36,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="03_List.cs" />
+    <None Include="03_List.cs" />
+    <Compile Include="04_Arr01.cs" />
     <None Include="01_Even_Odd.cs" />
     <None Include="02_Factorial.cs" />
   </ItemGroup>
