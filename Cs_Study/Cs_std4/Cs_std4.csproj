@@ -42,7 +42,10 @@
     <None Include="02_Factorial.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="05_InterFace01.cs" />
+    <None Include="05_InterFace01.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="06_Thread01.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
