@@ -9,22 +9,24 @@ class WithoutLoops
         Console.WriteLine(cnt);
         cnt++;
 
-        if(cnt==n+1)
+        if (cnt == n + 1)
         { return; }
         printNums(n);
     }
-    
+
     public static void Main()
     {
         int num;
+        
+            Console.WriteLine("Enter any Number : ");
 
-        Console.WriteLine("Enter any Number : ");
+            num = Convert.ToInt32(Console.ReadLine());
 
-        num = Convert.ToInt32(Console.ReadLine());
+            printNums(num);
 
-        printNums(num);
+            Console.ReadKey(true);
 
-        Console.ReadKey(true);
+        
     }
 
 }
