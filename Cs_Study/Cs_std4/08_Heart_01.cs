@@ -8,21 +8,21 @@ class Heart
         int j;
         int n = 5;
 
-        for(i=n/2;i<=n;i+=2)
+        for (i = n / 2; i <= n; i += 2)
         {
-            for(j=1;j<n-i;j+=2)
+            for (j = 1; j < n - i; j += 2)
             {
                 Console.Write(" ");
             }
-            for(j=1;j<=n-i;j++)
+            for (j = 1; j <= i; j++)
             {
                 Console.Write("*");
             }
-            for(j=1;j<=n-i;j++)
+            for (j = 1; j <= n - i; j++)
             {
                 Console.Write(" ");
             }
-            for(j=1;j<=i;j++)
+            for (j = 1; j <= i; j++)
             {
                 Console.Write("*");
             }
@@ -30,13 +30,13 @@ class Heart
             Console.WriteLine();
         }
 
-        for(i=n;i>=1;i--)
+        for (i = n; i >= 1; i--)
         {
-            for(j=i;j<n;j++)
+            for (j = i; j < n; j++)
             {
                 Console.Write(" ");
             }
-            for(j=1;j<=(i*2)-1;j++)
+            for (j = 1; j <= (i * 2) - 1; j++)
             {
                 Console.Write("*");
             }
