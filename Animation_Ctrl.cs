@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class Animation_Ctrl : MonoBehaviour
 {
     public Animator ani;
-    public void Animation_ctrl(int ani_num)
+    public void Animation_ctrl(string str)
     {
         ani = GetComponent<Animator>();
 
-        ani.SetInteger("motion", ani_num);
+        // ani.SetInteger("motion", ani_num);
+        ani.SetTrigger(str);
         
     }
   
