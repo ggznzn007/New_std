@@ -1,74 +1,61 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
-{
-    public GameObject gameoverText; // 게임오버 시 활성화할 텍스트 게임 오브젝트
-    public Text timeText; // 생존 시간을 표시할 텍스트 컴포넌트
-    public Text recordText; // 최고 기록을 표시할 텍스트 컴포넌트
+// 게임 오버 상태를 표현하고, 게임 점수와 UI를 관리하는 게임 매니저
+// 씬에는 단 하나의 게임 매니저만 존재할 수 있다.
+public class GameManager : MonoBehaviour {
+    public static GameManager instance; // 싱글톤을 할당할 전역 변수
 
-    private float surviveTime; // 생존 시간
-    private bool isGameover; // 게임오버 상태
-    //private bool isPause;
-    // Start is called before the first frame update
-    void Start()
-    {
-        // 생존 시간과 게임오버 상태 초기화
-        surviveTime = 0;
-        isGameover = false;
-    }
+    public bool isGameover = false; // 게임 오버 상태
+    public Text scoreText; // 점수를 출력할 UI 텍스트
+    public GameObject gameoverUI; // 게임 오버시 활성화 할 UI 게임 오브젝트
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 게임오버가 아닌 동안
-        if (!isGameover)
+    private int score = 0; // 게임 점수
+
+    // 게임 시작과 동시에 싱글톤을 구성
+    void Awake() {
+        // 싱글톤 변수 instance가 비어있는가?
+        if (instance == null)
         {
-            // 생존시간 갱신
-            surviveTime += Time.deltaTime;
-            // 갱신한 생존 시간을 텍스트를 이용해 표시
-            timeText.text = "Time: " + (int)surviveTime;
+            // instance가 비어있다면(null) 그곳에 자기 자신을 할당
+            instance = this;
         }
-        
         else
         {
-            // 게임오버 상태에서 스페이스바를 누른 경우
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                // 재시작
-                SceneManager.LoadScene("Dodge");
-            }
-            
+            // instance에 이미 다른 GameManager 오브젝트가 할당되어 있는 경우
+
+            // 씬에 두개 이상의 GameManager 오브젝트가 존재한다는 의미.
+            // 싱글톤 오브젝트는 하나만 존재해야 하므로 자신의 게임 오브젝트를 파괴
+            Debug.LogWarning("씬에 두개 이상의 게임 매니저가 존재합니다!");
+            Destroy(gameObject);
         }
     }
-    // 현재 게임을 게임오버 상태로 변경하는 메서드
-    public void EndGame()
+
+    void Update() 
     {
-        // 현재 상태를 게임오버 상태로 전환
-        isGameover = true;
-        // 게임오버 텍스트를 활성화
-        gameoverText.SetActive(true);
-
-        // 최고기록 가져오기
-        float bestTime = PlayerPrefs.GetFloat("BestTime");
-
-        // 이전까지의 최고 기록보다 현재 생존 시간이 더 크면
-        if (surviveTime > bestTime)
+        // 게임 오버 상태에서 게임을 재시작할 수 있게 하는 처리
+        if(isGameover&&Input.GetMouseButton(0))
         {
-            // 최고기록값을 현재 생존 시간 값으로 변경
-            bestTime = surviveTime;
-            // 변경된 최고기록을 최고기록으로 저장
-            PlayerPrefs.SetFloat("BestTime", bestTime);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-
-        // 최고기록을 텍스트를 이용해 표시
-        recordText.text = "Best Time: " + (int)bestTime;
-
-
     }
 
+    // 점수를 증가시키는 메서드
+    public void AddScore(int newScore) 
+    {
+        if(!isGameover)
+        {
+            //점수를 증가
+            score += newScore;
+            scoreText.text = "Score : " + score;
+        }
+    }
 
+    // 플레이어 캐릭터가 사망시 게임 오버를 실행하는 메서드
+    public void OnPlayerDead() 
+    {
+        isGameover = true;
+        gameoverUI.SetActive(true);
+    }
 }
