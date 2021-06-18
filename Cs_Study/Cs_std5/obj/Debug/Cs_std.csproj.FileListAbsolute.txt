@@ -1,0 +1,7 @@
+C:\Users\ggznz\source\repos\Cs_std\bin\Debug\Cs_std.exe.config
+C:\Users\ggznz\source\repos\Cs_std\bin\Debug\Cs_std.exe
+C:\Users\ggznz\source\repos\Cs_std\bin\Debug\Cs_std.pdb
+C:\Users\ggznz\source\repos\Cs_std\obj\Debug\Cs_std.csproj.AssemblyReference.cache
+C:\Users\ggznz\source\repos\Cs_std\obj\Debug\Cs_std.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\source\repos\Cs_std\obj\Debug\Cs_std.exe
+C:\Users\ggznz\source\repos\Cs_std\obj\Debug\Cs_std.pdb
