@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cs_Devel01.cs" />
+    <None Include="Cs_ArrayList01.cs" />
+    <Compile Include="Cs_List01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
