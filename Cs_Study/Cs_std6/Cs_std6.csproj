@@ -50,7 +50,8 @@
     <None Include="03_LinkedList01.cs" />
     <None Include="06_Queue01.cs" />
     <None Include="07_Stack01.cs" />
-    <Compile Include="08_Hash_Table01.cs" />
+    <None Include="08_Hash_Table01.cs" />
+    <Compile Include="08_Hash_Table02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
