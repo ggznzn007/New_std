@@ -51,7 +51,8 @@
     <None Include="06_Queue01.cs" />
     <None Include="07_Stack01.cs" />
     <None Include="08_Hash_Table01.cs" />
-    <Compile Include="08_Hash_Table02.cs" />
+    <None Include="08_Hash_Table02.cs" />
+    <Compile Include="09_Dictionary01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
