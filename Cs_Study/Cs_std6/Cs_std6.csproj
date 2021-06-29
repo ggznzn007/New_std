@@ -48,7 +48,8 @@
     <None Include="05_SortedList01.cs" />
     <None Include="02_ConcurrentBag01.cs" />
     <None Include="03_LinkedList01.cs" />
-    <Compile Include="06_Queue01.cs" />
+    <None Include="06_Queue01.cs" />
+    <Compile Include="07_Stack01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
