@@ -1,0 +1,7 @@
+D:\New\Cs_Study\Cs_std6\bin\Debug\Cs_std6.exe.config
+D:\New\Cs_Study\Cs_std6\bin\Debug\Cs_std6.exe
+D:\New\Cs_Study\Cs_std6\bin\Debug\Cs_std6.pdb
+D:\New\Cs_Study\Cs_std6\obj\Debug\Cs_std6.csproj.AssemblyReference.cache
+D:\New\Cs_Study\Cs_std6\obj\Debug\Cs_std6.csproj.CoreCompileInputs.cache
+D:\New\Cs_Study\Cs_std6\obj\Debug\Cs_std6.exe
+D:\New\Cs_Study\Cs_std6\obj\Debug\Cs_std6.pdb
