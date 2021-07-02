@@ -53,7 +53,8 @@
     <None Include="08_Hash_Table01.cs" />
     <None Include="08_Hash_Table02.cs" />
     <None Include="09_Dictionary01.cs" />
-    <Compile Include="10_Delegate01.cs" />
+    <None Include="10_Delegate01.cs" />
+    <Compile Include="11_Tree01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
