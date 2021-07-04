@@ -55,7 +55,9 @@
     <None Include="09_Dictionary01.cs" />
     <None Include="10_Delegate01.cs" />
     <None Include="11_Tree01.cs" />
-    <Compile Include="12_BST01.cs" />
+    <None Include="12_BST01.cs" />
+    <Compile Include="12_BST02.cs" />
+    <Compile Include="BSTNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
