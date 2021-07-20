@@ -58,7 +58,8 @@
     <None Include="12_BST01.cs" />
     <None Include="BSTNode.cs" />
     <None Include="10_Delegate02.cs" />
-    <Compile Include="13_LINQ01.cs" />
+    <None Include="13_LINQ01.cs" />
+    <Compile Include="14_Graph01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
