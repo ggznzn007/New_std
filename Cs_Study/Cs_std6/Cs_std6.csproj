@@ -62,7 +62,8 @@
     <None Include="14_Graph01.cs" />
     <None Include="15_Heap01.cs" />
     <None Include="16_SerialPort01.cs" />
-    <Compile Include="16_SerialPort02.cs" />
+    <None Include="16_SerialPort02.cs" />
+    <Compile Include="16_SerialPort03.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
