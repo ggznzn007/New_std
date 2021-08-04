@@ -34,6 +34,15 @@ namespace Thread03
             // ThreadStart에서 파라미터 전달
             Thread t3 = new Thread(() => Sum(10, 20, 30));
             t3.Start();
+
+            // Foreground 쓰레드
+            Thread t4 = new Thread(new ThreadStart(Run));
+            t4.Start();
+
+            // 백그라운드 쓰레드
+            Thread t5 = new Thread(new ThreadStart(Run));
+            t5.IsBackground = true;
+            t5.Start();
         }
 
         static void Run()
