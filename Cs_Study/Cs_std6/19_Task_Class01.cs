@@ -8,3 +8,26 @@ Task.Factory.StartNew()를 사용하여 실행하고자 하는 메서드에 대�
 이 StartNew()는 쓰레드를 생성과 동시에 실행하는 방식이고, 만약 시작을 하지 않고
 Task 객체를 만들기 위해서는 Task() 생성자를 사용하여 메서드 델리게이트를 지정한다.*/
 
+namespace MultiThrdApp
+{
+    using System;
+    using System.Threading.Tasks;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Task.Factory를 이용하여 쓰레드 생성과 시작
+            Task.Factory.StartNew(new Action<object>(Run), null);
+            Task.Factory.StartNew(new Action<object>(Run), "1st");
+            Task.Factory.StartNew(Run, "2nd");
+
+            Console.Read();
+        }
+
+        static void Run(object data)
+        {
+            Console.WriteLine(data == null ? "NULL" : data);
+        }
+    }
+}
