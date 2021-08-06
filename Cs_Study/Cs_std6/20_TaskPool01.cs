@@ -10,3 +10,29 @@
 이 방식은 실행되는 메서드로부터 리턴 값을 돌려받을 필요가 없는 곳에 주로 사용된다.
 리턴값이 필요한 경우는 비동기 델리게이트(Asynchronous delegate)를 사용한다.*/
 
+using System;
+using System.Threading;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // 쓰레드풀에 있는 쓰레드를 이용하여
+        // Calc() 메서드 실행.
+        // 리턴값 없을 경우 사용.
+        ThreadPool.QueueUserWorkItem(Calc); // radius=null
+        ThreadPool.QueueUserWorkItem(Calc, 10.0); // radius=10
+        ThreadPool.QueueUserWorkItem(Calc, 20.0);
+
+        Console.ReadLine();
+    }
+
+    static void Calc(object radius)
+    {
+        if (radius == null) return;
+
+        double r = (double)radius;
+        double area = r * r * 3.14;
+        Console.WriteLine("r={0}, area={1}", r, area);
+    }
+}
