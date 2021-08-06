@@ -69,7 +69,8 @@
     <None Include="18_Thread01.cs" />
     <None Include="18_Thread02.cs" />
     <None Include="18_Thread03.cs" />
-    <Compile Include="19_Task_Class01.cs" />
+    <None Include="19_Task_Class01.cs" />
+    <Compile Include="20_TaskPool01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
