@@ -13,7 +13,7 @@
 using System;
 using System.Threading;
 
-namespace TaskPoolClass01
+namespace ThreadPoolClass01
 {
     class Program
     {
