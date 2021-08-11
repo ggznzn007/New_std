@@ -74,9 +74,10 @@
     <None Include="20_ThreadPool01.cs" />
     <None Include="21_Asy_Delegate01.cs" />
     <None Include="22_BGW_Class01.cs" />
-    <Compile Include="22_BGW_Class02.cs">
+    <None Include="22_BGW_Class02.cs">
       <SubType>Form</SubType>
-    </Compile>
+    </None>
+    <Compile Include="23_Task_T_01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
