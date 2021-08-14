@@ -77,7 +77,7 @@
     <None Include="22_BGW_Class02.cs">
       <SubType>Form</SubType>
     </None>
-    <Compile Include="23_Task_T_01.cs" />
+    <None Include="23_Task_T_01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
