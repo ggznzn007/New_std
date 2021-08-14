@@ -4,3 +4,16 @@
 이 문제점을 해결해 주는 방법이 네임스페이스!
 네임스페이스는 클래스들의 묶음이고, 반대로 클래스들은 네임스페이스를 이용하여 분류할 수 있음*/
 
+// 네임스페이스 선언
+public class A { }
+public class B { }
+public class C { }
+
+namespace group
+{
+    class A { };
+    class B { };
+    class C { };
+}
+
+// 네임스페이스는 중첩도 가능
