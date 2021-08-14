@@ -27,3 +27,17 @@ namespace group
     }
 
 }
+
+//네임스페이스 참조
+//전체 네임스페이스를 다 적어주는 방식
+//UnityEngine.Debug.Log("네임스페이스 1");
+//using 지시문을 사용 방식
+/*using UnityEngine;  
+
+public class NamespacesExample : MonoBehaviour
+{
+    void Start()
+    {
+        Debug.Log("네임스페이스 1");
+    }
+}*/
