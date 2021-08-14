@@ -17,3 +17,13 @@ namespace group
 }
 
 // 네임스페이스는 중첩도 가능
+namespace group
+{
+    namespace group2
+    {
+        class A { };
+        class B { };
+        class C { };
+    }
+
+}
