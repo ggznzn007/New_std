@@ -1,0 +1,7 @@
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\bin\Debug\Cs_std07.exe.config
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\bin\Debug\Cs_std07.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\bin\Debug\Cs_std07.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\obj\Debug\Cs_std07.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\obj\Debug\Cs_std07.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\obj\Debug\Cs_std07.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std07\obj\Debug\Cs_std07.pdb

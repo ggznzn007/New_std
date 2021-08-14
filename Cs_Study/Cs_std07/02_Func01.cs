@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+
 /*함수의 선언
 관례적으로 함수의 이름은 대문자로 시작.
 //함수 선언
@@ -9,15 +9,24 @@ using System.Collections;
     return [리턴 결과];
 }*/
 
-
-
-public int Plus(int a, int b)
+namespace Func01
 {
-    int result = a + b;
-    return result;
-}
+    class Pro
+    {
+        static void Main()
+        {
+            Console.WriteLine("{0}", Plus(3, 5));
+
 /*함수의 호출
 함수의 이름을 호출하면, 함수 내 코드 실행.
 */
-Plus(3,5);
-> 8
+            int Plus(int a, int b)
+            {
+                int result = a + b;
+                return result;
+            }
+        }
+    }
+}
+
+

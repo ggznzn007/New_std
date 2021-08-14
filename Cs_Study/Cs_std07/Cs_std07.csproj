@@ -35,5 +35,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="01_NameSpace01.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="02_Func01.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
