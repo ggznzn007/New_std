@@ -46,7 +46,10 @@
     <None Include="04_Str01.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="04_Str02.cs" />
+    <None Include="04_Str02.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="05_Enum01.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
