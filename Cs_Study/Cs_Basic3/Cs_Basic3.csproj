@@ -37,7 +37,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="01_NameSpace01.cs" />
-    <Compile Include="02_Using01.cs" />
+    <None Include="02_Using01.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="03_Box_Unbox01.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
