@@ -1,0 +1,7 @@
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\bin\Debug\Cs_Basic3.exe.config
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\bin\Debug\Cs_Basic3.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\bin\Debug\Cs_Basic3.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\obj\Debug\Cs_Basic3.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\obj\Debug\Cs_Basic3.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\obj\Debug\Cs_Basic3.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_Basic3\obj\Debug\Cs_Basic3.pdb

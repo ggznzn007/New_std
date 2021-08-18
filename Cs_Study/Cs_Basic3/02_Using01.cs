@@ -1,4 +1,6 @@
 ﻿using System;
+using A;
+//using B;
 
 namespace A
 {
@@ -16,7 +18,7 @@ namespace _3_Namespace
     {
         static void Main(string[] args)
         {
-            A.MyClass objA = new A.MyClass();
+            MyClass objA = new MyClass();
             B.MyClass objB = new B.MyClass();
             Console.WriteLine(objA.ToString());
             Console.WriteLine(objB.ToString());
