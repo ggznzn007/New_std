@@ -61,7 +61,10 @@
     <None Include="07_Switch_Case01.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="07_Switch_Case02.cs" />
+    <None Include="07_Switch_Case02.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="08_While01.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
