@@ -78,5 +78,64 @@ namespace Tetris_WF
                 graphics.DrawLine(Pens.DarkGreen, st, et);
             }
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.Right: MoveRight(); return;
+                case Keys.Left: MoveLeft(); return;
+                case Keys.Space: MoveDown(); return;
+                case Keys.Up: MoveTurn(); return;
+            }
+        }
+
+        private void MoveTurn()
+        {
+            
+        }
+
+        private void MoveDown()
+        {
+            if(game.MoveDown())
+            {
+                Region rg = MakeRegion(0, -1);
+                Invalidate(rg);
+            }
+        }
+
+        private void MoveLeft()
+        {
+            if (game.MoveLeft())
+            {
+                Region rg = MakeRegion(1, 0);
+                Invalidate(rg);
+            }
+        }
+
+        private void MoveRight()
+        {
+            if (game.MoveRight())
+            {
+                Region rg = MakeRegion(-1, 0);
+                Invalidate(rg);
+            }
+        }
+
+        private Region MakeRegion(int cx, int cy)
+        {
+            Point now = game.NowPosition;
+            Rectangle rect1 = new Rectangle(now.X * bwidth, now.Y * bheight, bwidth, bheight);
+            Rectangle rect2 = new Rectangle((now.X+cx) * bwidth, (now.Y+cy) * bheight, bwidth, bheight);
+            Region rg1 = new Region(rect1);
+            Region rg2 = new Region(rect2);
+            rg1.Union(rg2);
+            return rg1;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            MoveDown();
+        }
     }
 }
