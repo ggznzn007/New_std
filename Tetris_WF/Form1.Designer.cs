@@ -29,7 +29,15 @@ namespace Tetris_WF
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.timer_down = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // timer_down
+            // 
+            this.timer_down.Enabled = true;
+            this.timer_down.Interval = 1000;
+            this.timer_down.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -40,11 +48,14 @@ namespace Tetris_WF
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer timer_down;
     }
 }
 
