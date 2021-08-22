@@ -21,6 +21,20 @@ namespace Tetris_WF
                 return new Point(now.X, now.Y);
             }
         }
+        internal int BlockNum
+        {
+            get
+            {
+                return now.BlockNum;
+            }
+        }
+        internal int Turn
+        {
+            get
+            {
+                return now.Turn;
+            }
+        }
         #region 단일체
         internal static Game Singleton
         {
