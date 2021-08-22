@@ -18,6 +18,16 @@ namespace Tetris_WF
             get;
             private set;
         }
+        internal int Turn
+        {
+            get;
+            private set;
+        }
+        internal int BlockNum
+        {
+            get;
+            private set;
+        }
         internal Diagram()
         {
             Reset();
@@ -25,6 +35,7 @@ namespace Tetris_WF
 
         internal void Reset()
         {
+            Random random = new Random();
             X = GameRule.SX;
             Y = GameRule.SY;
         }
