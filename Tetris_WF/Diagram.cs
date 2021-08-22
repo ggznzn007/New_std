@@ -23,7 +23,7 @@ namespace Tetris_WF
             Reset();
         }
 
-        private void Reset()
+        internal void Reset()
         {
             X = GameRule.SX;
             Y = GameRule.SY;
@@ -37,5 +37,10 @@ namespace Tetris_WF
         {
             X++;
         }
+        internal void MoveDown()
+        {
+            Y++;
+        }
+
     }
 }
