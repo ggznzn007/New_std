@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Tetris_WF
         {
             get
             {
-                if(now==null)
+                if (now == null)
                 {
                     return new Point(0, 0);
                 }
@@ -52,30 +53,80 @@ namespace Tetris_WF
         #endregion
         internal bool MoveLeft()
         {
-            if (now.X > 0)
+            for (int xx = 0; xx < 4; xx++)
             {
-                now.MoveLeft();
-                return true;
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[now.BlockNum, Turn, xx, yy] != 0)
+                    {
+                        if (now.X + xx <= 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
             }
-            return false;
+            now.MoveLeft();
+            return true;
         }
         internal bool MoveRight()
         {
-            if ((now.X + 1) < GameRule.BX)
+            for (int xx = 0; xx < 4; xx++)
             {
-                now.MoveRight();
-                return true;
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[now.BlockNum, Turn, xx, yy] != 0)
+                    {
+                        if (now.X + xx + 1 >= GameRule.BX)
+                        {
+                            return false;
+                        }
+                    }
+                }
             }
-            return false;
+            now.MoveRight();
+            return true;
         }
         internal bool MoveDown()
         {
-            if ((now.Y + 1) < GameRule.BY)
+            for (int xx = 0; xx < 4; xx++)
             {
-                now.MoveDown();
-                return true;
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[now.BlockNum, Turn, xx, yy] != 0)
+                    {
+                        if (now.Y + yy >= GameRule.BY)
+                        {
+                            return false;
+                        }
+                    }
+                }
             }
-            return false;
+            now.MoveDown();
+            return true;
+        }
+        internal bool MoveTurn()
+        {
+            for (int xx = 0; xx < 4; xx++)
+            {
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[now.BlockNum, (Turn+1)%4, xx, yy] != 0)
+                    {
+                        if (((now.X+xx)<0)||((now.X+xx)>=GameRule.BX)||
+                            ((now.Y+yy)>=GameRule.BY))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            now.MoveTurn();
+            return true;
+        }
+        internal void Next()
+        {
+            now.Reset();
         }
     }
 }

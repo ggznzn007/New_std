@@ -42,8 +42,20 @@ namespace Tetris_WF
         {
             Pen dpen = new Pen(Color.Red, 4);
             Point now = game.NowPosition;
-            Rectangle now_rt = new Rectangle(now.X * bwidth+2, now.Y * bheight+2, bwidth-4, bheight-4);
-            graphics.DrawRectangle(dpen, now_rt);
+            int bn = game.BlockNum;
+            int tn = game.Turn;
+            for (int xx = 0; xx < 4; xx++)
+            {
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[bn, tn, xx, yy] != 0)
+                    {
+                        Rectangle now_rt = new Rectangle(now.X * bwidth + 2, now.Y * bheight + 2, bwidth - 4, bheight - 4);
+                        graphics.DrawRectangle(dpen, now_rt);
+                    }
+                }
+
+            }
         }
 
         private void DrawGraduation(Graphics graphics)
@@ -72,8 +84,8 @@ namespace Tetris_WF
             for (int cy = 0; cy < by; cy++)
             {
                 st.X = 0;
-                st.Y = cy*bheight;
-                et.X = bx*bwidth;
+                st.Y = cy * bheight;
+                et.X = bx * bwidth;
                 et.Y = st.Y;
                 graphics.DrawLine(Pens.DarkGreen, st, et);
             }
@@ -81,7 +93,7 @@ namespace Tetris_WF
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            switch(e.KeyCode)
+            switch (e.KeyCode)
             {
                 case Keys.Right: MoveRight(); return;
                 case Keys.Left: MoveLeft(); return;
@@ -92,12 +104,12 @@ namespace Tetris_WF
 
         private void MoveTurn()
         {
-            
+
         }
 
         private void MoveDown()
         {
-            if(game.MoveDown())
+            if (game.MoveDown())
             {
                 Region rg = MakeRegion(0, -1);
                 Invalidate(rg);
@@ -126,7 +138,7 @@ namespace Tetris_WF
         {
             Point now = game.NowPosition;
             Rectangle rect1 = new Rectangle(now.X * bwidth, now.Y * bheight, bwidth, bheight);
-            Rectangle rect2 = new Rectangle((now.X+cx) * bwidth, (now.Y+cy) * bheight, bwidth, bheight);
+            Rectangle rect2 = new Rectangle((now.X + cx) * bwidth, (now.Y + cy) * bheight, bwidth, bheight);
             Region rg1 = new Region(rect1);
             Region rg2 = new Region(rect2);
             rg1.Union(rg2);
