@@ -1,0 +1,10 @@
+C:\Users\ggznz\reposit\New\Tetris_WF\bin\Debug\Tetris_WF.exe.config
+C:\Users\ggznz\reposit\New\Tetris_WF\bin\Debug\Tetris_WF.exe
+C:\Users\ggznz\reposit\New\Tetris_WF\bin\Debug\Tetris_WF.pdb
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.Form1.resources
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.Properties.Resources.resources
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.csproj.GenerateResource.cache
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.exe
+C:\Users\ggznz\reposit\New\Tetris_WF\obj\Debug\Tetris_WF.pdb

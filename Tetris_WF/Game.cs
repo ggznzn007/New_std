@@ -36,21 +36,29 @@ namespace Tetris_WF
             now = new Diagram();
         }
         #endregion
-
+        internal bool MoveLeft()
+        {
+            if (now.X > 0)
+            {
+                now.MoveLeft();
+                return true;
+            }
+            return false;
+        }
         internal bool MoveRight()
         {
-            if((now.X+1)>GameRule.BX)
+            if ((now.X + 1) < GameRule.BX)
             {
                 now.MoveRight();
                 return true;
             }
             return false;
         }
-        internal bool MoveLeft()
+        internal bool MoveDown()
         {
-            if (now.X > 0)
+            if ((now.Y + 1) < GameRule.BY)
             {
-                now.MoveLeft();
+                now.MoveDown();
                 return true;
             }
             return false;
