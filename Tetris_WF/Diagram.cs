@@ -39,7 +39,7 @@ namespace Tetris_WF
             X = GameRule.SX;
             Y = GameRule.SY;
             Turn = random.Next() % 4;
-            BlockNum = 0; //random.Next()%7;
+            BlockNum = random.Next() % 7;
         }
 
         internal void MoveLeft()

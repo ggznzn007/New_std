@@ -36,6 +36,7 @@ namespace Tetris_WF
         {
             DrawGraduation(e.Graphics);
             DrawDiagram(e.Graphics);
+            DoubleBuffered = true;
         }
 
         private void DrawDiagram(Graphics graphics)
@@ -119,6 +120,11 @@ namespace Tetris_WF
                 Region rg = MakeRegion(0, -1);
                 Invalidate(rg);
             }
+            else
+            {
+                game.Next();
+                Invalidate();
+            }
         }
 
         private void MoveLeft()
@@ -168,7 +174,7 @@ namespace Tetris_WF
             Point now = game.NowPosition;
             int bn = game.BlockNum;
             int tn = game.Turn;
-            int oldtn = (tn + 3 % 4);
+            int oldtn = (tn + 3) % 4;
 
             Region region = new Region();
             for (int xx = 0; xx < 4; xx++)
