@@ -50,7 +50,8 @@ namespace Tetris_WF
                 {
                     if (BlockValue.bvals[bn, tn, xx, yy] != 0)
                     {
-                        Rectangle now_rt = new Rectangle(now.X * bwidth + 2, now.Y * bheight + 2, bwidth - 4, bheight - 4);
+                        Rectangle now_rt = new Rectangle((now.X + xx) * bwidth + 2,
+                            (now.Y + yy) * bheight + 2, bwidth - 4, bheight - 4);
                         graphics.DrawRectangle(dpen, now_rt);
                     }
                 }
@@ -104,7 +105,11 @@ namespace Tetris_WF
 
         private void MoveTurn()
         {
-
+            if(game.MoveTurn())
+            {
+                Region rg = MakeRegion();
+                Invalidate(rg);
+            }
         }
 
         private void MoveDown()
@@ -137,12 +142,55 @@ namespace Tetris_WF
         private Region MakeRegion(int cx, int cy)
         {
             Point now = game.NowPosition;
-            Rectangle rect1 = new Rectangle(now.X * bwidth, now.Y * bheight, bwidth, bheight);
-            Rectangle rect2 = new Rectangle((now.X + cx) * bwidth, (now.Y + cy) * bheight, bwidth, bheight);
-            Region rg1 = new Region(rect1);
-            Region rg2 = new Region(rect2);
-            rg1.Union(rg2);
-            return rg1;
+            int bn = game.BlockNum;
+            int tn = game.Turn;
+
+            Region region = new Region();
+            for (int xx = 0; xx < 4; xx++)
+            {
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[bn, tn, xx, yy] != 0)
+                    {
+                        Rectangle rect1 = new Rectangle((now.X + xx) * bwidth, (now.Y + yy) * bheight, bwidth, bheight);
+                        Rectangle rect2 = new Rectangle((now.X + cx + xx) * bwidth, (now.Y + cy + yy) * bheight, bwidth, bheight);
+                        Region rg1 = new Region(rect1);
+                        Region rg2 = new Region(rect2);
+                        region.Union(rg1);
+                        region.Union(rg2);
+                    }
+                }
+            }
+            return region;
+        }
+        private Region MakeRegion()
+        {
+            Point now = game.NowPosition;
+            int bn = game.BlockNum;
+            int tn = game.Turn;
+            int oldtn = (tn + 3 % 4);
+
+            Region region = new Region();
+            for (int xx = 0; xx < 4; xx++)
+            {
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (BlockValue.bvals[bn, tn, xx, yy] != 0)
+                    {
+                        Rectangle rect1 = new Rectangle((now.X + xx) * bwidth, (now.Y + yy) * bheight, bwidth, bheight);
+                        Region rg1 = new Region(rect1);
+                        region.Union(rg1);
+                    }
+                    if (BlockValue.bvals[bn, oldtn, xx, yy] != 0)
+                    {
+                        Rectangle rect1 = new Rectangle((now.X + xx) * bwidth, (now.Y + yy) * bheight, bwidth, bheight);
+                        Region rg1 = new Region(rect1);
+                        region.Union(rg1);
+                    }
+
+                }
+            }
+            return region;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
