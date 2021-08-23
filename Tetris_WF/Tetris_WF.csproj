@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockValue.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Diagram.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

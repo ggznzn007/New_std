@@ -117,9 +117,21 @@ namespace Tetris_WF
             {
                 case Keys.Right: MoveRight(); return;
                 case Keys.Left: MoveLeft(); return;
-                case Keys.Space: MoveDown(); return;
+                case Keys.Space: MoveSSDown(); return;
                 case Keys.Up: MoveTurn(); return;
+                case Keys.Down: MoveDown(); return;
             }
+        }
+
+        private void MoveSSDown()
+        {
+            while (game.MoveDown())
+            {
+                Region rg = MakeRegion(0, -1);
+                Invalidate(rg);
+            }
+            game.Next();
+            Invalidate();
         }
 
         private void MoveTurn()

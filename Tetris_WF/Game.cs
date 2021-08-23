@@ -16,10 +16,6 @@ namespace Tetris_WF
         {
             get
             {
-                if (now == null)
-                {
-                    return new Point(0, 0);
-                }
                 return new Point(now.X, now.Y);
             }
         }
@@ -37,7 +33,7 @@ namespace Tetris_WF
                 return now.Turn;
             }
         }
-        #region 단일체
+
         internal static Game Singleton
         {
             get;
@@ -58,7 +54,6 @@ namespace Tetris_WF
         {
             now = new Diagram();
         }
-        #endregion
         internal bool MoveLeft()
         {
             for (int xx = 0; xx < 4; xx++)
@@ -82,6 +77,7 @@ namespace Tetris_WF
             }
             return false;
         }
+
         internal bool MoveRight()
         {
             for (int xx = 0; xx < 4; xx++)
@@ -90,14 +86,13 @@ namespace Tetris_WF
                 {
                     if (BlockValue.bvals[now.BlockNum, Turn, xx, yy] != 0)
                     {
-                        if (now.X + xx + 1 >= GameRule.BX)
+                        if ((now.X + xx + 1) >= GameRule.BX)
                         {
                             return false;
                         }
                     }
                 }
             }
-
             if (gboard.MoveEnable(now.BlockNum, Turn, now.X + 1, now.Y))
             {
                 now.MoveRight();
@@ -105,6 +100,7 @@ namespace Tetris_WF
             }
             return false;
         }
+
         internal bool MoveDown()
         {
             for (int xx = 0; xx < 4; xx++)
@@ -113,14 +109,14 @@ namespace Tetris_WF
                 {
                     if (BlockValue.bvals[now.BlockNum, Turn, xx, yy] != 0)
                     {
-                        if (now.Y + yy >= GameRule.BY)
+                        if ((now.Y + yy + 1) >= GameRule.BY)
                         {
+                            gboard.Store(now.BlockNum, Turn, now.X, now.Y);
                             return false;
                         }
                     }
                 }
             }
-
             if (gboard.MoveEnable(now.BlockNum, Turn, now.X, now.Y + 1))
             {
                 now.MoveDown();
@@ -129,6 +125,7 @@ namespace Tetris_WF
             gboard.Store(now.BlockNum, Turn, now.X, now.Y);
             return false;
         }
+
         internal bool MoveTurn()
         {
             for (int xx = 0; xx < 4; xx++)
@@ -137,15 +134,13 @@ namespace Tetris_WF
                 {
                     if (BlockValue.bvals[now.BlockNum, (Turn + 1) % 4, xx, yy] != 0)
                     {
-                        if (((now.X + xx) < 0) || ((now.X + xx) >= GameRule.BX) ||
-                            ((now.Y + yy) >= GameRule.BY))
+                        if (((now.X + xx) < 0) || ((now.X + xx) >= GameRule.BX) || ((now.Y + yy) >= GameRule.BY))
                         {
                             return false;
                         }
                     }
                 }
             }
-
             if (gboard.MoveEnable(now.BlockNum, (Turn + 1) % 4, now.X, now.Y))
             {
                 now.MoveTurn();
@@ -153,6 +148,7 @@ namespace Tetris_WF
             }
             return false;
         }
+
         internal void Next()
         {
             now.Reset();
