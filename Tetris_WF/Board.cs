@@ -46,5 +46,19 @@ namespace Tetris_WF
             }
             return true;
         }
+        internal void Store(int bn, int turn,int x,int y)//쌓기
+        {
+            for (int xx = 0; xx < 4; xx++)
+            {
+                for (int yy = 0; yy < 4; yy++)
+                {
+                    if (((x+xx)>=0)&&(x+xx<GameRule.BX)
+                            &&(y+yy>=0)&&(y+yy<GameRule.BY))
+                    {
+                        board[x + xx, y + yy] += BlockValue.bvals[bn, turn, xx, yy];
+                    }
+                }
+            }
+        }
     }
 }
