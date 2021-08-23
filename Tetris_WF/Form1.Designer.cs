@@ -1,7 +1,7 @@
 ﻿
 namespace Tetris_WF
 {
-    partial class Form1
+    partial class form
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -39,12 +39,14 @@ namespace Tetris_WF
             this.timer_down.Interval = 1000;
             this.timer_down.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form1
+            // form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form1";
+            this.ClientSize = new System.Drawing.Size(914, 562);
+            this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "form";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);

@@ -10,16 +10,23 @@ using System.Windows.Forms;
 
 namespace Tetris_WF
 {
-    public partial class Form1 : Form
+    public partial class form : Form
     {
         Game game;
         int bx;
         int by;
         int bwidth;
         int bheight;
-        public Form1()
+        public form()
         {
             InitializeComponent();
+        }
+
+        private Color[] Colors = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
+        private Color GetColor()
+        {
+            Random random = new Random();
+            return Colors[random.Next(0, 4)];
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,10 +55,11 @@ namespace Tetris_WF
                 {
                     if (game[xx, yy] != 0)
                     {
+                                           
                         Rectangle now_rt = new Rectangle(xx * bwidth + 2,
                             yy * bheight + 2, bwidth - 4, bheight - 4);
-                        graphics.DrawRectangle(Pens.Green, now_rt);
-                        graphics.FillRectangle(Brushes.Firebrick, now_rt);
+                        //graphics.DrawRectangle(Pens.Green, now_rt);
+                        graphics.FillRectangle(Brushes.DodgerBlue, now_rt);
                     }
                 }
             }
@@ -59,7 +67,7 @@ namespace Tetris_WF
 
         private void DrawDiagram(Graphics graphics)
         {
-            Pen dpen = new Pen(Color.Red, 4);
+            //Pen dpen = new Pen(Color.Red, 4);
             Point now = game.NowPosition;
             int bn = game.BlockNum;
             int tn = game.Turn;
@@ -71,7 +79,8 @@ namespace Tetris_WF
                     {
                         Rectangle now_rt = new Rectangle((now.X + xx) * bwidth + 2,
                             (now.Y + yy) * bheight + 2, bwidth - 4, bheight - 4);
-                        graphics.DrawRectangle(dpen, now_rt);
+                        graphics.FillRectangle(Brushes.DodgerBlue, now_rt);
+                        //graphics.DrawRectangle(dpen, now_rt);
                     }
                 }
 
@@ -107,7 +116,7 @@ namespace Tetris_WF
                 st.Y = cy * bheight;
                 et.X = bx * bwidth;
                 et.Y = st.Y;
-                graphics.DrawLine(Pens.DarkGreen, st, et);
+                graphics.DrawLine(Pens.Purple, st, et);
             }
         }
 
