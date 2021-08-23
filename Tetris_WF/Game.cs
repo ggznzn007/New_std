@@ -43,7 +43,7 @@ namespace Tetris_WF
             get;
             private set;
         }
-        internal int this[int x,int y]
+        internal int this[int x, int y]
         {
             get
             {
@@ -74,8 +74,13 @@ namespace Tetris_WF
                     }
                 }
             }
-            now.MoveLeft();
-            return true;
+
+            if (gboard.MoveEnable(now.BlockNum, Turn, now.X - 1, now.Y))
+            {
+                now.MoveLeft();
+                return true;
+            }
+            return false;
         }
         internal bool MoveRight()
         {
@@ -92,8 +97,13 @@ namespace Tetris_WF
                     }
                 }
             }
-            now.MoveRight();
-            return true;
+
+            if (gboard.MoveEnable(now.BlockNum, Turn, now.X + 1, now.Y))
+            {
+                now.MoveRight();
+                return true;
+            }
+            return false;
         }
         internal bool MoveDown()
         {
@@ -110,8 +120,14 @@ namespace Tetris_WF
                     }
                 }
             }
-            now.MoveDown();
-            return true;
+
+            if (gboard.MoveEnable(now.BlockNum, Turn, now.X, now.Y + 1))
+            {
+                now.MoveDown();
+                return true;
+            }
+            gboard.Store(now.BlockNum, Turn, now.X, now.Y);
+            return false;
         }
         internal bool MoveTurn()
         {
@@ -119,18 +135,23 @@ namespace Tetris_WF
             {
                 for (int yy = 0; yy < 4; yy++)
                 {
-                    if (BlockValue.bvals[now.BlockNum, (Turn+1)%4, xx, yy] != 0)
+                    if (BlockValue.bvals[now.BlockNum, (Turn + 1) % 4, xx, yy] != 0)
                     {
-                        if (((now.X+xx)<0)||((now.X+xx)>=GameRule.BX)||
-                            ((now.Y+yy)>=GameRule.BY))
+                        if (((now.X + xx) < 0) || ((now.X + xx) >= GameRule.BX) ||
+                            ((now.Y + yy) >= GameRule.BY))
                         {
                             return false;
                         }
                     }
                 }
             }
-            now.MoveTurn();
-            return true;
+
+            if (gboard.MoveEnable(now.BlockNum, (Turn + 1) % 4, now.X, now.Y))
+            {
+                now.MoveTurn();
+                return true;
+            }
+            return false;
         }
         internal void Next()
         {
