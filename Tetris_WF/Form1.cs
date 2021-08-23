@@ -42,11 +42,11 @@ namespace Tetris_WF
 
         private void DrawBoard(Graphics graphics)
         {
-            for(int xx=0;xx<bx;xx++)
+            for (int xx = 0; xx < bx; xx++)
             {
-                for(int yy=0;yy<by;yy++)
+                for (int yy = 0; yy < by; yy++)
                 {
-                    if(game[xx,yy]!=0)
+                    if (game[xx, yy] != 0)
                     {
                         Rectangle now_rt = new Rectangle(xx * bwidth + 2,
                             yy * bheight + 2, bwidth - 4, bheight - 4);
@@ -130,13 +130,12 @@ namespace Tetris_WF
                 Region rg = MakeRegion(0, -1);
                 Invalidate(rg);
             }
-            game.Next();
-            Invalidate();
+            EndingCheck();
         }
 
         private void MoveTurn()
         {
-            if(game.MoveTurn())
+            if (game.MoveTurn())
             {
                 Region rg = MakeRegion();
                 Invalidate(rg);
@@ -152,11 +151,32 @@ namespace Tetris_WF
             }
             else
             {
-                game.Next();
-                Invalidate();
+                EndingCheck();
             }
         }
 
+        private void EndingCheck()
+        {
+            if (game.Next())
+            {
+                Invalidate();
+            }
+            else
+            {
+                timer_down.Enabled = false;
+                DialogResult re = MessageBox.Show("다시 시작 하시겠습니까?", "GAME OVER", MessageBoxButtons.YesNo);
+                if(re==DialogResult.Yes)
+                {
+                    game.Restart();
+                    timer_down.Enabled = true;
+                    Invalidate();
+                }
+                else
+                {
+                    Close();
+                }
+            }
+        }
         private void MoveLeft()
         {
             if (game.MoveLeft())

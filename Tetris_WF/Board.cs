@@ -20,10 +20,9 @@ namespace Tetris_WF
         }
         Board()
         {
-
         }
         int[,] board = new int[GameRule.BX, GameRule.BY];
-        internal int this[int x,int y]
+        internal int this[int x, int y]
         {
             get
             {
@@ -32,13 +31,13 @@ namespace Tetris_WF
         }
         internal bool MoveEnable(int bn, int tn, int x, int y)
         {
-            for(int xx = 0; xx<4;xx++)
+            for (int xx = 0; xx < 4; xx++)
             {
-                for(int yy = 0; yy<4;yy++)
+                for (int yy = 0; yy < 4; yy++)
                 {
-                    if(BlockValue.bvals[bn,tn,xx,yy]!=0)
+                    if (BlockValue.bvals[bn, tn, xx, yy] != 0)
                     {
-                        if(board[x+xx,y+yy]!=0)
+                        if (board[x + xx, y + yy] != 0)
                         {
                             return false;
                         }
@@ -47,14 +46,13 @@ namespace Tetris_WF
             }
             return true;
         }
-        internal void Store(int bn, int turn,int x,int y)//쌓기
+        internal void Store(int bn, int turn, int x, int y)
         {
             for (int xx = 0; xx < 4; xx++)
             {
                 for (int yy = 0; yy < 4; yy++)
                 {
-                    if (((x+xx)>=0)&&(x+xx<GameRule.BX)
-                            &&(y+yy>=0)&&(y+yy<GameRule.BY))
+                    if (((x + xx) >= 0) && (x + xx < GameRule.BX) && (y + yy >= 0) && (y + yy < GameRule.BY))
                     {
                         board[x + xx, y + yy] += BlockValue.bvals[bn, turn, xx, yy];
                     }
@@ -66,14 +64,14 @@ namespace Tetris_WF
         private void CheckLines(int y)
         {
             int yy = 0;
-            for(yy=0;yy<4;yy++)
+            for (yy = 0; (yy < 4); yy++)
             {
-                if(yy-yy<GameRule.BY)
+                if (y - yy < GameRule.BY)
                 {
-                    if(CheckLine(y-yy))
+                    if (CheckLine(y - yy))
                     {
                         ClearLine(y - yy);
-                        y--;
+                        y++;
                     }
                 }
             }
@@ -81,9 +79,9 @@ namespace Tetris_WF
 
         private void ClearLine(int y)
         {
-            for(;y>0;y--)
+            for (; y > 0; y--)
             {
-                for(int xx=0;xx<GameRule.BX;xx++)
+                for (int xx = 0; xx < GameRule.BX; xx++)
                 {
                     board[xx, y] = board[xx, y - 1];
                 }
@@ -92,20 +90,21 @@ namespace Tetris_WF
 
         private bool CheckLine(int y)
         {
-            for(int xx=0;xx<GameRule.BX;xx++)
+            for (int xx = 0; xx < GameRule.BX; xx++)
             {
-                if(board[xx,y]==0)
+                if (board[xx, y] == 0)
                 {
                     return false;
                 }
             }
             return true;
         }
+
         internal void ClearBoard()
         {
-            for(int xx=0;xx<GameRule.BX;xx++)
+            for (int xx = 0; xx < GameRule.BX; xx++)
             {
-                for(int yy=0;yy<GameRule.BY;yy++)
+                for (int yy = 0; yy < GameRule.BY; yy++)
                 {
                     board[xx, yy] = 0;
                 }

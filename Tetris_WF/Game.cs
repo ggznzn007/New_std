@@ -149,9 +149,14 @@ namespace Tetris_WF
             return false;
         }
 
-        internal void Next()
+        internal bool Next()
         {
             now.Reset();
+            return gboard.MoveEnable(now.BlockNum, Turn, now.X, now.Y);
+        }
+        internal void Restart()
+        {
+            gboard.ClearBoard();
         }
     }
 }
