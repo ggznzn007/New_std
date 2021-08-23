@@ -34,9 +34,27 @@ namespace Tetris_WF
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            DoubleBuffered = true;
             DrawGraduation(e.Graphics);
             DrawDiagram(e.Graphics);
-            DoubleBuffered = true;
+            DrawBoard(e.Graphics);
+        }
+
+        private void DrawBoard(Graphics graphics)
+        {
+            for(int xx=0;xx<bx;xx++)
+            {
+                for(int yy=0;yy<by;yy++)
+                {
+                    if(game[xx,yy]!=0)
+                    {
+                        Rectangle now_rt = new Rectangle(xx * bwidth + 2,
+                            yy * bheight + 2, bwidth - 4, bheight - 4);
+                        graphics.DrawRectangle(Pens.Green, now_rt);
+                        graphics.FillRectangle(Brushes.Firebrick, now_rt);
+                    }
+                }
+            }
         }
 
         private void DrawDiagram(Graphics graphics)
