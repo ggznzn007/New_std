@@ -11,6 +11,7 @@ namespace Tetris_WF
     class Game
     {
         Diagram now;
+        Board gboard = Board.GameBoard;
         internal Point NowPosition
         {
             get
@@ -41,6 +42,13 @@ namespace Tetris_WF
         {
             get;
             private set;
+        }
+        internal int this[int x,int y]
+        {
+            get
+            {
+                return gboard[x, y];
+            }
         }
         static Game()
         {

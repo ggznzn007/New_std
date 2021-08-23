@@ -11,6 +11,7 @@ namespace Tetris_WF
         static public readonly int[,,,] bvals = new int[7, 4, 4, 4]
        {
             {
+#region block1
                 {
                     { 0, 0, 1, 0 },
                     { 0, 0, 1, 0 },
@@ -36,6 +37,8 @@ namespace Tetris_WF
                     { 0, 0, 0, 0 }
                 }
             },
+           #endregion
+#region block2
             {
                 {
                     { 0, 0, 0, 0 },
@@ -62,6 +65,8 @@ namespace Tetris_WF
                     { 0, 0, 0, 0 }
                 }
             },
+           #endregion
+#region block3
             {
                 {
                     { 0, 0, 0, 0 },
@@ -88,6 +93,8 @@ namespace Tetris_WF
                     { 0, 1, 0, 0 }
                 }
             },
+           #endregion
+#region block4
             {
                 {
                     { 0, 0, 0, 0 },
@@ -114,6 +121,8 @@ namespace Tetris_WF
                     { 0, 0, 0, 0 }
                 }
             },
+           #endregion
+#region block5
             {
                 {
                     { 0, 0, 1, 0 },
@@ -140,6 +149,8 @@ namespace Tetris_WF
                     { 0, 0, 0, 0 }
                 }
             },
+           #endregion
+#region block6
             {
                 {
                     { 0, 0, 0, 0 },
@@ -166,6 +177,8 @@ namespace Tetris_WF
                     { 0, 0, 1, 0 }
                 }
             },
+           #endregion
+#region block7
             {
                 {
                     { 0, 0, 0, 0 },
@@ -192,6 +205,7 @@ namespace Tetris_WF
                     { 0, 0, 0, 1 }
                 }
             }
+#endregion
        };
     }
 }
