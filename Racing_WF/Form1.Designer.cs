@@ -38,7 +38,9 @@ namespace Racing_WF
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Block = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Block1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Block2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Car)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -46,7 +48,9 @@ namespace Racing_WF
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -58,9 +62,9 @@ namespace Racing_WF
             // pictureBox_Car
             // 
             this.pictureBox_Car.Image = global::Racing_WF.Properties.Resources.car012;
-            this.pictureBox_Car.Location = new System.Drawing.Point(74, 353);
+            this.pictureBox_Car.Location = new System.Drawing.Point(115, 374);
             this.pictureBox_Car.Name = "pictureBox_Car";
-            this.pictureBox_Car.Size = new System.Drawing.Size(80, 145);
+            this.pictureBox_Car.Size = new System.Drawing.Size(67, 123);
             this.pictureBox_Car.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_Car.TabIndex = 1;
             this.pictureBox_Car.TabStop = false;
@@ -70,23 +74,23 @@ namespace Racing_WF
             this.pictureBox6.BackColor = System.Drawing.Color.White;
             this.pictureBox6.Location = new System.Drawing.Point(-2, -3);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(10, 555);
+            this.pictureBox6.Size = new System.Drawing.Size(10, 658);
             this.pictureBox6.TabIndex = 0;
             this.pictureBox6.TabStop = false;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.Location = new System.Drawing.Point(372, -3);
+            this.pictureBox5.Location = new System.Drawing.Point(475, -14);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(10, 555);
+            this.pictureBox5.Size = new System.Drawing.Size(10, 670);
             this.pictureBox5.TabIndex = 0;
             this.pictureBox5.TabStop = false;
             // 
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.White;
-            this.pictureBox4.Location = new System.Drawing.Point(188, 403);
+            this.pictureBox4.Location = new System.Drawing.Point(243, 400);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(12, 127);
             this.pictureBox4.TabIndex = 0;
@@ -95,7 +99,7 @@ namespace Racing_WF
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.White;
-            this.pictureBox3.Location = new System.Drawing.Point(188, 243);
+            this.pictureBox3.Location = new System.Drawing.Point(243, 240);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(12, 127);
             this.pictureBox3.TabIndex = 0;
@@ -104,7 +108,7 @@ namespace Racing_WF
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Location = new System.Drawing.Point(188, 89);
+            this.pictureBox2.Location = new System.Drawing.Point(243, 86);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(12, 127);
             this.pictureBox2.TabIndex = 0;
@@ -113,32 +117,53 @@ namespace Racing_WF
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(188, -61);
+            this.pictureBox1.Location = new System.Drawing.Point(243, -64);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(12, 127);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // pictureBox_Block
+            // pictureBox_Block1
             // 
-            this.pictureBox_Block.Image = global::Racing_WF.Properties.Resources.car02;
-            this.pictureBox_Block.Location = new System.Drawing.Point(29, 151);
-            this.pictureBox_Block.Name = "pictureBox_Block";
-            this.pictureBox_Block.Size = new System.Drawing.Size(81, 146);
-            this.pictureBox_Block.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_Block.TabIndex = 2;
-            this.pictureBox_Block.TabStop = false;
+            this.pictureBox_Block1.Image = global::Racing_WF.Properties.Resources.car02;
+            this.pictureBox_Block1.Location = new System.Drawing.Point(28, 77);
+            this.pictureBox_Block1.Name = "pictureBox_Block1";
+            this.pictureBox_Block1.Size = new System.Drawing.Size(61, 102);
+            this.pictureBox_Block1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Block1.TabIndex = 2;
+            this.pictureBox_Block1.TabStop = false;
+            // 
+            // pictureBox_Block2
+            // 
+            this.pictureBox_Block2.Image = global::Racing_WF.Properties.Resources.car02;
+            this.pictureBox_Block2.Location = new System.Drawing.Point(378, 77);
+            this.pictureBox_Block2.Name = "pictureBox_Block2";
+            this.pictureBox_Block2.Size = new System.Drawing.Size(61, 102);
+            this.pictureBox_Block2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_Block2.TabIndex = 2;
+            this.pictureBox_Block2.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.BackColor = System.Drawing.Color.White;
+            this.pictureBox7.Location = new System.Drawing.Point(243, 554);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(12, 127);
+            this.pictureBox7.TabIndex = 0;
+            this.pictureBox7.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(382, 553);
-            this.Controls.Add(this.pictureBox_Block);
+            this.ClientSize = new System.Drawing.Size(482, 653);
+            this.Controls.Add(this.pictureBox_Block2);
+            this.Controls.Add(this.pictureBox_Block1);
             this.Controls.Add(this.pictureBox_Car);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
@@ -153,7 +178,9 @@ namespace Racing_WF
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Block2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -168,7 +195,9 @@ namespace Racing_WF
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pictureBox_Car;
-        private System.Windows.Forms.PictureBox pictureBox_Block;
+        private System.Windows.Forms.PictureBox pictureBox_Block1;
+        private System.Windows.Forms.PictureBox pictureBox_Block2;
+        private System.Windows.Forms.PictureBox pictureBox7;
     }
 }
 

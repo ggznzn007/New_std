@@ -15,6 +15,7 @@ namespace Racing_WF
         public Form1()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         int carSpeed = 0;
@@ -30,14 +31,23 @@ namespace Racing_WF
 
         internal void blockCar(int speed)
         {
-            if(pictureBox_Block.Top>=600)
+            if(pictureBox_Block1.Top>=600)
             {
-                x = r.Next(0, 400);
-                pictureBox_Block.Location = new Point(x,0);
+                x = r.Next(0, 200);
+                pictureBox_Block1.Location = new Point(x,0);
             }
             else
             {
-                pictureBox_Block.Top += speed;
+                pictureBox_Block1.Top += speed;
+            }
+            if (pictureBox_Block2.Top >= 600)
+            {
+                x = r.Next(200, 400);
+                pictureBox_Block2.Location = new Point(x, 0);
+            }
+            else
+            {
+                pictureBox_Block2.Top += speed;
             }
         }
 
@@ -75,6 +85,14 @@ namespace Racing_WF
             {
                 pictureBox4.Top += speed;
             }
+            if (pictureBox7.Top >= 500)
+            {
+                pictureBox7.Top = 0;
+            }
+            else
+            {
+                pictureBox7.Top += speed;
+            }
 
         }
 
@@ -82,12 +100,12 @@ namespace Racing_WF
         {
             if (e.KeyCode == Keys.Left)
             {
-                if (pictureBox_Car.Left > 19)
+                if (pictureBox_Car.Left > 10)
                     pictureBox_Car.Left += -15;
             }
             if (e.KeyCode == Keys.Right)
             {
-                if (pictureBox_Car.Right < 398 - pictureBox_Car.Width)
+                if (pictureBox_Car.Right < 480 - pictureBox_Car.Width)
                     pictureBox_Car.Left += 15;
             }
 
