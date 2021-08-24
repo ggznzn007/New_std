@@ -22,12 +22,12 @@ namespace Tetris_WF
             InitializeComponent();
         }
 
-        private Color[] Colors = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
+        /*private Color[] Colors = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
         private Color GetColor()
         {
             Random random = new Random();
             return Colors[random.Next(0, 4)];
-        }
+        }*/
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -42,9 +42,9 @@ namespace Tetris_WF
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             DoubleBuffered = true;
-            DrawGraduation(e.Graphics);
-            DrawDiagram(e.Graphics);
             DrawBoard(e.Graphics);
+            //DrawGraduation(e.Graphics);
+            DrawDiagram(e.Graphics);
         }
 
         private void DrawBoard(Graphics graphics)
@@ -59,7 +59,7 @@ namespace Tetris_WF
                         Rectangle now_rt = new Rectangle(xx * bwidth + 2,
                             yy * bheight + 2, bwidth - 4, bheight - 4);
                         //graphics.DrawRectangle(Pens.Green, now_rt);
-                        graphics.FillRectangle(Brushes.DodgerBlue, now_rt);
+                        graphics.FillRectangle(Brushes.HotPink, now_rt);
                     }
                 }
             }
@@ -80,6 +80,7 @@ namespace Tetris_WF
                         Rectangle now_rt = new Rectangle((now.X + xx) * bwidth + 2,
                             (now.Y + yy) * bheight + 2, bwidth - 4, bheight - 4);
                         graphics.FillRectangle(Brushes.DodgerBlue, now_rt);
+                        
                         //graphics.DrawRectangle(dpen, now_rt);
                     }
                 }
@@ -103,7 +104,7 @@ namespace Tetris_WF
                 st.Y = 0;
                 et.X = st.X;
                 et.Y = by * bheight;
-                graphics.DrawLine(Pens.DodgerBlue, st, et);
+                graphics.DrawLine(Pens.LightPink, st, et);
             }
         }
         private void DrawHorizons(Graphics graphics)
@@ -116,7 +117,7 @@ namespace Tetris_WF
                 st.Y = cy * bheight;
                 et.X = bx * bwidth;
                 et.Y = st.Y;
-                graphics.DrawLine(Pens.DodgerBlue, st, et);
+                graphics.DrawLine(Pens.LightPink, st, et);
             }
         }
 
