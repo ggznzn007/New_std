@@ -103,7 +103,7 @@ namespace Tetris_WF
                 st.Y = 0;
                 et.X = st.X;
                 et.Y = by * bheight;
-                graphics.DrawLine(Pens.Purple, st, et);
+                graphics.DrawLine(Pens.DodgerBlue, st, et);
             }
         }
         private void DrawHorizons(Graphics graphics)
@@ -116,7 +116,7 @@ namespace Tetris_WF
                 st.Y = cy * bheight;
                 et.X = bx * bwidth;
                 et.Y = st.Y;
-                graphics.DrawLine(Pens.Purple, st, et);
+                graphics.DrawLine(Pens.DodgerBlue, st, et);
             }
         }
 
