@@ -13,14 +13,19 @@ namespace Tetris_WF
     public partial class form : Form
     {
         Game game;
+        
         int bx;
         int by;
         int bwidth;
         int bheight;
+        
         public form()
         {
             InitializeComponent();
         }
+
+
+        
 
         /*private Color[] Colors = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
         private Color GetColor()
@@ -32,18 +37,20 @@ namespace Tetris_WF
         private void Form1_Load(object sender, EventArgs e)
         {
             game = Game.Singleton;
-            bx = GameRule.BX;
-            by = GameRule.BY;
-            bwidth = GameRule.B_WIDTH;
-            bheight = GameRule.B_HEIGHT;
+            
+            bx = GameRule.BX; // 보드 폭
+            by = GameRule.BY; // 보드 높이
+            bwidth = GameRule.B_WIDTH; // X좌표 1의 픽셀
+            bheight = GameRule.B_HEIGHT; // Y좌표 1의 픽셀
             SetClientSizeCore(bx * bwidth, by * bheight);
+            
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             DoubleBuffered = true;
             DrawBoard(e.Graphics);
-            //DrawGraduation(e.Graphics);
+            DrawGraduation(e.Graphics);
             DrawDiagram(e.Graphics);
         }
 
@@ -55,7 +62,7 @@ namespace Tetris_WF
                 {
                     if (game[xx, yy] != 0)
                     {
-                                           
+
                         Rectangle now_rt = new Rectangle(xx * bwidth + 2,
                             yy * bheight + 2, bwidth - 4, bheight - 4);
                         //graphics.DrawRectangle(Pens.Green, now_rt);
@@ -80,7 +87,7 @@ namespace Tetris_WF
                         Rectangle now_rt = new Rectangle((now.X + xx) * bwidth + 2,
                             (now.Y + yy) * bheight + 2, bwidth - 4, bheight - 4);
                         graphics.FillRectangle(Brushes.DodgerBlue, now_rt);
-                        
+
                         //graphics.DrawRectangle(dpen, now_rt);
                     }
                 }
@@ -90,7 +97,7 @@ namespace Tetris_WF
 
         private void DrawGraduation(Graphics graphics)
         {
-            DrawHorizons(graphics);
+            //DrawHorizons(graphics);
             DrawVerticals(graphics);
         }
 
@@ -175,7 +182,7 @@ namespace Tetris_WF
             {
                 timer_down.Enabled = false;
                 DialogResult re = MessageBox.Show("다시 시작 하시겠습니까?", "GAME OVER", MessageBoxButtons.YesNo);
-                if(re==DialogResult.Yes)
+                if (re == DialogResult.Yes)
                 {
                     game.Restart();
                     timer_down.Enabled = true;

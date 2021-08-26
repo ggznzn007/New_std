@@ -4,11 +4,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Forms;
+
 
 namespace Tetris_WF
 {
     class Board
     {
+
         internal static Board GameBoard
         {
             get;
@@ -61,8 +65,9 @@ namespace Tetris_WF
             CheckLines(y + 3);
         }
 
-        private void CheckLines(int y)
+        internal void CheckLines(int y)
         {
+
             int yy = 0;
             for (yy = 0; (yy < 4); yy++)
             {
@@ -72,26 +77,31 @@ namespace Tetris_WF
                     {
                         ClearLine(y - yy);
                         y++;
+
+
                     }
                 }
             }
         }
 
-        private void ClearLine(int y)
+        internal void ClearLine(int y)
         {
+
             for (; y > 0; y--)
             {
                 for (int xx = 0; xx < GameRule.BX; xx++)
                 {
                     board[xx, y] = board[xx, y - 1];
+
                 }
             }
         }
 
-        private bool CheckLine(int y)
+        internal bool CheckLine(int y)
         {
             for (int xx = 0; xx < GameRule.BX; xx++)
             {
+
                 if (board[xx, y] == 0)
                 {
                     return false;
