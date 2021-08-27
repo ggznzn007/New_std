@@ -8,7 +8,7 @@ namespace Tetris_WF
 {
     static class BlockValue
     {
-        static public readonly int[,,,] bvals = new int[13, 4, 4, 4]
+        static public readonly int[,,,] bvals = new int[12, 4, 4, 4]
        {
             {
 #region block1
@@ -262,7 +262,7 @@ namespace Tetris_WF
                 }
             },
 #endregion
-#region block10
+/*#region block10
             {
                 {
                     { 0, 0, 0, 0 },
@@ -289,7 +289,7 @@ namespace Tetris_WF
                     { 0, 1, 0, 0 }
                 }
             },
-           #endregion
+           #endregion*/
 #region block11
             {
                 {

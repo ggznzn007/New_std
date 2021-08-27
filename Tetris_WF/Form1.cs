@@ -50,7 +50,7 @@ namespace Tetris_WF
         {
             DoubleBuffered = true;
             DrawBoard(e.Graphics);
-            DrawGraduation(e.Graphics);
+            //DrawGraduation(e.Graphics);
             DrawDiagram(e.Graphics);
         }
 
