@@ -1,0 +1,317 @@
+﻿<Window x:Class="WPF_Tetris.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:WPF_Tetris.Converters"
+        xmlns:local="clr-namespace:WPF_Tetris"
+        mc:Ignorable="d"
+        Title="TETRIS" Height="800" Width="900"  Background="Black" PreviewKeyDown="Window_PreviewKeyDown">
+
+    <Window.Resources>
+        <converter:DebugConverter x:Key="DebugConverter"/>
+        <converter:IntToColor x:Key="IntToColor"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="50" FontWeight="ExtraBold" FontStyle="Normal" Foreground="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="249,2,282.6,4" Height="66" Width="362" Grid.ColumnSpan="2" Text=" OK 테 트 리 스"/>
+        <UniformGrid Grid.Column="0" Grid.Row="1" Columns="12" Margin="30">
+            <Rectangle Fill="{Binding Block_pan[0-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[0-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[1-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[2-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[3-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[4-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[5-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[6-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[7-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[8-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[9-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[10-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[11-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[12-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[13-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[14-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[15-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[16-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[17-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[18-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[19-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-0],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-1],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-2],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-3],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-4],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-5],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-6],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-7],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-8],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-9],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-10],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+            <Rectangle Fill="{Binding Block_pan[20-11],Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+        </UniformGrid>
+        <Border Grid.Row="1" Grid.Column="1"  Margin="10">
+            <Grid>
+                <StackPanel HorizontalAlignment="Center"  Margin="43,3,243.8,-2.6">
+                    <TextBlock Text="다음 블럭" FontSize="36" FontStyle="Normal" FontWeight="UltraBold" Foreground="White" HorizontalAlignment="Center"/>
+                    <UniformGrid Columns="4" Margin="20">
+                        <Rectangle Fill="{Binding Next_pan[1-0], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[1-1], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[1-2], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[1-3], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[2-0], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[2-1], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[2-2], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[2-3], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[3-0], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[3-1], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[3-2], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                        <Rectangle Fill="{Binding Next_pan[3-3], ConverterParameter=1, Converter={StaticResource IntToColor}}" Width="30" Height="30"/>
+                    </UniformGrid>
+
+                    <TextBlock Text="최고기록" FontSize="36" FontStyle="Normal" FontWeight="ExtraBold" Foreground="Green" HorizontalAlignment="Center"/>
+                    <TextBox IsReadOnly="True" Text="{Binding Game_score}" FontSize="36" FontWeight="Bold" FontStyle="Normal"  Margin="10"/>
+
+                    <TextBlock Text="LINES" FontSize="36" FontStyle="Normal" FontWeight="ExtraBold" Foreground="HotPink" HorizontalAlignment="Center"/>
+                    <TextBox IsReadOnly="True" Text="{Binding Game_line}" FontSize="36" FontWeight="Bold" FontStyle="Normal" Margin="10"/>
+
+                    <TextBlock Text="LEVEL" FontSize="36" FontStyle="Normal" FontWeight="ExtraBold" Foreground="Red" HorizontalAlignment="Center"/>
+                    <TextBox IsReadOnly="True" Text="{Binding Game_level}" FontSize="36" FontWeight="Bold" FontStyle="Normal" Margin="10"/>
+                </StackPanel>
+                <Button x:Name="button" Content="게임을 시작하지" Click="Button_Click" Focusable="False" FontWeight="ExtraBold"
+                        Background="Black" Foreground="White" FontSize="20" Margin="245,160,20.8,392.4"/>
+                <Button x:Name="button2" Content="Pause" Click="Button2_Click"  Focusable="False" FontWeight="ExtraBold"
+                        Background="Black" Foreground="White" FontSize="20" Margin="248,6,22.8,547.4"/>
+                
+            </Grid>
+        </Border>
+
+
+    </Grid>
+</Window>
