@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JsonNet.ContractResolvers</name>
+    </assembly>
+    <members>
+        <member name="T:JsonNet.ContractResolvers.PrivateSetterContractResolver">
+            <summary>
+            Extends <see cref="T:Newtonsoft.Json.Serialization.DefaultContractResolver"/> with support for private setters.
+            </summary>
+        </member>
+        <member name="T:JsonNet.ContractResolvers.PrivateSetterCamelCasePropertyNamesContractResolver">
+            <summary>
+            Extends <see cref="T:Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver"/> with support for private setters.
+            </summary>
+        </member>
+        <member name="T:JsonNet.ContractResolvers.PrivateSetterAndCtorContractResolver">
+            <summary>
+            Extends <see cref="T:Newtonsoft.Json.Serialization.DefaultContractResolver"/> with support for private setters and private constructors.
+            </summary>
+        </member>
+        <member name="T:JsonNet.ContractResolvers.PrivateSetterAndCtorCamelCasePropertyNamesContractResolver">
+            <summary>
+            Extends <see cref="T:Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver"/> with support for private setters and private constructors.
+            </summary>
+        </member>
+    </members>
+</doc>
