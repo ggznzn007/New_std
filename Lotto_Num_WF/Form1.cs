@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,7 @@ namespace Lotto_Num_WF
             strTmp = string.Join(", ", tmpNum);
             // 로또 번호
             strNum = strTmp.Substring(0, strTmp.LastIndexOf(',') - 1);
+            
             // 끝에 있는 보너스 번호
             strBonusNum = strTmp.Substring(strTmp.LastIndexOf(',') + 1, 2).Trim();
             return "로또 번호 : " + strNum + ", 보너스번호 : " + strBonusNum;
