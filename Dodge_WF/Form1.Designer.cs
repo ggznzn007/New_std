@@ -40,11 +40,13 @@ namespace Dodge_WF
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(7, 4);
+            this.pictureBox1.InitialImage = global::Dodge_WF.Properties.Resources.ready;
+            this.pictureBox1.Location = new System.Drawing.Point(1, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(789, 445);
+            this.pictureBox1.Size = new System.Drawing.Size(795, 447);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // timer1
@@ -53,7 +55,7 @@ namespace Dodge_WF
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(25, 15);
+            this.textBox1.Location = new System.Drawing.Point(188, 138);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(132, 25);
             this.textBox1.TabIndex = 1;
