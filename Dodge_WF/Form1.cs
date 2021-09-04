@@ -57,7 +57,41 @@ namespace Dodge_WF
             {
                 ballPoint[i].X = rs.Next(0, pictureBox1.Width);
                 ballPoint[i].Y = rs.Next(0, pictureBox1.Height);
+                x_Speed[i] = rs.Next(-3, 3);
+                y_Speed[i] = rs.Next(-3, 3);
+                if (x_Speed[i] == 0)
+                    x_Speed[i] = 1;
+                else if (y_Speed[i] == 0)
+                    y_Speed[i] = 1;
             }
         }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if(gameState ==0)
+            {
+                Image ready = Bitmap.FromFile(""); // 이미지 소스 가져오기
+                e.Graphics.DrawImage(ready, ready_x, ready_y, readySize_x, readySize_y);
+            }
+            else if(gameState==3)
+            {
+                Image gameover = Bitmap.FromFile("");
+                e.Graphics.DrawImage(gameover, gameOver_x, gameOver_y, gameOver_size_x, gameOver_size_y);
+            }
+            else if(gameState==1)
+            {
+                // 비행기 그리는 소스
+                Image plane = Bitmap.FromFile("");
+                e.Graphics.DrawImage(plane, plane_x, plane_y, planeSize, planeSize);
+            }
+
+            for(int i= 0; i<missile_quantity;i++)
+            {
+                if (i % 2 == 0) { e.Graphics.FillEllipse(Brushes.Red, ballPoint[i].X, ballPoint[i].Y, sizePoint_x, sizePoint_y); }
+                else { e.Graphics.FillEllipse(Brushes.DeepPink, ballPoint[i].X, ballPoint[i].Y, sizePoint_x, sizePoint_y); }
+            }
+        }
+
+
     }
 }

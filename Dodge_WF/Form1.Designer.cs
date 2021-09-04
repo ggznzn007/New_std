@@ -40,6 +40,7 @@ namespace Dodge_WF
             this.pictureBox1.Size = new System.Drawing.Size(789, 445);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
