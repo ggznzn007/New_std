@@ -56,9 +56,9 @@ namespace WPF_Tetris.ViewModels
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         }
 
-      private void StartTimer()
+        private void StartTimer()
         {
-            level_interval = 1000 - ((game_level - 1) * 100);
+            level_interval = 1000 - ((game_level - 1) * 90);
 
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, level_interval);
             dispatcherTimer.Start();
@@ -69,7 +69,7 @@ namespace WPF_Tetris.ViewModels
             dispatcherTimer.Stop();
         }
 
-        
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (Is_gaming)
@@ -87,6 +87,12 @@ namespace WPF_Tetris.ViewModels
         {
             block_kind = (int)rnd.Next(1, 8);
             next_block = (int)rnd.Next(1, 8);
+
+            /*if (game_level == 1)
+            {
+                next_block = (int)rnd.Next(1, 9);
+                block_kind = (int)rnd.Next(1, 9);
+            }*/
 
             status_x = 4;
             status_y = -3;
@@ -161,6 +167,48 @@ namespace WPF_Tetris.ViewModels
                         break;*/
             }
         }
+
+        /*private void DrawBufBlock_1(int block_kind, int[,] block_buf)
+        {
+            int i, j;
+            for (i = 0; i < 4; i++) { for (j = 0; j < 4; j++) block_buf[i, j] = 0; }
+
+            switch (block_kind)
+            {
+                case 1:
+                    block_buf[2, 0] = block_buf[2, 1] = block_buf[2, 2] = block_buf[2, 3] = block_kind;
+                    break;
+                case 2:
+                    block_buf[1, 1] = block_buf[1, 2] = block_buf[2, 1] = block_buf[2, 2] = block_kind;
+                    break;
+                case 3:
+                    block_buf[1, 1] = block_buf[2, 0] = block_buf[2, 1] = block_buf[2, 2] = block_kind;
+                    break;
+                case 4:
+                    block_buf[1, 2] = block_buf[2, 0] = block_buf[2, 1] = block_buf[2, 2] = block_kind;
+                    break;
+                case 5:
+                    block_buf[1, 1] = block_buf[2, 1] = block_buf[2, 2] = block_buf[2, 3] = block_kind;
+                    break;
+                case 6:
+                    block_buf[1, 1] = block_buf[1, 2] = block_buf[2, 0] = block_buf[2, 1] = block_kind;
+                    break;
+                case 7:
+                    block_buf[1, 0] = block_buf[1, 1] = block_buf[2, 1] = block_buf[2, 2] = block_kind;
+                    break;
+                case 8:
+                    block_buf[1, 2] = block_buf[2, 1] = block_buf[2, 2] = block_buf[3, 1] = block_buf[3, 2]
+                        = block_kind;
+                    break;
+                    *//*case 9:
+                        block_buf[3, 0] = block_buf[3, 1] = block_buf[3, 2] = block_buf[3, 3] = 
+                        block_buf[2, 0] = block_buf[2, 1] = block_buf[2, 2] = block_buf[2, 3]= block_kind;
+                        break;*/
+                    /*case 10:
+                        block_buf[2, 0] = block_buf[2, 1] = block_buf[2, 2] = block_buf[2, 3] = block_buf[3, 3] = block_kind;
+                        break;*//*
+            }
+        }*/
 
         bool Check_Can_Move(int direct)
         {
@@ -245,6 +293,11 @@ namespace WPF_Tetris.ViewModels
         private void DrawNext()
         {
             DrawBufBlock(next_block, _next_pan);
+            /*if (game_level == 1)
+            {
+                DrawBufBlock_1(next_block, _next_pan);
+                
+            }*/
             _next_pan.NotifyBlockChange();
         }
 
@@ -330,6 +383,23 @@ namespace WPF_Tetris.ViewModels
             DrawBufBlock(block_kind, _block_buf);
 
             next_block = (int)rnd.Next(1, 8);
+/*
+            if (game_level == 1)
+            {
+                next_block = (int)rnd.Next(1, 9);
+                //block_kind = (int)rnd.Next(1, 9);
+                if (Check_Can_Move(Constants.TETRIT_MOVE_DOWN))
+                {
+                    DrawNext();
+                    StopTimer();
+                    Block_down();
+                    StartTimer();
+                }
+                else
+                {
+                    DrawCrash();
+                }
+            }*/
             if (Check_Can_Move(Constants.TETRIT_MOVE_DOWN))
             {
                 DrawNext();
