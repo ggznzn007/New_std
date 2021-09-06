@@ -57,10 +57,10 @@ namespace Lotto_Num_WF
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox1.Font = new System.Drawing.Font("맑은 고딕", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox1.Location = new System.Drawing.Point(163, 165);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(615, 34);
+            this.textBox1.Size = new System.Drawing.Size(615, 31);
             this.textBox1.TabIndex = 2;
             // 
             // Form1
