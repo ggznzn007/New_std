@@ -18,9 +18,9 @@ namespace WPF_Tetris.Models
         public const int Block_5 = 5;
         public const int Block_6 = 6;
         public const int Block_7 = 7;
-        //public const int Block_8 = 8;
-        //public const int Block_9 = 9;
-        /*public const int Block_10 = 10;*/
+        public const int Block_8 = 8;
+       // public const int Block_9 = 9;
+       // public const int Block_10 = 10;
         
 
         public const int TETRIT_MOVE_RIGHT = 1;

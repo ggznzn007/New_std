@@ -38,11 +38,11 @@ namespace WPF_Tetris.Converters
                     return new SolidColorBrush(Colors.LightCoral);
                 case Constants.Block_7:
                     return new SolidColorBrush(Colors.Yellow);
-               // case Constants.Block_8:
-                   // return new SolidColorBrush(Colors.SkyBlue);
-               // case Constants.Block_9:
-                   // return new SolidColorBrush(Colors.DarkRed);
-                /*case Constants.Block_10:
+               case Constants.Block_8:
+                   return new SolidColorBrush(Colors.SkyBlue);
+               /*case Constants.Block_9:
+                   return new SolidColorBrush(Colors.DarkRed);
+                case Constants.Block_10:
                     return new SolidColorBrush(Colors.Indigo);*/
             }
             return new SolidColorBrush(Colors.Black);

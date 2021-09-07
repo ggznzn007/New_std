@@ -69,7 +69,7 @@ namespace WPF_Tetris.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Tetris_PL_Ver1.2;component/views/mainwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Tetris_PL_Ver1.3;component/views/mainwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Views\MainWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

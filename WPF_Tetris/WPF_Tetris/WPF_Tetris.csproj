@@ -7,7 +7,7 @@
     <ProjectGuid>{98DA9C39-177A-4240-B9C2-C04EA6B3D225}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WPF_Tetris</RootNamespace>
-    <AssemblyName>Tetris_PL_Ver1.2</AssemblyName>
+    <AssemblyName>Tetris_PL_Ver1.3</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
