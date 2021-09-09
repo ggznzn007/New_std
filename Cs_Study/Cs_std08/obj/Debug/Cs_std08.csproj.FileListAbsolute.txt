@@ -1,0 +1,7 @@
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.exe.config
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.pdb
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csprojAssemblyReference.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.CoreCompileInputs.cache
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.exe
+C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.pdb
