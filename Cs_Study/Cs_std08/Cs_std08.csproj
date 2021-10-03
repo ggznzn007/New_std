@@ -46,7 +46,8 @@
     <None Include="Stack01.cs" />
     <None Include="Pibo.cs" />
     <None Include="Program.cs" />
-    <Compile Include="ArrayList01.cs" />
+    <None Include="ArrayList01.cs" />
+    <Compile Include="Hashtable01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
