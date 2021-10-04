@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TCP_Server01.cs" />
     <None Include="Stack01.cs" />
     <None Include="Pibo.cs" />
     <None Include="Program.cs" />
     <None Include="ArrayList01.cs" />
-    <Compile Include="Hashtable01.cs" />
+    <None Include="Hashtable01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
