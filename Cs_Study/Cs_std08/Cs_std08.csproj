@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TCP_Client01.cs" />
+    <Compile Include="TcpSrvAsync01.cs" />
+    <None Include="TCP_Client01.cs" />
     <None Include="TCP_Server01.cs" />
     <None Include="Stack01.cs" />
     <None Include="Pibo.cs" />
