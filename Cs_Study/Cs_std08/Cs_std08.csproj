@@ -62,7 +62,8 @@
     <None Include="Program.cs" />
     <None Include="ArrayList01.cs" />
     <None Include="Hashtable01.cs" />
-    <Compile Include="GeoGraphy01.cs" />
+    <None Include="GeoGraphy01.cs" />
+    <Compile Include="GeoGraphy02.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

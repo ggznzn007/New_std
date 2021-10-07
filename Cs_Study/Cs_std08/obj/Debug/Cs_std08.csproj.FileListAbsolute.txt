@@ -9,4 +9,3 @@ C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.xml
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.AssemblyReference.cache
-C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.CopyComplete
