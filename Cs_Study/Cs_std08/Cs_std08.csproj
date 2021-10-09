@@ -64,7 +64,8 @@
     <None Include="Hashtable01.cs" />
     <None Include="GeoGraphy01.cs" />
     <None Include="GeoGraphy02.cs" />
-    <Compile Include="D_Arr01.cs" />
+    <None Include="D_Arr01.cs" />
+    <Compile Include="Linked_List01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
