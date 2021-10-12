@@ -9,6 +9,10 @@ namespace Cs_std08
 {
     class Dynamic01
     {
+        public static void Main()
+        {
+                     
+        }
         public void M1()
         {
             // ExpandoObject에서 dynamic 타입 생성
