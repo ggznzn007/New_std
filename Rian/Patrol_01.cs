@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Patrol_01 : MonoBehaviour
-{
+{  
     [SerializeField] private float speed = 1.0f;// 이동속도
     [SerializeField] private float damping = 1.0f;// 회전속도
     [SerializeField] private Transform[] patrolPoints;// 모든 웨이포인트를 저장할 배열    
