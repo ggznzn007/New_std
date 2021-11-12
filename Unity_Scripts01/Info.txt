@@ -1,0 +1,2 @@
+CameraController.cs = 2D 카메라 이동
+MovingObject.cs = 2D 캐릭터이동
