@@ -15,7 +15,7 @@ public class GameMgr : MonoBehaviourPunCallbacks
     void Start()
     {
         CreateTank();
-        // photonNetwork의 데이터 통신을 다시 연결시켜준다. 
+        // photonNetwork의 데이터 통신을 다시 연결시켜준다.  
         PhotonNetwork.IsMessageQueueRunning = true;
         Invoke("CheckPlayerCount", 0.5f);
     }
