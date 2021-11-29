@@ -9,12 +9,20 @@
     <Compile Remove="01_Singleton01.cs" />
     <Compile Remove="01_Singleton02.cs" />
     <Compile Remove="01_Singleton03.cs" />
+    <Compile Remove="02_CharacterA.cs" />
+    <Compile Remove="02_CharacterB.cs" />
+    <Compile Remove="03_Factory01.cs" />
+    <Compile Remove="03_Shapes01.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_Singleton01.cs" />
     <None Include="01_Singleton02.cs" />
     <None Include="01_Singleton03.cs" />
+    <None Include="02_CharacterA.cs" />
+    <None Include="02_CharacterB.cs" />
+    <None Include="03_Factory01.cs" />
+    <None Include="03_Shapes01.cs" />
   </ItemGroup>
 
 </Project>
