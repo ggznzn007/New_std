@@ -9,3 +9,14 @@ C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.xml
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\ggznz\reposit\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.exe
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\obj\Debug\Cs_std08.pdb
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.exe.config
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.exe
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\Cs_std08.pdb
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.dll
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.xml
+C:\Users\user\source\repos\New\Cs_Study\Cs_std08\bin\Debug\EntityFramework.SqlServer.xml

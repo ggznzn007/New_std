@@ -66,8 +66,16 @@
     <None Include="GeoGraphy02.cs" />
     <None Include="D_Arr01.cs" />
     <None Include="Linked_List01.cs" />
-    <Compile Include="Delegate01.cs" />
+    <None Include="Basic01.cs" />
+    <None Include="Delegate01.cs" />
     <None Include="Dynamic01.cs" />
+    <None Include="Basic02.cs" />
+    <None Include="Basic03.cs" />
+    <None Include="Basic04.cs" />
+    <None Include="Basic05.cs" />
+    <Compile Include="Builder01.cs" />
+    <Compile Include="Builder02.cs" />
+    <Compile Include="Builder03.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
