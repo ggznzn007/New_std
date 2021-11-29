@@ -5,4 +5,16 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="01_Singleton01.cs" />
+    <Compile Remove="01_Singleton02.cs" />
+    <Compile Remove="01_Singleton03.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="01_Singleton01.cs" />
+    <None Include="01_Singleton02.cs" />
+    <None Include="01_Singleton03.cs" />
+  </ItemGroup>
+
 </Project>
