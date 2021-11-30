@@ -15,6 +15,8 @@
     <Compile Remove="03_Factory01.cs" />
     <Compile Remove="03_Shapes01.cs" />
     <Compile Remove="04_Prototype01.cs" />
+    <Compile Remove="05_Adapter01.cs" />
+    <Compile Remove="06_Bridge01.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,8 @@
     <None Include="03_Factory01.cs" />
     <None Include="03_Shapes01.cs" />
     <None Include="04_Prototype01.cs" />
+    <None Include="05_Adapter01.cs" />
+    <None Include="06_Bridge01.cs" />
   </ItemGroup>
 
 </Project>

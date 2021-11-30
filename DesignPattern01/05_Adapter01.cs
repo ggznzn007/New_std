@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 namespace Adapter
 {
+// 보통 개발을 하다보면 여러회사의 콤포넌트를 연동을 필요가 생기게 될 때에 사용
     class Program
     {
         static void Main(string[] args)
