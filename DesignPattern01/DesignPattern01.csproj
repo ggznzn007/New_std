@@ -18,7 +18,11 @@
     <Compile Remove="05_Adapter01.cs" />
     <Compile Remove="06_Bridge01.cs" />
     <Compile Remove="06_Bridge02.cs" />
+    <Compile Remove="07_Category.cs" />
     <Compile Remove="07_Composite01.cs" />
+    <Compile Remove="07_Path.cs" />
+    <Compile Remove="07_Tree.cs" />
+    <Compile Remove="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +38,11 @@
     <None Include="05_Adapter01.cs" />
     <None Include="06_Bridge01.cs" />
     <None Include="06_Bridge02.cs" />
+    <None Include="07_Category.cs" />
     <None Include="07_Composite01.cs" />
+    <None Include="07_Path.cs" />
+    <None Include="07_Tree.cs" />
+    <None Include="Program.cs" />
   </ItemGroup>
 
 </Project>
