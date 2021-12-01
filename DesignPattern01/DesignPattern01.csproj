@@ -24,6 +24,7 @@
     <Compile Remove="07_Tree.cs" />
     <Compile Remove="08_Decorator01.cs" />
     <Compile Remove="09_Facade01.cs" />
+    <Compile Remove="09_Facade02.cs" />
     <Compile Remove="Program.cs" />
   </ItemGroup>
 
@@ -46,6 +47,7 @@
     <None Include="07_Tree.cs" />
     <None Include="08_Decorator01.cs" />
     <None Include="09_Facade01.cs" />
+    <None Include="09_Facade02.cs" />
     <None Include="Program.cs" />
   </ItemGroup>
 
