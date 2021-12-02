@@ -30,6 +30,7 @@
     <Compile Remove="09_PictureManager.cs" />
     <Compile Remove="09_SmartManager.cs" />
     <Compile Remove="10_Proxy01.cs" />
+    <Compile Remove="10_Proxy02.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -59,6 +60,7 @@
     <None Include="09_PictureManager.cs" />
     <None Include="09_SmartManager.cs" />
     <None Include="10_Proxy01.cs" />
+    <None Include="10_Proxy02.cs" />
     <None Include="Program.cs" />
     <None Include="Program1.cs" />
   </ItemGroup>
