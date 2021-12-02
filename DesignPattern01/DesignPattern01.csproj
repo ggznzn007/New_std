@@ -23,9 +23,14 @@
     <Compile Remove="07_Path.cs" />
     <Compile Remove="07_Tree.cs" />
     <Compile Remove="08_Decorator01.cs" />
+    <Compile Remove="09_Compensator.cs" />
     <Compile Remove="09_Facade01.cs" />
     <Compile Remove="09_Facade02.cs" />
+    <Compile Remove="09_Picture.cs" />
+    <Compile Remove="09_PictureManager.cs" />
+    <Compile Remove="09_SmartManager.cs" />
     <Compile Remove="Program.cs" />
+    <Compile Remove="Program1.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,9 +51,14 @@
     <None Include="07_Path.cs" />
     <None Include="07_Tree.cs" />
     <None Include="08_Decorator01.cs" />
+    <None Include="09_Compensator.cs" />
     <None Include="09_Facade01.cs" />
     <None Include="09_Facade02.cs" />
+    <None Include="09_Picture.cs" />
+    <None Include="09_PictureManager.cs" />
+    <None Include="09_SmartManager.cs" />
     <None Include="Program.cs" />
+    <None Include="Program1.cs" />
   </ItemGroup>
 
 </Project>
