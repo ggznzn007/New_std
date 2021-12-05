@@ -62,7 +62,15 @@
     <Compile Remove="11_Iterator02.cs" />
     <Compile Remove="11_Iterator\11_Iterator01.cs" />
     <Compile Remove="11_Iterator\11_Iterator02.cs" />
+    <Compile Remove="12_Visitor\12_Diary.cs" />
+    <Compile Remove="12_Visitor\12_Element.cs" />
+    <Compile Remove="12_Visitor\12_Initializer.cs" />
+    <Compile Remove="12_Visitor\12_MyTour.cs" />
+    <Compile Remove="12_Visitor\12_Picture.cs" />
+    <Compile Remove="12_Visitor\12_Viewer.cs" />
+    <Compile Remove="12_Visitor\12_Visitor.cs" />
     <Compile Remove="12_Visitor\12_Visitor01.cs" />
+    <Compile Remove="12_Visitor\Program.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -97,7 +105,15 @@
     <None Include="10_Proxy\10_Proxy02.cs" />
     <None Include="11_Iterator\11_Iterator01.cs" />
     <None Include="11_Iterator\11_Iterator02.cs" />
+    <None Include="12_Visitor\12_Diary.cs" />
+    <None Include="12_Visitor\12_Element.cs" />
+    <None Include="12_Visitor\12_Initializer.cs" />
+    <None Include="12_Visitor\12_MyTour.cs" />
+    <None Include="12_Visitor\12_Picture.cs" />
+    <None Include="12_Visitor\12_Viewer.cs" />
+    <None Include="12_Visitor\12_Visitor.cs" />
     <None Include="12_Visitor\12_Visitor01.cs" />
+    <None Include="12_Visitor\Program.cs" />
   </ItemGroup>
 
 </Project>
