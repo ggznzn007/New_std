@@ -75,6 +75,7 @@
     <Compile Remove="13_Observer\13_ConcreteObserver2.cs" />
     <Compile Remove="13_Observer\13_ConcreteSubject.cs" />
     <Compile Remove="13_Observer\13_Observer.cs" />
+    <Compile Remove="13_Observer\13_Observer02.cs" />
     <Compile Remove="13_Observer\13_Subject.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
@@ -123,6 +124,7 @@
     <None Include="13_Observer\13_ConcreteObserver2.cs" />
     <None Include="13_Observer\13_ConcreteSubject.cs" />
     <None Include="13_Observer\13_Observer.cs" />
+    <None Include="13_Observer\13_Observer02.cs" />
     <None Include="13_Observer\13_Subject.cs" />
   </ItemGroup>
 
