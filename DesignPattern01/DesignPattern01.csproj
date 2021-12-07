@@ -71,6 +71,11 @@
     <Compile Remove="12_Visitor\12_Visitor.cs" />
     <Compile Remove="12_Visitor\12_Visitor01.cs" />
     <Compile Remove="12_Visitor\Program.cs" />
+    <Compile Remove="13_Observer\13_ConcreteObserver1.cs" />
+    <Compile Remove="13_Observer\13_ConcreteObserver2.cs" />
+    <Compile Remove="13_Observer\13_ConcreteSubject.cs" />
+    <Compile Remove="13_Observer\13_Observer.cs" />
+    <Compile Remove="13_Observer\13_Subject.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -114,6 +119,11 @@
     <None Include="12_Visitor\12_Visitor.cs" />
     <None Include="12_Visitor\12_Visitor01.cs" />
     <None Include="12_Visitor\Program.cs" />
+    <None Include="13_Observer\13_ConcreteObserver1.cs" />
+    <None Include="13_Observer\13_ConcreteObserver2.cs" />
+    <None Include="13_Observer\13_ConcreteSubject.cs" />
+    <None Include="13_Observer\13_Observer.cs" />
+    <None Include="13_Observer\13_Subject.cs" />
   </ItemGroup>
 
 </Project>
