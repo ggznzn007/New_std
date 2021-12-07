@@ -18,7 +18,7 @@ namespace DoFactory.GangOfFour.Strategy.Structural
 {
    class MainApp
     {
-       public static void Main()
+       static void Main()
         {
             Context context;
             // Three contexts following different strategies

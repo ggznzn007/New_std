@@ -77,6 +77,7 @@
     <Compile Remove="13_Observer\13_Observer.cs" />
     <Compile Remove="13_Observer\13_Observer02.cs" />
     <Compile Remove="13_Observer\13_Subject.cs" />
+    <Compile Remove="14_Strategy\14_Strategy01.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -126,6 +127,7 @@
     <None Include="13_Observer\13_Observer.cs" />
     <None Include="13_Observer\13_Observer02.cs" />
     <None Include="13_Observer\13_Subject.cs" />
+    <None Include="14_Strategy\14_Strategy01.cs" />
   </ItemGroup>
 
 </Project>
