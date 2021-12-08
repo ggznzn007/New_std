@@ -98,6 +98,7 @@
     <Compile Remove="17_Templete_Method\17_TempApp.cs" />
     <Compile Remove="17_Templete_Method\17_Templete_Method01.cs" />
     <Compile Remove="17_Templete_Method\Program4.cs" />
+    <Compile Remove="18_State\18_State01.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -168,6 +169,7 @@
     <None Include="17_Templete_Method\17_TempApp.cs" />
     <None Include="17_Templete_Method\17_Templete_Method01.cs" />
     <None Include="17_Templete_Method\Program4.cs" />
+    <None Include="18_State\18_State01.cs" />
   </ItemGroup>
 
   <ItemGroup>
