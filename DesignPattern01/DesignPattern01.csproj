@@ -86,7 +86,17 @@
     <Compile Remove="15_Chain_Of_Responsibility\15_SoftChangeHandler.cs" />
     <Compile Remove="15_Chain_Of_Responsibility\15_UIPart.cs" />
     <Compile Remove="15_Chain_Of_Responsibility\Program3.cs" />
+    <Compile Remove="16_Command\16_Account.cs" />
     <Compile Remove="16_Command\16_Command01.cs" />
+    <Compile Remove="16_Command\16_Deposit.cs" />
+    <Compile Remove="16_Command\16_ITransaction.cs" />
+    <Compile Remove="16_Command\16_TestTransactionManager.cs" />
+    <Compile Remove="16_Command\16_TranscationManager.cs" />
+    <Compile Remove="16_Command\16_Transfer.cs" />
+    <Compile Remove="16_Command\16_Withdraw.cs" />
+    <Compile Remove="17_Templete_Method\17_MyApp.cs" />
+    <Compile Remove="17_Templete_Method\17_TempApp.cs" />
+    <Compile Remove="17_Templete_Method\Program4.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -145,7 +155,17 @@
     <None Include="15_Chain_Of_Responsibility\15_SoftChangeHandler.cs" />
     <None Include="15_Chain_Of_Responsibility\15_UIPart.cs" />
     <None Include="15_Chain_Of_Responsibility\Program3.cs" />
+    <None Include="16_Command\16_Account.cs" />
     <None Include="16_Command\16_Command01.cs" />
+    <None Include="16_Command\16_Deposit.cs" />
+    <None Include="16_Command\16_ITransaction.cs" />
+    <None Include="16_Command\16_TestTransactionManager.cs" />
+    <None Include="16_Command\16_TranscationManager.cs" />
+    <None Include="16_Command\16_Transfer.cs" />
+    <None Include="16_Command\16_Withdraw.cs" />
+    <None Include="17_Templete_Method\17_MyApp.cs" />
+    <None Include="17_Templete_Method\17_TempApp.cs" />
+    <None Include="17_Templete_Method\Program4.cs" />
   </ItemGroup>
 
   <ItemGroup>
