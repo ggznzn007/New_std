@@ -86,6 +86,7 @@
     <Compile Remove="15_Chain_Of_Responsibility\15_SoftChangeHandler.cs" />
     <Compile Remove="15_Chain_Of_Responsibility\15_UIPart.cs" />
     <Compile Remove="15_Chain_Of_Responsibility\Program3.cs" />
+    <Compile Remove="16_Command\16_Command01.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="Program1.cs" />
   </ItemGroup>
@@ -144,6 +145,11 @@
     <None Include="15_Chain_Of_Responsibility\15_SoftChangeHandler.cs" />
     <None Include="15_Chain_Of_Responsibility\15_UIPart.cs" />
     <None Include="15_Chain_Of_Responsibility\Program3.cs" />
+    <None Include="16_Command\16_Command01.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
   </ItemGroup>
 
 </Project>
