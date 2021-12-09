@@ -9,9 +9,9 @@ namespace FactoryMethod_ex
         {
             CardFactory factory = null;
             Console.Write("Enter the card type you would like to visit: ");
-            string car = Console.ReadLine();
+            string cardType = Console.ReadLine();
 
-            switch (car.ToLower())
+            switch (cardType.ToLower())
             {
                 case "cashback":
                     factory = new CashBackFactory(50000, 0);
