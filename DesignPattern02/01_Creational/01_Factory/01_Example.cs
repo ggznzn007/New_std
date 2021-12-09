@@ -61,7 +61,7 @@ namespace FactoryMethod
     }
     class Furniture : File
     {
-        // Factory Method implementation
+        // Factory Method implementation 메소드 구현
         public override void CreateItemss()
         {
             Itemss.Add(new SofasetItems());
@@ -71,6 +71,7 @@ namespace FactoryMethod
     }
     class Crokery : File
     {
+        // Factory Method implementation 메소드 구현
         public override void CreateItemss()
         {
             Itemss.Add(new PlatesItems());
