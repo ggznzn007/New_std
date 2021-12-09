@@ -1,5 +1,6 @@
 ﻿namespace FactoryMethod_ex
 {
+    // 상품 구조 생성 클래스
     class TitaniumFactory : CardFactory
     {
         private int _creditLimit;

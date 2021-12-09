@@ -1,6 +1,6 @@
 ﻿namespace FactoryMethod_ex
 {
-    // 구조 상품 추상 클래스
+    // 상품구조 추상 클래스
     class PlatinumCreditCard : CreditCard
     {
         private readonly string _cardType;
