@@ -5,4 +5,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="01_Creational\01_Factory\01_Example.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="01_Creational\01_Factory\01_Example.cs" />
+  </ItemGroup>
+
 </Project>
