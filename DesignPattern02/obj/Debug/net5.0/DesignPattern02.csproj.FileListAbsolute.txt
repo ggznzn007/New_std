@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.exe
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.deps.json
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.runtimeconfig.json
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.runtimeconfig.dev.json
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.dll
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\ref\DesignPattern02.dll
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\DesignPattern02.pdb
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.AssemblyInfo.cs
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.dll
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\ref\DesignPattern02.dll
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.pdb
+C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.genruntimeconfig.cache
