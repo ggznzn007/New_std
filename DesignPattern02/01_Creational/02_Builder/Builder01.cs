@@ -1,20 +1,78 @@
 ﻿using System;
 
-namespace Builder01
+namespace EquipmentSystem
 {
-    public abstract class Builder
+    class Equipment
     {
-        protected House house;
+        string hp;
+        string mp;
+        int attack;
+        int defence;
 
-        public void createHouse()
+        public Equipment() { }
+
+        public void setHp(string d) { hp = d; }
+        public void setMp(string s) { hp = s; }
+
+        public void setAttack(int a) { attack = a; }
+
+        public void setDefence(int de) { defence = de; }
+    }
+
+    abstract class CreateSlot
+    {
+        protected Equipment equipment;
+
+        public CreateSlot() { }
+        public Equipment equipGet() { return equipment; }
+        public void EquipmentCreate() { equipment = new Equipment(); }
+
+        public abstract void BuildHp();
+        public abstract void BuildMp();
+        public abstract void BuildOption();
+    }
+
+    class WeaponCreateSlot : CreateSlot
+    {
+        public override void BuildHp()
         {
-            house = new House();
+            equipment.setHp("HP Potion");
         }
 
-        public abstract void buildWalls();
-        public abstract void buildDoors();
-        public abstract void buildRoof();
-        public abstract void buildWindows();
-        public abstract void getHouse();
+        public override void BuildMp()
+        {
+            equipment.setMp("MP Potion");
+        }
+
+        public override void BuildOption()
+        {
+            equipment.setAttack(100);
+        }
+    }
+
+    class SheildCreateSlot : CreateSlot
+    {
+        public override void BuildHp()
+        {
+            equipment.setHp("HP Potion2");
+        }
+
+        public override void BuildMp()
+        {
+            equipment.setMp("MP Potion2");
+        }
+
+        public override void BuildOption()
+        {
+            equipment.setDefence(200);
+        }
+
+    }
+
+    class BlackSmith
+    {
+        private CreateSlot selectedCreatSlot;
+
+        public void SetCreatSlot(CreateSlot slot) { selectedCreatSlot = slot; }
     }
 }

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VMJNanmnZs3hSypSPiP4pcPfS1H0Vy5TSBbxEMMjIjeB6KlbNVIg45rDebw61EBPrvVaszaCqLQnTFtq5SNMFQ==",
+  "dgSpecHash": "zWOF8G6dSPrp7VgUycqJeiKLNEK/LsOnJGhm3dH74gVYSYiKYZrAKN1wiQJCc0zJm2ruBK0aRXFdMZdrPjoO8w==",
   "success": true,
   "projectFilePath": "C:\\Users\\user\\source\\repos\\New_std\\DesignPattern02\\DesignPattern02.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\starkbank-ecdsa\\1.3.3\\starkbank-ecdsa.1.3.3.nupkg.sha512"
+  ],
   "logs": []
 }
