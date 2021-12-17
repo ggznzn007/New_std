@@ -14,3 +14,4 @@ C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPatter
 C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\ref\DesignPattern02.dll
 C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.pdb
 C:\Users\user\source\repos\New_std\DesignPattern02\obj\Debug\net5.0\DesignPattern02.genruntimeconfig.cache
+C:\Users\user\source\repos\New_std\DesignPattern02\bin\Debug\net5.0\StarkbankEcdsa.dll

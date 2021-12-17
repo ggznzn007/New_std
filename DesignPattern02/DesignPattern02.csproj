@@ -7,10 +7,36 @@
 
   <ItemGroup>
     <Compile Remove="01_Creational\01_Factory\01_Example.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\BlackFactory.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\CashBackFactory.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\PlatinumFactory.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\TitaniumFactory.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\BlackCreditCard.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\CashBackCreditCard.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\PlatinumCreditCard.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\TitaniumCreditCard.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\Creator\CardFactory.cs" />
+    <Compile Remove="01_Creational\01_Factory\Ex_CreditCard\Product\CreditCard.cs" />
+    <Compile Remove="01_Creational\01_Factory\FactoryPatternDemo.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="01_Creational\01_Factory\01_Example.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\BlackFactory.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\CashBackFactory.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\PlatinumFactory.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteCreator\TitaniumFactory.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\BlackCreditCard.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\CashBackCreditCard.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\PlatinumCreditCard.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\ConcreteProduct\TitaniumCreditCard.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\Creator\CardFactory.cs" />
+    <None Include="01_Creational\01_Factory\Ex_CreditCard\Product\CreditCard.cs" />
+    <None Include="01_Creational\01_Factory\FactoryPatternDemo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="starkbank-ecdsa" Version="1.3.3" />
   </ItemGroup>
 
 </Project>

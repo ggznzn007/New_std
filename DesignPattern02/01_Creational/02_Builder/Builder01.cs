@@ -24,7 +24,7 @@ namespace EquipmentSystem
         protected Equipment equipment;
 
         public CreateSlot() { }
-        public Equipment equipGet() { return equipment; }
+        public Equipment getEquipment() { return equipment; }
         public void EquipmentCreate() { equipment = new Equipment(); }
 
         public abstract void BuildHp();
@@ -74,5 +74,32 @@ namespace EquipmentSystem
         private CreateSlot selectedCreatSlot;
 
         public void SetCreatSlot(CreateSlot slot) { selectedCreatSlot = slot; }
+        public Equipment GetEquipment() { return selectedCreatSlot.getEquipment(); }
+
+        public void ConstructEquipment()
+        {
+            selectedCreatSlot.EquipmentCreate();
+            selectedCreatSlot.BuildHp();
+            selectedCreatSlot.BuildMp();
+            selectedCreatSlot.BuildOption();
+        }
+
+    }
+
+    class App
+    {
+        static void Main(string[] args)
+        {
+            BlackSmith albert = new BlackSmith();
+            CreateSlot[] createSlots = { new WeaponCreateSlot(), new SheildCreateSlot() };
+
+            
+                albert.SetCreatSlot(createSlots[2]);
+                albert.ConstructEquipment();               
+            
+
+            Equipment producedEquipment = albert.GetEquipment();
+
+        }
     }
 }
