@@ -1,0 +1,2 @@
+PlayerController - 조이스틱을 디폴트로 하여 사용하는 스크립트
+PlayerCtrl - 터치를 디폴트로 하여 사용하는 스크립트
