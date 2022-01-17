@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject joyStick, mainView, playView, chatting;
     public Settings2 settings2_script;
-    public RectTransform stick, backGround;
+    public RectTransform stick, backGround;    
 
     public float speed;
 
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
        
         Camera.main.transform.parent = transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+       
 
         limit = backGround.rect.width * .25f;
     }
@@ -49,12 +50,12 @@ public class PlayerController : MonoBehaviour
                     // 왼쪽으로 이동
                     if (dir.x < 0)
                     {
-                        transform.localScale = new Vector3(-1.5f, 1.5f, 1);
+                        transform.localScale = new Vector3(-0.3f, 0.3f, 1);
                     }
                     // 오른쪽으로 이동  
                     else
                     {
-                        transform.localScale = new Vector3(1.5f, 1.5f, 1);
+                        transform.localScale = new Vector3(0.3f, 0.3f, 1);
                     }
 
                 }
@@ -67,12 +68,12 @@ public class PlayerController : MonoBehaviour
                     // 왼쪽으로 이동
                     if (dir.x < 0)
                     {
-                        transform.localScale = new Vector3(-1.5f,1.5f, 1);
+                        transform.localScale = new Vector3(-0.3f,0.3f, 1);
                     }
                     // 오른쪽으로 이동  
                     else
                     {
-                        transform.localScale = new Vector3(1.5f, 1.5f, 1);
+                        transform.localScale = new Vector3(0.3f,0.3f, 1);
                     }
 
                 }
@@ -101,12 +102,12 @@ public class PlayerController : MonoBehaviour
             // 왼쪽으로 이동
             if (dir.x < 0)
             {
-                transform.localScale = new Vector3(-1.5f, 1.5f, 1);
+                transform.localScale = new Vector3(-0.3f, 0.3f, 1);
             }
             // 오른쪽으로 이동
             else
             {
-                transform.localScale = new Vector3(1.5f, 1.5f, 1);
+                transform.localScale = new Vector3(0.3f, 0.3f, 1);
             }
             if (Input.GetMouseButtonUp(0)) // 드래그 끝나면
             {
@@ -152,5 +153,32 @@ public class PlayerController : MonoBehaviour
         Camera.main.transform.parent = null;
 
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "StairUp")
+        {
+            coll = null;
+            transform.position = new Vector3(-6f, 23f, 0);
+        }
+
+        if (collision.tag == "StairDown")
+        {
+            coll = null;
+            transform.position = new Vector3(-6f, 16f, 0);
+        }
+
+        if (collision.tag == "DoorIn")
+        {
+            coll = null;
+            transform.position = new Vector3(-9f, 32f, 0);
+        }
+
+        if (collision.tag == "DoorOut")
+        {
+            coll = null;
+            transform.position = new Vector3(-9f, 26.5f, 0);
+        }
     }
 }
