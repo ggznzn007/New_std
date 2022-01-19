@@ -2,38 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class Settings : MonoBehaviour
+public class Settings2 : MonoBehaviour
 {
-    public bool isJoyStick;
+    public bool isTouch;
     public Image touchBtn, joyStickBtn;
     public Color black;
-    public PlayerCtrl playerCtrl_script;
-    GameObject mainView, playView;
+    public PlayerController playerController_script;
+    GameObject mainView, playView, joyStick;
 
     private void Start()
     {
-        mainView = playerCtrl_script.mainView;
-        playView = playerCtrl_script.playView;
+        mainView = playerController_script.mainView;
+        playView = playerController_script.playView;
+        joyStick = playerController_script.joyStick;
     }
     // 설정 버튼 누르면 호출
     public void ClickSetting()
     {
         gameObject.SetActive(true);
-        playerCtrl_script.isCantMove = true;
+        playerController_script.isCantMove = true;
     }
     // 게임으로 돌아가기 버튼 누르면 호출
     public void ClickBack()
     {
         gameObject.SetActive(false);
-        playerCtrl_script.isCantMove = false;
+        playerController_script.isCantMove = false;
 
     }
 
     // 터치이동을 누르면 호출
     public void ClickTouch()
     {
-        isJoyStick = false;
+        isTouch = true;
+        joyStick.SetActive(false);
         touchBtn.color = black;
         joyStickBtn.color = Color.white;
     }
@@ -41,9 +44,11 @@ public class Settings : MonoBehaviour
     // 조이스틱을 누르면 호출
     public void ClickJoyStick()
     {
-        isJoyStick = true;
-        touchBtn.color = Color.white; 
+        isTouch = false;
+        joyStick.SetActive(true);
+        touchBtn.color = Color.white;
         joyStickBtn.color = black;
+        
     }
 
     // 게임 종료 누르면 호출
@@ -52,7 +57,8 @@ public class Settings : MonoBehaviour
         /*mainView.SetActive(true);
         playView.SetActive(false);*/
         LoadingSceneCtrl.LoadScene("Main");
+
         //캐릭터 삭제
-        playerCtrl_script.DestoyPlayer();
+        playerController_script.DestoyPlayer();
     }
 }

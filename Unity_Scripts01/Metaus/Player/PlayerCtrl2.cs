@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PlayerCtrl : MonoBehaviour
+public class PlayerCtrl2 : MonoBehaviour
 {
-    public GameObject joyStick, mainView, playView;
-    public Settings settings_script;
-    public Button btn;
-    public Sprite use, kill;
-    public Text text_cool;
+    public GameObject joyStick, mainView, playView,chatting;
+    public Settings2 settings2_script;
+    
+
+    // public Button btn;
+    //public Sprite use, kill;
+    // public Text text_cool;
 
     Animator anim;
     GameObject coll;
     KillCtrl killctrl_script;
+
+   
 
     public float speed;
 
@@ -26,12 +30,12 @@ public class PlayerCtrl : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
-
+        joyStick.SetActive(true);
         Camera.main.transform.parent = transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, -10);
-
+        
         // 미션
-        if (isMission)
+       /* if (isMission)
         {
             btn.GetComponent<Image>().sprite = use;
 
@@ -46,11 +50,12 @@ public class PlayerCtrl : MonoBehaviour
 
             timer = 5;
             isCool = true;
-        }
+        }*/
     }
     private void FixedUpdate()
     {
-        // 쿨타임
+
+       /* // 쿨타임
         if (isCool)
         {
             timer -= Time.deltaTime;
@@ -60,7 +65,7 @@ public class PlayerCtrl : MonoBehaviour
                 text_cool.text = "";
                 isCool = false;
             }
-        }
+        }*/
 
         if (isCantMove)
         {
@@ -81,10 +86,32 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
+    // 게임 종료 누르면 호출
+    public void ClickQuit()
+    {
+        mainView.SetActive(true);
+        playView.SetActive(false);
+
+        //캐릭터 삭제
+        DestoyPlayer();
+    }
+
+    public void ClickChat()
+    {
+        chatting.SetActive(true);
+        isCantMove = true;
+    }
+
+    public void ClickChatQuit()
+    {
+        chatting.SetActive(false);
+        isCantMove = false;
+    }
+
     // 캐릭터 움직임 관리
     void Move()
     {
-        if (settings_script.isJoyStick)
+       /* if (settings2_script.isJoyStick)
         {
             joyStick.SetActive(true);
         }
@@ -104,12 +131,12 @@ public class PlayerCtrl : MonoBehaviour
                     // 왼쪽으로 이동
                     if (dir.x < 0)
                     {
-                        transform.localScale = new Vector3(-1.2f, 1.2f, 1);
+                        transform.localScale = new Vector3(-1, 1, 1);
                     }
                     // 오른쪽으로 이동  
                     else
                     {
-                        transform.localScale = new Vector3(1.2f, 1.2f, 1);
+                        transform.localScale = new Vector3(1, 1, 1);
                     }
 
                 }
@@ -122,12 +149,12 @@ public class PlayerCtrl : MonoBehaviour
                     // 왼쪽으로 이동
                     if (dir.x < 0)
                     {
-                        transform.localScale = new Vector3(-1.2f, 1.2f, 1);
+                        transform.localScale = new Vector3(-1, 1, 1);
                     }
                     // 오른쪽으로 이동  
                     else
                     {
-                        transform.localScale = new Vector3(1.2f, 1.2f, 1);
+                        transform.localScale = new Vector3(1, 1, 1);
                     }
 
                 }
@@ -140,7 +167,7 @@ public class PlayerCtrl : MonoBehaviour
                 anim.SetBool("isWalk", false);
             }
 
-        }
+        }*/
     }
 
     // 캐릭터 삭제
@@ -156,13 +183,13 @@ public class PlayerCtrl : MonoBehaviour
         if (collision.tag == "Mission" && isMission)
         {
             coll = collision.gameObject;
-            btn.interactable = true;
+            //btn.interactable = true;
 
         }
         if (collision.tag == "NPC" && !isMission && !isCool)
         {
             coll = collision.gameObject;
-            btn.interactable = true;
+            //btn.interactable = true;
         }
     }
 
@@ -171,13 +198,13 @@ public class PlayerCtrl : MonoBehaviour
         if (collision.tag == "Mission" && isMission)
         {
             coll = null;
-            btn.interactable = false;
+            //btn.interactable = false;
         }
 
         if (collision.tag == "NPC" && !isMission)
         {
             coll = null;
-            btn.interactable = false;
+            //btn.interactable = false;
         }
     }
 
@@ -197,7 +224,7 @@ public class PlayerCtrl : MonoBehaviour
             Kill();
         }
         isCantMove = true; // 미션이 켜졌을 때 캐릭터 움직임 방지
-        btn.interactable = false;
+       // btn.interactable = false;
     }
 
     void Kill()
