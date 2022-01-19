@@ -10,9 +10,9 @@ public class SwipeMenu : MonoBehaviour
     [SerializeField]
     private Transform[] circleContents;       // 현재 페이지를 나타내는 원
     [SerializeField]
-    private float swipeTime = 0.2f;           // 페이지 스와이프되는 시간
+    private float swipeTime = 0.3f;           // 페이지 스와이프되는 시간
     [SerializeField]
-    private float swipeDistance = 60.0f;      //페이지 스와이프되기 위한 최소거리
+    private float swipeDistance = 90.0f;      //페이지 스와이프되기 위한 최소거리
 
     private float[] scrollPageValues;         // 각 페이지 위치값 [0.0 - 1.0]
     private float valueDistance = 0;          // 각 페이지 사이 거리
