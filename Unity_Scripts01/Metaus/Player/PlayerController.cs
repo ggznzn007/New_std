@@ -128,8 +128,9 @@ public class PlayerController : MonoBehaviour
     // 게임 종료 누르면 호출
     public void ClickQuit()
     {
-        mainView.SetActive(true);
-        playView.SetActive(false);
+        /* mainView.SetActive(true);
+         playView.SetActive(false);*/
+        LoadingSceneCtrl.LoadScene("Main_220118");
 
         //캐릭터 삭제
         DestoyPlayer();
