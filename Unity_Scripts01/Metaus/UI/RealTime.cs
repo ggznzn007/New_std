@@ -23,7 +23,7 @@ public class RealTime : MonoBehaviour
 
         string dayTime = DateTime.Now.ToString("t");
 
-        timeTxT.text = "현재시간 : " + dayTime;
+        timeTxT.text = dayTime;
 
     }
 
