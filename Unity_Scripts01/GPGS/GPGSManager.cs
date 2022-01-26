@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
+
 
 #if UNITY_ANDROID
 public class GPGSManager : MonoBehaviour
@@ -17,7 +17,7 @@ public class GPGSManager : MonoBehaviour
 
     private void Awake()
     {
-        myLog.text = "Ready...";
+        myLog.text = "준비 중입니다...";
 
         // 구글 게임서비스 활성화 (초기화)
         PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder().Build());
@@ -28,7 +28,7 @@ public class GPGSManager : MonoBehaviour
     private void Start()
     {
         //게임시작시 자동로그인
-       // doAutoLogin();
+        //doAutoLogin();
     }
 
     // 자동로그인
@@ -41,14 +41,16 @@ public class GPGSManager : MonoBehaviour
         //구글 로그인이 되어있지 않다면 
         if (!Social.localUser.authenticated)
         {
-            myLog.text = "Authenticating...";
+            //myLog.text = "Authenticating...";
+            myLog.text = "로그인 중입니다...";
             bWaitingForAuth = true;
-            //로그인 인증 처리과정 (콜백함수)
+            //로그인 인증 처리과정 (콜백함수)      
             Social.localUser.Authenticate(AuthenticateCallback);
+
         }
         else
         {
-            myLog.text = "Login Fail\n";
+            myLog.text = "로그인이 필요합니다.\n";
         }
     }
 
@@ -59,7 +61,10 @@ public class GPGSManager : MonoBehaviour
         if (Social.localUser.authenticated)
         {
             Debug.Log(Social.localUser.userName);
-            myLog.text = "name : " + Social.localUser.userName + "\n";
+            myLog.text = "name : " + "\n" + Social.localUser.userName + "\n";
+            StartCoroutine(UserPictureLoad());
+            //Invoke("LoadSelectView", 1.5f);
+
         }
         else
             Social.localUser.Authenticate((bool success) =>
@@ -67,12 +72,14 @@ public class GPGSManager : MonoBehaviour
                 if (success)
                 {
                     Debug.Log(Social.localUser.userName);
-                    myLog.text = "name : " + Social.localUser.userName + "\n";
+                    myLog.text = "name : " + "\n" + Social.localUser.userName + "\n";
+                    StartCoroutine(UserPictureLoad());
+                    //Invoke("LoadSelectView", 1.5f);
                 }
                 else
                 {
                     Debug.Log("Login Fail");
-                    myLog.text = "Login Fail\n";
+                    myLog.text = "로그인 실패! 다시 시도해주세요.\n";
                 }
             });
     }
@@ -81,7 +88,7 @@ public class GPGSManager : MonoBehaviour
     public void OnBtnLogoutClicked()
     {
         ((PlayGamesPlatform)Social.Active).SignOut();
-        myLog.text = "LogOut...";
+        myLog.text = "로그인이 필요합니다.";
     }
 
     // 인증 callback
@@ -91,20 +98,20 @@ public class GPGSManager : MonoBehaviour
         if (success)
         {
             // 사용자 이름을 띄어줌 
-            myLog.text = "Welcome" + Social.localUser.userName + "\n";
+            myLog.text = "Welcome" + "\n" + Social.localUser.userName + "\n";
 
             StartCoroutine(UserPictureLoad());
         }
         else
         {
-            myLog.text = "Login Fail\n";
+            myLog.text = "로그인이 필요합니다.\n";
         }
     }
 
     // 유저 이미지 받아오기 
     IEnumerator UserPictureLoad()
     {
-        myLog.text = "image Loading ...";
+        myLog.text = "로그인 정보 로딩중 ...";
         // 최초 유저 이미지 가져오기
         Texture2D pic = Social.localUser.image;
 
@@ -115,7 +122,27 @@ public class GPGSManager : MonoBehaviour
             yield return null;
         }
         myImage.texture = pic;
-        myLog.text = "image Create";
+        myName.text = Social.localUser.userName;
+        myLog.text = "로그인 되었습니다!!!";
+    }
+
+    public void ClickEnter()
+    {
+        if (Social.localUser.authenticated)
+        {
+            
+            LoadingSceneCtrl.LoadScene("Main");
+        }
+    }
+
+    public void LoadSelectView()
+    {
+
+    }
+
+    public void ClickBack()
+    {
+        LoadingSceneCtrl.LoadScene("Enter");
     }
 }
 #endif
