@@ -16,10 +16,26 @@ public class GoogleSheetManager : MonoBehaviour
 	public GoogleData GD;
 	public InputField IDInput, PassInput, ValueInput;
 	string id, pass;
+	public Text orderTxt, resultTxt, msgTxt, valueTxt;
+	public Button enter;
 
+    private void Update()
+    {
+		orderTxt.text = GD.order;
+		resultTxt.text = GD.result;
+		msgTxt.text = GD.msg;
+		valueTxt.text = GD.value;
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{			
+			LoadingUIController_02.Instance.LoadScene("Enter");
+			WWWForm form = new WWWForm();
+			form.AddField("order", "logout");
 
+			StartCoroutine(Post(form));
+		}
+	}
 
-	bool SetIDPass()
+    bool SetIDPass()
 	{
 		id = IDInput.text.Trim();
 		pass = PassInput.text.Trim();
@@ -28,12 +44,17 @@ public class GoogleSheetManager : MonoBehaviour
 		else return true;
 	}
 
-
+	public void Enter()
+    {
+		LoadingUIController.Instance.LoadScene("Main");
+    }
+		
 	public void Register()
 	{
 		if (!SetIDPass())
 		{
 			print("아이디 또는 비밀번호가 비어있습니다");
+			
 			return;
 		}
 
@@ -57,8 +78,8 @@ public class GoogleSheetManager : MonoBehaviour
 		WWWForm form = new WWWForm();
 		form.AddField("order", "login");
 		form.AddField("id", id);
-		form.AddField("pass", pass);
-
+		form.AddField("pass", pass);		
+		enter.gameObject.SetActive(true);
 		StartCoroutine(Post(form));
 	}
 
