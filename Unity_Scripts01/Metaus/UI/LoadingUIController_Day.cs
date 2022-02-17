@@ -1,22 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
-public class LoadingUIController : MonoBehaviour
+public class LoadingUIController_Day : MonoBehaviour
 {
-    private static LoadingUIController instance; // ΩÃ±€≈Ê
-    public static LoadingUIController Instance
+    private static LoadingUIController_Day instance; // ΩÃ±€≈Ê
+    public static LoadingUIController_Day Instance
     {
         get
         {
             if (instance == null)
             {
-                var obj = FindObjectOfType<LoadingUIController>();
+                var obj = FindObjectOfType<LoadingUIController_Day>();
                 if (obj != null)
                 {
                     instance = obj;
@@ -30,17 +28,13 @@ public class LoadingUIController : MonoBehaviour
         }
     }
 
-    private static LoadingUIController Create()
+    private static LoadingUIController_Day Create()
     {
-        return Instantiate(Resources.Load<LoadingUIController>("LoadingUI"));
+        return Instantiate(Resources.Load<LoadingUIController_Day>("LoadingUI_Day"));
     }
 
     private void Awake()
     {
-        int rand = UnityEngine.Random.Range(0, sprites.Length);
-        int randTxt = UnityEngine.Random.Range(0, gameTips.Length);
-        backGround.sprite = sprites[rand];
-        gameTip.sprite = gameTips[randTxt];
         if (Instance != this)
         {
             Destroy(gameObject);
@@ -60,21 +54,24 @@ public class LoadingUIController : MonoBehaviour
     private string tip3_Text = "∫˚ √‡¡¶¿« πÆ¿∏∑Œ ¿Ãµø ¡ﬂ¿Ãø°ø‰. . .";
 
     public Text loadingInfo;
-    
-    [SerializeField] Image backGround, gameTip;
+    public Text gameTip;
+
+    [SerializeField] Image backGround;
     [SerializeField] Sprite[] sprites;
-    [SerializeField] Sprite[] gameTips;
 
     private void Start()
     {
-        
+
+
     }
     public void LoadScene(string sceneName)
     {
         gameObject.SetActive(true);
         SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneName = sceneName;
+
         StartCoroutine(InfoText());
+
         StartCoroutine(LoadSceneProcess());
     }
 
@@ -110,8 +107,7 @@ public class LoadingUIController : MonoBehaviour
             else
             {
                 timer += Time.unscaledDeltaTime * 0.4f;
-
-               /*backGround.sprite = backGround.sprite;
+                backGround.sprite = backGround.sprite;
                 if (progressBar.fillAmount <= progressBar.fillAmount)
                 {
                     // gameTip.text = tip2_Text;
@@ -130,7 +126,7 @@ public class LoadingUIController : MonoBehaviour
                 else
                 {
                     backGround.sprite = backGround.sprite;
-                }*/
+                }
 
 
                 progressBar.fillAmount = Mathf.Lerp(0.01f, 1f, timer);
@@ -160,7 +156,7 @@ public class LoadingUIController : MonoBehaviour
         while (timer <= 1f)
         {
             yield return null;
-            timer += Time.unscaledDeltaTime * 1.5f;
+            timer += Time.unscaledDeltaTime * 5f;
 
             canvasGroup.alpha = isFadeIn ? Mathf.Lerp(0f, 1f, timer) : Mathf.Lerp(1f, 0f, timer);
             canvasGroup.transform.LeanScale(Vector2.zero, timer).setEaseShake();
