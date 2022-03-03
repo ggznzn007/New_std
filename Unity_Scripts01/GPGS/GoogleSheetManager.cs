@@ -27,7 +27,7 @@ public class GoogleSheetManager : MonoBehaviour
 		valueTxt.text = GD.value;
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{			
-			LoadingUIController_02.Instance.LoadScene("Enter");
+			LoadingUIController.Instance.LoadScene("Enter");
 			WWWForm form = new WWWForm();
 			form.AddField("order", "logout");
 
