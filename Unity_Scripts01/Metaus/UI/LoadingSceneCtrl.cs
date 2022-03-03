@@ -8,9 +8,8 @@ public class LoadingSceneCtrl : MonoBehaviour
 {
     static string nextScene;
 
-    [SerializeField]
-    Image progressBar;
-
+    [SerializeField] Image progressBar;
+    
     public static void LoadScene(string sceneName)
     {
         nextScene = sceneName;
@@ -33,6 +32,7 @@ public class LoadingSceneCtrl : MonoBehaviour
             yield return null;
             if (op.progress < 0.3f)
             {
+                
                 progressBar.fillAmount = op.progress;
             }
             else
@@ -41,6 +41,7 @@ public class LoadingSceneCtrl : MonoBehaviour
                 progressBar.fillAmount = Mathf.Lerp(0.3f, 1f, timer);
                 if (progressBar.fillAmount >= 1f)
                 {
+                   
                     op.allowSceneActivation = true;
                     yield break;
                 }

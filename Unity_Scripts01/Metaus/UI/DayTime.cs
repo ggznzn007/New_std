@@ -1,55 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 public class DayTime : MonoBehaviour
 {
-    public GameObject nightView, dayView;    
-    public bool isDay = true; 
-
+   // public GameObject nightView, dayView, chatting, panel;   
     private void Awake()
-    {       
-        if (isDay)
-        {
-            DayTimePlayerSpawn();
-        }                
+    {
+      DayTimePlayerSpawn();        
     }
+   
+    public void ClickQuit()
+    {
 
+        LoadingUIController.Instance.LoadScene("Main");
+        ((PlayGamesPlatform)Social.Active).SignOut();
+
+    }
     public void DayTimePlayerSpawn()
     {
-        GameObject player1 = Instantiate(Resources.Load("InPlayer"), new Vector3(-3, 12, 0), Quaternion.identity) as GameObject;
+        GameObject player1 = Instantiate(Resources.Load("InPlayer"), new Vector3(-6, 14, 0), Quaternion.identity) as GameObject;
         player1.transform.localScale = new Vector3(0.3f, 0.3f, 1);
+
     }
     public void ClickBack()
     {
-        LoadingSceneCtrl.LoadScene("Main");
+        LoadingUIController.Instance.LoadScene("Main");
     }
 
-    // 채팅창 활성화
-    public void ClickChat()
+    public void SetActiveTrue()
     {
-        // chatting.SetActive(true);
+        this.gameObject.SetActive(true);
     }
-
-    // 채팅차 비활성화
-    public void ClickQuit()
+    public void SetActiveFalse()
     {
-        // chatting.SetActive(false);
+        this.gameObject.SetActive(false);
     }
-
-    public void ChangingNight()
-    {
-        isDay = false;
-        nightView.gameObject.SetActive(true);
-        dayView.gameObject.SetActive(false);
-    }
-
-    public void ChangingDay()
-    {
-        isDay = true;
-        nightView.gameObject.SetActive(false);
-        dayView.gameObject.SetActive(true);
-    }
-
-
+        
 }

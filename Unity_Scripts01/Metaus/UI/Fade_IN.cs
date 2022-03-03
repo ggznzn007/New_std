@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Fade_IN : MonoBehaviour
 {
     private GameObject fadeInPanel;
     private Image image;
+    
 
     private bool isAlpha = false;
 
@@ -28,10 +32,10 @@ public class Fade_IN : MonoBehaviour
     private IEnumerator FadeInScreen()
     {
         Color color = image.color;
-
+        
         for (int i = 100; i >= 0; i--)
-        {
-            color.a -= Time.deltaTime * 0.008f;
+        {           
+            color.a -= Time.deltaTime * 0.006f;
             image.color = color;
             if(image.color.a<=0)
             {
@@ -40,4 +44,6 @@ public class Fade_IN : MonoBehaviour
         }
         yield return null;
     }
+
+   
 }
