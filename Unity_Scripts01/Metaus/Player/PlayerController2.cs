@@ -6,20 +6,18 @@ using UnityEngine.EventSystems;
 using GooglePlayGames;
 using UnityEngine.SceneManagement;
 
-
-public class PlayerController : MonoBehaviour
+public class PlayerController2 : MonoBehaviour
 {
     public GameObject joyStick, chatting, panel, friendsPanel;
     public GameObject[] emoticons; // 이모티콘
-    public Settings2 settings2_script; // 설정
+    public Settings3 settings3_script; // 설정
     public RectTransform stick, backGround; // 조이스틱
     public Text userName;       // 구글 유저 이름
     //public RawImage userImage; // 구글 유저 이미지
     public SpriteRenderer userImg; // 구글 유저 이미지를 캐릭터의 이미지로 
     public GameObject voiceLockImage, voiceUnLockImage, voiceBtn;
     public Sprite[] voice_Btn;
-    public GameObject dayTime, officeRoom;
-    
+    public GameObject nightTime, officeRoom;
 
     public float speed; // 캐릭터 이동 속도
     public bool isCantMove; // 캐릭터 움직임 여부                          
@@ -34,9 +32,9 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        dayTime = GameObject.FindGameObjectWithTag("DayTime");
+        nightTime = GameObject.FindGameObjectWithTag("NightTime");
         officeRoom = GameObject.FindGameObjectWithTag("OfficeRoom");
-        dayTime.gameObject.SetActive(true);
+        nightTime.gameObject.SetActive(true);
         officeRoom.gameObject.SetActive(false);
         // Camera.main.transform.parent = transform;
         // Camera.main.transform.localPosition = new Vector3(0, 0, -10);
@@ -49,7 +47,7 @@ public class PlayerController : MonoBehaviour
     }
     public void GetGPGSImage()
     {
-        if(Social.localUser.authenticated)
+        if (Social.localUser.authenticated)
         {
             Texture2D pic = Social.localUser.image;
             Rect rect = new Rect(0, 0, pic.width, pic.height);
@@ -63,12 +61,11 @@ public class PlayerController : MonoBehaviour
             userImg.sprite = userImg.sprite;
             userName.text = userName.text;
         }
-        
     }
     private void FixedUpdate()
     {
 
-        if (settings2_script.isTouch == false)
+        if (settings3_script.isTouch == false)
         {
             JoyStickMove(); // 조이스틱
         }
@@ -167,21 +164,19 @@ public class PlayerController : MonoBehaviour
             return;
         else
         {
-
             if (friendsSwich)
             {
                 joyStick.gameObject.SetActive(false);
                 StartCoroutine(FriendsPanelOpen());
                 StartCoroutine(EmoticonPanelClose());
                 StartCoroutine(ChattingClose());
-                settings2_script.StartCoroutine("SettingClose");
+                settings3_script.StartCoroutine("SettingClose");
             }
             else
             {
                 joyStick.gameObject.SetActive(true);
                 StartCoroutine(FriendsPanelClose());
             }
-
         }
     }
     public void ClickVoice()
@@ -211,7 +206,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(EmoticonPanelOpen());
                 StartCoroutine(FriendsPanelClose());
                 StartCoroutine(ChattingClose());
-                settings2_script.StartCoroutine("SettingClose");
+                settings3_script.StartCoroutine("SettingClose");
             }
             else
             {
@@ -231,7 +226,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ChattingOpen());
                 StartCoroutine(EmoticonPanelClose());
                 StartCoroutine(FriendsPanelClose());
-                settings2_script.StartCoroutine("SettingClose");
+                settings3_script.StartCoroutine("SettingClose");
             }
             else
             {
@@ -268,6 +263,8 @@ public class PlayerController : MonoBehaviour
     // 캐릭터 삭제
     public void DestoyPlayer()
     {
+        Camera.main.transform.parent = null;
+
         Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -277,30 +274,30 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "StairUp")
         {
 
-            this.gameObject.transform.position = new Vector3(-13f, 24f, 0);
+            transform.position = new Vector3(-13f, 24f, 0);
         }
 
         if (collision.tag == "StairDown")
         {
 
-            this.gameObject.transform.position = new Vector3(-15f, 11f, 0);
+            transform.position = new Vector3(-15f, 11f, 0);
         }
 
         if (collision.tag == "EnterOffice")
         {
 
-            this.gameObject.transform.position = new Vector3(0f, 40.5f, 0);
+            this.transform.position = new Vector3(0f, 40.5f, 0);
             Camera.main.orthographicSize = 15f;
-            dayTime.gameObject.SetActive(false);
+            nightTime.gameObject.SetActive(false);
             officeRoom.gameObject.SetActive(true);
         }
 
         if (collision.tag == "EnterPark")
         {
-
-            this.gameObject.transform.position = new Vector3(-6, 14, 0);
+            // coll = null;
+            this.transform.position = new Vector3(-6, 14, 0);
             Camera.main.orthographicSize = 10f;
-            dayTime.gameObject.SetActive(true);
+            nightTime.gameObject.SetActive(true);
             officeRoom.gameObject.SetActive(false);
         }
 
@@ -313,13 +310,11 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Player")
         {
 
-
-
         }
     }
     IEnumerator FriendsPanelOpen()
     {
-        friendsPanel.transform.LeanMoveLocal(new Vector3(0f, 100f), 0.2f);
+        friendsPanel.transform.LeanMoveLocal(new Vector3(0f, 180f), 0.2f);
         friendsPanel.transform.LeanScale(Vector3.one, 0.2f);
         friendsSwich = false;
         yield return null;

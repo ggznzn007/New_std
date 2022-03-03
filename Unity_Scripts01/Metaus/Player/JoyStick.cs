@@ -15,7 +15,7 @@ public class JoyStick : MonoBehaviour
     {
         playerCtrl_script = GetComponent<PlayerCtrl>();
         anim = GetComponent<Animator>();
-        limit = backGround.rect.width * .26f;
+        limit = backGround.rect.width * .25f;
     }
 
     private void FixedUpdate()

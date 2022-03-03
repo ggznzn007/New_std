@@ -51,7 +51,7 @@ public class Settings : MonoBehaviour
     {
         /*mainView.SetActive(true);
         playView.SetActive(false);*/
-        LoadingSceneCtrl.LoadScene("Main");
+        LoadingUIController.Instance.LoadScene("Main");
         //캐릭터 삭제
         playerCtrl_script.DestoyPlayer();
     }
