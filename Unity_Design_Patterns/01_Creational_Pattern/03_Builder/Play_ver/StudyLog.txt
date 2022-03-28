@@ -1,0 +1,44 @@
+https://ansohxxn.github.io/design%20pattern/chapter10/ 예제2 참조
+
+1. 빌더패턴 설명
+객체를 생성할 때, 그 객체를 구성하는 부분 부분을 단계별로 먼저 생성하고
+이를 조합함으로써 객체 전체를 생성한다.
+복잡합 유형의 오브젝트를 작성할 때 도움된다.
+생성할 객체의 종류를 손쉽게 추가, 확장이 가능한 설계.
+플레이어 캐릭터 별개의 옷, 무기 등등을 조합하고 장착하는 등등
+여러가지 경우에 상요될 수 있다.
+빌더 패턴 Vs. 추상 팩토리 패턴PermalinkBuilder
+복잡한 객체의 단계별 생성에 중점을 두고 있는 패턴
+마지막 단계에서 생성한 제품을 리턴한다.
+Abstract Factory
+제품의 유사군들이 존재하는 경우 유연한 설계에 중점을 두는 패턴
+(단계마다) 만드는 즉시 제품을 리턴한다.
+테란, 프로토스 공장을 만들어둔 후 만드는 즉시 리턴
+
+2. 예제2 설명
+탈 것 Vehicle
+바퀴가 2 개인 것 👉 Motocycle
+바퀴가 4 개인 것 👉 Car
+인터페이스 IVehicleBuilder
+상속 CarBuilder
+상속 MotorCycleBuilder
+
+프리팹
+🟦Engine
+노란 구
+🟦FrameCar
+파란 큐브
+🟦FrameCycle
+초록 큐브
+🟦ParentOfVehicle
+빈 오브젝트로 부품들을 모으기 위한 용도
+게임이 실행되면 부품들이 얘의 자식이되어 자동차, 오토바이를 만든다.
+🟦Wheel
+빨간 구
+
+1) Vehicle.cs 코드를 ParentOfVehicle 프리팹에 붙인다.
+2) Game Manager라는 빈 오브젝트를 만든 후
+📜CarBuilder.cs 와 📜MotorCycleBuilder.cs 와 📜BuilderUse.cs 를 붙여준다.
+3) 프리팹을 연결해준다.
+4) 플레이하면 결과 나옴.
+
