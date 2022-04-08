@@ -99,11 +99,11 @@ public class Controller : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
 
         while (true)
         {
-            playerSpeed += 7.5f * Time.deltaTime; // 초당 가속
+            playerSpeed += 7f * Time.deltaTime; // 초당 가속
 
             if (playerSpeed > player.carSpeed)
             {
-                playerSpeed -= 8f * Time.deltaTime;
+                playerSpeed -= 7.5f * Time.deltaTime;
             }
 
             yield return null;
@@ -116,7 +116,7 @@ public class Controller : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
 
         while (true)
         {
-            playerSpeed -= 6.5f * Time.deltaTime; // 초당 감속
+            playerSpeed -= 7f * Time.deltaTime; // 초당 감속
 
             if (playerSpeed <= 0)
             {

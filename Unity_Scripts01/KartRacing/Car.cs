@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Car : MonoBehaviour
 {
-    public float carSpeed;
+    public float carSpeed = 15f;
     public Transform target;
     int nextTarget;
     public bool player;
@@ -99,7 +99,7 @@ public class Car : MonoBehaviour
                 }
             }
 
-            if(other.gameObject.tag =="CheckPoint")
+            if (other.gameObject.tag == "CheckPoint")
             {
                 GameManager.instance.check = true;
             }

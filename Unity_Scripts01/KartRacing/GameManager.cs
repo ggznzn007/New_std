@@ -161,7 +161,7 @@ Application.Quit();
     {
         for (int i = 0; i < car.Length; i++)
         {
-            car[i].carSpeed = Random.Range(baseSpeed, baseSpeed + 0.7f);
+            car[i].carSpeed = Random.Range(baseSpeed, baseSpeed + 0.5f);
         }
     }
 
