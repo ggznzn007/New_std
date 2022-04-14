@@ -10,9 +10,12 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private Sprite[] textures;
+
     private TextMeshProUGUI textNumeric;
     private Board board;
     private Vector3 correctPosition;
+
+    public bool IsCorrected { private set; get; } = false;
 
     private int numeric;
     public int Numeric
@@ -29,9 +32,11 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     {
         this.board = board;
         textNumeric = GetComponentInChildren<TextMeshProUGUI>();
-        int rand = Random.Range(0, textures.Length);
-        Sprite select = textures[rand];
-        this.GetComponent<Image>().sprite = select;
+
+        int rand = Random.Range(0, textures.Length);// 타일색을 랜덤으로
+        Sprite select = textures[rand];             // 랜덤텍스처를 스프라이트로 대입
+        this.GetComponent<Image>().sprite = select; // 생성되는 타일의 스프라이트에 스프라이트로 대입
+
         Numeric = numeric;
         if(Numeric==hideNumeric)
         {
@@ -47,8 +52,6 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click" + Numeric);
-
         board.IsMoveTile(this);
     }
 
@@ -73,5 +76,10 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
             yield return null;
         }
+
+        IsCorrected = correctPosition == GetComponent<RectTransform>().localPosition ? true : false;
+        // 처음 숫자를 배치했을때 correctPosition을 설정하고, 
+        // 이 값과 현재위치가 같으면 퍼즐이 제 위치에 있다고 판단 = true가 됨
+        board.IsGameOver();
     }
 }
