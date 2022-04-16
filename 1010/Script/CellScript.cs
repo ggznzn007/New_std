@@ -26,9 +26,8 @@ public class CellScript : MonoBehaviour
 	{
 		while (true) 
 		{
-			yield return null;
-			//transform.position = Vector3.Lerp(transform.position, pos + new Vector3(0, 1, 0), Time.deltaTime * 30);
-			transform.position = Vector3.Lerp(transform.position, pos + new Vector3(0, 1, 0), Time.deltaTime*100);
+			yield return null;			
+			transform.position = Vector3.Lerp(transform.position, pos + new Vector3(0, 1, 0), Time.deltaTime*50);
 		}
 	}
 
