@@ -40,7 +40,7 @@ public class CellScript : MonoBehaviour
 	}
 
 	void OnMouseDrag()
-	{
+	{		
 		pos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
 	}
 
