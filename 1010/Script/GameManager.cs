@@ -7,100 +7,91 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
-    const int SIZE = 10;
-    public Color[] ShapeColors;
-    public GameObject[] Cells;
-    public int[,] Array = new int[SIZE, SIZE];
-    public GameObject[] Shapes;
-    public Transform[] BlockPos;
+    // 블럭관련 변수
+    const int SIZE = 10;                                        // 블럭 크기
+    public Color[] ShapeColors;                                 // 블럭 색깔
+    public GameObject[] Cells;                                  // 게임바탕의 셀
+    public int[,] Array = new int[SIZE, SIZE];                  // 게임바탕 셀의 배열
+    public GameObject[] Shapes;                                 // 생성되는 블럭의 배열
+    public Transform[] BlockPos;                                // 블럭의 위치
     public event System.Action EditorRepaint = () => { };
 
     // 점수관련 변수   
-    int beforeScore;
-    int newScore;
-    public TextMeshProUGUI ScoreTextMeshPro;
-    public TextMeshProUGUI BestScoreText;
+    int beforeScore;                                            // 최고점수를 저장하기 위한 변수
+    int newScore;                                               // 새로운점수를 저장하기 위한 변수
+    public TextMeshProUGUI ScoreTextMeshPro;                    // 현재점수
+    public TextMeshProUGUI BestScoreText;                       // 최고점수
 
+    // 옵션 변수
     [SerializeField]
-    private GameObject bgm;
+    private GameObject bgm;                                     // BGM 오브젝트
     [SerializeField]
-    private GameObject menuPanel;
+    private GameObject menuPanel;                               // 메뉴창(게임오버 시)
     [SerializeField]
-    private GameObject backPanel;
+    private GameObject backPanel;                               // 메뉴창(뒤로가기 눌렀을 때)
     [SerializeField]
-    private TextMeshProUGUI menupanelScore;
+    private TextMeshProUGUI menupanelScore;                     // 메뉴창에 뜨는 점수(게임오버)
     [SerializeField]
-    private TextMeshProUGUI backpanelScore;
-    
+    private TextMeshProUGUI backpanelScore;                     // 메뉴창에 뜨는 점수(뒤로가기)
 
     void Start()
     {
         if (PlayerPrefs.HasKey("beforeScore"))
         {
-            beforeScore = PlayerPrefs.GetInt("beforeScore");
-            BestScoreText.text = "Best : " + beforeScore.ToString();
+            beforeScore = PlayerPrefs.GetInt("beforeScore");     // 이전 턴에서 저장된 점수를 불러오기
+            BestScoreText.text = "Best : " + beforeScore.ToString(); // 최고점수 표시
         }
-        PlayerPrefs.Save();
-        StartCoroutine(SpawnBlocks());
+        PlayerPrefs.Save(); // 점수 저장
+        StartCoroutine(SpawnBlocks()); // 블럭 생성
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) // 뒤로가기
         {
-            bgm.GetComponent<AudioSource>().Pause();
-            SoundManager.instance.Playsound(SoundManager.instance.blockClick);
-            backPanel.SetActive(true);
-            backpanelScore.text = "현재기록 : " + newScore.ToString();
+            bgm.GetComponent<AudioSource>().Pause(); // BGM 잠깐 멈춤
+            SoundManager.instance.Playsound(SoundManager.instance.blockClick); // 블럭선택소리 재생
+            backPanel.SetActive(true); // 메뉴창(뒤로가기) 활성화
+            backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
         }
-            /*#if UNITY_EDITOR            
-                        UnityEditor.EditorApplication.isPlaying = false;
-                        // 안드로이드
-            #else
-            Application.Quit();
+    }
 
-            #endif
-                    }*/
-        }
-    IEnumerator SpawnBlocks()
+    IEnumerator SpawnBlocks() // 블럭생성 메소드
     {
-        SoundManager.instance.Playsound(SoundManager.instance.blockSet);
+        SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생
         for (int i = 0; i < BlockPos.Length; i++)
         {
-            yield return new WaitForSeconds(0.08f);            
+            yield return new WaitForSeconds(0.08f);
             Transform CurShape = Instantiate(Shapes[Random.Range(0, Shapes.Length)],
             //Transform CurShape = Instantiate(Shapes[0],
             //Transform CurShape = Instantiate(Shapes[8],
-            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;            
+            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[i]);
             CurShape.DOMove(BlockPos[i].position, 0.4f);
         }
         yield return null;
-        if (!AvailCheck()) Die();
+        if (!AvailCheck()) Die(); // 게임오버시 생성 중단
     }
-
 
     GameObject GetCell(int x, int y)
     {
-        return Cells[y * SIZE + x];
+        return Cells[y * SIZE + x]; // 배경이 되는 셀 불러오기
     }
 
-    bool InRange(int x, int y)
+    bool InRange(int x, int y) // 배경이 되는 셀 범위
     {
         if (x < 0 || y < 0 || x >= SIZE || y >= SIZE) return false;
         return true;
     }
 
-    bool Possible(int x, int y)
+    bool Possible(int x, int y) // 가능한 지 여부 판단
     {
         if (Array[x, y] != 0) return false;
         return true;
     }
 
-
     public void BlockInput(CellScript cellScript, int colorIndex, Vector3 lastPos, Vector3[] ShapePos)
-    {
-
+    {  // 블럭을 놓는 메소드
         for (int i = 0; i < ShapePos.Length; i++)
         {
             Vector3 SumPos = ShapePos[i] + lastPos;
@@ -121,7 +112,7 @@ public class GameManager : MonoBehaviour
         EditorRepaint();
     }
 
-    void LineLogic(int shapePosLength)
+    void LineLogic(int shapePosLength) // 라인 꽉차면 없어지고 점수계산되는 메소드
     {
         // 가로세로
         int oneLine = 0;
@@ -147,7 +138,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 파괴
+        // 라인 파괴
         for (int i = 0; i < SIZE; i++)
             for (int j = 0; j < SIZE; j++)
                 if (Array[i, j] == -1)
@@ -164,19 +155,18 @@ public class GameManager : MonoBehaviour
                     SoundManager.instance.Playsound(SoundManager.instance.blockClear);
                 }
 
-        // 점수		
+        // 점수계산	
         newScore += oneLine * 12 + shapePosLength;
 
-        ScoreTextMeshPro.text = newScore.ToString();
-        if (newScore > beforeScore)
+        ScoreTextMeshPro.text = newScore.ToString(); // 현재점수 표시
+        if (newScore > beforeScore) // 이전점수보다 현재점수 크면 저장
         {
             PlayerPrefs.SetInt("beforeScore", newScore);
         }
-        
+
     }
 
-
-    bool Putable(Vector3[] ShapePos)
+    bool Putable(Vector3[] ShapePos) // 블럭을 놓을 수 있는지 판단
     {
         for (int i = 0; i < SIZE; i++)
         {
@@ -196,7 +186,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-
     bool AvailCheck()
     {
         int count = 0;
@@ -211,8 +200,7 @@ public class GameManager : MonoBehaviour
         return count == 0;
     }
 
-
-    void EndTurn()
+    void EndTurn() // 화면 아래에 3개의 블럭이 다 사용되면 새로운 블럭생성
     {
         ScoreTextMeshPro.text = newScore.ToString();
 
@@ -225,30 +213,29 @@ public class GameManager : MonoBehaviour
         if (count == 0) StartCoroutine(SpawnBlocks());
     }
 
-
-    void Die()
+    void Die() // 게임오버 판단 메소드
     {
         SoundManager.instance.Playsound(SoundManager.instance.gameOver);
-        bgm.GetComponent<AudioSource>().Pause();
-        print("죽음");
-        menuPanel.SetActive(true);
+        bgm.GetComponent<AudioSource>().Pause(); // BGM 잠시멈춤        
+        menuPanel.SetActive(true); // 메뉴창 활성화
         menupanelScore.text = "현재기록 : " + newScore.ToString();
     }
 
-    public  void BackToGame()
+    public void BackToGame() // 돌아가기 
     {
         SoundManager.instance.Playsound(SoundManager.instance.blockClick);
-        backPanel.SetActive(false);
-        bgm.GetComponent<AudioSource>().Play();
-    }
-    public void ReStart()
-    {
-        SoundManager.instance.Playsound(SoundManager.instance.blockClick);
-        SceneManager.LoadScene("SampleScene");       
+        backPanel.SetActive(false); // 메뉴창 비활성화
+        bgm.GetComponent<AudioSource>().Play(); // BGM 다시재생
     }
 
-    public void QuitGame()
-    {        
+    public void ReStart() // 다시하기
+    {
+        SoundManager.instance.Playsound(SoundManager.instance.blockClick);
+        SceneManager.LoadScene("SampleScene");       // 게임 재시작
+    }
+
+    public void QuitGame() // 나가기
+    {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         // 안드로이드
