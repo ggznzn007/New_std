@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int[,] Array = new int[SIZE, SIZE];                  // 게임바탕 셀의 배열
     public GameObject[] Shapes;                                 // 생성되는 블럭의 배열
     public Transform[] BlockPos;                                // 블럭의 위치
-    public event System.Action EditorRepaint = () => { };
+    public event System.Action EditorRepaint = () => { };       // 셀을 재배치하기 위한
 
     // 점수관련 변수   
     int beforeScore;                                            // 최고점수를 저장하기 위한 변수
@@ -61,13 +61,16 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생
         for (int i = 0; i < BlockPos.Length; i++)
         {
-            yield return new WaitForSeconds(0.08f);
+            yield return new WaitForSeconds(0.08f);            
             Transform CurShape = Instantiate(Shapes[Random.Range(0, Shapes.Length)],
             //Transform CurShape = Instantiate(Shapes[0],
             //Transform CurShape = Instantiate(Shapes[8],
-            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            //Transform CurShape = Instantiate(Shapes[9],
+            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;            
+            //BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[i]);
             CurShape.DOMove(BlockPos[i].position, 0.4f);
+            
         }
         yield return null;
         if (!AvailCheck()) Die(); // 게임오버시 생성 중단
@@ -156,8 +159,17 @@ public class GameManager : MonoBehaviour
                 }
 
         // 점수계산	
-        newScore += oneLine * 12 + shapePosLength;
-
+        newScore += oneLine switch // Switch case 사용
+        {
+            1 => oneLine * 10 + shapePosLength, // 1줄 클리어, 블럭수 + 1*10             10  보너스
+            2 => oneLine * 30 + shapePosLength, // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
+            3 => oneLine * 60 + shapePosLength, // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
+            4 => oneLine * 100 + shapePosLength,// 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
+            5 => oneLine * 150 + shapePosLength,// 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
+            6 => oneLine * 210 + shapePosLength,// 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
+            _ => shapePosLength, //Default => _ 로 표현 (C# 9.0에서 나온 간결한 기능 )
+        };
+        //newScore += oneLine * 10 + shapePosLength;       
         ScoreTextMeshPro.text = newScore.ToString(); // 현재점수 표시
         if (newScore > beforeScore) // 이전점수보다 현재점수 크면 저장
         {
