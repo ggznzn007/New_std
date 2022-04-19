@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     // 블럭관련 변수
     const int SIZE = 10;                                        // 블럭 크기
+    //public List<GameObject> shapes;
     public Color[] ShapeColors;                                 // 블럭 색깔
     public GameObject[] Cells;                                  // 게임바탕의 셀
     public int[,] Array = new int[SIZE, SIZE];                  // 게임바탕 셀의 배열
-    public GameObject[] Shapes;                                 // 생성되는 블럭의 배열
+    public GameObject[] Shapes;                                 // 생성되는 블럭의 배열    
     public Transform[] BlockPos;                                // 블럭의 위치
     public event System.Action EditorRepaint = () => { };       // 셀을 재배치하기 위한
 
@@ -56,21 +58,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     IEnumerator SpawnBlocks() // 블럭생성 메소드
     {
         SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생
         for (int i = 0; i < BlockPos.Length; i++)
         {
-            yield return new WaitForSeconds(0.08f);            
-            Transform CurShape = Instantiate(Shapes[Random.Range(0, Shapes.Length)],
-            //Transform CurShape = Instantiate(Shapes[0],
-            //Transform CurShape = Instantiate(Shapes[8],
-            //Transform CurShape = Instantiate(Shapes[9],
-            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;            
-            //BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            yield return new WaitForSeconds(0.08f);
+            
+            //int randShape = Random.Range(0, shapes.Count);
+            //int currentShape = randShape;
+            Transform CurShape = Instantiate(Shapes[Random.Range(Random.Range(0,Shapes.Length),Shapes.Length)],
+           //Transform CurShape = Instantiate(Shapes[currentShape],
+            //Transform CurShape = Instantiate(Shapes[17],            
+            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;             
             CurShape.SetParent(BlockPos[i]);
             CurShape.DOMove(BlockPos[i].position, 0.4f);
-            
+            //shapes.RemoveAt(currentShape);
         }
         yield return null;
         if (!AvailCheck()) Die(); // 게임오버시 생성 중단
@@ -103,10 +108,12 @@ public class GameManager : MonoBehaviour
         }
 
         for (int i = 0; i < ShapePos.Length; i++)
-        {
+        {          
+            int randColor = Random.Range(1, ShapeColors.Length);            
+            colorIndex = randColor;
             Vector3 SumPos = ShapePos[i] + lastPos;
             Array[(int)SumPos.x, (int)SumPos.y] = colorIndex;
-            GetCell((int)SumPos.x, (int)SumPos.y).GetComponent<SpriteRenderer>().color = ShapeColors[colorIndex];
+            GetCell((int)SumPos.x, (int)SumPos.y).GetComponent<SpriteRenderer>().color = ShapeColors[colorIndex];            
         }
 
         cellScript.ForceDestroy();
@@ -115,6 +122,7 @@ public class GameManager : MonoBehaviour
         EditorRepaint();
     }
 
+    
     void LineLogic(int shapePosLength) // 라인 꽉차면 없어지고 점수계산되는 메소드
     {
         // 가로세로
