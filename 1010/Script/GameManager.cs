@@ -1,16 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
-using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     // 블럭관련 변수
-    const int SIZE = 10;                                        // 블럭 크기
-    //public List<GameObject> shapes;
+    const int SIZE = 10;                                        // 블럭 크기   
     public Color[] ShapeColors;                                 // 블럭 색깔
     public GameObject[] Cells;                                  // 게임바탕의 셀
     public int[,] Array = new int[SIZE, SIZE];                  // 게임바탕 셀의 배열
@@ -44,7 +41,9 @@ public class GameManager : MonoBehaviour
             BestScoreText.text = "Best : " + beforeScore.ToString(); // 최고점수 표시
         }
         PlayerPrefs.Save(); // 점수 저장
+        
         StartCoroutine(SpawnBlocks()); // 블럭 생성
+        
     }
 
     private void Update()
@@ -56,30 +55,75 @@ public class GameManager : MonoBehaviour
             backPanel.SetActive(true); // 메뉴창(뒤로가기) 활성화
             backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
         }
+        
     }
 
+    public GameObject[] ShuffleShapes(GameObject[] array)
+    {
+        int rand1, rand2;
+        GameObject temp;
 
+        for (int i = 0; i < array.Length; i++)
+        {
+            rand1 = Random.Range(0, array.Length);
+            rand2 = Random.Range(0, array.Length);
 
+            temp = array[rand1];
+            array[rand1] = array[rand2];
+            array[rand2] = temp;
+        }
+        return array;
+    }
     IEnumerator SpawnBlocks() // 블럭생성 메소드
     {
-        SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생
-        for (int i = 0; i < BlockPos.Length; i++)
+        SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생            
+        ShuffleShapes(Shapes);
+        // Debug.Log("ShuffleShapes");
+        yield return new WaitForSeconds(0.09f);
+        if (BlockPos[0])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(0, 8)],
+            //Transform CurShape = Instantiate(Shapes[22],            
+            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[0]);
+            CurShape.DOMove(BlockPos[0].position, 0.4f);
+        }
+        if (BlockPos[1])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(8, 15)],
+            //Transform CurShape = Instantiate(Shapes[17],            
+            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[1]);
+            CurShape.DOMove(BlockPos[1].position, 0.4f);
+        }
+        if (BlockPos[2])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(15, 23)],
+            //Transform CurShape = Instantiate(Shapes[17],            
+            BlockPos[2].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[2]);
+            CurShape.DOMove(BlockPos[2].position, 0.4f);
+        }
+        /*for (int i = 0; i < BlockPos.Length; i++)
         {
             yield return new WaitForSeconds(0.08f);
-            
-            //int randShape = Random.Range(0, shapes.Count);
-            //int currentShape = randShape;
-            Transform CurShape = Instantiate(Shapes[Random.Range(Random.Range(0,Shapes.Length),Shapes.Length)],
-           //Transform CurShape = Instantiate(Shapes[currentShape],
+
+            //Transform CurShape = Instantiate(Shapes[Random.Range(0,Shapes.Length)],
+            Transform CurShape = Instantiate(Shapes[Random.Range(0, Shapes.Length)],
             //Transform CurShape = Instantiate(Shapes[17],            
-            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;             
+            BlockPos[i].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[i]);
             CurShape.DOMove(BlockPos[i].position, 0.4f);
-            //shapes.RemoveAt(currentShape);
-        }
+        }*/
+        yield return new WaitForSeconds(0.1f);
+        ShuffleColor(ShapeColors);
         yield return null;
+
         if (!AvailCheck()) Die(); // 게임오버시 생성 중단
+
     }
+
+
 
     GameObject GetCell(int x, int y)
     {
@@ -98,31 +142,46 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+     public Color[] ShuffleColor(Color[] array)
+     {
+         int rand1, rand2;
+         Color temp;
+
+         for (int i = 0; i < array.Length; i++)
+         {
+             rand1 = Random.Range(1, array.Length);
+             rand2 = Random.Range(1, array.Length);
+
+             temp = array[rand1];
+             array[rand1] = array[rand2];
+             array[rand2] = temp;
+         }
+         return array;
+     }
+
     public void BlockInput(CellScript cellScript, int colorIndex, Vector3 lastPos, Vector3[] ShapePos)
-    {  // 블럭을 놓는 메소드
+    {     
+
+        // 블럭을 놓는 메소드
         for (int i = 0; i < ShapePos.Length; i++)
         {
             Vector3 SumPos = ShapePos[i] + lastPos;
             if (!InRange((int)SumPos.x, (int)SumPos.y)) return;
-            if (!Possible((int)SumPos.x, (int)SumPos.y)) return;
+            if (!Possible((int)SumPos.x, (int)SumPos.y)) return;            
         }
-
         for (int i = 0; i < ShapePos.Length; i++)
-        {          
-            int randColor = Random.Range(1, ShapeColors.Length);            
-            colorIndex = randColor;
+        {                        
             Vector3 SumPos = ShapePos[i] + lastPos;
             Array[(int)SumPos.x, (int)SumPos.y] = colorIndex;
-            GetCell((int)SumPos.x, (int)SumPos.y).GetComponent<SpriteRenderer>().color = ShapeColors[colorIndex];            
-        }
-
+            GetCell((int)SumPos.x, (int)SumPos.y).GetComponent<SpriteRenderer>().color = ShapeColors[colorIndex];
+        }            
         cellScript.ForceDestroy();
         LineLogic(ShapePos.Length);
         Invoke("EndTurn", 0.07f);
-        EditorRepaint();
+        EditorRepaint();        
     }
 
-    
+
     void LineLogic(int shapePosLength) // 라인 꽉차면 없어지고 점수계산되는 메소드
     {
         // 가로세로
