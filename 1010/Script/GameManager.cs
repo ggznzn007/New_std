@@ -41,9 +41,9 @@ public class GameManager : MonoBehaviour
             BestScoreText.text = "Best : " + beforeScore.ToString(); // 최고점수 표시
         }
         PlayerPrefs.Save(); // 점수 저장
-        
+
         StartCoroutine(SpawnBlocks()); // 블럭 생성
-        
+
     }
 
     private void Update()
@@ -53,12 +53,19 @@ public class GameManager : MonoBehaviour
             bgm.GetComponent<AudioSource>().Pause(); // BGM 잠깐 멈춤
             SoundManager.instance.Playsound(SoundManager.instance.blockClick); // 블럭선택소리 재생
             backPanel.SetActive(true); // 메뉴창(뒤로가기) 활성화
-            backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
+            if (newScore > beforeScore)
+            {
+                backpanelScore.text = "New Best : " + newScore.ToString();
+            }
+            else
+            {
+                backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
+            }
         }
-        
+
     }
 
-    public GameObject[] ShuffleShapes(GameObject[] array)
+    public GameObject[] ShuffleShapes(GameObject[] array) // 블럭배열 내에 블럭을 섞는 메소드
     {
         int rand1, rand2;
         GameObject temp;
@@ -74,40 +81,10 @@ public class GameManager : MonoBehaviour
         }
         return array;
     }
-    IEnumerator SpawnBlocks() // 블럭생성 메소드
-    {
-        SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생            
-        ShuffleShapes(Shapes);
-        // Debug.Log("ShuffleShapes");
-        yield return new WaitForSeconds(0.09f);
-        if (BlockPos[0])
+    /*for (int i = 0; i < BlockPos.Length; i++)
         {
-            Transform CurShape = Instantiate(Shapes[Random.Range(0, 8)],
-            //Transform CurShape = Instantiate(Shapes[22],            
-            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[0]);
-            CurShape.DOMove(BlockPos[0].position, 0.4f);
-        }
-        if (BlockPos[1])
-        {
-            Transform CurShape = Instantiate(Shapes[Random.Range(8, 15)],
-            //Transform CurShape = Instantiate(Shapes[17],            
-            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[1]);
-            CurShape.DOMove(BlockPos[1].position, 0.4f);
-        }
-        if (BlockPos[2])
-        {
-            Transform CurShape = Instantiate(Shapes[Random.Range(15, 23)],
-            //Transform CurShape = Instantiate(Shapes[17],            
-            BlockPos[2].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[2]);
-            CurShape.DOMove(BlockPos[2].position, 0.4f);
-        }
-        /*for (int i = 0; i < BlockPos.Length; i++)
-        {
+            
             yield return new WaitForSeconds(0.08f);
-
             //Transform CurShape = Instantiate(Shapes[Random.Range(0,Shapes.Length)],
             Transform CurShape = Instantiate(Shapes[Random.Range(0, Shapes.Length)],
             //Transform CurShape = Instantiate(Shapes[17],            
@@ -115,8 +92,38 @@ public class GameManager : MonoBehaviour
             CurShape.SetParent(BlockPos[i]);
             CurShape.DOMove(BlockPos[i].position, 0.4f);
         }*/
+
+    IEnumerator SpawnBlocks() // 블럭생성 메소드
+    {
+        SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생            
+
+        yield return new WaitForSeconds(0.09f);
+        if (BlockPos[0])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(0, 7)],
+            //Transform CurShape = Instantiate(Shapes[22],            
+            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[0]);
+            CurShape.DOMove(BlockPos[0].position, 0.4f);
+        }
+        if (BlockPos[1])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(7, 14)],
+            //Transform CurShape = Instantiate(Shapes[17],            
+            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[1]);
+            CurShape.DOMove(BlockPos[1].position, 0.4f);
+        }
+        if (BlockPos[2])
+        {
+            Transform CurShape = Instantiate(Shapes[Random.Range(14, 21)],
+            //Transform CurShape = Instantiate(Shapes[17],            
+            BlockPos[2].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            CurShape.SetParent(BlockPos[2]);
+            CurShape.DOMove(BlockPos[2].position, 0.4f);
+        }
         yield return new WaitForSeconds(0.1f);
-        ShuffleColor(ShapeColors);
+        ShuffleColor(ShapeColors); // 3개의 블럭을 놓은 후 놓는 블럭의 색을 변경
         yield return null;
 
         if (!AvailCheck()) Die(); // 게임오버시 생성 중단
@@ -142,43 +149,43 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-     public Color[] ShuffleColor(Color[] array)
-     {
-         int rand1, rand2;
-         Color temp;
+    public Color[] ShuffleColor(Color[] array) // 놓여지는 블럭의 색상을 섞는 메소드
+    {
+        int rand1, rand2;
+        Color temp;
 
-         for (int i = 0; i < array.Length; i++)
-         {
-             rand1 = Random.Range(1, array.Length);
-             rand2 = Random.Range(1, array.Length);
+        for (int i = 0; i < array.Length; i++)
+        {
+            rand1 = Random.Range(1, array.Length);
+            rand2 = Random.Range(1, array.Length);
 
-             temp = array[rand1];
-             array[rand1] = array[rand2];
-             array[rand2] = temp;
-         }
-         return array;
-     }
+            temp = array[rand1];
+            array[rand1] = array[rand2];
+            array[rand2] = temp;
+        }
+        return array;
+    }
 
     public void BlockInput(CellScript cellScript, int colorIndex, Vector3 lastPos, Vector3[] ShapePos)
-    {     
+    {
 
         // 블럭을 놓는 메소드
         for (int i = 0; i < ShapePos.Length; i++)
         {
             Vector3 SumPos = ShapePos[i] + lastPos;
             if (!InRange((int)SumPos.x, (int)SumPos.y)) return;
-            if (!Possible((int)SumPos.x, (int)SumPos.y)) return;            
+            if (!Possible((int)SumPos.x, (int)SumPos.y)) return;
         }
         for (int i = 0; i < ShapePos.Length; i++)
-        {                        
+        {
             Vector3 SumPos = ShapePos[i] + lastPos;
             Array[(int)SumPos.x, (int)SumPos.y] = colorIndex;
             GetCell((int)SumPos.x, (int)SumPos.y).GetComponent<SpriteRenderer>().color = ShapeColors[colorIndex];
-        }            
+        }
         cellScript.ForceDestroy();
         LineLogic(ShapePos.Length);
         Invoke("EndTurn", 0.07f);
-        EditorRepaint();        
+        EditorRepaint();
     }
 
 
@@ -228,12 +235,12 @@ public class GameManager : MonoBehaviour
         // 점수계산	
         newScore += oneLine switch // Switch case 사용
         {
-            1 => oneLine * 10 + shapePosLength, // 1줄 클리어, 블럭수 + 1*10             10  보너스
-            2 => oneLine * 30 + shapePosLength, // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
-            3 => oneLine * 60 + shapePosLength, // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
-            4 => oneLine * 100 + shapePosLength,// 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
-            5 => oneLine * 150 + shapePosLength,// 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
-            6 => oneLine * 210 + shapePosLength,// 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
+            1 => oneLine * 10 + shapePosLength,       // 1줄 클리어, 블럭수 + 1*10             10  보너스
+            2 => oneLine * 30 + shapePosLength + 10,  // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
+            3 => oneLine * 60 + shapePosLength + 50,  // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
+            4 => oneLine * 100 + shapePosLength + 80,  // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
+            5 => oneLine * 150 + shapePosLength + 100,// 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
+            6 => oneLine * 210 + shapePosLength,      // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
             _ => shapePosLength, //Default => _ 로 표현 (C# 9.0에서 나온 간결한 기능 )
         };
         //newScore += oneLine * 10 + shapePosLength;       
@@ -297,7 +304,15 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.Playsound(SoundManager.instance.gameOver);
         bgm.GetComponent<AudioSource>().Pause(); // BGM 잠시멈춤        
         menuPanel.SetActive(true); // 메뉴창 활성화
-        menupanelScore.text = "현재기록 : " + newScore.ToString();
+        if (newScore > beforeScore)
+        {
+            menupanelScore.text = "New Best : " + newScore.ToString();
+        }
+        else
+        {
+
+            menupanelScore.text = "현재기록 : " + newScore.ToString();
+        }
     }
 
     public void BackToGame() // 돌아가기 
