@@ -10,7 +10,6 @@ public class CellScript : MonoBehaviour
     GameManager GM;
     Vector3 BlockPos, pos;
 
-
     void Start()
     {
 
