@@ -10,6 +10,11 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	private	GameObject	studentPrefab;	// Student 타입의 프리팹
 	
+	[SerializeField]
+	private	string[]	arrayUnemployeds;	// Unemployed들의 이름 배열
+	[SerializeField]
+	private	GameObject	unemployedPrefab;	// Unemployed 타입의 프리팹
+
 	// 재생 제어를 위한 모든 에이전트 리스트
 	private	List<BaseGameEntity>	entitys;
 
@@ -27,6 +32,16 @@ public class GameController : MonoBehaviour
 			entity.Setup(arrayStudents[i]);
 
 			// 에이전트들의 재생 제어를 위해 리스트에 저장
+			entitys.Add(entity);
+		}
+
+		// Unemployed 에이전트 생성
+		for ( int i = 0; i < arrayUnemployeds.Length; ++ i )
+		{
+			GameObject	clone	= Instantiate(unemployedPrefab);
+			Unemployed	entity	= clone.GetComponent<Unemployed>();
+			entity.Setup(arrayUnemployeds[i]);
+
 			entitys.Add(entity);
 		}
 	}
