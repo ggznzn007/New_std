@@ -36,6 +36,11 @@ namespace StudentOwnedStates
 		{
 			entity.PrintText("침대를 정리하고 집 밖으로 나간다.");
 		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			return false;
+		}
 	}
 
 	public class StudyHard : State<Student>
@@ -85,6 +90,11 @@ namespace StudentOwnedStates
 		public override void Exit(Student entity)
 		{
 			entity.PrintText("자리를 정리하고 도서관을 나간다.");
+		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			return false;
 		}
 	}
 
@@ -150,6 +160,11 @@ namespace StudentOwnedStates
 		{
 			entity.PrintText("강의실 문을 열고 밖으로 나온다.");
 		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			return false;
+		}
 	}
 
 	public class PlayAGame : State<Student>
@@ -190,6 +205,11 @@ namespace StudentOwnedStates
 		{
 			entity.PrintText("PC방에서 나온다.");
 		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			return false;
+		}
 	}
 
 	public class HitTheBottle : State<Student>
@@ -218,6 +238,61 @@ namespace StudentOwnedStates
 		public override void Exit(Student entity)
 		{
 			entity.PrintText("그만 마셔야지.. 술집에서 나온다.");
+		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			return false;
+		}
+	}
+
+	public class GlobalMessageReceive : State<Student>
+	{
+		public override void Enter(Student entity)
+		{
+		}
+
+		public override void Execute(Student entity)
+		{
+		}
+
+		public override void Exit(Student entity)
+		{
+		}
+
+		public override bool OnMessage(Student entity, Telegram telegram)
+		{
+			entity.PrintText($"Receive Message : sender({telegram.sender}), receiver({telegram.receiver})");
+
+			if ( telegram.message.Equals("GO_PCROOM") )
+			{
+				if ( entity.CurrentState == StudentStates.PlayAGame )
+				{
+					entity.PrintText($"Send Message {telegram.receiver}님이 {telegram.sender}님에게 ALREADY_PCROOM 전송");
+					MessageDispatcher.Instance.DispatchMessage(0, telegram.receiver, telegram.sender, "ALREADY_PCROOM");
+				}
+				else
+				{
+					int stateIndex = Random.Range(0, 2);
+					if ( stateIndex == 0 )
+					{
+						entity.PrintText($"Send Message {telegram.receiver}님이 {telegram.sender}님에게 GO_PCROOM 전송");
+						MessageDispatcher.Instance.DispatchMessage(0, telegram.receiver, telegram.sender, "GO_PCROOM");
+					
+						// PC방에 가서 게임을 하는 "PlayAGame" 상태로 변경
+						entity.ChangeState(StudentStates.PlayAGame);
+					}
+					else
+					{
+						entity.PrintText($"Send Message {telegram.receiver}님이 {telegram.sender}님에게 SORRY 전송");
+						MessageDispatcher.Instance.DispatchMessage(0, telegram.receiver, telegram.sender, "SORRY");
+					}
+				}
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
