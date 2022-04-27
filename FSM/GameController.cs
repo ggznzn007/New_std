@@ -44,11 +44,24 @@ public class GameController : MonoBehaviour
 
 			entitys.Add(entity);
 		}
+
+		// 에이전트 데이터베이스 초기화 및 모든 에이전트 등록
+		EntityDatabase.Instance.Setup();
+		for ( int i = 0; i < entitys.Count; ++ i )
+		{
+			EntityDatabase.Instance.RegisterEntity(entitys[i]);
+		}
+
+		// 메시지 관리자 초기화
+		MessageDispatcher.Instance.Setup();
 	}
 
 	private void Update()
 	{
 		if ( IsGameStop == true ) return;
+
+		// 지연 발송되어야 하는 메시지 관리
+		MessageDispatcher.Instance.DispatchDelayedMessages();
 
 		// 모든 에이전트의 Updated()를 호출해 에이전트 구동
 		for ( int i = 0; i < entitys.Count; ++ i )
