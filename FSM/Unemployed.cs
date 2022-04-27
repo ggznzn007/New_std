@@ -80,5 +80,10 @@ public class Unemployed : BaseGameEntity
 	{
 		stateMachine.RevertToPreviousState();
 	}
+
+	public override bool HandleMessage(Telegram telegram)
+	{
+		return stateMachine.HandleMessage(telegram);
+	}
 }
 
