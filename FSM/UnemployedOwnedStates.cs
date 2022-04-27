@@ -25,6 +25,11 @@ namespace UnemployedOwnedStates
 			// 지루함이 4 이상이면
 			if ( entity.Bored >= 4 )
 			{
+				// "고박사"에게 PC방에 함께 가자고 메시지 전송
+				string receiver = "고박사";
+				entity.PrintText($"Send Message : {entity.EntityName}님이 {receiver}에게 GO_PCROOM 전송");
+				MessageDispatcher.Instance.DispatchMessage(0, entity.EntityName, receiver, "GO_PCROOM");
+
 				// PC방에 가서 게임을 하는 "PlayAGame" 상태로 변경
 				entity.ChangeState(UnemployedStates.PlayAGame);
 			}
@@ -33,6 +38,11 @@ namespace UnemployedOwnedStates
 		public override void Exit(Unemployed entity)
 		{
 			entity.PrintText("정리를 하지 않고 그냥 나간다.");
+		}
+
+		public override bool OnMessage(Unemployed entity, Telegram telegram)
+		{
+			return false;
 		}
 	}
 
@@ -74,6 +84,11 @@ namespace UnemployedOwnedStates
 		{
 			entity.PrintText("잘 즐겼다.");
 		}
+
+		public override bool OnMessage(Unemployed entity, Telegram telegram)
+		{
+			return false;
+		}
 	}
 
 	public class HitTheBottle : State<Unemployed>
@@ -106,6 +121,11 @@ namespace UnemployedOwnedStates
 		{
 			entity.PrintText("술집에서 나온다.");
 		}
+
+		public override bool OnMessage(Unemployed entity, Telegram telegram)
+		{
+			return false;
+		}
 	}
 
 	public class VisitBathroom : State<Unemployed>
@@ -126,6 +146,11 @@ namespace UnemployedOwnedStates
 		public override void Exit(Unemployed entity)
 		{
 			entity.PrintText("손을 씻고 화장실에서 나간다.");
+		}
+
+		public override bool OnMessage(Unemployed entity, Telegram telegram)
+		{
+			return false;
 		}
 	}
 
@@ -151,6 +176,11 @@ namespace UnemployedOwnedStates
 
 		public override void Exit(Unemployed entity)
 		{
+		}
+
+		public override bool OnMessage(Unemployed entity, Telegram telegram)
+		{
+			return false;
 		}
 	}
 }
