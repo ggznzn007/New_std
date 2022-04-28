@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     public event System.Action EditorRepaint = () => { };       // 셀을 재배치하기 위한
 
     // 점수관련 변수   
+    public int level = 1;
     int beforeScore;                                            // 최고점수를 저장하기 위한 변수
     int newScore;                                               // 새로운점수를 저장하기 위한 변수
     public TextMeshProUGUI ScoreTextMeshPro;                    // 현재점수
     public TextMeshProUGUI BestScoreText;                       // 최고점수
+
 
     // 옵션 변수
     [SerializeField]
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI menupanelScore;                     // 메뉴창에 뜨는 점수(게임오버)
     [SerializeField]
     private TextMeshProUGUI backpanelScore;                     // 메뉴창에 뜨는 점수(뒤로가기)
+
 
     void Start()
     {
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape)) // 뒤로가기
         {
             bgm.GetComponent<AudioSource>().Pause(); // BGM 잠깐 멈춤
@@ -62,8 +66,10 @@ public class GameManager : MonoBehaviour
                 backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
             }
         }
-
+       
     }
+
+    
 
     public GameObject[] ShuffleShapes(GameObject[] array) // 블럭배열 내에 블럭을 섞는 메소드
     {
@@ -98,29 +104,18 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생            
 
         yield return new WaitForSeconds(0.09f);
+
         if (BlockPos[0])
         {
-            Transform CurShape = Instantiate(Shapes[Random.Range(0, 7)],
-            //Transform CurShape = Instantiate(Shapes[22],            
-            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[0]);
-            CurShape.DOMove(BlockPos[0].position, 0.4f);
+            StartCoroutine("SpawnFirstBlock");
         }
         if (BlockPos[1])
         {
-            Transform CurShape = Instantiate(Shapes[Random.Range(7, 14)],
-            //Transform CurShape = Instantiate(Shapes[17],            
-            BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[1]);
-            CurShape.DOMove(BlockPos[1].position, 0.4f);
+            StartCoroutine("SpawnSecondBlock");
         }
         if (BlockPos[2])
         {
-            Transform CurShape = Instantiate(Shapes[Random.Range(14, 21)],
-            //Transform CurShape = Instantiate(Shapes[17],            
-            BlockPos[2].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
-            CurShape.SetParent(BlockPos[2]);
-            CurShape.DOMove(BlockPos[2].position, 0.4f);
+            StartCoroutine("SpawnThirdBlock");
         }
         yield return new WaitForSeconds(0.1f);
         ShuffleColor(ShapeColors); // 3개의 블럭을 놓은 후 놓는 블럭의 색을 변경
@@ -130,7 +125,36 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public IEnumerator SpawnFirstBlock()
+    {
 
+        Transform CurShape = Instantiate(Shapes[Random.Range(0, 7)],
+       //Transform CurShape = Instantiate(Shapes[22],            
+       BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+        CurShape.SetParent(BlockPos[0]);
+        CurShape.DOMove(BlockPos[0].position, 0.4f);
+        yield return null;
+    }
+
+    public IEnumerator SpawnSecondBlock()
+    {
+        Transform CurShape = Instantiate(Shapes[Random.Range(7, 14)],
+        //Transform CurShape = Instantiate(Shapes[17],            
+        BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+        CurShape.SetParent(BlockPos[1]);
+        CurShape.DOMove(BlockPos[1].position, 0.4f);
+        yield return null;
+    }
+
+    public IEnumerator SpawnThirdBlock()
+    {
+        Transform CurShape = Instantiate(Shapes[Random.Range(14, 21)],
+        //Transform CurShape = Instantiate(Shapes[17],            
+        BlockPos[2].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+        CurShape.SetParent(BlockPos[2]);
+        CurShape.DOMove(BlockPos[2].position, 0.4f);
+        yield return null;
+    }
 
     GameObject GetCell(int x, int y)
     {
@@ -250,7 +274,12 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("beforeScore", newScore);
         }
 
+       
     }
+
+    
+
+    
 
     bool Putable(Vector3[] ShapePos) // 블럭을 놓을 수 있는지 판단
     {
