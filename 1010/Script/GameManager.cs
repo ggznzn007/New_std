@@ -38,20 +38,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (PlayerPrefs.HasKey("beforeScore"))
-        {
-            beforeScore = PlayerPrefs.GetInt("beforeScore");     // 이전 턴에서 저장된 점수를 불러오기
-            BestScoreText.text = "Best : " + beforeScore.ToString(); // 최고점수 표시
-        }
-        PlayerPrefs.Save(); // 점수 저장
-
+        StartCoroutine(BeforeScore());
         StartCoroutine(SpawnBlocks()); // 블럭 생성
-
     }
 
     private void Update()
     {
-        
+        StartCoroutine(BackPanel());       
+    }
+
+    IEnumerator BackPanel()
+    {
         if (Input.GetKeyDown(KeyCode.Escape)) // 뒤로가기
         {
             bgm.GetComponent<AudioSource>().Pause(); // BGM 잠깐 멈춤
@@ -66,10 +63,19 @@ public class GameManager : MonoBehaviour
                 backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
             }
         }
-       
+        yield return null;
     }
 
-    
+    IEnumerator BeforeScore()
+    {
+        if (PlayerPrefs.HasKey("beforeScore"))
+        {
+            beforeScore = PlayerPrefs.GetInt("beforeScore");     // 이전 턴에서 저장된 점수를 불러오기
+            BestScoreText.text = "Best : " + beforeScore.ToString(); // 최고점수 표시
+        }
+        PlayerPrefs.Save(); // 점수 저장
+        yield return null;
+    }
 
     public GameObject[] ShuffleShapes(GameObject[] array) // 블럭배열 내에 블럭을 섞는 메소드
     {
@@ -107,15 +113,15 @@ public class GameManager : MonoBehaviour
 
         if (BlockPos[0])
         {
-            StartCoroutine("SpawnFirstBlock");
+            StartCoroutine(SpawnFirstBlock());
         }
         if (BlockPos[1])
         {
-            StartCoroutine("SpawnSecondBlock");
+            StartCoroutine(SpawnSecondBlock());
         }
         if (BlockPos[2])
         {
-            StartCoroutine("SpawnThirdBlock");
+            StartCoroutine(SpawnThirdBlock());
         }
         yield return new WaitForSeconds(0.1f);
         ShuffleColor(ShapeColors); // 3개의 블럭을 놓은 후 놓는 블럭의 색을 변경
