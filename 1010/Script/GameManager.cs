@@ -128,34 +128,34 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SpawnFirstBlock()
     {
-        if (newScore >= 0 && newScore <700)
+        if (newScore >= 0 && newScore < 1500)
         {
             int rand = Random.Range(0, 4);
             Debug.Log("Level 1 FirstBlock블럭생성");
-            Transform CurShape = Instantiate(Shapes[rand],BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            Transform CurShape = Instantiate(Shapes[rand], BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[0]);
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
-        else if (newScore >=700 && newScore < 1400)
+        else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(1, 5);
             Debug.Log("Level 2 FirstBlock블럭생성");
-            Transform CurShape = Instantiate(Shapes[rand],BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            Transform CurShape = Instantiate(Shapes[rand], BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[0]);
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 1400&& newScore <2100)
+        else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(2, 6);
             Debug.Log("Level 3 FirstBlock블럭생성");
-            Transform CurShape = Instantiate(Shapes[rand],BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
+            Transform CurShape = Instantiate(Shapes[rand], BlockPos[0].position + new Vector3(10, 0, 0), Quaternion.identity).transform;
             CurShape.SetParent(BlockPos[0]);
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2100 && newScore < 2800)
+        else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(3, 7);
             Debug.Log("Level 4 FirstBlock블럭생성");
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2800)
+        else if (newScore >= 6000)
         {
             int rand = Random.Range(0, 7);
             Debug.Log("Level 5 FirstBlock블럭생성");
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SpawnSecondBlock()
     {
-        if (newScore >= 0 && newScore < 700)
+        if (newScore >= 0 && newScore < 1500)
         {
             int rand = Random.Range(7, 11);
             Debug.Log("Level 1 SecondBlock블럭생성");
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 700 && newScore < 1400)
+        else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(8, 12);
             Debug.Log("Level 2 SecondBlock블럭생성");
@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 1400 && newScore < 2100)
+        else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(9, 13);
             Debug.Log("Level 3 SecondBlock블럭생성");
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2100 && newScore < 2800)
+        else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(10, 14);
             Debug.Log("Level 4 SecondBlock블럭생성");
@@ -213,7 +213,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2800)
+        else if (newScore >= 6000)
         {
             int rand = Random.Range(7, 14);
             Debug.Log("Level 5 SecondBlock블럭생성");
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SpawnThirdBlock()
     {
-        if (newScore >= 0 && newScore < 700)
+        if (newScore >= 0 && newScore < 1500)
         {
             int rand = Random.Range(14, 18);
             Debug.Log("Level 1 ThirdBlock블럭생성");
@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 700 && newScore < 1400)
+        else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(15, 19);
             Debug.Log("Level 2 ThirdBlock블럭생성");
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 1400 && newScore < 2100)
+        else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(16, 20);
             Debug.Log("Level 3 ThirdBlock블럭생성");
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2100 && newScore < 2800)
+        else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(17, 21);
             Debug.Log("Level 4 ThirdBlock블럭생성");
@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
-        else if (newScore >= 2800)
+        else if (newScore >= 6000)
         {
             int rand = Random.Range(14, 21);
             Debug.Log("Level 5 ThirdBlock블럭생성");
@@ -392,12 +392,12 @@ public class GameManager : MonoBehaviour
         // 점수계산	
         newScore += oneLine switch // Switch case 사용
         {
-            1 => oneLine *  + shapePosLength,       // 1줄 클리어, 블럭수 + 1*10             10  보너스
-            2 => oneLine * 60 + shapePosLength + 30,  // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
-            3 => oneLine * 120 + shapePosLength + 60,  // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
-            4 => oneLine * 200 + shapePosLength + 100,// 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
-            5 => oneLine * 150 + shapePosLength + 150,// 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
-            6 => oneLine * 210 + shapePosLength,      // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
+            1 => (oneLine * 10) + (shapePosLength + 20),       // 1줄 클리어, 블럭수 + 1*10             10  보너스
+            2 => (oneLine * 80) + (shapePosLength + 60),       // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
+            3 => (oneLine * 160) + (shapePosLength + 90),      // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
+            4 => (oneLine * 240) + (shapePosLength + 120),     // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
+            5 => (oneLine * 320) + (shapePosLength + 150),     // 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
+            6 => (oneLine * 350) + (shapePosLength),           // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
             _ => shapePosLength, //Default => _ 로 표현 (C# 9.0에서 나온 간결한 기능 )
         };
         // 기존 버전 점수 배점
@@ -417,13 +417,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("beforeScore", newScore);
         }
-
-
     }
-
-
-
-
 
     bool Putable(Vector3[] ShapePos) // 블럭을 놓을 수 있는지 판단
     {
