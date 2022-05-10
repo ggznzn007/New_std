@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
-    // 블럭관련 변수
+    // 블럭관련 변수 
     const int SIZE = 10;                                        // 블럭 크기   
     public Color[] ShapeColors;                                 // 블럭 색깔
     public GameObject[] Cells;                                  // 게임바탕의 셀
