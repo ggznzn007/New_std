@@ -23,15 +23,13 @@ public class UpgradeButton : MonoBehaviour
     [HideInInspector]
     public int level = 1;
 
-    public float upgradePow = 1.07f;
+    public float upgradePow = 1.5f;
 
-    public float costPow = 3.14f;
+    public float costPow = 2.14f;
 
     private void Start()
     {
-        currentCost = startCurrentCost;
-        level = 1;
-        goldByUpgrade = startGoldByUpgrade;
+        DataController.GetInstance().LoadUpgradeButton(this);
         UpdateUI();
     }
 
@@ -45,6 +43,7 @@ public class UpgradeButton : MonoBehaviour
 
             UpdateUpgrade();
             UpdateUI();
+            DataController.GetInstance().SaveUpgradeButton(this);
         }
     }
 
@@ -57,6 +56,6 @@ public class UpgradeButton : MonoBehaviour
     public void UpdateUI()
     {
         upgradeDisplayer.text = upgradeName + "\nCost : " + currentCost + "\nLevel : " + level +
-            "\nNext New GoldPerClick : " + goldByUpgrade;
+            "\nNext GoldPerClick : " + goldByUpgrade;
     }
 }
