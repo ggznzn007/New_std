@@ -6,12 +6,6 @@ using TMPro;
 
 public class HeroineButton : MonoBehaviour
 {
-    public Color upgradableColor = Color.blue;
-
-    public Color notupgradableColor = Color.red;
-
-    public Image colorImage;
-
     public TextMeshProUGUI itemDisplayer;
 
     public CanvasGroup canvasGroup;
@@ -82,8 +76,8 @@ public class HeroineButton : MonoBehaviour
 
     public void UpdateUI()
     {
-        itemDisplayer.text = itemName + "\nLevel: " + level + "\nCost: " + currentCost +
-            "\nGold Per Sec: " + goldPerSec;
+        itemDisplayer.text = itemName + "\n\n레벨: " + level + "\n비용: " + currentCost +"원"+
+            "\n초당 획득머니: " + goldPerSec+"원";
 
         slider.minValue = 0;
         slider.maxValue = currentCost;
@@ -99,14 +93,7 @@ public class HeroineButton : MonoBehaviour
             canvasGroup.alpha = 0.6f;
         }
 
-        if(currentCost <= DataController.Instance.gold)
-        {
-            colorImage.color = upgradableColor;
-        }
-        else
-        {
-            colorImage.color = notupgradableColor; 
-        }
+        
     }
 
     private void Update()
