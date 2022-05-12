@@ -55,7 +55,7 @@ public class UpgradeButton : MonoBehaviour
 
     public void UpdateUI()
     {
-        upgradeDisplayer.text = upgradeName + "\nCost: " + currentCost + "\nLevel: " + level +
-            "\nNext GoldPerClick: " + goldByUpgrade;
+        upgradeDisplayer.text = upgradeName + "\n\n비용: " + currentCost + "원" + "\n레벨: " + level +
+            "\n클릭당 획득머니추가:\n " + goldByUpgrade+"원";
     }
 }
