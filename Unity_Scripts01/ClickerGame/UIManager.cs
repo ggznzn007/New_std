@@ -11,9 +11,11 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI goldPerSecDisplayer;     
 
     private void Update()
-    {
-        goldDisplayer.text = " GOLD: " + DataController.Instance.gold;
-        goldPerClickDisplayer.text = " GOLD PER CLICK: " + DataController.Instance.goldPerClick;
-        goldPerSecDisplayer.text = " GOLD PER SEC: " + DataController.Instance.GetGoldPerSec();
+    {       
+        goldDisplayer.text = " ¸Ó´Ï: " + DataController.Instance.gold+"¿ø";
+        goldPerClickDisplayer.text = " Å¬¸¯´ç È¹µæ¸Ó´Ï: " + DataController.Instance.goldPerClick + "¿ø";
+        goldPerSecDisplayer.text = " ÃÊ´ç È¹µæ¸Ó´Ï: " + DataController.Instance.GetGoldPerSec() + "¿ø";
     }
+
+    
 }
