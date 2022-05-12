@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Text;
 
 public class DataController : MonoBehaviour
 {
@@ -25,18 +27,41 @@ public class DataController : MonoBehaviour
         }
     }
 
-    private HeroineButton[] HeroineButtons;
+    private HeroineButton[] heroineButtons;
 
-   public long gold
+    DateTime GetLastPlayDate()
+    {
+        if (!PlayerPrefs.HasKey("Time"))
+        {
+            return DateTime.Now;
+        }
+
+        string timeBinaryInString = PlayerPrefs.GetString("Time");
+        long timeBinaryInLong = Convert.ToInt64(timeBinaryInString);
+
+        return DateTime.FromBinary(timeBinaryInLong);
+    }
+
+
+    void UpdateLastPlayDate()
+    {
+        PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
+    }
+    private void OnApplicationQuit()
+    {
+        UpdateLastPlayDate();
+    }
+
+    public long gold
     {
         get
         {
-            if(!PlayerPrefs.HasKey("Gold"))
+            if (!PlayerPrefs.HasKey("Gold"))
             {
                 return 0;
             }
-            string tmpGold =  PlayerPrefs.GetString("Gold");
-            return long.Parse(tmpGold);            
+            string tmpGold = PlayerPrefs.GetString("Gold");
+            return long.Parse(tmpGold);
         }
         set
         {
@@ -48,7 +73,7 @@ public class DataController : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt("GoldPerClick",1);
+            return PlayerPrefs.GetInt("GoldPerClick", 1);
         }
         set
         {
@@ -56,14 +81,36 @@ public class DataController : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public int timeAfterLastPlay
     {
-        HeroineButtons = FindObjectsOfType<HeroineButton>();
+        get
+        {
+            DateTime currentTime = DateTime.Now;
+            DateTime lastPlayDate = GetLastPlayDate();
+
+            return (int)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+        }
     }
 
-    
+    private void Awake()
+    {
+        heroineButtons = FindObjectsOfType<HeroineButton>();
+    }
 
-    
+
+    private void Start()
+    {
+        gold += GetGoldPerSec() * timeAfterLastPlay; // 시간이 흐름에 따라 
+        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);// 처음 시작 후 5초마다 해당 메소드 반복호출
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitGame();
+        }
+    }
     public void LoadUpgradeButton(UpgradeButton upgradeButton)
     {
         string key = upgradeButton.upgradeName;
@@ -79,7 +126,7 @@ public class DataController : MonoBehaviour
         string key = upgradeButton.upgradeName;
 
         PlayerPrefs.SetInt(key + "_level", upgradeButton.level);
-        PlayerPrefs.SetInt(key + "_goldByUpgrade",upgradeButton.goldByUpgrade);
+        PlayerPrefs.SetInt(key + "_goldByUpgrade", upgradeButton.goldByUpgrade);
         PlayerPrefs.SetInt(key + "_cost", upgradeButton.currentCost);
     }
 
@@ -91,7 +138,7 @@ public class DataController : MonoBehaviour
         HeroineButton.currentCost = PlayerPrefs.GetInt(key + "_cost", HeroineButton.startCurrentCost);
         HeroineButton.goldPerSec = PlayerPrefs.GetInt(key + "_goldPerSec");
 
-        if(PlayerPrefs.GetInt(key+"_isPurchased")==1)
+        if (PlayerPrefs.GetInt(key + "_isPurchased") == 1)
         {
             HeroineButton.isPurchased = true;
         }
@@ -122,12 +169,26 @@ public class DataController : MonoBehaviour
     public int GetGoldPerSec()
     {
         int goldPerSec = 0;
-        for (int i = 0; i < HeroineButtons.Length; i++)
+        for (int i = 0; i < heroineButtons.Length; i++)
         {
-            goldPerSec += HeroineButtons[i].goldPerSec;
-
+            if (heroineButtons[i].isPurchased == true)
+            {
+                goldPerSec += heroineButtons[i].goldPerSec;
+            }
         }
 
         return goldPerSec;
+    }
+
+    public void QuitGame() // 나가기
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+        // 안드로이드
+#else
+Application.Quit();
+
+#endif
     }
 }
