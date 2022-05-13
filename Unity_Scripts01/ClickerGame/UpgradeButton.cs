@@ -33,13 +33,23 @@ public class UpgradeButton : MonoBehaviour
         UpdateUI();
     }
 
+    public void UpgradeSE()
+    {
+        SoundController.instance.Playsound(SoundController.instance.upgradeClick);
+    }
+
+    public string GetCommaGold(int data)
+    {
+        return string.Format("{0:#,###}", data);
+    }
+
     public void PurchaseUpgrade()
     {
-        if(DataController.Instance.gold>=currentCost)
+        if(DataController.Instance.Gold>=currentCost)
         {
-            DataController.Instance.gold -=currentCost;
+            DataController.Instance.Gold -=currentCost;
             level++;
-            DataController.Instance.goldPerClick+=goldByUpgrade;
+            DataController.Instance.GoldPerClick+=goldByUpgrade;
 
             UpdateUpgrade();
             UpdateUI();
@@ -53,9 +63,11 @@ public class UpgradeButton : MonoBehaviour
         currentCost = startCurrentCost * (int)Mathf.Pow(costPow, level);
     }
 
+    
     public void UpdateUI()
     {
-        upgradeDisplayer.text = upgradeName + "\n\n비용: " + currentCost + "원" + "\n레벨: " + level +
-            "\n클릭당 획득머니추가:\n " + goldByUpgrade+"원";
+        
+        upgradeDisplayer.text = upgradeName + "\n\n구매금액: " + GetCommaGold(currentCost) + "원" + "\n레벨: " + level +
+            "\n클릭당 추가금액:\n " + GetCommaGold(goldByUpgrade) + "원";
     }
 }
