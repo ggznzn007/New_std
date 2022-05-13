@@ -47,12 +47,25 @@ public class DataController : MonoBehaviour
     {
         PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
     }
-    private void OnApplicationQuit()
+    public void OnApplicationQuit()
     {
         UpdateLastPlayDate();
     }
+    public string GetCommaGold()
+    {
+        return string.Format("{0:#,###}", Gold);
+    }
 
-    public long gold
+    public string GetCommaClick()
+    {
+        return string.Format("{0:#,###}", GoldPerClick);
+    }
+
+    public string GetCommaSec()
+    {
+        return string.Format("{0:#,###}", GetGoldPerSec());
+    }
+    public long Gold
     {
         get
         {
@@ -61,6 +74,7 @@ public class DataController : MonoBehaviour
                 return 0;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
+            
             return long.Parse(tmpGold);
         }
         set
@@ -69,7 +83,9 @@ public class DataController : MonoBehaviour
         }
     }
 
-    public int goldPerClick
+   
+
+    public int GoldPerClick
     {
         get
         {
@@ -81,7 +97,7 @@ public class DataController : MonoBehaviour
         }
     }
 
-    public int timeAfterLastPlay
+    public int TimeAfterLastPlay
     {
         get
         {
@@ -100,7 +116,7 @@ public class DataController : MonoBehaviour
 
     private void Start()
     {
-        gold += GetGoldPerSec() * timeAfterLastPlay; // 시간이 흐름에 따라 
+        Gold += GetGoldPerSec() * TimeAfterLastPlay; // 시간이 흐름에 따라 
         InvokeRepeating("UpdateLastPlayDate", 0f, 5f);// 처음 시작 후 5초마다 해당 메소드 반복호출
     }
 
@@ -176,14 +192,13 @@ public class DataController : MonoBehaviour
                 goldPerSec += heroineButtons[i].goldPerSec;
             }
         }
-
+        
         return goldPerSec;
     }
 
     public void QuitGame() // 나가기
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+#if UNITY_EDITOR       
         Application.Quit();
         // 안드로이드
 #else
