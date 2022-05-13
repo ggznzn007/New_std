@@ -8,13 +8,13 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI goldDisplayer;
     public TextMeshProUGUI goldPerClickDisplayer;
-    public TextMeshProUGUI goldPerSecDisplayer;     
-
+    public TextMeshProUGUI goldPerSecDisplayer;
+    
     private void Update()
     {       
-        goldDisplayer.text = " 머니: " + DataController.Instance.gold+"원";
-        goldPerClickDisplayer.text = " 클릭당 획득머니: " + DataController.Instance.goldPerClick + "원";
-        goldPerSecDisplayer.text = " 초당 획득머니: " + DataController.Instance.GetGoldPerSec() + "원";
+        goldDisplayer.text = " 총 재산: " + DataController.Instance.GetCommaGold()+"원";
+        goldPerClickDisplayer.text = " 클릭당 추가금액: " + DataController.Instance.GetCommaClick() + "원";
+        goldPerSecDisplayer.text = " 초당 추가금액: " + DataController.Instance.GetCommaSec() + "원";
     }
 
     
