@@ -7,7 +7,8 @@ public class ClickButton : MonoBehaviour
     public Animator anim;
     public void OnMouseDown()
     {
-       DataController.Instance.gold+= DataController.Instance.goldPerClick;
+        SoundController.instance.Playsound(SoundController.instance.playerHit);
+       DataController.Instance.Gold+= DataController.Instance.GoldPerClick;
 
         anim.SetTrigger("OnClick");  
     }
