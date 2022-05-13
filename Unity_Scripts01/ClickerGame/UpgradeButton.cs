@@ -59,15 +59,15 @@ public class UpgradeButton : MonoBehaviour
 
     public void UpdateUpgrade()
     {
-        goldByUpgrade = startGoldByUpgrade * (int)Mathf.Pow(upgradePow, level);
-        currentCost = startCurrentCost * (int)Mathf.Pow(costPow, level);
+        goldByUpgrade += startGoldByUpgrade * (int)Mathf.Pow(upgradePow, level);
+        currentCost += startCurrentCost * (int)Mathf.Pow(costPow, level);
     }
 
     
     public void UpdateUI()
-    {
-        
-        upgradeDisplayer.text = upgradeName + "\n\n구매금액: " + GetCommaGold(currentCost) + "원" + "\n레벨: " + level +
-            "\n클릭당 추가금액:\n " + GetCommaGold(goldByUpgrade) + "원";
+    {        
+        upgradeDisplayer.text ="  \t"+upgradeName + " Level " + level 
+            + "\n\n구매금액: " + GetCommaGold(currentCost) + "원"
+            +"\n클릭당 추가금액:\n " + GetCommaGold(goldByUpgrade) + "원";
     }
 }
