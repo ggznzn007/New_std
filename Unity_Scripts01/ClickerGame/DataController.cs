@@ -116,15 +116,24 @@ public class DataController : MonoBehaviour
 
     private void Start()
     {
-        Gold += GetGoldPerSec() * TimeAfterLastPlay; // 시간이 흐름에 따라 
-        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);// 처음 시작 후 5초마다 해당 메소드 반복호출
+        Gold += GetGoldPerSec() * TimeAfterLastPlay;
+        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);        
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            QuitGame();
+            //UpdateLastPlayDate();
+            Debug.Log("Log");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            //Application.Quit();
+            // 안드로이드
+#else
+Application.Quit();
+
+#endif
         }
     }
     public void LoadUpgradeButton(UpgradeButton upgradeButton)
@@ -196,14 +205,5 @@ public class DataController : MonoBehaviour
         return goldPerSec;
     }
 
-    public void QuitGame() // 나가기
-    {
-#if UNITY_EDITOR       
-        Application.Quit();
-        // 안드로이드
-#else
-Application.Quit();
-
-#endif
-    }
+    
 }

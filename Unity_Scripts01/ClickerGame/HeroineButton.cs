@@ -75,13 +75,13 @@ public class HeroineButton : MonoBehaviour
     public void UpdateItem()
     {
         goldPerSec = (int)(goldPerSec) + startGoldPerSec * (int)Mathf.Pow(upgradePow, level);
-        currentCost = (int)(currentCost*0.5f) + startCurrentCost * (int)Mathf.Pow(costPow, level);
+        currentCost = (int)(currentCost*0.6f) + startCurrentCost * (int)Mathf.Pow(costPow, level);
         
     }
 
     public void UpdateUI()
     {
-        itemDisplayer.text = itemName + "\n\n레벨: " + level + "\n구매금액: " + GetCommaGold(currentCost) + "원"+
+        itemDisplayer.text = itemName + " Level " + level + "\n\n구매금액: " + GetCommaGold(currentCost) + "원"+ 
             "\n초당 추가금액: " + GetCommaGold(goldPerSec) + "원";
 
         slider.minValue = 0;
