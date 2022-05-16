@@ -49,6 +49,12 @@ public class DataController : MonoBehaviour
     }
     public void OnApplicationQuit()
     {
+        Debug.Log("Callback");
+        UpdateLastPlayDate();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
         UpdateLastPlayDate();
     }
     public string GetCommaGold()
@@ -99,6 +105,7 @@ public class DataController : MonoBehaviour
 
     public int TimeAfterLastPlay
     {
+        
         get
         {
             DateTime currentTime = DateTime.Now;
@@ -117,25 +124,23 @@ public class DataController : MonoBehaviour
     private void Start()
     {
         Gold += GetGoldPerSec() * TimeAfterLastPlay;
-        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);        
+        InvokeRepeating(nameof(UpdateLastPlayDate), 0f, 2f);   
     }
+  /*private void Update()
+      {
+         
+          if (Input.GetKeyDown(KeyCode.Escape))
+          {            
+  #if UNITY_EDITOR
+              UnityEditor.EditorApplication.isPlaying = false;
+              Application.Quit();
+              // 안드로이드
+  #else
+  Application.Quit();
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //UpdateLastPlayDate();
-            Debug.Log("Log");
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-            //Application.Quit();
-            // 안드로이드
-#else
-Application.Quit();
-
-#endif
-        }
-    }
+  #endif
+          }
+      }*/
     public void LoadUpgradeButton(UpgradeButton upgradeButton)
     {
         string key = upgradeButton.upgradeName;
