@@ -30,11 +30,6 @@ public class DataController : MonoBehaviour
 
     private HeroineButton[] heroineButtons;
 
-    private string[] goldUnlimit = new string[] { "", "만", "억", "조", "경", "해", "자",
-        "양", "가", "구", "간", "정", "재", "극","a","b","c" };
-
-
-
     DateTime GetLastPlayDate()
     {
         if (!PlayerPrefs.HasKey("Time"))
@@ -63,20 +58,40 @@ public class DataController : MonoBehaviour
     {
         UpdateLastPlayDate();
     }
-    public string GetCommaGold()
+
+    public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
     {
-        return string.Format("{0:#,###}", Gold);
+        int placeN = 3; // 세자리 단위로 끊어서 표현
+        BigInteger value = data; // 빅인티저에 골드를 대입
+        List<int> numList = new List<int>();
+        int p = (int)Mathf.Pow(10, placeN);
+
+        do
+        {
+            numList.Add((int)(value % p));
+            value /= p;
+        }
+        while (value >= 1);
+
+        int num = numList.Count < 2 ? numList[0] : numList[numList.Count -1] * p + numList[numList.Count - 2];
+        float f = (num / (float)p);
+        return f.ToString("N2")+ GetUnitText(numList.Count-1);
     }
 
-    public string GetCommaClick()
+    private string GetUnitText(int index)
     {
-        return string.Format("{0:#,###}", GoldPerClick);
+        int idx = index - 1;
+        if (idx < 0) { return ""; }
+        int recallCount = (idx / 26) + 1;
+        string recallString = "";
+        for (int i = 0; i < recallCount; i++)
+        {
+            recallString += (char)(97 + idx % 26);
+        }
+        return recallString;
     }
 
-    public string GetCommaSec()
-    {
-        return string.Format("{0:#,###}", GetGoldPerSec());
-    }
+    
     public BigInteger Gold
     {
         get
@@ -161,7 +176,7 @@ public class DataController : MonoBehaviour
     {
         string key = upgradeButton.upgradeName;
 
-        PlayerPrefs.SetInt(key + "_level", upgradeButton.level);
+        PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
         PlayerPrefs.SetInt(key + "_goldByUpgrade", (int)upgradeButton.goldByUpgrade);
         PlayerPrefs.SetInt(key + "_cost", (int)upgradeButton.currentCost);
     }
@@ -188,7 +203,7 @@ public class DataController : MonoBehaviour
     {
         string key = HeroineButton.itemName;
 
-        PlayerPrefs.SetInt(key + "_level", HeroineButton.level);
+        PlayerPrefs.SetInt(key + "_level",(int)HeroineButton.level);
         PlayerPrefs.SetInt(key + "_cost", (int)HeroineButton.currentCost);
         PlayerPrefs.SetInt(key + "_goldPerSec", (int)HeroineButton.goldPerSec);
 
