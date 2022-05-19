@@ -18,14 +18,14 @@ public class HeroineButton : MonoBehaviour
     public BigInteger level;
 
     [HideInInspector]
-    public BigInteger currentCost = 1;
+    public BigInteger currentCost = 10000;
 
-    public BigInteger startCurrentCost = 1;
+    public BigInteger startCurrentCost = 10000;
 
     [HideInInspector]
     public BigInteger goldPerSec;
 
-    public BigInteger startGoldPerSec = 1;
+    public BigInteger startGoldPerSec = 10000;
 
     public float costPow = 3.14f;
 
@@ -34,7 +34,7 @@ public class HeroineButton : MonoBehaviour
     [HideInInspector]
     public bool isPurchased = false;
 
-
+    public Button heroineButton;
     private void Start()
     {
         DataController.Instance.LoadHeroineButton(this);
@@ -92,18 +92,17 @@ public class HeroineButton : MonoBehaviour
 
         if(isPurchased)
         {
-            canvasGroup.alpha = 1.0f;
+           canvasGroup.alpha = 1.0f;
         }
         else
         {
-            canvasGroup.alpha = 0.6f;
-        }
-
+           canvasGroup.alpha = 0.2f;
+        }              
         
     }
     public string GetCurrentCostText2(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
     {
-        int placeN = 3; // 세자리 단위로 끊어서 표현
+        int placeN = 4; // 세자리 단위로 끊어서 표현
         BigInteger value = currentCost; // 빅인티저에 골드를 대입
         List<int> numList = new List<int>();
         int p = (int)Mathf.Pow(10, placeN);
@@ -117,7 +116,7 @@ public class HeroineButton : MonoBehaviour
 
         int num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
         float f = (num / (float)p);
-        return f.ToString("N2") + GetUnitText2(numList.Count - 1);
+        return f.ToString("N0") + GetUnitText2(numList.Count - 1);
     }
 
     private string GetUnitText2(int index)
@@ -133,8 +132,22 @@ public class HeroineButton : MonoBehaviour
         return recallString;
     }
    
+    public void PurchaseActiveHero()
+    {
+        if (DataController.Instance.Gold >= currentCost)
+        {
+            heroineButton.interactable = true;
+            slider.interactable = true;
+        }
+        else
+        {
+            heroineButton.interactable = false;
+            slider.interactable = false;
+        }
+    }
     private void Update()
     {
         UpdateUI();
+        //PurchaseActiveHero();
     }
 }
