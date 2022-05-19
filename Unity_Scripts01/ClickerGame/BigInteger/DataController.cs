@@ -30,6 +30,7 @@ public class DataController : MonoBehaviour
 
     private HeroineButton[] heroineButtons;
 
+   
     DateTime GetLastPlayDate()
     {
         if (!PlayerPrefs.HasKey("Time"))
@@ -61,7 +62,7 @@ public class DataController : MonoBehaviour
 
     public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
     {
-        int placeN = 3; // 세자리 단위로 끊어서 표현
+        int placeN = 4; // 네자리 단위로 끊어서 표현
         BigInteger value = data; // 빅인티저에 골드를 대입
         List<int> numList = new List<int>();
         int p = (int)Mathf.Pow(10, placeN);
@@ -74,8 +75,9 @@ public class DataController : MonoBehaviour
         while (value >= 1);
 
         int num = numList.Count < 2 ? numList[0] : numList[numList.Count -1] * p + numList[numList.Count - 2];
+        //int num = numList.Count < 2 ? numList[0] : numList[numList.Count-1]*p;
         float f = (num / (float)p);
-        return f.ToString("N2")+ GetUnitText(numList.Count-1);
+        return f.ToString("N0")+ GetUnitText(numList.Count-1);
     }
 
     private string GetUnitText(int index)
@@ -91,7 +93,24 @@ public class DataController : MonoBehaviour
         return recallString;
     }
 
-    
+   /* public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+    {
+        int placeN = 3; // 세자리 단위로 끊어서 표현
+        BigInteger value = data; // 빅인티저에 골드를 대입
+        List<int> numList = new List<int>();
+        int p = (int)Mathf.Pow(10, placeN);
+
+        do
+        {
+            numList.Add((int)(value % p));
+            value /= p;
+        }
+        while (value >= 1);
+
+        int num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
+        float f = (num / (float)p);
+        return f.ToString("N2") + GetUnitText(numList.Count - 1);
+    }*/
     public BigInteger Gold
     {
         get
@@ -116,7 +135,7 @@ public class DataController : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt("GoldPerClick", 1);
+            return PlayerPrefs.GetInt("GoldPerClick", 10000);
         }
         set
         {
@@ -169,7 +188,7 @@ public class DataController : MonoBehaviour
         upgradeButton.level = PlayerPrefs.GetInt(key + "_level", 1);
         upgradeButton.goldByUpgrade = PlayerPrefs.GetInt(key + "_goldByUpgrade",
             (int)upgradeButton.startGoldByUpgrade);
-        upgradeButton.currentCost = PlayerPrefs.GetInt(key + "_cost", (int)upgradeButton.startCurrentCost);
+        upgradeButton.currentCost = PlayerPrefs.GetInt(key + "_cost", (int)upgradeButton.startCurrentCost);        
     }
 
     public void SaveUpgradeButton(UpgradeButton upgradeButton)
@@ -178,7 +197,7 @@ public class DataController : MonoBehaviour
 
         PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
         PlayerPrefs.SetInt(key + "_goldByUpgrade", (int)upgradeButton.goldByUpgrade);
-        PlayerPrefs.SetInt(key + "_cost", (int)upgradeButton.currentCost);
+        PlayerPrefs.SetInt(key + "_cost", (int)upgradeButton.currentCost);       
     }
 
     public void LoadHeroineButton(HeroineButton HeroineButton)
