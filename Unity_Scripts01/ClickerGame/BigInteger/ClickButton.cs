@@ -13,5 +13,16 @@ public class ClickButton : MonoBehaviour
         DataController.Instance.Gold += DataController.Instance.GoldPerClick;
 
         anim.SetTrigger("OnClick");        
-    }   
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            SoundController.instance.Playsound(SoundController.instance.playerHit);
+            DataController.Instance.Gold += DataController.Instance.GoldPerClick;
+
+            anim.SetTrigger("OnClick");
+        }
+    }
 }

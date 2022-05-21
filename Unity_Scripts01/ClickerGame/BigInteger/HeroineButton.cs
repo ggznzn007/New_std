@@ -15,17 +15,17 @@ public class HeroineButton : MonoBehaviour
 
     public string itemName;
 
-    public BigInteger level;
+    public BigInteger level = 1;
 
     [HideInInspector]
-    public BigInteger currentCost = 10000;
+    public BigInteger currentCost = 10;
 
-    public BigInteger startCurrentCost = 10000;
+    public BigInteger startCurrentCost = 10;
 
     [HideInInspector]
     public BigInteger goldPerSec;
 
-    public BigInteger startGoldPerSec = 10000;
+    public BigInteger startGoldPerSec = 10;
 
     public float costPow = 3.14f;
 
@@ -75,14 +75,15 @@ public class HeroineButton : MonoBehaviour
 
     public void UpdateItem()
     {
-        goldPerSec = (BigInteger)(goldPerSec) + startGoldPerSec * (BigInteger)Mathf.Pow(upgradePow, (int)level);
-        currentCost = (BigInteger)currentCost/2 + startCurrentCost * (BigInteger)Mathf.Pow(costPow, (int)level);
+        goldPerSec = (goldPerSec) + startGoldPerSec * (BigInteger)Mathf.Pow(upgradePow, (int)level);
+        currentCost = currentCost/2 + startCurrentCost * (BigInteger)Mathf.Pow(costPow, (int)level);
         
     }
 
     public void UpdateUI()
     {
-        itemDisplayer.text = itemName + " Level " + (int)level + "\n\n구매금액: "  + GetCurrentCostText2(currentCost)+
+        itemDisplayer.text = itemName + " Level " + level + "\n\n구매금액: "  
+            + DataController.Instance.GetGoldText(currentCost)+
             "\n초당 추가금액: " + DataController.Instance.GetGoldText(goldPerSec);
 
         slider.minValue = 0;
@@ -100,12 +101,12 @@ public class HeroineButton : MonoBehaviour
         }              
         
     }
-    public string GetCurrentCostText2(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+   /* public string GetCurrentCostText2(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
     {
         int placeN = 4; // 세자리 단위로 끊어서 표현
         BigInteger value = currentCost; // 빅인티저에 골드를 대입
-        List<int> numList = new List<int>();
-        int p = (int)Mathf.Pow(10, placeN);
+        List<BigInteger> numList = new List<BigInteger>();
+        BigInteger p = (int)Mathf.Pow(10, placeN);
 
         do
         {
@@ -114,9 +115,9 @@ public class HeroineButton : MonoBehaviour
         }
         while (value >= 1);
 
-        int num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
-        float f = (num / (float)p);
-        return f.ToString("N0") + GetUnitText2(numList.Count - 1);
+        BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
+        float f = ((int)num / (float)p);
+        return f.ToString("N0") + GetUnitText2(numList.Count - 3);
     }
 
     private string GetUnitText2(int index)
@@ -130,7 +131,7 @@ public class HeroineButton : MonoBehaviour
             recallString += (char)(97 + idx % 26);
         }
         return recallString;
-    }
+    }*/
    
     public void PurchaseActiveHero()
     {

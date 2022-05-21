@@ -14,12 +14,12 @@ public class UpgradeButton : MonoBehaviour
     [HideInInspector] // 인스펙터 상에서 값을 숨김
     public BigInteger goldByUpgrade;
    
-    public BigInteger startGoldByUpgrade = 10000; // 게임 시작 시 기초값
+    public BigInteger startGoldByUpgrade = 100; // 게임 시작 시 기초값
 
     [HideInInspector]
-    public BigInteger currentCost = 10000;
+    public BigInteger currentCost = 100;
 
-    public BigInteger startCurrentCost = 10000;
+    public BigInteger startCurrentCost = 100;
 
     [HideInInspector]
     public BigInteger level = 1;
@@ -85,17 +85,17 @@ public class UpgradeButton : MonoBehaviour
     
     public void UpdateUI()
     {        
-        upgradeDisplayer.text ="  \t"+upgradeName + " Level " + (int)level 
-            + "\n\n구매금액: " + GetCurrentCostText1(currentCost) +
+        upgradeDisplayer.text ="  \t"+upgradeName + " Level " + level 
+            + "\n\n구매금액: " + DataController.Instance.GetGoldText(currentCost) +
         "\n클릭당 추가금액:\n " + DataController.Instance.GetGoldText(DataController.Instance.GoldPerClick);
     }
     
-    public string GetCurrentCostText1(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+   /* public string GetCurrentCostText1(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
     {
         int placeN = 4; // 세자리 단위로 끊어서 표현
         BigInteger value = data; // 빅인티저에 골드를 대입
-        List<int> numList = new List<int>();
-        int p = (int)Mathf.Pow(10, placeN);
+        List<BigInteger> numList = new List<BigInteger>();
+        BigInteger p = (int)Mathf.Pow(10, placeN);
 
         do
         {
@@ -104,9 +104,9 @@ public class UpgradeButton : MonoBehaviour
         }
         while (value >= 1);
 
-        int num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
-        float f = (num / (float)p);
-        return f.ToString("N0") + GetUnitText1(numList.Count - 1);
+        BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
+        float f = ((int)num / (float)p);
+        return f.ToString("N0") + GetUnitText1(numList.Count - 3);
     }
 
     private string GetUnitText1(int index)
@@ -120,5 +120,5 @@ public class UpgradeButton : MonoBehaviour
             recallString += (char)(97 + idx % 26);
         }
         return recallString;
-    }
+    }*/
 }
