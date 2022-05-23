@@ -270,7 +270,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 10;
+        BigInteger goldPerSec = 50;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)

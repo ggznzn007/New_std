@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
        
-        goldDisplayer.text = " 총 재산: " + DataController.Instance.GetGoldText(DataController.Instance.Gold);
+        goldDisplayer.text = " 총 자산: " + DataController.Instance.GetGoldText(DataController.Instance.Gold);
         goldPerClickDisplayer.text = " 클릭당 추가금액: " + 
             DataController.Instance.GetGoldText(DataController.Instance.GoldPerClick);
         goldPerSecDisplayer.text = " 초당 추가금액: " + 

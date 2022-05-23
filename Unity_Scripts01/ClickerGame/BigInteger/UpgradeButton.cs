@@ -24,9 +24,9 @@ public class UpgradeButton : MonoBehaviour
     [HideInInspector]
     public BigInteger level = 1;
 
-    public float upgradePow = 1.5f;
-
     public float costPow = 2.14f;
+
+    public float upgradePow = 1.5f;
 
 
     public Button upgradeButton;
@@ -87,7 +87,7 @@ public class UpgradeButton : MonoBehaviour
     {        
         upgradeDisplayer.text ="  \t"+upgradeName + " Level " + level 
             + "\n\n구매금액: " + DataController.Instance.GetGoldText(currentCost) +
-        "\n클릭당 추가금액:\n " + DataController.Instance.GetGoldText(DataController.Instance.GoldPerClick);
+        "\n다음 추가금액:\n " + DataController.Instance.GetGoldText(DataController.Instance.GoldPerClick);
     }
     
    /* public string GetCurrentCostText1(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드

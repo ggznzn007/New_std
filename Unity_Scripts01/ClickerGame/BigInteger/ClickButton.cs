@@ -17,7 +17,8 @@ public class ClickButton : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space)||Input.GetKeyDown(KeyCode.Z)
+            || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C))
         {
             SoundController.instance.Playsound(SoundController.instance.playerHit);
             DataController.Instance.Gold += DataController.Instance.GoldPerClick;
