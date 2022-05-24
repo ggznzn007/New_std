@@ -43,7 +43,7 @@ public class DataController : MonoBehaviour
         BigInteger timeBinaryInBigInteger = Convert.ToInt64(timeBinaryInString);
 
         return DateTime.FromBinary((long)timeBinaryInBigInteger);
-        
+
     }
 
 
@@ -61,23 +61,24 @@ public class DataController : MonoBehaviour
     {
         UpdateLastPlayDate();
     }
-    /* public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+
+     public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
      {
-         //int placeN = 4; // 네자리 단위로 끊어서 표현
+         int placeN = 4; // 네자리 단위로 끊어서 표현
          BigInteger value = data; // 빅인티저에 골드를 대입
          List<BigInteger> numList = new List<BigInteger>();
-         int p = (int)Mathf.Pow(10, 4);
+         BigInteger p = (long)Mathf.Pow(10, placeN);         
 
-         do
+        do
          {
-             numList.Add((int)(value % p));            
+             numList.Add((long)(value % p));            
              value /= p;
          }
          while (value >= 1);
 
-         BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];        
-         float f = ((int)num / (float)p);
-         return value.ToString() + GetUnitText(numList.Count - 1);
+         BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count-1] * p + numList[numList.Count-2];
+         float f = ((int)num / (float)p);         
+         return f.ToString("N2") + GetUnitText(numList.Count - 1);
      }
    
     public string GetUnitText(BigInteger index)
@@ -91,33 +92,34 @@ public class DataController : MonoBehaviour
             recallString += (char)(97 + idx % 26);
         }
         return recallString;
-    }*/
+    }
 
-    private string[] goldStrings = new string[]
+    /*private string[] goldStrings = new string[]
     {
         "","만","억","조","경","해","자","양","가","구","간","정","재","극","항하사","아승기","나유타","불가사의","무량대수"
-    };
+    };*/
+    /* public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+     {
+         int place = 4; // 네자리 단위로 끊어서 표현
+         BigInteger value = data; // 빅인티저에 골드를 대입
+         List<BigInteger> numList = new List<BigInteger>();
+         int p = (int)Mathf.Pow(10, place);
 
-    public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
-    {
-        int place = 4; // 네자리 단위로 끊어서 표현
-        BigInteger value = data; // 빅인티저에 골드를 대입
-        List<BigInteger> numList = new List<BigInteger>();
-        int p = (int)Mathf.Pow(10, place);
+         do
+         {
+             numList.Add((int)(value % p));
+             value /= p;
+         }
+         while (value >= 1);
+         string returnString = "";
+         for (int i = 0; i < numList.Count; i++)
+         {
+             returnString = numList[i] + goldStrings[i] + returnString;
+         }
+         return returnString;
+     }*/
 
-        do
-        {
-            numList.Add((int)(value % p));
-            value /= p;
-        }
-        while (value >= 1);
-        string returnString = "";
-        for (int i = 0; i < numList.Count; i++)
-        {
-            returnString = numList[i] + goldStrings[i] + returnString;
-        }
-        return returnString;
-    }
+ 
     public BigInteger Gold
     {
         get
@@ -142,7 +144,7 @@ public class DataController : MonoBehaviour
     {
         get
         {
-            if(!(PlayerPrefs.HasKey("GoldPerClick")))
+            if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
                 return 100;
             }
@@ -197,8 +199,8 @@ public class DataController : MonoBehaviour
     {
         string key = upgradeButton.upgradeName;
 
-        string tmpUplevel = PlayerPrefs.GetString(key +"_level", upgradeButton.level.ToString());
-        upgradeButton.level= BigInteger.Parse(tmpUplevel);
+        string tmpUplevel = PlayerPrefs.GetString(key + "_level", upgradeButton.level.ToString());
+        upgradeButton.level = BigInteger.Parse(tmpUplevel);
         string tmpGoldByUp = PlayerPrefs.GetString(key + "_goldByUpgrade", upgradeButton.goldByUpgrade.ToString());
         upgradeButton.goldByUpgrade = BigInteger.Parse(tmpGoldByUp);
         string tmpCurrent = PlayerPrefs.GetString(key + "_cost", upgradeButton.currentCost.ToString());
@@ -216,9 +218,9 @@ public class DataController : MonoBehaviour
         PlayerPrefs.SetString(key + "_level", upgradeButton.level.ToString());
         PlayerPrefs.SetString(key + "_goldByUpgrade", upgradeButton.goldByUpgrade.ToString());
         PlayerPrefs.SetString(key + "_cost", upgradeButton.currentCost.ToString());
-       /* PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
-        PlayerPrefs.SetInt(key + "_goldByUpgrade", (int)upgradeButton.goldByUpgrade);
-        PlayerPrefs.SetInt(key + "_cost", (int)upgradeButton.currentCost);*/
+        /* PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
+         PlayerPrefs.SetInt(key + "_goldByUpgrade", (int)upgradeButton.goldByUpgrade);
+         PlayerPrefs.SetInt(key + "_cost", (int)upgradeButton.currentCost);*/
     }
 
     public void LoadHeroineButton(HeroineButton HeroineButton)
