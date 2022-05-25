@@ -32,7 +32,8 @@ public class UpgradeButton : MonoBehaviour
     public Button upgradeButton;
     private void Start()
     {
-        DataController.Instance.LoadUpgradeButton(this);
+        DataController.Instance.LoadUpgradeButton(this);    
+        
         UpdateUI();
         
     }

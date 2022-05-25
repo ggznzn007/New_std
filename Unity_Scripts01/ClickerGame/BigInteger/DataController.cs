@@ -31,36 +31,13 @@ public class DataController : MonoBehaviour
     private HeroineButton[] heroineButtons;
 
 
-    DateTime GetLastPlayDate()
-    {
-        if (!PlayerPrefs.HasKey("Time"))
-        {
-            return DateTime.Now;
-        }
+  
+   
 
-        string timeBinaryInString = PlayerPrefs.GetString("Time");
-        BigInteger.Parse(timeBinaryInString);
-        BigInteger timeBinaryInBigInteger = Convert.ToInt64(timeBinaryInString);
-
-        return DateTime.FromBinary((long)timeBinaryInBigInteger);
-
-    }
-
-
-    void UpdateLastPlayDate()
-    {
-        PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
-    }
-    public void OnApplicationQuit()
-    {
-        Debug.Log("Callback");
-        UpdateLastPlayDate();
-    }
-
-    private void OnApplicationPause(bool pause)
+    /*private void OnApplicationPause(bool pause)
     {
         UpdateLastPlayDate();
-    }
+    }*/
 
      public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
      {
@@ -77,7 +54,7 @@ public class DataController : MonoBehaviour
          while (value >= 1);
 
          BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count-1] * p + numList[numList.Count-2];
-         float f = ((int)num / (float)p);         
+         float f = ((int)num / (float)p);      
          return f.ToString("N2") + GetUnitText(numList.Count - 1);
      }
    
@@ -126,7 +103,7 @@ public class DataController : MonoBehaviour
         {
             if (!PlayerPrefs.HasKey("Gold"))
             {
-                return 100;
+                return 10000;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
 
@@ -146,7 +123,7 @@ public class DataController : MonoBehaviour
         {
             if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
-                return 100;
+                return 10000;
             }
             string tmpPerClick = PlayerPrefs.GetString("GoldPerClick");
             return BigInteger.Parse(tmpPerClick);
@@ -157,7 +134,31 @@ public class DataController : MonoBehaviour
         }
     }
 
-    public BigInteger TimeAfterLastPlay
+
+    DateTime GetLastPlayDate()
+    {
+        if (!PlayerPrefs.HasKey("Time"))
+        {
+            return DateTime.Now;
+        }
+
+        string timeBinaryInString = PlayerPrefs.GetString("Time");        
+        BigInteger timeBinaryInBigInteger = Convert.ToInt64(timeBinaryInString);
+        return DateTime.FromBinary((long)timeBinaryInBigInteger);
+        
+
+    }
+    public void OnApplicationQuit()
+    {
+        UpdateLastPlayDate();
+        Debug.Log("UpdateLastPlayDate Callback Complete");
+    }
+    public void UpdateLastPlayDate()
+    {
+        PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
+    }
+
+    public BigInteger timeAfterLastPlay
     {
 
         get
@@ -175,10 +176,10 @@ public class DataController : MonoBehaviour
     }
 
 
-    private void Start()
+    void Start()
     {
-        Gold += GetGoldPerSec() * TimeAfterLastPlay;
-        InvokeRepeating(nameof(UpdateLastPlayDate), 0f, 2f);
+        Gold += GetGoldPerSec() * timeAfterLastPlay;
+        InvokeRepeating("UpdateLastPlayDate", 0f, 3f);
     }
     /*private void Update()
         {
@@ -204,7 +205,7 @@ public class DataController : MonoBehaviour
         string tmpGoldByUp = PlayerPrefs.GetString(key + "_goldByUpgrade", upgradeButton.goldByUpgrade.ToString());
         upgradeButton.goldByUpgrade = BigInteger.Parse(tmpGoldByUp);
         string tmpCurrent = PlayerPrefs.GetString(key + "_cost", upgradeButton.currentCost.ToString());
-        upgradeButton.startCurrentCost = BigInteger.Parse(tmpCurrent);
+        upgradeButton.currentCost = BigInteger.Parse(tmpCurrent);
         //upgradeButton.level = PlayerPrefs.GetInt(key + "_level", 1);
         /*upgradeButton.goldByUpgrade = PlayerPrefs.GetInt(key + "_goldByUpgrade",
             (int)upgradeButton.startGoldByUpgrade);*/
@@ -215,7 +216,7 @@ public class DataController : MonoBehaviour
     {
         string key = upgradeButton.upgradeName;
 
-        PlayerPrefs.SetString(key + "_level", upgradeButton.level.ToString());
+        PlayerPrefs.SetString(key + "_level", upgradeButton.level.ToString());        
         PlayerPrefs.SetString(key + "_goldByUpgrade", upgradeButton.goldByUpgrade.ToString());
         PlayerPrefs.SetString(key + "_cost", upgradeButton.currentCost.ToString());
         /* PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
@@ -272,7 +273,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 50;
+        BigInteger goldPerSec = 5000;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)
