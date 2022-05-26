@@ -31,79 +31,108 @@ public class DataController : MonoBehaviour
     private HeroineButton[] heroineButtons;
 
 
-  
-   
-
     /*private void OnApplicationPause(bool pause)
     {
         UpdateLastPlayDate();
     }*/
 
-     public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
-     {
-         int placeN = 4; // 네자리 단위로 끊어서 표현
-         BigInteger value = data; // 빅인티저에 골드를 대입
-         List<BigInteger> numList = new List<BigInteger>();
-         BigInteger p = (long)Mathf.Pow(10, placeN);         
+    /*   public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+       {
+           int placeN = 2; // 네자리 단위로 끊어서 표현
+           BigInteger value = data; // 빅인티저에 골드를 대입
+           List<BigInteger> numList = new List<BigInteger>();
+           BigInteger p = (long)Mathf.Pow(10, placeN);         
 
-        do
-         {
-             numList.Add((long)(value % p));            
-             value /= p;
-         }
-         while (value >= 1);
+          do
+           {
+               numList.Add((long)(value % p));            
+               value /= p;
+           }
+           while (value >= 1);
 
-         BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count-1] * p + numList[numList.Count-2];
-         float f = ((int)num / (float)p);      
-         return f.ToString("N2") + GetUnitText(numList.Count - 1);
-     }
-   
-    public string GetUnitText(BigInteger index)
-    {
-        BigInteger idx = index - 1;
-        if (idx < 0) { return ""; }
-        BigInteger recallCount = (idx / 26) + 1;
-        string recallString = "";
-        for (int i = 0; i < recallCount; i++)
+           BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count-1] * p + numList[numList.Count-2];
+           float f = (int)num / (float)p;        
+          return f.ToString() + GetUnitText(numList.Count - 1);
+       }*/
+
+    /*    public string GetGoldText(BigInteger value)
         {
-            recallString += (char)(97 + idx % 26);
+            List<BigInteger> numlist = new List<BigInteger>();
+            BigInteger val = (BigInteger)Mathf.Pow(10,4);
+            BigInteger val2 = value/val;
+
+            if (value >= 1)
+            {
+                numlist.Add(item: val2);
+
+            }
+
+            BigInteger idx = numlist.Count-1;
+            //if (idx < 0) { return ""; }
+            BigInteger returnString = (idx / 26) + 1;
+            string recallString = "";
+            for (int i = 0; i < returnString; i++)
+            {
+                recallString += (char)(97 + idx % 26);
+            }
+
+            return value.ToString("N0") + recallString;
         }
-        return recallString;
-    }
+
+        public string GetUnitText(BigInteger index)
+        {
+            BigInteger idx = index-1;
+            if (idx < 0) { return ""; }
+            BigInteger recallCount = (idx / 26) + 1;
+            string recallString = "";
+            for (int i = 0; i < recallCount; i++)
+            {
+                recallString += (char)(97 + idx % 26);
+            }
+            return recallString;
+        }*/
 
     /*private string[] goldStrings = new string[]
     {
         "","만","억","조","경","해","자","양","가","구","간","정","재","극","항하사","아승기","나유타","불가사의","무량대수"
     };*/
-    /* public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
-     {
-         int place = 4; // 네자리 단위로 끊어서 표현
-         BigInteger value = data; // 빅인티저에 골드를 대입
-         List<BigInteger> numList = new List<BigInteger>();
-         int p = (int)Mathf.Pow(10, place);
 
-         do
-         {
-             numList.Add((int)(value % p));
-             value /= p;
-         }
-         while (value >= 1);
-         string returnString = "";
-         for (int i = 0; i < numList.Count; i++)
-         {
-             returnString = numList[i] + goldStrings[i] + returnString;
-         }
-         return returnString;
-     }*/
+    private string[] goldStrings = new string[]
+    {
+        "","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+    };
+    public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+    {
+        BigInteger value = data; // 빅인티저에 골드를 대입
+        List<BigInteger> numList = new List<BigInteger>();
+        BigInteger p = (BigInteger)Mathf.Pow(10, 4);
 
- 
+        do
+        {
+            numList.Add((int)(value % p));
+            value /= p;
+        }
+        while (value >= 1);
+        string returnString = "";
+        for (int i = 0; i < numList.Count; i++)
+        {
+            returnString = numList[i] + goldStrings[i];
+            if(i>goldStrings.Length)
+            {
+                goldStrings[i] += goldStrings[i];
+            }
+        }
+        return returnString;
+    }
+
+
     public BigInteger Gold
     {
         get
         {
             if (!PlayerPrefs.HasKey("Gold"))
             {
-                return 10000;
+                return 1;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
 
@@ -123,7 +152,7 @@ public class DataController : MonoBehaviour
         {
             if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
-                return 10000;
+                return 1;
             }
             string tmpPerClick = PlayerPrefs.GetString("GoldPerClick");
             return BigInteger.Parse(tmpPerClick);
@@ -273,7 +302,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 5000;
+        BigInteger goldPerSec = 1;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)

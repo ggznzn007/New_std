@@ -14,12 +14,12 @@ public class UpgradeButton : MonoBehaviour
     [HideInInspector] // 인스펙터 상에서 값을 숨김
     public BigInteger goldByUpgrade;
    
-    public BigInteger startGoldByUpgrade = 100; // 게임 시작 시 기초값
+    public BigInteger startGoldByUpgrade = 1; // 게임 시작 시 기초값
 
     [HideInInspector]
-    public BigInteger currentCost = 100;
+    public BigInteger currentCost = 1;
 
-    public BigInteger startCurrentCost = 100;
+    public BigInteger startCurrentCost = 1;
 
     [HideInInspector]
     public BigInteger level = 1;
