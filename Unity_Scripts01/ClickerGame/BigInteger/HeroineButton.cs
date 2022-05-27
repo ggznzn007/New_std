@@ -18,14 +18,14 @@ public class HeroineButton : MonoBehaviour
     public BigInteger level = 1;
 
     [HideInInspector]
-    public BigInteger currentCost = 1;
+    public BigInteger currentCost = 90;
 
-    public BigInteger startCurrentCost = 1;
+    public BigInteger startCurrentCost = 90;
 
     [HideInInspector]
     public BigInteger goldPerSec;
 
-    public BigInteger startGoldPerSec = 1;
+    public BigInteger startGoldPerSec = 90;
 
     public float costPow = 3.14f;
 
@@ -97,7 +97,7 @@ public class HeroineButton : MonoBehaviour
         }
         else
         {
-           canvasGroup.alpha = 0.2f;
+           canvasGroup.alpha = 0.6f;
         }              
         
     }

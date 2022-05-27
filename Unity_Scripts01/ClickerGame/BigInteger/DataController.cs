@@ -36,24 +36,37 @@ public class DataController : MonoBehaviour
         UpdateLastPlayDate();
     }*/
 
-    /*   public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
-       {
-           int placeN = 2; // 네자리 단위로 끊어서 표현
-           BigInteger value = data; // 빅인티저에 골드를 대입
-           List<BigInteger> numList = new List<BigInteger>();
-           BigInteger p = (long)Mathf.Pow(10, placeN);         
+    public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+    {
+        int placeN = 4; // 네자리 단위로 끊어서 표현
+        BigInteger value = data; // 빅인티저에 골드를 대입
+        List<BigInteger> numList = new List<BigInteger>();
+        BigInteger p = (long)Mathf.Pow(10, placeN);
 
-          do
-           {
-               numList.Add((long)(value % p));            
-               value /= p;
-           }
-           while (value >= 1);
+        do
+        {
+            numList.Add((long)(value % p));
+            value /= p;
+        }
+        while (value >= 1);
 
-           BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count-1] * p + numList[numList.Count-2];
-           float f = (int)num / (float)p;        
-          return f.ToString() + GetUnitText(numList.Count - 1);
-       }*/
+        BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
+        float f = (int)num / (float)p;
+        return f.ToString("N2") + GetUnitText(numList.Count - 1);
+    }
+
+    public string GetUnitText(BigInteger index)
+    {
+        BigInteger idx = index - 1;
+        if (idx < 0) { return ""; }
+        BigInteger recallCount = (idx / 26) + 1;
+        string recallString = "";
+        for (int i = 0; i < recallCount; i++)
+        {
+            recallString += (char)(97 + idx % 26);
+        }
+        return recallString;
+    }
 
     /*    public string GetGoldText(BigInteger value)
         {
@@ -78,52 +91,82 @@ public class DataController : MonoBehaviour
 
             return value.ToString("N0") + recallString;
         }
+*/
 
-        public string GetUnitText(BigInteger index)
-        {
-            BigInteger idx = index-1;
-            if (idx < 0) { return ""; }
-            BigInteger recallCount = (idx / 26) + 1;
-            string recallString = "";
-            for (int i = 0; i < recallCount; i++)
-            {
-                recallString += (char)(97 + idx % 26);
-            }
-            return recallString;
-        }*/
+        /*  private string[] goldStrings = new string[]
+          {
+              "","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+          };
+          public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
+          {
+              BigInteger value = data; // 빅인티저에 골드를 대입
+              List<BigInteger> numList = new List<BigInteger>();
+              BigInteger p = (BigInteger)Mathf.Pow(10, 4);
 
-    /*private string[] goldStrings = new string[]
-    {
-        "","만","억","조","경","해","자","양","가","구","간","정","재","극","항하사","아승기","나유타","불가사의","무량대수"
-    };*/
+              do
+              {
+                  numList.Add((int)(value % p));
+                  value /= p;
+              }
+              while (value >= 1);
+              string returnString = "";
+              for (int i = 0; i < numList.Count; i++)
+              {
+                  returnString = numList[i] + goldStrings[i];
+                  if(i>goldStrings.Length)
+                  {
+                      goldStrings[i] += goldStrings[i];
+                  }
+              }
+              return returnString;
+          }*/
 
-    private string[] goldStrings = new string[]
-    {
-        "","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
-    };
-    public string GetGoldText(BigInteger data) // 골드 표현 형식을 소수점 까지 표시하는 메서드
-    {
-        BigInteger value = data; // 빅인티저에 골드를 대입
-        List<BigInteger> numList = new List<BigInteger>();
-        BigInteger p = (BigInteger)Mathf.Pow(10, 4);
+        /* public string GetGoldText(BigInteger value)// 노가다
+         {
 
-        do
-        {
-            numList.Add((int)(value % p));
-            value /= p;
-        }
-        while (value >= 1);
-        string returnString = "";
-        for (int i = 0; i < numList.Count; i++)
-        {
-            returnString = numList[i] + goldStrings[i];
-            if(i>goldStrings.Length)
-            {
-                goldStrings[i] += goldStrings[i];
-            }
-        }
-        return returnString;
-    }
+             BigInteger div = (BigInteger)Mathf.Pow(10, 4);
+
+             if (value >= (BigInteger)10000000000000000000)
+             {
+                 // value = value / (BigInteger)10000000000000000;
+                 value = (value / (div ^ 4));
+                 return value.ToString() + "E";
+             }
+
+             else if (value >= (BigInteger)10000000000000000)
+             {
+                 // value = value / (BigInteger)10000000000000000;
+                 value = (value / (div ^ 4));
+                 return value.ToString() + "D";
+             }
+             else if (value >= (BigInteger)1000000000000)
+             {
+                 //value = value / (BigInteger)1000000000000;
+                 value = (value / (div ^ 3));
+                 return value.ToString() + "C";
+             }
+             else if (value >= (BigInteger)100000000)
+             {
+                 //value = value / (BigInteger)100000000;
+                 value = (value / (div ^ 2));
+                 return value.ToString() + "B";
+             }
+             else if (value >= (BigInteger)10000)
+             {
+                 //value = value / (BigInteger)10000;
+                 value = (value / div);
+                 return value.ToString() + "A";
+             }
+             else if (value < (BigInteger)10000)
+             {
+                 //value = (int)value / 10000;
+
+                 return value.ToString() + "";
+             }
+
+
+             return null;
+         }*/
 
 
     public BigInteger Gold
@@ -132,7 +175,7 @@ public class DataController : MonoBehaviour
         {
             if (!PlayerPrefs.HasKey("Gold"))
             {
-                return 1;
+                return 100;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
 
@@ -152,7 +195,7 @@ public class DataController : MonoBehaviour
         {
             if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
-                return 1;
+                return 100;
             }
             string tmpPerClick = PlayerPrefs.GetString("GoldPerClick");
             return BigInteger.Parse(tmpPerClick);
@@ -171,10 +214,10 @@ public class DataController : MonoBehaviour
             return DateTime.Now;
         }
 
-        string timeBinaryInString = PlayerPrefs.GetString("Time");        
+        string timeBinaryInString = PlayerPrefs.GetString("Time");
         BigInteger timeBinaryInBigInteger = Convert.ToInt64(timeBinaryInString);
         return DateTime.FromBinary((long)timeBinaryInBigInteger);
-        
+
 
     }
     public void OnApplicationQuit()
@@ -210,21 +253,20 @@ public class DataController : MonoBehaviour
         Gold += GetGoldPerSec() * timeAfterLastPlay;
         InvokeRepeating("UpdateLastPlayDate", 0f, 3f);
     }
-    /*private void Update()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            GameQuit();
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {            
-    #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-                Application.Quit();
-                // 안드로이드
-    #else
+#else
     Application.Quit();
 
-    #endif
-            }
-        }*/
+#endif
+        }
+    }
     public void LoadUpgradeButton(UpgradeButton upgradeButton)
     {
         string key = upgradeButton.upgradeName;
@@ -245,7 +287,7 @@ public class DataController : MonoBehaviour
     {
         string key = upgradeButton.upgradeName;
 
-        PlayerPrefs.SetString(key + "_level", upgradeButton.level.ToString());        
+        PlayerPrefs.SetString(key + "_level", upgradeButton.level.ToString());
         PlayerPrefs.SetString(key + "_goldByUpgrade", upgradeButton.goldByUpgrade.ToString());
         PlayerPrefs.SetString(key + "_cost", upgradeButton.currentCost.ToString());
         /* PlayerPrefs.SetInt(key + "_level", (int)upgradeButton.level);
@@ -302,7 +344,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 1;
+        BigInteger goldPerSec = 90;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)
@@ -314,5 +356,8 @@ public class DataController : MonoBehaviour
         return goldPerSec;
     }
 
-
+    public void GameQuit()
+    {
+        Application.Quit();
+    }
 }
