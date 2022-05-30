@@ -14,7 +14,7 @@ public class Ball : MonoBehaviour
     private void OnEnable()
     {
         float xForce = Random.Range(-sideForce, sideForce);
-        float yForce = Random.Range(upForce,upForce);
+        float yForce = Random.Range(upForce*0.5f,upForce);
         float zForce = Random.Range(-sideForce, sideForce);
         Vector3 force = new Vector3(xForce, yForce, zForce);
         rbody.velocity = force;
