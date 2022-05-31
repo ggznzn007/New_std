@@ -175,7 +175,7 @@ public class DataController : MonoBehaviour
         {
             if (!PlayerPrefs.HasKey("Gold"))
             {
-                return 100;
+                return 1000;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
 
@@ -195,7 +195,7 @@ public class DataController : MonoBehaviour
         {
             if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
-                return 100;
+                return 1000;
             }
             string tmpPerClick = PlayerPrefs.GetString("GoldPerClick");
             return BigInteger.Parse(tmpPerClick);
@@ -230,7 +230,7 @@ public class DataController : MonoBehaviour
         PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
     }
 
-    public BigInteger timeAfterLastPlay
+    public int timeAfterLastPlay
     {
 
         get
@@ -238,7 +238,7 @@ public class DataController : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime lastPlayDate = GetLastPlayDate();
 
-            return (BigInteger)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+            return (int)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
         }
     }
 
@@ -344,7 +344,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 90;
+        BigInteger goldPerSec = 900;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)
