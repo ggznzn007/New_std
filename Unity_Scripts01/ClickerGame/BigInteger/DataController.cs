@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Numerics;
 using System.Text;
+using TMPro;
 
 public class DataController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class DataController : MonoBehaviour
     }
 
     private HeroineButton[] heroineButtons;
-
+    public UIManager saveText;
 
     /*private void OnApplicationPause(bool pause)
     {
@@ -215,22 +216,30 @@ public class DataController : MonoBehaviour
         }
 
         string timeBinaryInString = PlayerPrefs.GetString("Time");
-        BigInteger timeBinaryInBigInteger = Convert.ToInt64(timeBinaryInString);
-        return DateTime.FromBinary((long)timeBinaryInBigInteger);
+        double timeBinaryInteger = Convert.ToDouble(timeBinaryInString);
+        return DateTime.FromBinary((long)timeBinaryInteger);
 
 
     }
     public void OnApplicationQuit()
     {
         UpdateLastPlayDate();
-        Debug.Log("UpdateLastPlayDate Callback Complete");
+       
+    }
+
+    public void OnApplicationPause(bool pause)
+    {
+        UpdateLastPlayDate();
+        
     }
     public void UpdateLastPlayDate()
     {
         PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
+        
+        saveText.saveDataText.text = "Clicker Clicker Clicker";
     }
 
-    public int timeAfterLastPlay
+    public long timeAfterLastPlay
     {
 
         get
@@ -238,20 +247,21 @@ public class DataController : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime lastPlayDate = GetLastPlayDate();
 
-            return (int)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+            return (long)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
         }
     }
 
     private void Awake()
     {
         heroineButtons = FindObjectsOfType<HeroineButton>();
+        saveText.saveDataText = FindObjectOfType<TextMeshProUGUI>();
     }
 
 
     void Start()
     {
         Gold += GetGoldPerSec() * timeAfterLastPlay;
-        InvokeRepeating("UpdateLastPlayDate", 0f, 3f);
+        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);
     }
     private void Update()
     {

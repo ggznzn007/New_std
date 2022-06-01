@@ -9,8 +9,9 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI goldDisplayer;
     public TextMeshProUGUI goldPerClickDisplayer;
-    public TextMeshProUGUI goldPerSecDisplayer;    
-   
+    public TextMeshProUGUI goldPerSecDisplayer;
+    public TextMeshProUGUI saveDataText;
+
     private void Update()
     {
        
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
             DataController.Instance.GetGoldText(DataController.Instance.GoldPerClick);
         goldPerSecDisplayer.text = " 초당 추가금액: " + 
             DataController.Instance.GetGoldText(DataController.Instance.GetGoldPerSec());
+        
     }
 
     
