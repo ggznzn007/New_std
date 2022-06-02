@@ -42,19 +42,18 @@ public class DataController : MonoBehaviour
         int placeN = 4; // 네자리 단위로 끊어서 표현
         BigInteger value = data; // 빅인티저에 골드를 대입
         List<BigInteger> numList = new List<BigInteger>();
-        BigInteger p = (BigInteger)Mathf.Pow(10, placeN);       
+        long p = (int)Mathf.Pow(10, placeN);       
 
         do
         {
-            numList.Add((long)(value % p));
-            //numList.Add((value % p));
+            numList.Add((long)(value % p));            
             value /= p;
         }
         while (value >= 1);
 
         BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];        
         float f = (int)num / (float)p;
-        return f.ToString("N0") + GetUnitText(numList.Count - 1);
+        return f.ToString("N1") + GetUnitText(numList.Count - 1);
     }
 
     public string GetUnitText(BigInteger index)
@@ -177,7 +176,7 @@ public class DataController : MonoBehaviour
         {
             if (!PlayerPrefs.HasKey("Gold"))
             {
-                return 1000;
+                return 10000;
             }
             string tmpGold = PlayerPrefs.GetString("Gold");
 
@@ -197,7 +196,7 @@ public class DataController : MonoBehaviour
         {
             if (!(PlayerPrefs.HasKey("GoldPerClick")))
             {
-                return 1000;
+                return 10000;
             }
             string tmpPerClick = PlayerPrefs.GetString("GoldPerClick");
             return BigInteger.Parse(tmpPerClick);
@@ -245,7 +244,7 @@ public class DataController : MonoBehaviour
 
     }
 
-    public BigInteger timeAfterLastPlay
+    public int timeAfterLastPlay
     {
 
         get
@@ -253,7 +252,7 @@ public class DataController : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime lastPlayDate = GetLastPlayDate();
 
-            return (BigInteger)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+            return (int)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
         }
     }
 
@@ -353,7 +352,7 @@ public class DataController : MonoBehaviour
 
     public BigInteger GetGoldPerSec()
     {
-        BigInteger goldPerSec = 900;
+        BigInteger goldPerSec = 9000;
         for (int i = 0; i < heroineButtons.Length; i++)
         {
             if (heroineButtons[i].isPurchased == true)

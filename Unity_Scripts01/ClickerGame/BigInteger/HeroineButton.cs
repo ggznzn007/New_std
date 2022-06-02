@@ -18,14 +18,14 @@ public class HeroineButton : MonoBehaviour
     public BigInteger level = 1;
 
     [HideInInspector]
-    public BigInteger currentCost = 900;
+    public BigInteger currentCost = 9000;
 
-    public BigInteger startCurrentCost = 900;
+    public BigInteger startCurrentCost = 9000;
 
     [HideInInspector]
     public BigInteger goldPerSec;
 
-    public BigInteger startGoldPerSec = 900;
+    public BigInteger startGoldPerSec = 9000;
 
     public float costPow;
 
