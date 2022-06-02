@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI goldDisplayer;
     public TextMeshProUGUI goldPerClickDisplayer;
     public TextMeshProUGUI goldPerSecDisplayer;
-    public TextMeshProUGUI saveDataText;
+    
 
     private void Update()
     {

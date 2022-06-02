@@ -30,7 +30,7 @@ public class DataController : MonoBehaviour
     }
 
     private HeroineButton[] heroineButtons;
-    public UIManager saveText;
+    
 
     /*private void OnApplicationPause(bool pause)
     {
@@ -42,18 +42,19 @@ public class DataController : MonoBehaviour
         int placeN = 4; // 네자리 단위로 끊어서 표현
         BigInteger value = data; // 빅인티저에 골드를 대입
         List<BigInteger> numList = new List<BigInteger>();
-        BigInteger p = (long)Mathf.Pow(10, placeN);
+        BigInteger p = (BigInteger)Mathf.Pow(10, placeN);       
 
         do
         {
             numList.Add((long)(value % p));
+            //numList.Add((value % p));
             value /= p;
         }
         while (value >= 1);
 
-        BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];
+        BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];        
         float f = (int)num / (float)p;
-        return f.ToString("N2") + GetUnitText(numList.Count - 1);
+        return f.ToString("N0") + GetUnitText(numList.Count - 1);
     }
 
     public string GetUnitText(BigInteger index)
@@ -206,8 +207,30 @@ public class DataController : MonoBehaviour
             PlayerPrefs.SetString("GoldPerClick", value.ToString());
         }
     }
+    
+    public void OnApplicationFocus(bool focus)
+    {
+        UpdateLastPlayDate();
+    }
+    public void OnApplicationQuit()
+    {
+        UpdateLastPlayDate();       
+    }
 
+    public void OnApplicationPause(bool pause)
+    {
+        UpdateLastPlayDate();        
+    }
 
+    private void Awake()
+    {
+        heroineButtons = FindObjectsOfType<HeroineButton>();       
+    }
+
+    public void UpdateLastPlayDate()
+    {
+        PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());        
+    }
     DateTime GetLastPlayDate()
     {
         if (!PlayerPrefs.HasKey("Time"))
@@ -215,31 +238,14 @@ public class DataController : MonoBehaviour
             return DateTime.Now;
         }
 
-        string timeBinaryInString = PlayerPrefs.GetString("Time");
-        double timeBinaryInteger = Convert.ToDouble(timeBinaryInString);
-        return DateTime.FromBinary((long)timeBinaryInteger);
+        string timeString = PlayerPrefs.GetString("Time");
+        BigInteger timeBigInteger = Convert.ToInt64(timeString);
+        return DateTime.FromBinary((long)timeBigInteger);
 
 
     }
-    public void OnApplicationQuit()
-    {
-        UpdateLastPlayDate();
-       
-    }
 
-    public void OnApplicationPause(bool pause)
-    {
-        UpdateLastPlayDate();
-        
-    }
-    public void UpdateLastPlayDate()
-    {
-        PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
-        
-        saveText.saveDataText.text = "Clicker Clicker Clicker";
-    }
-
-    public long timeAfterLastPlay
+    public BigInteger timeAfterLastPlay
     {
 
         get
@@ -247,16 +253,9 @@ public class DataController : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime lastPlayDate = GetLastPlayDate();
 
-            return (long)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+            return (BigInteger)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
         }
     }
-
-    private void Awake()
-    {
-        heroineButtons = FindObjectsOfType<HeroineButton>();
-        saveText.saveDataText = FindObjectOfType<TextMeshProUGUI>();
-    }
-
 
     void Start()
     {
