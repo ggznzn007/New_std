@@ -53,7 +53,7 @@ public class DataController : MonoBehaviour
 
         BigInteger num = numList.Count < 2 ? numList[0] : numList[numList.Count - 1] * p + numList[numList.Count - 2];        
         float f = (int)num / (float)p;
-        return f.ToString("N1") + GetUnitText(numList.Count - 1);
+        return f.ToString("N2") + GetUnitText(numList.Count - 1);
     }
 
     public string GetUnitText(BigInteger index)
@@ -244,7 +244,7 @@ public class DataController : MonoBehaviour
 
     }
 
-    public int timeAfterLastPlay
+    public long timeAfterLastPlay
     {
 
         get
@@ -252,14 +252,14 @@ public class DataController : MonoBehaviour
             DateTime currentTime = DateTime.Now;
             DateTime lastPlayDate = GetLastPlayDate();
 
-            return (int)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
+            return (long)currentTime.Subtract(lastPlayDate).TotalSeconds; // 시간차를 구하는 프로퍼티
         }
     }
 
     void Start()
     {
         Gold += GetGoldPerSec() * timeAfterLastPlay;
-        InvokeRepeating("UpdateLastPlayDate", 0f, 5f);
+        InvokeRepeating(nameof(UpdateLastPlayDate), 0f, 5f);
     }
     private void Update()
     {
