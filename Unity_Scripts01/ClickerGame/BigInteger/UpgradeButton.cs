@@ -44,8 +44,7 @@ public class UpgradeButton : MonoBehaviour
     }
 
     private void Update()
-    {
-       
+    {       
         PurchaseActive();
     }
 
