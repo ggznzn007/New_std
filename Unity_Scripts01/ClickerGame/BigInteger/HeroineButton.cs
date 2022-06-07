@@ -87,7 +87,7 @@ public class HeroineButton : MonoBehaviour
             "\n초당 추가금액: " + DataController.Instance.GetGoldText(goldPerSec);
 
         slider.minValue = 0;
-        slider.maxValue =(float)currentCost;
+        slider.maxValue =(long)currentCost;
 
         slider.value = (float)DataController.Instance.Gold;
 

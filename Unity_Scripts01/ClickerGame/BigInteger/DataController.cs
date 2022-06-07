@@ -209,7 +209,11 @@ public class DataController : MonoBehaviour
     
     public void OnApplicationFocus(bool focus)
     {
-        UpdateLastPlayDate();
+        if(!focus)
+        {
+            UpdateLastPlayDate();
+        }
+        
     }
     public void OnApplicationQuit()
     {
@@ -218,7 +222,11 @@ public class DataController : MonoBehaviour
 
     public void OnApplicationPause(bool pause)
     {
-        UpdateLastPlayDate();        
+        if(!pause)
+        {
+            UpdateLastPlayDate();
+        }
+           
     }
 
     private void Awake()
