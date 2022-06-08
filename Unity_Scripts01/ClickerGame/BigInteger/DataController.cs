@@ -246,8 +246,8 @@ public class DataController : MonoBehaviour
         }
 
         string timeString = PlayerPrefs.GetString("Time");
-        BigInteger timeBigInteger = Convert.ToInt64(timeString);
-        return DateTime.FromBinary((long)timeBigInteger);
+        long timeBigInteger = Convert.ToInt64(timeString);
+        return DateTime.FromBinary(timeBigInteger);
 
 
     }
@@ -266,7 +266,7 @@ public class DataController : MonoBehaviour
 
     void Start()
     {
-        Gold += GetGoldPerSec() * timeAfterLastPlay;
+        Gold += GetGoldPerSec() * (BigInteger)timeAfterLastPlay;
         InvokeRepeating(nameof(UpdateLastPlayDate), 0f, 5f);
     }
     private void Update()

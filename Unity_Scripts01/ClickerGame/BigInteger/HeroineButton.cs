@@ -89,7 +89,7 @@ public class HeroineButton : MonoBehaviour
         slider.minValue = 0;
         slider.maxValue =(long)currentCost;
 
-        slider.value = (float)DataController.Instance.Gold;
+        slider.value = (long)DataController.Instance.Gold;
 
         if(isPurchased)
         {
@@ -138,17 +138,17 @@ public class HeroineButton : MonoBehaviour
         if (DataController.Instance.Gold >= currentCost)
         {
             heroineButton.interactable = true;
-            slider.interactable = true;
+            
         }
         else
         {
             heroineButton.interactable = false;
-            slider.interactable = false;
+            
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        PurchaseActiveHero();
         UpdateUI();
-        //PurchaseActiveHero();
     }
 }
