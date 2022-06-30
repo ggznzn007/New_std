@@ -15,24 +15,33 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;   
+    public GameObject AvatarHand_L;   
+    public GameObject AvatarHand_R;   
+    
     
     private PhotonView PV;
     
-    private void Start()
+    private void Awake()
     {
         PV = GetComponent<PhotonView>();
         if(PV.IsMine)
         {
             LocalXRRigGameObject.SetActive(true);
-            SetLayerRecursively(AvatarHead, 8);
-            SetLayerRecursively(AvatarHead, 9);
+            SetLayerRecursively(go: AvatarHead, 8);
+            SetLayerRecursively(go: AvatarBody, 9);
+            SetLayerRecursively(go: AvatarHand_L, 10);
+            SetLayerRecursively(go: AvatarHand_R, 10);
         }
         else
         {
+            
             LocalXRRigGameObject.SetActive(false);
-            SetLayerRecursively(AvatarHead, 0);
-            SetLayerRecursively(AvatarHead, 0);
+            SetLayerRecursively(go: AvatarHead, 0);
+            SetLayerRecursively(go: AvatarBody, 0);
+            SetLayerRecursively(go: AvatarHand_L, 0);
+            SetLayerRecursively(go: AvatarHand_R, 0);
         }
+        
     }    
 
     void SetLayerRecursively(GameObject go, int layerNum)
