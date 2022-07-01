@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using UnityEngine.UI;
-using PN = Photon.Pun.PhotonNetwork;
+using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
@@ -15,15 +15,34 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject connectUI;   
     [SerializeField] GameObject selectRoomUI;   
     [SerializeField] GameObject roomManager;        
+    //[SerializeField] GameObject spawnManager;        
+    
     private string gameVersion = "1.0"; // 게임 버전
-   
+
     #region Unity Methods   
+    private void Awake()
+    {
+        // 접속에 필요한 정보(게임 버전) 설정
+        PN.GameVersion = gameVersion;
+        // 설정한 정보를 가지고 마스터 서버 접속 시도
+        PN.ConnectUsingSettings();
+        if (PN.ConnectUsingSettings())
+        {
+            this.gameObject.SetActive(false);
+            connectUI.SetActive(false);
+            roomManager.SetActive(true);
+            selectRoomUI.SetActive(true);
+           // spawnManager.SetActive(true);
+        }
+    }
+
     void Start()
     {
-        this.gameObject.SetActive(true);
+        
+       /* this.gameObject.SetActive(true);
         connectUI.SetActive(true);
         roomManager.SetActive(false);
-        selectRoomUI.SetActive(false);
+        selectRoomUI.SetActive(false);*/
       
     }        
     void Update()
@@ -50,6 +69,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             connectUI.SetActive(false);
             roomManager.SetActive(true);
             selectRoomUI.SetActive(true);
+          //  spawnManager.SetActive(true);
         }
 
     }
@@ -57,7 +77,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void ConnectToPhotonServer()
     {
         if (PlayerName_InputName != null)
-        {
+        {            
             PN.NickName = PlayerName_InputName.text;
             PN.ConnectUsingSettings();
         }
@@ -74,6 +94,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // 룸 접속 실행
             print("방에 접속중...");
             PN.JoinRandomRoom();
+           
         }
         else
         {
@@ -86,18 +107,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public override void OnConnected()
     {
+        
         base.OnConnected();
         print("서버접속에 성공했습니다!!!");
+
     }
 
     public override void OnConnectedToMaster()
     {
+
         print("서버와 연결된 상태입니다.\n 접속한 플레이어는 : " +PN.NickName+"입니다.");
         this.gameObject.SetActive(false);
         connectUI.SetActive(false);
         roomManager.SetActive(true);
         selectRoomUI.SetActive(true);
-        
+       // spawnManager.SetActive(true);
+
     }
     // 마스터 서버 접속 실패시 자동 실행
     public override void OnDisconnected(DisconnectCause cause)

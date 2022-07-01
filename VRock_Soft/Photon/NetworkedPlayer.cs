@@ -42,7 +42,13 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
             SetLayerRecursively(go: AvatarHand_R, 0);
         }
         
-    }    
+    }
+
+    private void Update()
+    {
+        if(!PV.IsMine)
+        { return; }
+    }
 
     void SetLayerRecursively(GameObject go, int layerNum)
     {

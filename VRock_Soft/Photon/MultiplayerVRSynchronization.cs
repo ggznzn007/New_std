@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 
-public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
+public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 {
 
     private PhotonView m_PhotonView;
+
 
 
     //Main VRPlayer Transform Synch
@@ -124,7 +126,7 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
         m_NetworkPosition_RightHand = Vector3.zero;
         m_NetworkRotation_RightHand = Quaternion.identity;
     }
-
+ 
     void OnEnable()
     {
         m_firstTake = true;
@@ -135,26 +137,28 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
         if (!this.m_PhotonView.IsMine)
         {
 
-            generalVRPlayerTransform.position = Vector3.MoveTowards(generalVRPlayerTransform.position, this.m_NetworkPosition_GeneralVRPlayer, this.m_Distance_GeneralVRPlayer * (1.0f / PhotonNetwork.SerializationRate));
-            generalVRPlayerTransform.rotation = Quaternion.RotateTowards(generalVRPlayerTransform.rotation, this.m_NetworkRotation_GeneralVRPlayer, this.m_Angle_GeneralVRPlayer * (1.0f / PhotonNetwork.SerializationRate));
+            generalVRPlayerTransform.position = Vector3.MoveTowards(generalVRPlayerTransform.position, this.m_NetworkPosition_GeneralVRPlayer, this.m_Distance_GeneralVRPlayer * (1.0f / PN.SerializationRate));
+            generalVRPlayerTransform.rotation = Quaternion.RotateTowards(generalVRPlayerTransform.rotation, this.m_NetworkRotation_GeneralVRPlayer, this.m_Angle_GeneralVRPlayer * (1.0f / PN.SerializationRate));
 
-            mainAvatarTransform.localPosition = Vector3.MoveTowards(mainAvatarTransform.localPosition, this.m_NetworkPosition_MainAvatar, this.m_Distance_MainAvatar * (1.0f / PhotonNetwork.SerializationRate));
-            mainAvatarTransform.localRotation = Quaternion.RotateTowards(mainAvatarTransform.localRotation, this.m_NetworkRotation_MainAvatar, this.m_Angle_MainAvatar * (1.0f / PhotonNetwork.SerializationRate));
-
-
-          
-            headTransform.localRotation = Quaternion.RotateTowards(headTransform.localRotation, this.m_NetworkRotation_Head, this.m_Angle_Head * (1.0f / PhotonNetwork.SerializationRate));
-
-            bodyTransform.localRotation = Quaternion.RotateTowards(bodyTransform.localRotation, this.m_NetworkRotation_Body, this.m_Angle_Body * (1.0f / PhotonNetwork.SerializationRate));
+            mainAvatarTransform.localPosition = Vector3.MoveTowards(mainAvatarTransform.localPosition, this.m_NetworkPosition_MainAvatar, this.m_Distance_MainAvatar * (1.0f / PN.SerializationRate));
+            mainAvatarTransform.localRotation = Quaternion.RotateTowards(mainAvatarTransform.localRotation, this.m_NetworkRotation_MainAvatar, this.m_Angle_MainAvatar * (1.0f / PN.SerializationRate));
 
 
-            leftHandTransform.localPosition = Vector3.MoveTowards(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand, this.m_Distance_LeftHand * (1.0f / PhotonNetwork.SerializationRate));
-            leftHandTransform.localRotation = Quaternion.RotateTowards(leftHandTransform.localRotation, this.m_NetworkRotation_LeftHand, this.m_Angle_LeftHand * (1.0f / PhotonNetwork.SerializationRate));
 
-            rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (1.0f / PhotonNetwork.SerializationRate));
-            rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (1.0f / PhotonNetwork.SerializationRate));
+            headTransform.localRotation = Quaternion.RotateTowards(headTransform.localRotation, this.m_NetworkRotation_Head, this.m_Angle_Head * (1.0f / PN.SerializationRate));
+
+            bodyTransform.localRotation = Quaternion.RotateTowards(bodyTransform.localRotation, this.m_NetworkRotation_Body, this.m_Angle_Body * (1.0f / PN.SerializationRate));
+
+
+            leftHandTransform.localPosition = Vector3.MoveTowards(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand, this.m_Distance_LeftHand * (1.0f / PN.SerializationRate));
+            leftHandTransform.localRotation = Quaternion.RotateTowards(leftHandTransform.localRotation, this.m_NetworkRotation_LeftHand, this.m_Angle_LeftHand * (1.0f / PN.SerializationRate));
+
+            rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (1.0f / PN.SerializationRate));
+            rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (1.0f / PN.SerializationRate));
 
         }
+
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -245,7 +249,7 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
             }
             else
             {
-                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
                 this.m_NetworkPosition_GeneralVRPlayer += this.m_Direction_GeneralVRPlayer * lag;
                 this.m_Distance_GeneralVRPlayer = Vector3.Distance(generalVRPlayerTransform.position, this.m_NetworkPosition_GeneralVRPlayer);
             }
@@ -276,7 +280,7 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
             }
             else
             {
-                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
                 this.m_NetworkPosition_MainAvatar += this.m_Direction_MainAvatar * lag;
                 this.m_Distance_MainAvatar = Vector3.Distance(mainAvatarTransform.localPosition, this.m_NetworkPosition_MainAvatar);
             }
@@ -337,7 +341,7 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
             }
             else
             {
-                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
                 this.m_NetworkPosition_LeftHand += this.m_Direction_LeftHand * lag;
                 this.m_Distance_LeftHand = Vector3.Distance(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand);
             }
@@ -365,7 +369,7 @@ public class MultiplayerVRSynchronization : MonoBehaviour, IPunObservable
             }
             else
             {
-                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
                 this.m_NetworkPosition_RightHand += this.m_Direction_RightHand * lag;
                 this.m_Distance_RightHand = Vector3.Distance(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand);
             }
