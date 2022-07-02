@@ -3,17 +3,19 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using UnityEngine.UI;
-using PN = Photon.Pun.PhotonNetwork;
+using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
 public class LocalPlayerUIManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject GoHome_Button;
+    GameObject Start_Button;
+    //GameObject GoHome_Button;
     void Start()
     {
-        GoHome_Button.GetComponent<Button>().onClick.AddListener(VirtualWorldManager.Instance.LeaveRoomAndLoadRoomScene);
+        //GoHome_Button.GetComponent<Button>().onClick.AddListener(VirtualWorldManager.Instance.LeaveRoomAndLoadRoomScene);
+        
     }
 
     

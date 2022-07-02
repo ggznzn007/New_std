@@ -13,10 +13,10 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
 {
     public static PhotonManager_Ver_2 Singleton;
     private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용    
-    private string userID = "VRock";
+    //private string userID = "VRock";
 
     private GameObject player;
-    int[] nums = { 1, 1, 2, 2, 3, 3 };
+    
     //string photnState;    
     public string RoomName
     {
@@ -47,8 +47,9 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
 
     public void ConnectingPhoton()
     {
-        PN.GameVersion = version;                                                   // 게임버전 설정
-        PN.NickName = userID;                                                        // 포톤 서버 접속 시도       
+        PN.GameVersion = version;                                                  // 게임버전 설정
+        int nums = Random.Range(1, 4);
+        PN.NickName = "VRock" + nums + "번 Player";
         Debug.Log($"서버와 통신횟수 초당 : {PN.SendRate}");                            // 포톤 서버와 통신 횟수 설정. 초당 30회
                                                                               // Debug.Log($"씬 동기화 = {PN.AutomaticallySyncScene}, 서버 연결 = {PN.ConnectUsingSettings()}");
     }
@@ -92,8 +93,8 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()                                              // 방에 있을 때 호출
     {
-        SpawnPlayer();
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+        SpawnPlayer();
         RoomName = PN.CurrentRoom.Name;
         Debug.Log($"방안에 있는지 여부 : {PN.InRoom}");
         Debug.Log("LobbyScene방에 입장 성공");
@@ -107,16 +108,18 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         //if (!PN.IsConnected) { PN.ConnectUsingSettings(); }
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         Transform[] BlueTeamSpots = GameObject.Find("BlueTeamSpots").GetComponentsInChildren<Transform>();
-        Transform[] RedTeamSpots = GameObject.Find("RedTeamSpots").GetComponentsInChildren<Transform>();
-        PN.NickName = "VRock" + PN.CurrentRoom.PlayerCount + "번 Player";
+        //Transform[] RedTeamSpots = GameObject.Find("RedTeamSpots").GetComponentsInChildren<Transform>();
 
         int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
-        PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
+        player = PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
         string nickBlue = PN.NickName;
         Debug.Log($"{nickBlue} 정상적으로 생성완료");
 
         if (PN.CurrentRoom.PlayerCount % 2 == 0 && PN.CurrentRoom.PlayerCount != 0)
         {
+            
+            player = PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
+            Debug.Log($"{nickBlue} 정상적으로 생성완료");
             GameObject.Find("BlueTeamPlayer(Clone)/Avatar/Body").GetComponent<MeshRenderer>().materials[0].color = Color.red;
         }
 
@@ -172,13 +175,27 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         //SceneManager.LoadScene("LobbyScene");
-        PN.LeaveRoom();
+                
         PN.Disconnect();
-        PN.DestroyAll(player);
+        PN.Destroy(player);
 
     }
 
     public void EnterGunShooting(string sceneName)
+    {
+
+        if (PN.IsMasterClient)
+        {            
+            PN.LoadLevel(sceneName);
+        }
+        else
+        {
+            GameObject.Find("Button_Enter").SetActive(false);
+        }
+
+    }
+
+    public void EnterLobbyScene(string sceneName)
     {
 
         if (PN.IsMasterClient)
@@ -205,7 +222,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         PN.SetMasterClient(PN.MasterClient.GetNext());
     }
 
-    /*public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PN.IsMasterClient)
         {
@@ -219,7 +236,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         {
             Debug.Log($"방을 나간 마스터 클라이언트는 {0},{ PN.IsMasterClient}");
         }
-    }*/
+    }
 
 
     public override void OnDisconnected(DisconnectCause cause) => PN.ConnectUsingSettings();  // 접속 끊기면 재접속 시도
@@ -228,7 +245,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     public void OnApplicationQuit()
     {
         RoomName = "";
-        PN.LeaveRoom();
+
         PN.Disconnect();
     }
 
