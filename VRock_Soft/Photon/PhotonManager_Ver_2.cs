@@ -9,15 +9,22 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Antilatency;
+using Antilatency.TrackingAlignment;
+using Antilatency.DeviceNetwork;
+using Antilatency.Alt;
+using Antilatency.SDK;
 public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
 {
+    private AltTrackingXR AltXR;
+   // private PhotonView PV;
     public static PhotonManager_Ver_2 Singleton;
     private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용    
     //private string userID = "VRock";
+    //string photnState;    
 
     private GameObject player;
-    
-    //string photnState;    
+
     public string RoomName
     {
         get => PlayerPrefs.GetString("CurrentRoomName", "");
@@ -31,12 +38,13 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
             PN.ConnectUsingSettings();
             ConnectingPhoton();
         }
-
-
-
+       // DontDestroyOnLoad(this);
     }
+
+
     void Update()
     {
+        
         /* string currentPhotonState = PN.NetworkClientState.ToString();
          if (photnState != currentPhotonState)
          {
@@ -47,9 +55,9 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
 
     public void ConnectingPhoton()
     {
-        PN.GameVersion = version;                                                  // 게임버전 설정
-        int nums = Random.Range(1, 4);
-        PN.NickName = "VRock" + nums + "번 Player";
+        PN.GameVersion = version;                                                 // 게임버전 설정        
+        /*int nums = Random.Range(1, 4);
+        PN.NickName = "VRock " + nums + "번 플레이어";*/
         Debug.Log($"서버와 통신횟수 초당 : {PN.SendRate}");                            // 포톤 서버와 통신 횟수 설정. 초당 30회
                                                                               // Debug.Log($"씬 동기화 = {PN.AutomaticallySyncScene}, 서버 연결 = {PN.ConnectUsingSettings()}");
     }
@@ -100,69 +108,44 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         Debug.Log("LobbyScene방에 입장 성공");
         Debug.Log($"입장한 플레이어 수 : {PN.CurrentRoom.PlayerCount}");
 
-    }
+    }    
 
     public void SpawnPlayer()
     {
         //yield return new WaitUntil(() => PN.IsConnected);
         //if (!PN.IsConnected) { PN.ConnectUsingSettings(); }
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
-        Transform[] BlueTeamSpots = GameObject.Find("BlueTeamSpots").GetComponentsInChildren<Transform>();
+
+        //Vector3[] BlueTeamAltSpots = { new Vector3(-2, 0, 2), new Vector3(-2, 0, 0), new Vector3(-2, 0, -2) };
+        //Vector3[] RedTeamAltSpots = { new Vector3(2, 0, 2), new Vector3(2, 0, 0), new Vector3(2, 0, -2) };
+        //Transform[] BlueTeamSpots = GameObject.Find("BlueTeamSpots").GetComponentsInChildren<Transform>();
         //Transform[] RedTeamSpots = GameObject.Find("RedTeamSpots").GetComponentsInChildren<Transform>();
-
-        int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
-        player = PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
-        string nickBlue = PN.NickName;
-        Debug.Log($"{nickBlue} 정상적으로 생성완료");
-
-        if (PN.CurrentRoom.PlayerCount % 2 == 0 && PN.CurrentRoom.PlayerCount != 0)
+        if (PN.CountOfPlayersInRooms % 2 == 0 && PN.CountOfPlayersInRooms == 0&& PN.ReconnectAndRejoin()) // 현재방의 인원이 짝수이거나 0일 때 0,2,4 결과적으로 1,3,5번째 플레이어 생성
         {
-            
-            player = PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
-            Debug.Log($"{nickBlue} 정상적으로 생성완료");
-            GameObject.Find("BlueTeamPlayer(Clone)/Avatar/Body").GetComponent<MeshRenderer>().materials[0].color = Color.red;
-        }
-
-        /*if (PN.CurrentRoom.PlayerCount == 2 )
-        {
-            PN.NickName = "VRock 레드팀" + PN.CurrentRoom.PlayerCount + "번 Player";
-            int redSpawnspot = Random.Range(0, RedTeamSpots.Length);
-            PN.Instantiate("RedTeamPlayer", RedTeamSpots[redSpawnspot].position, RedTeamSpots[redSpawnspot].rotation, 0);
-            string nickRed = PN.NickName;
-            Debug.Log($"{nickRed} 정상적으로 생성완료");
-        }*/
-        /*else if (PN.CurrentRoom.PlayerCount == 3)
-        {
-            PN.NickName = "VRock 레드팀" + nums[2] + "번 Player";
-            int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
-            PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
+            //player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity,0);
+            // int blueSpawnAltspot = Random.Range(0, BlueTeamAltSpots.Length);
+            //player = PN.Instantiate("AltBlue", BlueTeamAltSpots[blueSpawnAltspot], Quaternion.identity, 0);            
+            player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity, 0);
             string nickBlue = PN.NickName;
-            Debug.Log($"{nickBlue} 정상적으로 생성완료");
-        }
-        else if (PN.CurrentRoom.PlayerCount == 4)
-        {
-            PN.NickName = "VRock 레드팀" + nums[3] + "번 Player";
-            int redSpawnspot = Random.Range(0, RedTeamSpots.Length);
-            PN.Instantiate("RedTeamPlayer", RedTeamSpots[redSpawnspot].position, RedTeamSpots[redSpawnspot].rotation, 0);
-            string nickRed = PN.NickName;
-            Debug.Log($"{nickRed} 정상적으로 생성완료");
-        }
-        else if (PN.CurrentRoom.PlayerCount == 5)
-        {
-            PN.NickName = "VRock 레드팀" + nums[4] + "번 Player";
-            int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
-            PN.Instantiate("BlueTeamPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
+            Debug.Log($"{nickBlue} 블루팀 정상적으로 생성완료");
+           
+            /*int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
+            player = PN.Instantiate("AltPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
             string nickBlue = PN.NickName;
-            Debug.Log($"{nickBlue} 정상적으로 생성완료");
+            Debug.Log($"{nickBlue} 블루팀 정상적으로 생성완료");*/
         }
-        else if (PN.CurrentRoom.PlayerCount == 6)
+        else  // 현재방의 인원이 홀수 일때 1,3,5 == 결과적으로 2,4,6번째 플레이어 생성
         {
-            PN.NickName = "VRock 레드팀" + nums[5] + "번 Player";
-            int redSpawnspot = Random.Range(0, RedTeamSpots.Length);
-            PN.Instantiate("RedTeamPlayer", RedTeamSpots[redSpawnspot].position, RedTeamSpots[redSpawnspot].rotation, 0);
+            //int redSpawnAltspot = Random.Range(0, RedTeamAltSpots.Length);
+            //player = PN.Instantiate("AltRed", RedTeamAltSpots[redSpawnAltspot], Quaternion.identity, 0);
+            player = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity, 0);
             string nickRed = PN.NickName;
-            Debug.Log($"{nickRed} 정상적으로 생성완료");
-        }*/
+            Debug.Log($"{nickRed} 레드팀 정상적으로 생성완료");
+            /*int redSpawnspot = Random.Range(0, RedTeamSpots.Length);
+            player= PN.Instantiate("RedTeamPlayer", RedTeamSpots[redSpawnspot].position, RedTeamSpots[redSpawnspot].rotation, 0);
+            string nickRed = PN.NickName;
+            Debug.Log($"{nickRed} 레드팀 정상적으로 생성완료");*/
+        }
 
         foreach (var player in PN.CurrentRoom.Players)
         {
@@ -175,18 +158,21 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         //SceneManager.LoadScene("LobbyScene");
-                
-        PN.Disconnect();
-        PN.Destroy(player);
+
+         //PN.Disconnect();
+         PN.Destroy(player);
+        //SceneManager.LoadScene("GunShooting");
 
     }
 
     public void EnterGunShooting(string sceneName)
     {
-
+        //PN.LeaveRoom();
+        PN.AutomaticallySyncScene = true;
         if (PN.IsMasterClient)
         {            
             PN.LoadLevel(sceneName);
+            
         }
         else
         {
@@ -223,9 +209,11 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
+    {         
+        
         if (PN.IsMasterClient)
         {
+            
             Debug.Log($"방에 입장한 마스터 클라이언트는 {0},{ PN.IsMasterClient}");
         }
     }
@@ -236,10 +224,14 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         {
             Debug.Log($"방을 나간 마스터 클라이언트는 {0},{ PN.IsMasterClient}");
         }
+        else
+        {
+            Debug.Log($"방을 나간 클라이언트는 {1},{ !PN.IsMasterClient}");
+        }
     }
 
 
-    public override void OnDisconnected(DisconnectCause cause) => PN.ConnectUsingSettings();  // 접속 끊기면 재접속 시도
+    public override void OnDisconnected(DisconnectCause cause) => PN.ReconnectAndRejoin();  // 접속 끊기면 재접속 시도
 
 
     public void OnApplicationQuit()
