@@ -14,16 +14,20 @@ using Antilatency.TrackingAlignment;
 using Antilatency.DeviceNetwork;
 using Antilatency.Alt;
 using Antilatency.SDK;
-public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
+public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니저 역할스크립트
 {
-    //private AltTrackingXR AltXR;
-   // private PhotonView PV;
     public static PhotonManager_Ver_2 Singleton;
     private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용    
-    //private string userID = "VRock";
-   string photnState;    
+                                             //private string userID = "VRock";
+    string photnState;
+
 
     private GameObject player;
+    private PlayerListing _playerListing;
+    private List<PlayerListing> _listings = new List<PlayerListing>();
+    //private int nextTeam = 1;
+    //private int myTeam = PN.CountOfPlayers;
+    //private PhotonView PV;
 
     public string RoomName
     {
@@ -38,19 +42,23 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
             PN.ConnectUsingSettings();
             ConnectingPhoton();
         }
-       // DontDestroyOnLoad(this);
+        // DontDestroyOnLoad(this);
+        /*if (PV.IsMine)
+        {
+            PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
+        }*/
     }
 
 
     void Update()
     {
-        
+
         string currentPhotonState = PN.NetworkClientState.ToString();
-         if (photnState != currentPhotonState)
-         {
-             photnState = currentPhotonState;
-             Debug.Log(photnState);
-         }
+        if (photnState != currentPhotonState)
+        {
+            photnState = currentPhotonState;
+            Debug.Log(photnState);
+        }
     }
 
     public void ConnectingPhoton()
@@ -80,26 +88,26 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         }
     }
 
-   /* public override void OnJoinedLobby()                                            // 로비 접속 후 호출되는 함수
-    {
-        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
-        Debug.Log($"포톤 로비 = {PN.InLobby}");
-       
-        if (RoomName == "") // 로비 접속후 방이름이 없으면 새로방을 옵션에따라 생성
-        {
-            PN.JoinOrCreateRoom("LobbyScene", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
-        }
-        else // 로비 접속 후 방이 있으면 방에 들어감
-        {
-            PN.JoinRoom(RoomName);
-            PN.AutomaticallySyncScene = true; // 씬 자동 동기화
-            //Debug.Log("로비 접속 완료");
-        }
+    /* public override void OnJoinedLobby()                                            // 로비 접속 후 호출되는 함수
+     {
+         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+         Debug.Log($"포톤 로비 = {PN.InLobby}");
 
-    }*/
+         if (RoomName == "") // 로비 접속후 방이름이 없으면 새로방을 옵션에따라 생성
+         {
+             PN.JoinOrCreateRoom("LobbyScene", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
+         }
+         else // 로비 접속 후 방이 있으면 방에 들어감
+         {
+             PN.JoinRoom(RoomName);
+             PN.AutomaticallySyncScene = true; // 씬 자동 동기화
+             //Debug.Log("로비 접속 완료");
+         }
 
-    
-    
+     }*/
+
+
+
     public override void OnJoinRoomFailed(short returnCode, string message) // 방에 입장 실패시 호출되는 함수
     {
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }; // 방 옵션
@@ -121,7 +129,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         Debug.Log("LobbyScene방에 입장 성공");
         Debug.Log($"입장한 플레이어 수 : {PN.CurrentRoom.PlayerCount}");
 
-    }    
+    }
 
     public void SyncScene()
     {
@@ -129,81 +137,54 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     }
     public void SpawnPlayer()
     {
-        if(!PN.IsConnected)
+        if (!PN.IsConnected)
         {
             PN.ConnectUsingSettings();
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
-        //yield return new WaitUntil(() => PN.IsConnected);
-        //if (!PN.IsConnected) { PN.ConnectUsingSettings(); }
-        
 
-        //Vector3[] BlueTeamAltSpots = { new Vector3(-2, 0, 2), new Vector3(-2, 0, 0), new Vector3(-2, 0, -2) };
-        //Vector3[] RedTeamAltSpots = { new Vector3(2, 0, 2), new Vector3(2, 0, 0), new Vector3(2, 0, -2) };
-        //Transform[] BlueTeamSpots = GameObject.Find("BlueTeamSpots").GetComponentsInChildren<Transform>();
-        //Transform[] RedTeamSpots = GameObject.Find("RedTeamSpots").GetComponentsInChildren<Transform>();
-        if (PN.CountOfPlayers == 1 || PN.CountOfPlayers == 3|| PN.CountOfPlayers == 5) // 현재방의 인원이 짝수이거나 0일 때 0,2,4 결과적으로 1,3,5번째 플레이어 생성
+        player = PN.Instantiate("AltPlayer", Vector3.zero, Quaternion.identity, 0);
+        string nickAlt = PN.NickName;
+        Debug.Log($"{nickAlt} 정상적으로 생성완료");
+
+        /*if (PN.CountOfPlayers == 1 || PN.CountOfPlayers == 3 || PN.CountOfPlayers == 5) // 현재방의 인원이 짝수이거나 0일 때 0,2,4 결과적으로 1,3,5번째 플레이어 생성
         {
             player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity, 0);
             string nickBlue = PN.NickName;
             Debug.Log($"{nickBlue} 블루팀 정상적으로 생성완료");
-            //player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity,0);
-            // int blueSpawnAltspot = Random.Range(0, BlueTeamAltSpots.Length);
-            //player = PN.Instantiate("AltBlue", BlueTeamAltSpots[blueSpawnAltspot], Quaternion.identity, 0);            
-           /*if(PN.ReconnectAndRejoin())
-            {
-                player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity, 0);
-                string renickBlue = PN.NickName;
-                Debug.Log($"{renickBlue} 블루팀 정상적으로 생성완료");
-            }*/
-            /*int blueSpawnspot = Random.Range(0, BlueTeamSpots.Length);
-            player = PN.Instantiate("AltPlayer", BlueTeamSpots[blueSpawnspot].position, BlueTeamSpots[blueSpawnspot].rotation, 0);
-            string nickBlue = PN.NickName;
-            Debug.Log($"{nickBlue} 블루팀 정상적으로 생성완료");*/
+
         }
-        else if(PN.CountOfPlayers == 0 || PN.CountOfPlayers == 2|| PN.CountOfPlayers == 4) // 현재방의 인원이 홀수 일때 1,3,5 == 결과적으로 2,4,6번째 플레이어 생성
+        else // if (PN.CountOfPlayers == 0 || PN.CountOfPlayers == 2 || PN.CountOfPlayers == 4) // 현재방의 인원이 홀수 일때 1,3,5 == 결과적으로 2,4,6번째 플레이어 생성
         {
             player = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity, 0);
             string nickRed = PN.NickName;
             Debug.Log($"{nickRed} 레드팀 정상적으로 생성완료");
-            //int redSpawnAltspot = Random.Range(0, RedTeamAltSpots.Length);
-            //player = PN.Instantiate("AltRed", RedTeamAltSpots[redSpawnAltspot], Quaternion.identity, 0);
-           /* if (PN.ReconnectAndRejoin())
-            {
-                player = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity, 0);
-                string renickRed = PN.NickName;
-                Debug.Log($"{renickRed} 레드팀 정상적으로 생성완료");
-            }*/
-            /*int redSpawnspot = Random.Range(0, RedTeamSpots.Length);
-            player= PN.Instantiate("RedTeamPlayer", RedTeamSpots[redSpawnspot].position, RedTeamSpots[redSpawnspot].rotation, 0);
-            string nickRed = PN.NickName;
-            Debug.Log($"{nickRed} 레드팀 정상적으로 생성완료");*/
-        }
+        }*/
 
         foreach (var player in PN.CurrentRoom.Players)
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
         }
-
-
     }
+
 
     public override void OnLeftRoom()
     {
+        PN.Destroy(player);
         PN.Disconnect();
     }
 
     public void EnterGunShooting(string sceneName)
     {
-      
+
         PN.AutomaticallySyncScene = true;
         if (PN.IsMasterClient)
         {
             //PN.LoadLevel(sceneName);
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            
+
             player.transform.position = new Vector3(0, 20, 0);
-           
+
         }
         else
         {
@@ -215,10 +196,10 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     public void EnterLobbyScene(string sceneName)
     {
         // SceneManager.LoadScene(sceneName);
-        
+
         player.transform.position = new Vector3(0, 0, 0);
-        
-        
+
+
 
     }
     public void ChangeMasterClientifAvailble()
@@ -235,16 +216,45 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
         PN.SetMasterClient(PN.MasterClient.GetNext());
     }
 
+    /*public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo info in roomList)
+        {
+            if(info.RemovedFromList)
+            {
+                int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
+                if(index != -1)
+                {
+                    Destroy(_listings[index].gameObject);
+                    _listings.RemoveAt(index);
+                }
+            }
+        }
+    }*/
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
-    {         
-      Debug.Log($"방에 입장한 클라이언트는 {0},{ PN.NickName}");        
+    {
+        PlayerListing listing = Instantiate(_playerListing, player.transform);
+        if (listing != null)
+        {
+            listing.SetPlayerInfo(newPlayer);
+            _listings.Add(listing);
+            Debug.Log($"방에 입장한 클라이언트는 {0},{ PN.NickName}");
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        PN.LeaveRoom(player);
-        PN.Destroy(player);
-        Debug.Log($"방을 나간 클라이언트는 {0},{ PN.NickName}");
+
+        int index = _listings.FindIndex(x => x.Player == otherPlayer);
+        if (index != -1)
+        {
+            PN.Destroy(_listings[index].gameObject);
+            _listings.RemoveAt(index);
+            PN.LeaveRoom(player);
+            //PN.Destroy(player);
+            Debug.Log($"방을 나간 클라이언트는 {0},{ PN.NickName}");
+        }
     }
 
 
@@ -254,7 +264,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     public void OnApplicationQuit()
     {
         PN.LeaveRoom();
-        PN.LeaveLobby();
+
         PN.Destroy(player);
         RoomName = "";
         PN.Disconnect();
@@ -262,4 +272,29 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks
     }
 
 
+    /*public void UpdateTeam()
+    {
+        if (myTeam == 1)
+        {
+            myTeam = 2;
+        }
+        else
+        {
+            myTeam = 1;
+        }
+    }
+
+    [PunRPC]
+    void RPC_GetTeam()
+    {
+        UpdateTeam();
+        PV.RPC("RPC_SentTeam", RpcTarget.OthersBuffered, myTeam);
+
+    }
+
+    [PunRPC]
+    void RPC_SentTeam(int whichTeam)
+    {
+        myTeam = whichTeam;
+    }*/
 }
