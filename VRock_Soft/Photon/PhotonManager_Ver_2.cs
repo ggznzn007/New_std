@@ -20,7 +20,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용    
                                              //private string userID = "VRock";
     string photnState;
-
+    public GameObject[] bgObjects;
 
     private GameObject player;
     private PlayerListing _playerListing;
@@ -42,11 +42,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
             PN.ConnectUsingSettings();
             ConnectingPhoton();
         }
-        // DontDestroyOnLoad(this);
-        /*if (PV.IsMine)
-        {
-            PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
-        }*/
+      
     }
 
 
@@ -174,33 +170,30 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
         PN.Disconnect();
     }
 
-    public void EnterGunShooting(string sceneName)
-    {
-
-        PN.AutomaticallySyncScene = true;
+    public void EnterGunShooting()
+    {      
         if (PN.IsMasterClient)
         {
-            //PN.LoadLevel(sceneName);
-            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-
-            player.transform.position = new Vector3(0, 20, 0);
-
+            bgObjects[0].SetActive(false);
+            bgObjects[1].SetActive(true);
+            PN.AutomaticallySyncScene = true;
+            Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
         }
         else
-        {
-            GameObject.Find("Button_Enter").SetActive(false);
+        {            
+            bgObjects[0].SetActive(false);
+            bgObjects[1].SetActive(true);
+            PN.AutomaticallySyncScene = true;
+            Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
         }
-
     }
 
-    public void EnterLobbyScene(string sceneName)
+    public void EnterLobbyScene()
     {
-        // SceneManager.LoadScene(sceneName);
-
-        player.transform.position = new Vector3(0, 0, 0);
-
-
-
+        bgObjects[0].SetActive(true);
+        bgObjects[1].SetActive(false);
+        PN.AutomaticallySyncScene = true;
+        Debug.Log($"{PN.NickName} 로비로 이동완료");
     }
     public void ChangeMasterClientifAvailble()
     {
@@ -234,27 +227,27 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        PlayerListing listing = Instantiate(_playerListing, player.transform);
+        /*PlayerListing listing = Instantiate(_playerListing, player.transform);
         if (listing != null)
         {
             listing.SetPlayerInfo(newPlayer);
             _listings.Add(listing);
             Debug.Log($"방에 입장한 클라이언트는 {0},{ PN.NickName}");
-        }
+        }*/
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-
-        int index = _listings.FindIndex(x => x.Player == otherPlayer);
-        if (index != -1)
-        {
-            PN.Destroy(_listings[index].gameObject);
-            _listings.RemoveAt(index);
-            PN.LeaveRoom(player);
-            //PN.Destroy(player);
-            Debug.Log($"방을 나간 클라이언트는 {0},{ PN.NickName}");
-        }
+        PN.LeaveRoom(player);
+        /* int index = _listings.FindIndex(x => x.Player == otherPlayer);
+         if (index != -1)
+         {
+             PN.Destroy(_listings[index].gameObject);
+             _listings.RemoveAt(index);
+             PN.LeaveRoom(player);
+             //PN.Destroy(player);
+             Debug.Log($"방을 나간 클라이언트는 {0},{ PN.NickName}");
+         }*/
     }
 
 
