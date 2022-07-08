@@ -20,29 +20,30 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용    
                                              //private string userID = "VRock";
     string photnState;
-    public GameObject[] bgObjects;
-
+    public GameObject teamSelectPanel;
+    public GameObject gameStartPanel;
+    public GameObject lobbyPlayer;
     private GameObject player;
+    public GameObject[] bgObjects;
+    
+   
+    
     private PlayerListing _playerListing;
     private List<PlayerListing> _listings = new List<PlayerListing>();
     //private int nextTeam = 1;
     //private int myTeam = PN.CountOfPlayers;
     //private PhotonView PV;
 
-    public string RoomName
-    {
-        get => PlayerPrefs.GetString("CurrentRoomName", "");
-        set => PlayerPrefs.SetString("CurrentRoomName", value);
-    }
+   
     void Awake()
     {
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         if (!PN.IsConnected)
         {
             PN.ConnectUsingSettings();
-            ConnectingPhoton();
+            //ConnectingPhoton();
         }
-      
+        
     }
 
 
@@ -57,58 +58,87 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
         }
     }
 
-    public void ConnectingPhoton()
+   /* public void ConnectingPhoton()
     {
         PN.GameVersion = version;                                                 // 게임버전 설정        
-        /*int nums = Random.Range(1, 4);
-        PN.NickName = "VRock " + nums + "번 플레이어";*/
+        int nums = Random.Range(1, 4);
+        PN.NickName = "VRock " + nums + "번 플레이어";
         Debug.Log($"서버와 통신횟수 초당 : {PN.SendRate}");                            // 포톤 서버와 통신 횟수 설정. 초당 30회
-                                                                              // Debug.Log($"씬 동기화 = {PN.AutomaticallySyncScene}, 서버 연결 = {PN.ConnectUsingSettings()}");
     }
-
+*/
     public override void OnConnectedToMaster()
     {
         Debug.Log("포톤 마스터 서버 정상적 접속완료");
-        /* Debug.Log($"포톤 로비 = {PN.InLobby}");
-         PN.JoinLobby(TypedLobby.Default);                                           // 로비 입장
-         PN.AutomaticallySyncScene = true;      */                                     // 같은 룸의 유저들에게 자동으로 씬 동기화 
+        Debug.Log($"포톤 로비 = {PN.InLobby}");
+        PN.JoinLobby(TypedLobby.Default);                                           // 로비 입장
+        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+
+        /* if (RoomName == "") // 로비 접속후 방이름이 없으면 새로방을 옵션에따라 생성
+          {
+              PN.JoinOrCreateRoom("LobbyScene", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
+          }
+          else // 로비 접속 후 방이 있으면 방에 들어감
+          {
+              PN.JoinRoom(RoomName);
+              PN.AutomaticallySyncScene = true; // 씬 자동 동기화
+              //Debug.Log("로비 접속 완료");
+          }*/
+ 
+    }
+
+    public void SelectToBlue()
+    {
+        //DestroyImmediate(lobbyPlayer);
+        lobbyPlayer.SetActive(false);
+        teamSelectPanel.SetActive(false);
+        gameStartPanel.SetActive(true);
+
+        SpawnBluePlayer();
+
+    }
+
+    public void SelectToRed()
+    {
+        //DestroyImmediate(lobbyPlayer);
+        lobbyPlayer.SetActive(false);
+        teamSelectPanel.SetActive(false);
+        gameStartPanel.SetActive(true);
+
+        SpawnRedPlayer();
+
+    }
+
+    public string RoomName
+    {
+        get => PlayerPrefs.GetString("CurrentRoomName", "");
+        set => PlayerPrefs.SetString("CurrentRoomName", value);
+    }
+
+
+    
+    public override void OnJoinedLobby()                                            // 로비 접속 후 호출되는 함수
+    {
+        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+        Debug.Log($"포톤 로비 = {PN.InLobby}");
+
         if (RoomName == "") // 로비 접속후 방이름이 없으면 새로방을 옵션에따라 생성
         {
-            PN.JoinOrCreateRoom("LobbyScene", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
+            PN.JoinOrCreateRoom("Lobby", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
         }
         else // 로비 접속 후 방이 있으면 방에 들어감
         {
             PN.JoinRoom(RoomName);
             PN.AutomaticallySyncScene = true; // 씬 자동 동기화
-            //Debug.Log("로비 접속 완료");
+
         }
+
     }
-
-    /* public override void OnJoinedLobby()                                            // 로비 접속 후 호출되는 함수
-     {
-         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
-         Debug.Log($"포톤 로비 = {PN.InLobby}");
-
-         if (RoomName == "") // 로비 접속후 방이름이 없으면 새로방을 옵션에따라 생성
-         {
-             PN.JoinOrCreateRoom("LobbyScene", new RoomOptions { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }, TypedLobby.Default);
-         }
-         else // 로비 접속 후 방이 있으면 방에 들어감
-         {
-             PN.JoinRoom(RoomName);
-             PN.AutomaticallySyncScene = true; // 씬 자동 동기화
-             //Debug.Log("로비 접속 완료");
-         }
-
-     }*/
-
-
 
     public override void OnJoinRoomFailed(short returnCode, string message) // 방에 입장 실패시 호출되는 함수
     {
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 3000 }; // 방 옵션
         Debug.Log("방에 입장을 실패하여 방을 생성합니다.");
-        PN.CreateRoom("LobbyScene", options); // 방을 생성
+        PN.CreateRoom("Lobby", options); // 방을 생성
     }
     public override void OnCreatedRoom()                                             // 방 생성 완료된 후 호출
     {
@@ -118,11 +148,12 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
 
     public override void OnJoinedRoom()                                              // 방에 있을 때 호출
     {
-        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
-        SpawnPlayer();
+        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화        
         RoomName = PN.CurrentRoom.Name;
+        /*int playerNum = Random.Range(0, 10);
+        PN.NickName = "VRock " + playerNum + "번 " + PN.CountOfPlayersInRooms + 1.ToString();*/
         Debug.Log($"방안에 있는지 여부 : {PN.InRoom}");
-        Debug.Log("LobbyScene방에 입장 성공");
+        Debug.Log("Lobby방에 입장 성공");
         Debug.Log($"입장한 플레이어 수 : {PN.CurrentRoom.PlayerCount}");
 
     }
@@ -131,7 +162,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     {
         PN.AutomaticallySyncScene = true;
     }
-    public void SpawnPlayer()
+    public void SpawnBluePlayer()
     {
         if (!PN.IsConnected)
         {
@@ -139,23 +170,26 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
-        player = PN.Instantiate("AltPlayer", Vector3.zero, Quaternion.identity, 0);
+        player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity, 0);
         string nickAlt = PN.NickName;
         Debug.Log($"{nickAlt} 정상적으로 생성완료");
 
-        /*if (PN.CountOfPlayers == 1 || PN.CountOfPlayers == 3 || PN.CountOfPlayers == 5) // 현재방의 인원이 짝수이거나 0일 때 0,2,4 결과적으로 1,3,5번째 플레이어 생성
+        foreach (var player in PN.CurrentRoom.Players)
         {
-            player = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity, 0);
-            string nickBlue = PN.NickName;
-            Debug.Log($"{nickBlue} 블루팀 정상적으로 생성완료");
-
+            Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
         }
-        else // if (PN.CountOfPlayers == 0 || PN.CountOfPlayers == 2 || PN.CountOfPlayers == 4) // 현재방의 인원이 홀수 일때 1,3,5 == 결과적으로 2,4,6번째 플레이어 생성
+    }
+    public void SpawnRedPlayer()
+    {
+        if (!PN.IsConnected)
         {
-            player = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity, 0);
-            string nickRed = PN.NickName;
-            Debug.Log($"{nickRed} 레드팀 정상적으로 생성완료");
-        }*/
+            PN.ConnectUsingSettings();
+            PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+        }
+
+        player = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity, 0);
+        string nickAlt = PN.NickName;
+        Debug.Log($"{nickAlt} 정상적으로 생성완료");
 
         foreach (var player in PN.CurrentRoom.Players)
         {
@@ -167,33 +201,28 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     public override void OnLeftRoom()
     {
         PN.Destroy(player);
-        PN.Disconnect();
     }
 
     public void EnterGunShooting()
-    {      
-        if (PN.IsMasterClient)
-        {
-            bgObjects[0].SetActive(false);
-            bgObjects[1].SetActive(true);
-            PN.AutomaticallySyncScene = true;
-            Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
-        }
-        else
-        {            
-            bgObjects[0].SetActive(false);
-            bgObjects[1].SetActive(true);
-            PN.AutomaticallySyncScene = true;
-            Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
-        }
+    {
+
+        bgObjects[0].SetActive(false);
+        bgObjects[1].SetActive(true);
+        Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
+        PN.AutomaticallySyncScene = true;        
+
+
     }
 
     public void EnterLobbyScene()
     {
+
         bgObjects[0].SetActive(true);
         bgObjects[1].SetActive(false);
-        PN.AutomaticallySyncScene = true;
         Debug.Log($"{PN.NickName} 로비로 이동완료");
+        PN.AutomaticallySyncScene = true;        
+
+
     }
     public void ChangeMasterClientifAvailble()
     {
@@ -290,4 +319,10 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     {
         myTeam = whichTeam;
     }*/
+   
+
+
+
+
+
 }

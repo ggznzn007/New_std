@@ -12,13 +12,6 @@ using TMPro;
 public class SpawnManager : MonoBehaviourPunCallbacks
 {
        
-    void Start()
-    {
-        if(PN.IsConnectedAndReady)
-        {
-            
-        }
-      
-    }    
+   
    
 }
