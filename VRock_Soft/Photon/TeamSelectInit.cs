@@ -11,12 +11,30 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class TeamSelectInit : MonoBehaviourPunCallbacks  // 스폰되는 플레이어 바디에 붙어있는 스크립트
 {
-    
-    MeshRenderer mesh;
-    Material[] mats;
+    public static TeamSelectInit teamSelect;
+    public MeshRenderer mesh;
+    public Material[] mats;
     public bool isSeleted;
     public TextMesh teamText;
 
+    private PhotonView PV;
+    private void Awake()
+    {
+        if (teamSelect == null)
+        {
+            teamSelect = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            if (teamSelect != this)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        
+    }
     void Start()
     {
         mesh = GetComponent<MeshRenderer>();
@@ -24,7 +42,9 @@ public class TeamSelectInit : MonoBehaviourPunCallbacks  // 스폰되는 플레이어 바
         isSeleted = false;
        
     }
-    
+
+   
+
     private void OnTriggerEnter(Collider coll)
     {
         if(coll.gameObject.tag =="RedTeam"&&!isSeleted)
@@ -48,4 +68,6 @@ public class TeamSelectInit : MonoBehaviourPunCallbacks  // 스폰되는 플레이어 바
 
         }
     }
+
+    
 }

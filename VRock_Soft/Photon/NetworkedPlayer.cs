@@ -47,7 +47,7 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
         }
         else
         {
-
+            
             LocalXRRigGameObject.SetActive(false);
             SetLayerRecursively(go: AvatarHead, 0);
             SetLayerRecursively(go: AvatarBody, 0);
@@ -60,14 +60,17 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
     
     public void UpdateNicName()
     {
-        PN.NickName = "VRock " + PV.ViewID + "번 플레이어";
+      // PN.NickName = "VRock " + PV.ViewID + "번 플레이어";
     }
 
     private void Update()
     {
         if (!PV.IsMine)
         { return; }
-
+       /* else
+        {
+            PV.RPC("SceneAsn", RpcTarget.All);
+        }*/
         
         
     }
@@ -79,6 +82,12 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
         {
             trans.gameObject.layer = layerNum;
         }
+    }
+
+    [PunRPC]
+    void SceneAsn()
+    {
+        
     }
 
     
