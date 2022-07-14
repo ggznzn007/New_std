@@ -14,6 +14,7 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -39,19 +40,15 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        
         PN.Disconnect();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-       
+       PN.LoadLevel("LobbyScene");
     }
     #endregion
 
-    public void BackToLobby()
-    {
-        PN.LeaveRoom();
-        PN.Disconnect();
-        PN.LoadLevel("LobbyScene");
-    }
+    
 }

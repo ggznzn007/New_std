@@ -43,7 +43,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
             PN.ConnectUsingSettings();
             //ConnectingPhoton();
         }
-        
+        Singleton = this;
     }
 
 
@@ -89,22 +89,34 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     public void SelectToBlue()
     {
         //DestroyImmediate(lobbyPlayer);
-        lobbyPlayer.SetActive(false);
-        teamSelectPanel.SetActive(false);
-        gameStartPanel.SetActive(true);
-
-        SpawnBluePlayer();
+            //lobbyPlayer.SetActive(false);
+        if(PN.IsConnectedAndReady)
+        {
+            PN.LoadLevel("LobbyScene_Real");
+            SpawnBluePlayer();
+            //teamSelectPanel.SetActive(false);
+           // gameStartPanel.SetActive(true);
+        }
+        
 
     }
 
     public void SelectToRed()
     {
         //DestroyImmediate(lobbyPlayer);
-        lobbyPlayer.SetActive(false);
-        teamSelectPanel.SetActive(false);
-        gameStartPanel.SetActive(true);
+       
+            //lobbyPlayer.SetActive(false);
 
-        SpawnRedPlayer();
+        if(PN.IsConnectedAndReady)
+        {
+            PN.LoadLevel("LobbyScene_Real");
+            SpawnRedPlayer();
+
+            //teamSelectPanel.SetActive(false);
+            //gameStartPanel.SetActive(true);
+        }
+       
+        
 
     }
 
@@ -155,6 +167,7 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
         Debug.Log($"방안에 있는지 여부 : {PN.InRoom}");
         Debug.Log("Lobby방에 입장 성공");
         Debug.Log($"입장한 플레이어 수 : {PN.CurrentRoom.PlayerCount}");
+       
 
     }
 
@@ -206,10 +219,15 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     public void EnterGunShooting()
     {
 
-        bgObjects[0].SetActive(false);
-        bgObjects[1].SetActive(true);
-        Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
-        PN.AutomaticallySyncScene = true;        
+        // bgObjects[0].SetActive(false);
+        //  bgObjects[1].SetActive(true);
+        if(PN.IsMasterClient)
+        {
+            PN.LoadLevel("GunShooting");
+            Debug.Log($"{PN.NickName} 건슈팅방으로 이동완료");
+            PN.AutomaticallySyncScene = true;
+        }
+               
 
 
     }
