@@ -68,7 +68,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks                           
 
         foreach (var player in PN.CurrentRoom.Players)
         {
-            player.Value.NickName = PN.LocalPlayer.NickName;
+            //player.Value.NickName = PN.LocalPlayer.NickName;            
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}¹ø"); // $ == String.Format() ¾àÀÚ 
         }
     }

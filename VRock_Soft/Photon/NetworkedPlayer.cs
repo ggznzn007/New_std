@@ -28,14 +28,8 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
     
 
     public void Awake()
-    {       
-     
-    }
-
-    private void Start()
     {
         PV = GetComponent<PhotonView>();
-       
         if (PV.IsMine)
         {
             LocalXRRigGameObject.SetActive(true);
@@ -46,15 +40,18 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
         }
         else
         {
-
             LocalXRRigGameObject.SetActive(false);
             SetLayerRecursively(go: AvatarHead, 0);
             SetLayerRecursively(go: AvatarBody, 0);
             SetLayerRecursively(go: AvatarHand_L, 0);
             SetLayerRecursively(go: AvatarHand_R, 0);
-
-
         }
+
+    }
+
+    private void Start()
+    {
+        
     }
        
 
