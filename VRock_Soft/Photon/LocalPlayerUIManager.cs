@@ -10,11 +10,11 @@ using TMPro;
 public class LocalPlayerUIManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject Start_Button;
-    //GameObject GoHome_Button;
+     GameObject Back_Button;
+    
     void Start()
     {
-        //GoHome_Button.GetComponent<Button>().onClick.AddListener(VirtualWorldManager.Instance.LeaveRoomAndLoadRoomScene);
+        Back_Button.GetComponent<Button>().onClick.AddListener(VirtualWorldManager.Instance.LeaveRoomAndLoadRoomScene);
         
     }
 
