@@ -17,62 +17,51 @@ using Antilatency.SDK;
 
 public class NetworkedPlayer : MonoBehaviourPunCallbacks
 {
-    public static NetworkedPlayer NetPlayer;
+   // public static NetworkedPlayer NetPlayer;
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
     public GameObject AvatarHand_L;
     public GameObject AvatarHand_R;
-
-    
-        
+           
     private PhotonView PV;
     
 
     public void Awake()
+    {       
+     
+    }
+
+    private void Start()
     {
-        NetPlayer = this;
         PV = GetComponent<PhotonView>();
-        
-        UpdateNicName();
+       
         if (PV.IsMine)
         {
-            
             LocalXRRigGameObject.SetActive(true);
             SetLayerRecursively(go: AvatarHead, 8);
             SetLayerRecursively(go: AvatarBody, 9);
             SetLayerRecursively(go: AvatarHand_L, 10);
             SetLayerRecursively(go: AvatarHand_R, 10);
-            
         }
         else
         {
-            
+
             LocalXRRigGameObject.SetActive(false);
             SetLayerRecursively(go: AvatarHead, 0);
             SetLayerRecursively(go: AvatarBody, 0);
             SetLayerRecursively(go: AvatarHand_L, 0);
             SetLayerRecursively(go: AvatarHand_R, 0);
+
+
         }
     }
-
-    
-    
-    public void UpdateNicName()
-    {
-      // PN.NickName = "VRock " + PV.ViewID + "번 플레이어";
-    }
+       
 
     private void Update()
     {
         if (!PV.IsMine)
-        { return; }
-       /* else
-        {
-            PV.RPC("SceneAsn", RpcTarget.All);
-        }*/
-        
-        
+        { return; }        
     }
 
     void SetLayerRecursively(GameObject go, int layerNum)
@@ -84,11 +73,7 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    void SceneAsn()
-    {
-        
-    }
+   
 
     
 }
