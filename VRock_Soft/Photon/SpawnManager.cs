@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks                           
 
     private void Start()
     {
-        if (PN.IsConnectedAndReady && StartManager.NetWorkMgr.isRed)
+        if (PN.IsConnectedAndReady && StartManager.MultiManager.isRed)
         {
             SpawnRedPlayer();
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
