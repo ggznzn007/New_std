@@ -40,13 +40,12 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        
-        PN.Disconnect();
+        PN.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-       PN.LoadLevel("LobbyScene");
+       PN.LoadLevel("StartScene");
     }
     #endregion
 

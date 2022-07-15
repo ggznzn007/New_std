@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
 {
-    public static StartManager NetWorkMgr;                                          // 싱글턴
+    public static StartManager MultiManager;                                          // 싱글턴
     public GameObject lobbyBG;
     public GameObject gunshootingBG;
     public GameObject startUI;
@@ -21,8 +21,8 @@ public class StartManager : MonoBehaviourPunCallbacks                           
     public GameObject localPlayer;
     public GameObject RedTeam;
     public GameObject BlueTeam;
-    private GameObject ownPlayer;
-   
+    //private GameObject ownPlayer;
+
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
@@ -32,14 +32,14 @@ public class StartManager : MonoBehaviourPunCallbacks                           
     private readonly int maxCount = 6;
     public bool isRed = false;
 
-    #region 유니티 메서드 시작 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
-        if (NetWorkMgr != null && NetWorkMgr != this)
+        if (MultiManager != null && MultiManager != this)
         {
             Destroy(this.gameObject);
         }
-        NetWorkMgr = this;
+        MultiManager = this;
         StartToServer();                                                            // 게임시작과 동시에 서버연결
     }
     public void StartToServer()                                                     // 서버연결 메서드
@@ -82,16 +82,19 @@ public class StartManager : MonoBehaviourPunCallbacks                           
     public void StartGunShooting()
     {
         //gameUI.SetActive(false);
-       // lobbyBG.SetActive(false);
+        // lobbyBG.SetActive(false);
         //gunshootingBG.SetActive(true);
-        
-       PN.LoadLevel("GunShooting");
-        PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
+        if(PN.IsMasterClient&&PN.InRoom)
+        {
+            PN.LoadLevel("GunShooting");
+            PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화           
+        }        
     }
+
     #endregion UI 컨트롤 메서드 끝 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    #region 포톤 서버 콜백 메서드 시작////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    #region 포톤 서버 콜백 메서드 시작///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
         //Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
@@ -135,12 +138,12 @@ public class StartManager : MonoBehaviourPunCallbacks                           
 
         if (PN.IsConnectedAndReady && isRed)
         {
-            SpawnRedPlayer();            
+            SpawnRedPlayer();
         }
         else
         {
-            SpawnBluePlayer();            
-        }        
+            SpawnBluePlayer();
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -154,14 +157,14 @@ public class StartManager : MonoBehaviourPunCallbacks                           
         {
             PN.ConnectUsingSettings();
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
-        }       
+        }
 
         PN.Instantiate(RedTeam.name, Vector3.zero, Quaternion.identity);
-        
+
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)
-        {                   
+        {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
         }
     }
@@ -174,12 +177,12 @@ public class StartManager : MonoBehaviourPunCallbacks                           
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
-        PN.Instantiate(BlueTeam.name, Vector3.zero, Quaternion.identity);               
-       
+        PN.Instantiate(BlueTeam.name, Vector3.zero, Quaternion.identity);
+
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)
-        {            
+        {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
         }
     }
