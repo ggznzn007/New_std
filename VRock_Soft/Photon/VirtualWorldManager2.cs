@@ -10,32 +10,33 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class VirtualWorldManager : MonoBehaviourPunCallbacks
+public class VirtualWorldManager2 : MonoBehaviourPunCallbacks
 {
-    public static VirtualWorldManager Instance;
+    public static VirtualWorldManager2 virtualWorldManager2;
+
 
     private void Awake()
     {
-        
-        if (Instance != null && Instance != this)
+
+        if (virtualWorldManager2 != null && virtualWorldManager2 != this)
         {
             Destroy(this.gameObject);
         }
-        Instance = this;
+        virtualWorldManager2 = this;
     }
 
     private void Update()
     {
-        if(!PN.IsConnected)
-        LeaveRoomAndLoadRoomScene();
+        if (!PN.IsConnected)
+            LeaveRoomAndLoadRoomScene2();
     }
-    public void LeaveRoomAndLoadRoomScene()
+    public void LeaveRoomAndLoadRoomScene2()
     {
         if (PN.InRoom)
         {
             if (PN.IsMasterClient && PN.CurrentRoom.PlayerCount > 1)
             {
-                MigrateMaster();
+                MigrateMaster2();
             }
             else
             {
@@ -56,17 +57,17 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         // PN.LoadLevel("StartScene2");
-       
-        SceneManager.LoadScene("StartScene2");
+        
+        SceneManager.LoadScene("StartScene");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-       //PN.LoadLevel("StartScene2");
+        //PN.LoadLevel("StartScene2");
     }
     #endregion
 
-    private void MigrateMaster()
+    private void MigrateMaster2()
     {
         var dict = PN.CurrentRoom.Players;
         if (PN.SetMasterClient(dict[dict.Count - 1]))

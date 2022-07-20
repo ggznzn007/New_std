@@ -9,12 +9,29 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
+    bool startTimer = false;
+    double timerIncrementValue;
+    double startTime;
+    [SerializeField] double timer = 20;
+    ExitGames.Client.Photon.Hashtable CustomeValue;
+   
     void Start()
     {
-        
+        if (PN.IsMasterClient)
+        {
+            CustomeValue = new ExitGames.Client.Photon.Hashtable();
+            startTime = PN.ServerTimestamp;
+            startTimer = true;
+            CustomeValue.Add("StartTime", startTime);
+           // PN.SetCustomProperties(CustomeValue);
+        }
+        else
+        {
+          //  startTime = double.Parse(PN.CustomProperties["StartTime"].ToString());
+            startTimer = true;
+        }
     }
 
     // Update is called once per frame
