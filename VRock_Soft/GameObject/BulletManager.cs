@@ -2,16 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class BulletManager : MonoBehaviour
 {
-    public float damage = 20f;
-    public float force = 1500f;
-    private Rigidbody rb;
+
+    [SerializeField] ParticleSystem exploreEffect;
+    AudioSource audioSource;
+    public float speed = 30f;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        // audioSource = GetComponent<AudioSource>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = transform.forward * speed;
 
-        rb.AddForce(transform.forward * force);
+
     }
+
+    private void Update()
+    {
+        // 앞으로 계속 나감
+        //transform.position += transform.forward * speed*Time.deltaTime;
+
+    }
+
+
+    private void OnTriggrtEnter(Collision collision)
+    {
+        // 터지는 이펙트 보여지고
+        ParticleSystem explo = Instantiate(exploreEffect);
+        explo.transform.position = transform.position;
+        //Destroy(explo, 2);
+        // 터지는 소리 재생
+        audioSource.Play();
+
+        // 충돌하면 없어지게
+
+    }
+
+
 }
+
