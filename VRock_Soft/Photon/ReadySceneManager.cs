@@ -185,6 +185,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
+        //PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
         GameObject myPlayer = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
 
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
@@ -203,6 +204,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
+        //PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
         GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
 
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         

@@ -21,12 +21,10 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
-   /* public GameObject AvatarHand_L;
-    public GameObject AvatarHand_R;*/
-           
-    private PhotonView PV;
-    
-    
+    /* public GameObject AvatarHand_L;
+     public GameObject AvatarHand_R;*/
+      
+    private PhotonView PV;    
 
     public void Awake()
     {
