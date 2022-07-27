@@ -19,7 +19,7 @@ public static class Utils
 		// 우리가 필요한 n개의 난수 생성
 		for ( int i = 0; i < n; ++ i )
 		{
-			int index = Random.Range(0, maxCount);
+			int index = Random.Range(1, maxCount);
 
 			results[i]		= defaults[index];
 			defaults[index]	= defaults[maxCount-1];
