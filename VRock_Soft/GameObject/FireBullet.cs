@@ -6,91 +6,37 @@ using System;
 
 public class FireBullet : MonoBehaviour
 {
-
+    
     [SerializeField] Transform firePoint;  // ÃÑ±¸
-    [SerializeField] BulletManager bulletPrefab; // ÃÑ¾Ë ÇÁ¸®ÆÕ
-
-
-    // [SerializeField] GameObject muzzleEffect; // ÃÑ±¸ ÀÌÆåÆ®    
-    private List<BulletManager> bulletPool = new List<BulletManager>();
-
-    bool isEmpty = false;
-    private readonly int bullMax = 5;
-
-    private int curBulletIndex = 0;
+    [SerializeField] GameObject bulletPrefab; // ÃÑ¾Ë ÇÁ¸®ÆÕ   
     AudioSource audioSource;
 
-
+    
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        InitBullet();
-
-
-    }
-
-    private void Update()
-    {
-        if (curBulletIndex == bullMax)
-        {
-            InitBullet();
-        }
-    }
-
-    public void InitBullet()
-    {
-        for (int i = 0; i < bullMax; ++i)
-        {
-            BulletManager bullet = Instantiate<BulletManager>(bulletPrefab);
-            bullet.gameObject.SetActive(false);
-            bulletPool.Add(bullet);
-
-        }
-    }
+       // audioSource = GetComponent<AudioSource>();       
+    }  
 
     public void Fire()
     {
-        audioSource.Play();
+       // audioSource.Play();
 
-        if (bulletPool[curBulletIndex].gameObject.activeSelf)
-        {
-            return;
-        }
-        bulletPool[curBulletIndex].transform.position = firePoint.position;
-        bulletPool[curBulletIndex].transform.forward = firePoint.forward;
+       var bullet = ObjectPooler.SpawnFromPool<BulletManager>("Bullet",firePoint.forward);
+       bullet.transform.position = firePoint.position; 
+       
+      
 
-        bulletPool[curBulletIndex].gameObject.SetActive(true);
-
-        // StartCoroutine(ReturnBullet());
-
-        if (isEmpty)
-        {
-            bulletPool[curBulletIndex].gameObject.SetActive(false);
-        }
-
-        if (curBulletIndex >= bullMax - 1)
-        {
-            curBulletIndex = 0;
-            isEmpty = true;
-        }
-        else
-        {
-            curBulletIndex++;
-        }
-        //GameObject muzzle = Instantiate(muzzleEffect);
-        // var spawnedBullet = BulletPool.GetBullet();
-        // muzzle.transform.position = firePoint.position;
-        // spawnedBullet.transform.position = firePoint.position;
-        // spawnedBullet.transform.forward = firePoint.forward;
-        // Destroy(muzzle,0.5f);
-        // Destroy(spawnedBullet,2f);
-
+       var muzzle = ObjectPooler.SpawnFromPool<MuzzleEffect>("MuzzleEffect", firePoint.position);
+       //ObjectPooler.SpawnFromPool<MuzzleEffect>("MuzzleEffect", firePoint.position);
     }
 
-    public IEnumerator ReturnBullet()
+    private void OnCollisionEnter(Collision collision)
     {
-        yield return new WaitForSeconds(1f);
-
+        if (collision.gameObject.CompareTag("Cube"))
+        {
+            Debug.Log("¹Ù´Ú¿¡ ÅÂ±×µÊ");
+            Destroy(gameObject, 1.5f);
+        }
     }
 
 }
