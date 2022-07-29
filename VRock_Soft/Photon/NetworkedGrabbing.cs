@@ -26,12 +26,12 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         if (isBeingHeld)
         {
             rb.isKinematic = true;
-            gameObject.layer = 11;
+            gameObject.layer = 7;
         }
         else
         {
             rb.isKinematic = false;
-            gameObject.layer = 9;
+            gameObject.layer = 6;
         }
     }
     private void TransferOwnership()
@@ -40,11 +40,11 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     }
     public void OnSelectedEntered()
     {
-        print("잡았다");
+        Debug.Log("잡았다");
         PV.RPC("StartNetworkGrabbing", RpcTarget.AllBuffered);
         if (PV.Owner == PN.LocalPlayer)
         {
-            print("이미 소유권이 나에게 있습니다.");
+            Debug.Log("이미 소유권이 나에게 있습니다.");
         }
         else
         {
@@ -52,9 +52,9 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         }
     }
 
-    public void OnSelectedEXisted()
+    public void OnSelectedExisted()
     {
-        print("놓았다");
+        Debug.Log("놓았다");
         PV.RPC("StopNetworkGrabbing", RpcTarget.AllBuffered);
     }
 
@@ -65,13 +65,13 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             return;
         }
 
-        print("소유권 넘기기: " + targetView.name + "from " + requestingPlayer.NickName);
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
         PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        print("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
@@ -80,7 +80,6 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     }
 
     [PunRPC]
-
     public void StartNetworkGrabbing()
     {
         isBeingHeld = true;
