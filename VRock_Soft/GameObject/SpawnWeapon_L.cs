@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
-
-
-public class SpawnWeapon_L : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using UnityEngine.UI;
+using PN = Photon.Pun.PN;
+using Random = UnityEngine.Random;
+using TMPro;
+public class SpawnWeapon_L : MonoBehaviourPunCallbacks
 {
+    public static SpawnWeapon_L leftWeapon;
     public GameObject gunPrefab;
     public Transform attachPoint;
-    private InputDevice targetDevice;
-    private bool weaponInIt = false;
+    public InputDevice targetDevice;
+    public bool weaponInIt = false;
+    private void Awake()
+    {
+        leftWeapon = this;
+    }
     private void Start()
     {        
         List<InputDevice> devices = new List<InputDevice>();
@@ -39,9 +49,8 @@ public class SpawnWeapon_L : MonoBehaviour
             Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-
-                Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);
-                weaponInIt = true;
+                PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
+                // Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);        // 싱글플레이 할 때 생성
             }
             else
             {
