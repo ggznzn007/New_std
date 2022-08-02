@@ -10,18 +10,18 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-
-public class SpawnWeapon_R : MonoBehaviourPunCallbacks
+public class SpawnWeapon_R : MonoBehaviourPun
 {
-    public static SpawnWeapon_R rightWeapon;
+    public static SpawnWeapon_R rightWeapon;    
     public GameObject gunPrefab;
     public Transform attachPoint;
     private InputDevice targetDevice;
     public bool weaponInIt = false;
-
+    private PhotonView PV;
     private void Awake()
     {
         rightWeapon = this;
+        PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
@@ -31,11 +31,42 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
 
         if (devices.Count > 0)
+        {
             targetDevice = devices[0];
+        }
+
     }
+
+    private void Update()
+    {
+      /*  if (weaponInIt)
+        {
+            if (targetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerOn))
+            {
+                if (triggerOn)
+                {
+                    ShootingGun();
+                }
+            }
+        }*/
+
+    }
+
+   /* public void ShootingGun()
+    {
+        var bullet = ObjectPooler.SpawnFromPool<BulletManager>("Bullet", FireBullet.FireGun.firePoint.forward);
+        bullet.transform.position = FireBullet.FireGun.firePoint.position;
+        //bullet.GetComponentInChildren<Rigidbody>().velocity = FireBullet.FireGun.firePoint.forward * FireBullet.FireGun.speed;
+        bullet.GetComponentInChildren<Rigidbody>().AddForce(FireBullet.FireGun.firePoint.forward * FireBullet.FireGun.speed);
+
+
+
+        var muzzle = ObjectPooler.SpawnFromPool<MuzzleEffect>("MuzzleEffect", FireBullet.FireGun.firePoint.position);
+    }*/
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox"))
+        if (other.CompareTag("ItemBox"))
         {
             Debug.Log("아이템박스 태그 시작");
         }
@@ -43,14 +74,18 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (other.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
             Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-                PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
-               // Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);        // 싱글플레이 할 때 생성
-                weaponInIt=true;
+                Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
+                                                                                     //Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);    //  싱글플레이 할 때 생성
+                weaponInIt = true;
+               /* if (PV.IsMine)
+                {
+                    PV.RPC("SpawnGun", RpcTarget.AllBuffered);
+                }*/
             }
             else
             {
@@ -58,26 +93,29 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks
                 return;
             }
 
+
         }
+       
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox"))
+        if (other.CompareTag("ItemBox"))
         {
             Debug.Log("아이템박스 태그 종료");
         }
     }
 
-    private void Update()
+
+
+   
+
+    /*[PunRPC]
+    public void SpawnGun()
     {
+        Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
+                                                                             //Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);    //  싱글플레이 할 때 생성
+        weaponInIt = true;
+    }*/
 
-    }
-
-
-    IEnumerator DestroyGun()
-    {
-        yield return new WaitForSeconds(2f);
-        Destroy(gunPrefab);
-    }
 }

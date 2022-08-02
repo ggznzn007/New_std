@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
 
-    private void OnEnable()
+ /*   private void OnEnable()
     {
        
 
@@ -18,5 +18,5 @@ public class Gun : MonoBehaviour
 
 
 
-    void DeactiveDelay() => gameObject.SetActive(false);
+    void DeactiveDelay() => gameObject.SetActive(false);*/
 }

@@ -10,33 +10,35 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-public class SpawnWeapon_L : MonoBehaviourPunCallbacks
+public class SpawnWeapon_L : MonoBehaviourPun
 {
     public static SpawnWeapon_L leftWeapon;
     public GameObject gunPrefab;
     public Transform attachPoint;
-    public InputDevice targetDevice;
+    private InputDevice targetDevice;
     public bool weaponInIt = false;
+    private PhotonView PV;
     private void Awake()
     {
         leftWeapon = this;
+        PV = GetComponent<PhotonView>();
     }
     private void Start()
-    {        
+    {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);       
+        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
 
         if (devices.Count > 0)
         {
-            targetDevice = devices[0];           
+            targetDevice = devices[0];
         }
-           
+
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox"))
+        if (other.CompareTag("ItemBox"))
         {
             Debug.Log("아이템박스 태그 시작");
         }
@@ -44,13 +46,13 @@ public class SpawnWeapon_L : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (other.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
             Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-                PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
-                // Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);        // 싱글플레이 할 때 생성
+                Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
+                weaponInIt = true;                                                                            // Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);        // 싱글플레이 할 때 생성
             }
             else
             {
@@ -62,7 +64,7 @@ public class SpawnWeapon_L : MonoBehaviourPunCallbacks
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("ItemBox"))
+        if (other.CompareTag("ItemBox"))
         {
             Debug.Log("아이템박스 태그 종료");
         }
@@ -74,9 +76,5 @@ public class SpawnWeapon_L : MonoBehaviourPunCallbacks
     }
 
 
-    IEnumerator DestroyGun()
-    {
-        yield return new WaitForSeconds(2f);
-        Destroy(gunPrefab);
-    }
+
 }

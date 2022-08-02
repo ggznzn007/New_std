@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExploreEffect : MonoBehaviour                      // ÃÑ¾Ë ÀÓÆÑÆ® È¿°ú
 {
-    private AudioSource audioSource;
+   /* private AudioSource audioSource;
 
     private void Awake()
     {
@@ -25,5 +25,5 @@ public class ExploreEffect : MonoBehaviour                      // ÃÑ¾Ë ÀÓÆÑÆ® È
 
     
 
-    void DeactiveDelay() => gameObject.SetActive(false);
+    void DeactiveDelay() => gameObject.SetActive(false);*/
 }
