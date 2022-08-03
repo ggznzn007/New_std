@@ -1,37 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using UnityEngine.UI;
+using PN = Photon.Pun.PN;
+using Random = UnityEngine.Random;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class BulletPool : MonoBehaviour
 {
-    public static BulletPool _instance;
-    [Header("Bullet Pool")]
+    public static BulletPool BulletPooling;
     public GameObject bulletPrefab;    
-    public int maxPool = 10;
-    public List<GameObject> bulletPool = new List<GameObject>();
+    public int maxbulletPool = 10;   
+    public List<GameObject> bulletPool = new List<GameObject>();  
 
     private void Awake()
     {
-        _instance = this;
-        CreatePooling();
-    }
-    public void CreatePooling()
-    {
-        GameObject objectPools = new GameObject("ObjectPools");
-
-        for (int i = 0; i < maxPool; i++)
-        {
-            var obj = Instantiate(bulletPrefab,objectPools.transform);
-            obj.name = "Bullet_" + i.ToString("00");
-            obj.SetActive(false);
-            bulletPool.Add(obj);           
-        }
-        
+        BulletPooling = this;
+        CreateBulletPooling();       
     }
 
-    public GameObject GetBullet() // 총알을 발사할 때 오브젝트를 추출하기 위한 메서드
+    public GameObject GetBullet()
     {
         for (int i = 0; i < bulletPool.Count; i++)
         {
@@ -42,4 +35,19 @@ public class BulletPool : MonoBehaviour
         }
         return null;
     }
+    public void CreateBulletPooling()
+    {
+        GameObject objectPools = new GameObject("ObjectPools");
+
+        for (int i = 0; i < maxbulletPool; i++)
+        {
+            var obj = Instantiate(bulletPrefab, objectPools.transform);
+            obj.name = "Bullet_" + i.ToString("00");
+            obj.SetActive(false);
+            bulletPool.Add(obj);
+        }
+    }
+
+  
+
 }
