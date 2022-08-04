@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RemoveBullet : MonoBehaviour
 {
-    public GameObject exploreEffet;
+    public ParticleSystem exploreEffet;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -12,8 +12,9 @@ public class RemoveBullet : MonoBehaviour
         if (collision.collider.CompareTag("Bullet"))
         {
             //var exEffect = ObjectPooler.SpawnFromPool<ExploreEffect>("ExplorelEffect");
-            ShowEffect(collision);     
-           
+           // ShowEffect(collision);
+            
+            //Invoke(nameof(EndEffect), 2f);
             //Destroy(collision.gameObject); // ÃÑ¾Ë ¸ÂÀº ¿ÀºêÁ§Æ®°¡ »ç¶óÁü 
             Debug.Log("ÃÑ¾ËÅÂ±×µÊ");
         }
@@ -29,6 +30,12 @@ public class RemoveBullet : MonoBehaviour
         // Æø¹ß È¿°ú »ý¼º
         Instantiate(exploreEffet, contact.point, rot);
 
-
+        //BulletEffectPool.EffectPooling.GetBulletEffect();
+        
     }
+
+   /* void EndEffect()
+    {
+        
+    }*/
 }
