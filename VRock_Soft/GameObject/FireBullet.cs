@@ -14,14 +14,11 @@ using TMPro;
 public class FireBullet : MonoBehaviourPun
 {
     public static FireBullet FireGun;
-    public Transform firePoint;  // ÃÑ±¸    
-    //public float speed = 75f;
+    public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
     private PhotonView PV;
     AudioSource audioSource;             // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
-    /* private Vector3 firePos;
-     private Vector3 endPos;
- */
+
     private void Awake()
     {
         FireGun = this;
@@ -39,16 +36,25 @@ public class FireBullet : MonoBehaviourPun
     {
         audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
         muzzleFlash.Play();
-        var bullet = BulletPoolManager.BulletPool.GetBullet();
-        if (bullet != null)
+
+        var _bullet =  PoolManager.PoolingManager.pool.Dequeue();
+        if(_bullet !=null)
         {
-            
-            bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
-            bullet.SetActive(true);
+            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            _bullet.SetActive(true);
         }
 
-       /* var muzzle = Instantiate(muzzlePrefab);
-            muzzle.transform.position = firePoint.position;*/
+
+       /* var _bullet = BulletPool.BulletPooling.GetBullet();  //1
+        if (_bullet != null)
+        {
+            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            _bullet.SetActive(true);
+        }*/
+
+
+        /* var muzzle = Instantiate(muzzlePrefab);
+             muzzle.transform.position = firePoint.position;*/
 
 
         //var bullet = Instantiate(bulletPrefab);
