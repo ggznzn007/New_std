@@ -13,14 +13,13 @@ using UnityEngine.XR;
 
 
 
-public class BulletManager :Poolable  //MonoBehaviour                                   // 총알 스크립트 
+public class BulletManager : Poolable  //MonoBehaviour                                   // 총알 스크립트 
 {
     public float speed;
     Transform tr;
     Rigidbody rb;
-
-
     public ParticleSystem exploreEffet;
+
     private void Awake()
     {
         tr = GetComponent<Transform>();
@@ -29,89 +28,63 @@ public class BulletManager :Poolable  //MonoBehaviour                           
     }
     private void OnEnable()
     {
-
         rb.AddForce(transform.forward * speed);
-        //rb.AddForce(transform.forward * speed);
-        /*if(GameObject.FindGameObjectWithTag("FirePoint"))
-        {
-            rb.AddForce(GameObject.FindGameObjectWithTag("FirePoint").transform.position * speed);
-        }*/
-     }
 
-    
+    }
+
     private void OnBecameInvisible()
     {
-        // BulletPool.BulletPooling.ReturnBullet();
-        // Push();
         Enqueue();
     }
     private void OnDisable()
     {
         tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         rb.Sleep();
-        
     }
     private void Start()
     {
         GetComponent<Rigidbody>().AddForce(transform.forward * speed);
     }
 
-    IEnumerator DeactiveBullet()
-    {
-        yield return new WaitForSeconds(0.02f);
-        //BulletPool.BulletPooling.ReturnBullet();
-        Enqueue();
-    }
-
-
     private void OnCollisionEnter(Collision collision)
     {
         // 터지는 이펙트 보여지고
         if (collision.collider.CompareTag("Cube"))
-        {            
-            ShowEffect(collision);
-            
-            //StartCoroutine(DeactiveBullet());
+        {
+            // 충돌 지점 추출
+            var contact = collision.GetContact(0);
 
-            Enqueue();
+            // 충돌 지점에 이펙트 생성
+            var effect = Instantiate(exploreEffet, contact.point, Quaternion.LookRotation(-contact.normal));
 
-            // BulletPool.BulletPooling.ReturnBullet();
-            //StartCoroutine(ExploreEffect(collision));            
+            Destroy(effect, 1f);
+
+            Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+
+            // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
+            // ShowEffect(collision); // 이펙트 메서드 
+            //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
+            //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
             Debug.Log("콜라이더 태그됨");
         }
 
-       
+
     }
 
-   
 
-    /* IEnumerator ExploreEffect(Collision coll)
-     {
-         // 충돌지점의 정보를 추출
-         ContactPoint contact = coll.contacts[0];
 
-         // 법선 벡타가 이루는 회전각도 추출
-         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-
-         var effect = BulletEffectPool.EffectPooling.GetBulletEffect();
-         effect.transform.SetPositionAndRotation(contact.point, rot);
-         Invoke(nameof(DeactiveEffect), 1f); 
-        yield return null;        
-     }*/
-
-    public void ShowEffect(Collision coll)
+    /*public void ShowEffect(Collision collision)   // 이펙트 메서드 버전
     {
         // 충돌지점의 정보를 추출
-        ContactPoint contact = coll.contacts[0];
+        ContactPoint contact = collision.contacts[0];
 
         // 법선 벡타가 이루는 회전각도 추출
         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
 
         // 폭발 효과 생성
         Instantiate(exploreEffet, contact.point, rot);
-       
-    }
+    }*/
 
 }
 
