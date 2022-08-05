@@ -17,11 +17,11 @@ public class SpawnWeapon_L : MonoBehaviourPun
     public Transform attachPoint;
     private InputDevice targetDevice;
     public bool weaponInIt = false;
-    private PhotonView PV;
+    //private PhotonView PV;
     private void Awake()
     {
         leftWeapon = this;
-        PV = GetComponent<PhotonView>();
+        //PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
@@ -51,8 +51,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
             Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-                Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
-                weaponInIt = true;                                                                            // Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);        // 싱글플레이 할 때 생성
+                SpawnGun();
+                weaponInIt = true;
             }
             else
             {
@@ -70,9 +70,12 @@ public class SpawnWeapon_L : MonoBehaviourPun
         }
     }
 
-    private void Update()
+    public void SpawnGun()
     {
-
+        GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
+        myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
+        //myGun.transform.position = attachPoint.position;
+        // myGun.transform.rotation = attachPoint.rotation;
     }
 
 
