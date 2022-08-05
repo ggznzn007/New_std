@@ -64,32 +64,55 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     [Header("Hands Transform Synch")]
     public Transform leftHandTransform;
     public Transform rightHandTransform;
+    
+  //  public Transform leftHandModel;// 추가
+   // public Transform rightHandModel;// 추가
 
     //Left Hand Sync
     //Position
     private float m_Distance_LeftHand;
-
+    //private float m_Distance_LeftHandModel;// 추가
+    
     private Vector3 m_Direction_LeftHand;
     private Vector3 m_NetworkPosition_LeftHand;
     private Vector3 m_StoredPosition_LeftHand;
+    
+  
+
+    // private Vector3 m_Direction_LeftHandModel;// 추가
+    // private Vector3 m_NetworkPosition_LeftHandModel;// 추가
+    // private Vector3 m_StoredPosition_LeftHandModel;// 추가
 
     //Rotation
     private Quaternion m_NetworkRotation_LeftHand;
-    private float m_Angle_LeftHand;
+    private float m_Angle_LeftHand; 
+    
+   
+    //    private Quaternion m_NetworkRotation_LeftHandModel;// 추가
+    // private float m_Angle_LeftHandModel;// 추가
 
 
 
     //Right Hand Synch
     //Position
     private float m_Distance_RightHand;
+    //private float m_Distance_RightHandModel;// 추가
 
     private Vector3 m_Direction_RightHand;
     private Vector3 m_NetworkPosition_RightHand;
     private Vector3 m_StoredPosition_RightHand;
 
+   // private Vector3 m_Direction_RightHandModel;// 추가
+   // private Vector3 m_NetworkPosition_RightHandModel;// 추가
+    //private Vector3 m_StoredPosition_RightHandModel;// 추가
+
     //Rotation
     private Quaternion m_NetworkRotation_RightHand;
     private float m_Angle_RightHand;
+
+  //  private Quaternion m_NetworkRotation_RightHandModel;// 추가
+  //  private float m_Angle_RightHandModel;// 추가
+
 
 
 
@@ -121,10 +144,20 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         m_NetworkPosition_LeftHand = Vector3.zero;
         m_NetworkRotation_LeftHand = Quaternion.identity;
 
+        //Left Hand Model Synch Init // 추가
+       // m_StoredPosition_LeftHandModel = leftHandModel.localPosition;
+       // m_NetworkPosition_LeftHandModel = Vector3.zero;
+       // m_NetworkRotation_LeftHandModel = Quaternion.identity;
+
         //Right Hand Synch Init
         m_StoredPosition_RightHand = rightHandTransform.localPosition;
         m_NetworkPosition_RightHand = Vector3.zero;
         m_NetworkRotation_RightHand = Quaternion.identity;
+
+        // Right Hand Model Synch Init // 추가
+       // m_StoredPosition_RightHandModel = rightHandModel.localPosition;
+       // m_NetworkPosition_RightHandModel = Vector3.zero;
+       // m_NetworkRotation_RightHandModel = Quaternion.identity;
     }
  
     void OnEnable()
@@ -152,10 +185,16 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
             leftHandTransform.localPosition = Vector3.MoveTowards(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand, this.m_Distance_LeftHand * (1.0f / PN.SerializationRate));
             leftHandTransform.localRotation = Quaternion.RotateTowards(leftHandTransform.localRotation, this.m_NetworkRotation_LeftHand, this.m_Angle_LeftHand * (1.0f / PN.SerializationRate));
+           
+            //leftHandModel.localPosition = Vector3.MoveTowards(leftHandModel.localPosition, this.m_NetworkPosition_LeftHandModel, this.m_Distance_LeftHandModel * (1.0f / PN.SerializationRate));  // 추가
+            //leftHandModel.localRotation = Quaternion.RotateTowards(leftHandModel.localRotation, this.m_NetworkRotation_LeftHandModel, this.m_Angle_LeftHandModel * (1.0f / PN.SerializationRate)); // 추가
+
 
             rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (1.0f / PN.SerializationRate));
             rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (1.0f / PN.SerializationRate));
 
+           // rightHandModel.localPosition = Vector3.MoveTowards(rightHandModel.localPosition, this.m_NetworkPosition_RightHandModel, this.m_Distance_RightHandModel * (1.0f / PN.SerializationRate));// 추가
+            //rightHandModel.localRotation = Quaternion.RotateTowards(rightHandModel.localRotation, this.m_NetworkRotation_RightHandModel, this.m_Angle_RightHandModel * (1.0f / PN.SerializationRate));// 추가
         }
 
 
@@ -163,7 +202,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting)
+        if (stream.IsWriting)// 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
         {
             //////////////////////////////////////////////////////////////////
             //General VRPlayer Transform Synch
@@ -218,8 +257,16 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             stream.SendNext(leftHandTransform.localPosition);
             stream.SendNext(this.m_Direction_LeftHand);
 
+           // this.m_Direction_LeftHandModel = leftHandModel.localPosition - this.m_StoredPosition_LeftHandModel; // 추가
+           // this.m_StoredPosition_LeftHandModel = leftHandModel.localPosition; // 추가
+
+          //  stream.SendNext(leftHandModel.localPosition); // 추가
+           // stream.SendNext(this.m_Direction_LeftHandModel); // 추가
+
             //Send Left Hand rotation data
-            stream.SendNext(leftHandTransform.localRotation);
+           stream.SendNext(leftHandTransform.localRotation);
+
+          //  stream.SendNext(leftHandModel.localRotation); // 추가
 
             //Right Hand
             //Send Right Hand position data
@@ -229,8 +276,16 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             stream.SendNext(rightHandTransform.localPosition);
             stream.SendNext(this.m_Direction_RightHand);
 
+          //  this.m_Direction_RightHandModel = rightHandModel.localPosition - this.m_StoredPosition_RightHandModel;// 추가
+           // this.m_StoredPosition_RightHandModel = rightHandModel.localPosition;// 추가
+
+           // stream.SendNext(rightHandModel.localPosition);// 추가
+          //  stream.SendNext(this.m_Direction_RightHandModel);// 추가
+
             //Send Right Hand rotation data
             stream.SendNext(rightHandTransform.localRotation);
+
+            //stream.SendNext(rightHandModel.localRotation); // 추가
 
         }
         else
@@ -330,6 +385,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
             ///////////////////////////////////////////////////////////////////
             //Hands Transform Synch
+
             //Get Left Hand position data
             this.m_NetworkPosition_LeftHand = (Vector3)stream.ReceiveNext();
             this.m_Direction_LeftHand = (Vector3)stream.ReceiveNext();
@@ -389,6 +445,69 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             {
                 m_firstTake = false;
             }
+
+
+
+          /*  /////////////////////////////////////////////////////////////////////////////////////////////// 추가
+            //Get Left Hand model position data
+            this.m_NetworkPosition_LeftHandModel = (Vector3)stream.ReceiveNext();
+            this.m_Direction_LeftHandModel = (Vector3)stream.ReceiveNext();
+
+            if (m_firstTake)
+            {
+                leftHandModel.localPosition = this.m_NetworkPosition_LeftHandModel;
+                this.m_Distance_LeftHandModel = 0f;
+            }
+            else
+            {
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
+                this.m_NetworkPosition_LeftHandModel += this.m_Direction_LeftHandModel * lag;
+                this.m_Distance_LeftHandModel = Vector3.Distance(leftHandModel.localPosition, this.m_NetworkPosition_LeftHandModel);
+            }
+
+            //Get Left Hand rotation data
+            this.m_NetworkRotation_LeftHandModel = (Quaternion)stream.ReceiveNext();
+            if (m_firstTake)
+            {
+                this.m_Angle_LeftHandModel = 0f;
+                leftHandModel.localRotation = this.m_NetworkRotation_LeftHandModel;
+            }
+            else
+            {
+                this.m_Angle_LeftHandModel = Quaternion.Angle(leftHandModel.localRotation, this.m_NetworkRotation_LeftHandModel);
+            }
+
+            //Get Right Hand position data
+            this.m_NetworkPosition_RightHandModel = (Vector3)stream.ReceiveNext();
+            this.m_Direction_RightHandModel = (Vector3)stream.ReceiveNext();
+
+            if (m_firstTake)
+            {
+                rightHandModel.localPosition = this.m_NetworkPosition_RightHandModel;
+                this.m_Distance_RightHandModel = 0f;
+            }
+            else
+            {
+                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
+                this.m_NetworkPosition_RightHandModel += this.m_Direction_RightHandModel * lag;
+                this.m_Distance_RightHandModel = Vector3.Distance(rightHandModel.localPosition, this.m_NetworkPosition_RightHandModel);
+            }
+
+            //Get Right Hand rotation data
+            this.m_NetworkRotation_RightHandModel = (Quaternion)stream.ReceiveNext();
+            if (m_firstTake)
+            {
+                this.m_Angle_RightHandModel = 0f;
+                rightHandModel.localRotation = this.m_NetworkRotation_RightHandModel;
+            }
+            else
+            {
+                this.m_Angle_RightHandModel = Quaternion.Angle(rightHandModel.localRotation, this.m_NetworkRotation_RightHandModel);
+            }
+            if (m_firstTake)
+            {
+                m_firstTake = false;
+            }*/
         }
     }
 
