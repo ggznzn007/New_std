@@ -12,10 +12,10 @@ using Random = UnityEngine.Random;
 using TMPro;
 public class SpawnWeapon_R : MonoBehaviourPun
 {
-    public static SpawnWeapon_R rightWeapon;    
+    public static SpawnWeapon_R rightWeapon;
     public GameObject gunPrefab;
     public Transform attachPoint;
-    private InputDevice targetDevice;
+    public InputDevice targetDevice;
     public bool weaponInIt = false;
     private PhotonView PV;
     private void Awake()
@@ -37,33 +37,6 @@ public class SpawnWeapon_R : MonoBehaviourPun
 
     }
 
-    private void Update()
-    {
-      /*  if (weaponInIt)
-        {
-            if (targetDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerOn))
-            {
-                if (triggerOn)
-                {
-                    ShootingGun();
-                }
-            }
-        }*/
-
-    }
-
-   /* public void ShootingGun()
-    {
-        var bullet = ObjectPooler.SpawnFromPool<BulletManager>("Bullet", FireBullet.FireGun.firePoint.forward);
-        bullet.transform.position = FireBullet.FireGun.firePoint.position;
-        //bullet.GetComponentInChildren<Rigidbody>().velocity = FireBullet.FireGun.firePoint.forward * FireBullet.FireGun.speed;
-        bullet.GetComponentInChildren<Rigidbody>().AddForce(FireBullet.FireGun.firePoint.forward * FireBullet.FireGun.speed);
-
-
-
-        var muzzle = ObjectPooler.SpawnFromPool<MuzzleEffect>("MuzzleEffect", FireBullet.FireGun.firePoint.position);
-    }*/
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ItemBox"))
@@ -72,20 +45,19 @@ public class SpawnWeapon_R : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider coll)
     {
-        if (other.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
             Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-                Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
-                                                                                     //Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);    //  싱글플레이 할 때 생성
+                
+                SpawnGun();               
+                //GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
+                // myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
+                //Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);    //  싱글플레이 할 때 생성
                 weaponInIt = true;
-               /* if (PV.IsMine)
-                {
-                    PV.RPC("SpawnGun", RpcTarget.AllBuffered);
-                }*/
             }
             else
             {
@@ -95,8 +67,9 @@ public class SpawnWeapon_R : MonoBehaviourPun
 
 
         }
-       
+
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -107,15 +80,21 @@ public class SpawnWeapon_R : MonoBehaviourPun
     }
 
 
+    private void FixedUpdate()
+    {
+        if (!PV.IsMine) { return; }
+    }
 
-   
 
-    /*[PunRPC]
+    // [PunRPC]
     public void SpawnGun()
     {
-        Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
-                                                                             //Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);    //  싱글플레이 할 때 생성
-        weaponInIt = true;
-    }*/
+        //GameObject myGun = Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 포톤 멀티플레이 할 때 생성
+        GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤 
+        //myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
+        Debug.Log("포톤서버 건 생성");
+        //myGun.transform.position = attachPoint.position;
+        // myGun.transform.rotation = attachPoint.rotation;
+    }
 
 }
