@@ -17,18 +17,18 @@ using Antilatency.SDK;
 
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
  {
-   // public static NetworkedPlayer NetPlayer;
+    public static PlayerNetworkSetup NetPlayer;
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
-    /* public GameObject AvatarHand_L;
-     public GameObject AvatarHand_R;*/
-      
+   /* public GameObject AvatarHand_L;
+    public GameObject AvatarHand_R;
+*/
     private PhotonView PV;    
 
     public void Awake()
     {
-        
+        NetPlayer = this;  
         PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
