@@ -31,8 +31,8 @@ public class BulletPool : MonoBehaviour
             Poolable allocateBull = Instantiate(poolBullet, this.gameObject.transform);
             //Poolable allocateBull = Instantiate(poolBullet);
             allocateBull.CreateBullet(this);
-           // poolStack.Push(allocateBull);
-           poolQueue.Enqueue(allocateBull);
+            // poolStack.Push(allocateBull);
+            poolQueue.Enqueue(allocateBull);
         }
     }
 
@@ -42,6 +42,7 @@ public class BulletPool : MonoBehaviour
         //bullet.gameObject.SetActive(true);
         return bullet.gameObject;
     }
+
     public void Enqueue(Poolable bullet)
     {
         bullet.gameObject.SetActive(false);
@@ -55,12 +56,12 @@ public class BulletPool : MonoBehaviour
          return bullet.gameObject;
      }
  */
-  /*  public void Push(Poolable bullet)
-    {
-        poolStack.Push(bullet);
-        bullet.gameObject.SetActive(false);
-    }  // 스택방식
-*/
+    /*  public void Push(Poolable bullet)
+      {
+          poolStack.Push(bullet);
+          bullet.gameObject.SetActive(false);
+      }  // 스택방식
+  */
 
     /*   public static BulletPool BulletPooling;
        public GameObject bulletPrefab;

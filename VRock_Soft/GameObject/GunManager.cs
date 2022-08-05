@@ -11,9 +11,9 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
-public class FireBullet : MonoBehaviourPun
+public class GunManager : MonoBehaviourPunCallbacks
 {
-    public static FireBullet FireGun;
+    public static GunManager gunManager;
     public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
     private PhotonView PV;
@@ -21,40 +21,50 @@ public class FireBullet : MonoBehaviourPun
 
     private void Awake()
     {
-        FireGun = this;
+        gunManager = this;
+        PV = GetComponent<PhotonView>();
     }
 
 
     private void Start()
     {
-        PV = GetComponent<PhotonView>();
+        
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ
     }
 
-    public void FireBull()
+
+
+    public void FireBullet()
     {
+        /*if (PV.IsMine)
+        {
+            PunFire();
+            PV.RPC("PunFire", RpcTarget.AllBuffered);
+            Debug.Log("RPC_¹ß»ç ¼º°ø");
+        }*/
+
+
         audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
         muzzleFlash.Play();
 
-        var _bullet =  PoolManager.PoolingManager.pool.Dequeue();
-        if(_bullet !=null)
+        var _bullet = PoolManager.PoolingManager.pool.Dequeue();
+        if (_bullet != null)
         {
             _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             _bullet.SetActive(true);
         }
 
 
-       /* var _bullet = BulletPool.BulletPooling.GetBullet();  //1
-        if (_bullet != null)
-        {
-            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
-            _bullet.SetActive(true);
-        }*/
+
+        /* var _bullet = BulletPool.BulletPooling.GetBullet();  //1
+         if (_bullet != null)
+         {
+             _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+             _bullet.SetActive(true);
+         }*/
 
 
-        /* var muzzle = Instantiate(muzzlePrefab);
-             muzzle.transform.position = firePoint.position;*/
 
 
         //var bullet = Instantiate(bulletPrefab);
@@ -63,28 +73,41 @@ public class FireBullet : MonoBehaviourPun
         // bullet.transform.Translate(firePoint.forward * speed);
         // bullet.GetComponentInChildren<Rigidbody>().velocity = firePoint.transform.TransformDirection(new Vector3(0,0,speed));
         //bullet.GetComponentInChildren<Rigidbody>().velocity = firePoint.forward * speed;
-
-
-
-
-        // var muzzle = ObjectPooler.SpawnFromPool<MuzzleEffect>("MuzzleEffect");
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Cube"))
         {
-            Debug.Log("¹Ù´Ú¿¡ ÅÂ±×µÊ");
-            SpawnWeapon_L.leftWeapon.weaponInIt = false;
-            SpawnWeapon_R.rightWeapon.weaponInIt = false;
+            if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped) && !SpawnWeapon_R.rightWeapon.weaponInIt)
+            {
+                if (!griped)
+                {
+                    //Destroy(this.gameObject, 1.1f);
+                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
+                    SpawnWeapon_R.rightWeapon.weaponInIt = false;
+                    Debug.Log("ÃÑ ÆÄ±«µÊ");
+                }
+            }
 
-            Destroy(this.gameObject, 1.1f);
+            Debug.Log("¹Ù´Ú¿¡ ÅÂ±×µÊ");
+
         }
     }
 
+    /*[PunRPC]
+    void PunFire()
+    {
+        audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
+        muzzleFlash.Play();
 
-
-
+        GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
+        if (_bullet != null)
+        {
+            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+            _bullet.SetActive(true);
+        }
+    }
+*/
 }
 
