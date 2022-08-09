@@ -11,41 +11,52 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
-public class GunManager : MonoBehaviourPunCallbacks
+public class GunManager : MonoBehaviourPun//, IPunObservable
 {
     public static GunManager gunManager;
     public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
-    private PhotonView PV;
+                                           // private PhotonView PV;
     AudioSource audioSource;             // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
+    private float intervalSpeed = 20;
 
     private void Awake()
     {
         gunManager = this;
-        PV = GetComponent<PhotonView>();
+        // PV = GetComponent<PhotonView>();
     }
 
 
     private void Start()
     {
-        
+
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ
     }
 
-
+    private void Update()
+    {
+        /* if(!photonView.IsMine)
+         {
+                 transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, intervalSpeed * Time.deltaTime), 
+                 Quaternion.Lerp(transform.rotation, remoteRot, intervalSpeed * Time.deltaTime));
+             return;
+         }*/
+    }
 
     public void FireBullet()
     {
-        /*if (PV.IsMine)
+        if (photonView.IsMine)
         {
-            PunFire();
-            PV.RPC("PunFire", RpcTarget.AllBuffered);
+            //PunFire();
+            photonView.RPC("PunFire", RpcTarget.All);
             Debug.Log("RPC_¹ß»ç ¼º°ø");
-        }*/
+        }
 
 
-        audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
+       /* audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
         muzzleFlash.Play();
 
         var _bullet = PoolManager.PoolingManager.pool.Dequeue();
@@ -53,7 +64,7 @@ public class GunManager : MonoBehaviourPunCallbacks
         {
             _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             _bullet.SetActive(true);
-        }
+        }*/
 
 
 
@@ -79,11 +90,13 @@ public class GunManager : MonoBehaviourPunCallbacks
     {
         if (collision.collider.CompareTag("Cube"))
         {
-            if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped) && !SpawnWeapon_R.rightWeapon.weaponInIt)
+            if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
             {
                 if (!griped)
                 {
-                    //Destroy(this.gameObject, 1.1f);
+                    StartCoroutine(DestoryPN_Bullet());
+                    //Destroy(gameObject, 1.1f);
+                    //PN.Destroy(this.gameObject);
                     SpawnWeapon_L.leftWeapon.weaponInIt = false;
                     SpawnWeapon_R.rightWeapon.weaponInIt = false;
                     Debug.Log("ÃÑ ÆÄ±«µÊ");
@@ -95,8 +108,28 @@ public class GunManager : MonoBehaviourPunCallbacks
         }
     }
 
-    /*[PunRPC]
-    void PunFire()
+    IEnumerator DestoryPN_Bullet()
+    {
+        yield return new WaitForSeconds(1.1f);
+        PN.Destroy(this.gameObject);
+    }
+
+   /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            //stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            firePoint.position = (Vector3)stream.ReceiveNext();
+            //firePoint.rotation = (Quaternion)stream.ReceiveNext();
+        }
+    }*/
+
+    [PunRPC]
+    public void PunFire()
     {
         audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
         muzzleFlash.Play();
@@ -106,8 +139,9 @@ public class GunManager : MonoBehaviourPunCallbacks
         {
             _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             _bullet.SetActive(true);
+            Debug.Log("RPC_Bullet ¹ß»ç");
         }
     }
-*/
+
 }
 
