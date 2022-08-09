@@ -11,7 +11,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
-public class GunManager : MonoBehaviourPun//, IPunObservable
+public class GunManager : MonoBehaviourPun, IPunObservable
 {
     public static GunManager gunManager;
     public Transform firePoint;  // ÃÑ±¸        
@@ -94,12 +94,16 @@ public class GunManager : MonoBehaviourPun//, IPunObservable
             {
                 if (!griped)
                 {
-                    StartCoroutine(DestoryPN_Bullet());
-                    //Destroy(gameObject, 1.1f);
-                    //PN.Destroy(this.gameObject);
-                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
-                    SpawnWeapon_R.rightWeapon.weaponInIt = false;
-                    Debug.Log("ÃÑ ÆÄ±«µÊ");
+                    if(photonView.IsMine)
+                    {
+                        photonView.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
+                        //DestroyGun_Delay();
+                        //PN.Destroy(this.gameObject);
+                        SpawnWeapon_L.leftWeapon.weaponInIt = false;
+                        SpawnWeapon_R.rightWeapon.weaponInIt = false;
+                        Debug.Log("ÃÑ ÆÄ±«µÊ");
+                    }
+                    
                 }
             }
 
@@ -108,25 +112,31 @@ public class GunManager : MonoBehaviourPun//, IPunObservable
         }
     }
 
-    IEnumerator DestoryPN_Bullet()
+    [PunRPC]
+    public void DestroyGun_Delay()
+    {
+        StartCoroutine(DestoryPN_Gun());
+    }
+    public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1.1f);
-        PN.Destroy(this.gameObject);
+        PN.Destroy(gameObject);
+       // Destroy(gameObject);
     }
 
-   /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            //stream.SendNext(transform.rotation);
+            stream.SendNext(transform.rotation);
         }
         else
         {
-            firePoint.position = (Vector3)stream.ReceiveNext();
-            //firePoint.rotation = (Quaternion)stream.ReceiveNext();
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
         }
-    }*/
+    }
 
     [PunRPC]
     public void PunFire()
@@ -143,5 +153,7 @@ public class GunManager : MonoBehaviourPun//, IPunObservable
         }
     }
 
+    
+   
 }
 
