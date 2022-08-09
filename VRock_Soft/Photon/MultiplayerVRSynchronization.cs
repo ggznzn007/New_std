@@ -65,8 +65,8 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     public Transform leftHandTransform;
     public Transform rightHandTransform;
     
-  //  public Transform leftHandModel;// 추가
-   // public Transform rightHandModel;// 추가
+  //  public Transform leftHandCon;// 추가
+  //  public Transform rightHandCon;// 추가
 
     //Left Hand Sync
     //Position
@@ -96,22 +96,22 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     //Right Hand Synch
     //Position
     private float m_Distance_RightHand;
-    //private float m_Distance_RightHandModel;// 추가
+   // private float m_Distance_RightHandCon;// 추가
 
     private Vector3 m_Direction_RightHand;
     private Vector3 m_NetworkPosition_RightHand;
     private Vector3 m_StoredPosition_RightHand;
 
-   // private Vector3 m_Direction_RightHandModel;// 추가
-   // private Vector3 m_NetworkPosition_RightHandModel;// 추가
-    //private Vector3 m_StoredPosition_RightHandModel;// 추가
+    //private Vector3 m_Direction_RightHandCon;// 추가
+   //  private Vector3 m_NetworkPosition_RightHandCon;// 추가
+   // private Vector3 m_StoredPosition_RightHandCon;// 추가
 
     //Rotation
     private Quaternion m_NetworkRotation_RightHand;
     private float m_Angle_RightHand;
 
-  //  private Quaternion m_NetworkRotation_RightHandModel;// 추가
-  //  private float m_Angle_RightHandModel;// 추가
+  //   private Quaternion m_NetworkRotation_RightHandCon;// 추가
+    //  private float m_Angle_RightHandCon;// 추가
 
 
 
@@ -154,12 +154,12 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         m_NetworkPosition_RightHand = Vector3.zero;
         m_NetworkRotation_RightHand = Quaternion.identity;
 
-        // Right Hand Model Synch Init // 추가
-       // m_StoredPosition_RightHandModel = rightHandModel.localPosition;
-       // m_NetworkPosition_RightHandModel = Vector3.zero;
-       // m_NetworkRotation_RightHandModel = Quaternion.identity;
+        //  Right Hand Con Synch Init // 추가
+      //  m_StoredPosition_RightHandCon = rightHandCon.localPosition;
+       //  m_NetworkPosition_RightHandCon = Vector3.zero;
+        // m_NetworkRotation_RightHandCon = Quaternion.identity;
     }
- 
+
     void OnEnable()
     {
         m_firstTake = true;
@@ -193,8 +193,8 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (1.0f / PN.SerializationRate));
             rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (1.0f / PN.SerializationRate));
 
-           // rightHandModel.localPosition = Vector3.MoveTowards(rightHandModel.localPosition, this.m_NetworkPosition_RightHandModel, this.m_Distance_RightHandModel * (1.0f / PN.SerializationRate));// 추가
-            //rightHandModel.localRotation = Quaternion.RotateTowards(rightHandModel.localRotation, this.m_NetworkRotation_RightHandModel, this.m_Angle_RightHandModel * (1.0f / PN.SerializationRate));// 추가
+            // rightHandCon.localPosition = Vector3.MoveTowards(rightHandCon.localPosition, this.m_NetworkPosition_RightHandCon, this.m_Distance_RightHandCon * (1.0f / PN.SerializationRate));// 추가
+          //  rightHandCon.localRotation = Quaternion.RotateTowards(rightHandCon.localRotation, this.m_NetworkRotation_RightHandCon, this.m_Angle_RightHandCon * (1.0f / PN.SerializationRate));// 추가
         }
 
 
@@ -276,16 +276,16 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             stream.SendNext(rightHandTransform.localPosition);
             stream.SendNext(this.m_Direction_RightHand);
 
-          //  this.m_Direction_RightHandModel = rightHandModel.localPosition - this.m_StoredPosition_RightHandModel;// 추가
-           // this.m_StoredPosition_RightHandModel = rightHandModel.localPosition;// 추가
+            //  this.m_Direction_RightHandCon = rightHandCon.localPosition - this.m_StoredPosition_RightHandCon;// 추가
+           //  this.m_StoredPosition_RightHandCon = rightHandCon.localPosition;// 추가
 
-           // stream.SendNext(rightHandModel.localPosition);// 추가
-          //  stream.SendNext(this.m_Direction_RightHandModel);// 추가
+           //  stream.SendNext(rightHandCon.localPosition);// 추가
+            //  stream.SendNext(this.m_Direction_RightHandCon);// 추가
 
             //Send Right Hand rotation data
             stream.SendNext(rightHandTransform.localRotation);
 
-            //stream.SendNext(rightHandModel.localRotation); // 추가
+          //  stream.SendNext(rightHandCon.localRotation); // 추가
 
         }
         else
@@ -448,66 +448,66 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
 
 
-          /*  /////////////////////////////////////////////////////////////////////////////////////////////// 추가
-            //Get Left Hand model position data
-            this.m_NetworkPosition_LeftHandModel = (Vector3)stream.ReceiveNext();
-            this.m_Direction_LeftHandModel = (Vector3)stream.ReceiveNext();
+            /*  /////////////////////////////////////////////////////////////////////////////////////////////// 추가
+              //Get Left Hand model position data
+              this.m_NetworkPosition_LeftHandModel = (Vector3)stream.ReceiveNext();
+              this.m_Direction_LeftHandModel = (Vector3)stream.ReceiveNext();
 
-            if (m_firstTake)
-            {
-                leftHandModel.localPosition = this.m_NetworkPosition_LeftHandModel;
-                this.m_Distance_LeftHandModel = 0f;
-            }
-            else
-            {
-                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
-                this.m_NetworkPosition_LeftHandModel += this.m_Direction_LeftHandModel * lag;
-                this.m_Distance_LeftHandModel = Vector3.Distance(leftHandModel.localPosition, this.m_NetworkPosition_LeftHandModel);
-            }
+              if (m_firstTake)
+              {
+                  leftHandModel.localPosition = this.m_NetworkPosition_LeftHandModel;
+                  this.m_Distance_LeftHandModel = 0f;
+              }
+              else
+              {
+                  float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
+                  this.m_NetworkPosition_LeftHandModel += this.m_Direction_LeftHandModel * lag;
+                  this.m_Distance_LeftHandModel = Vector3.Distance(leftHandModel.localPosition, this.m_NetworkPosition_LeftHandModel);
+              }
 
-            //Get Left Hand rotation data
-            this.m_NetworkRotation_LeftHandModel = (Quaternion)stream.ReceiveNext();
-            if (m_firstTake)
-            {
-                this.m_Angle_LeftHandModel = 0f;
-                leftHandModel.localRotation = this.m_NetworkRotation_LeftHandModel;
-            }
-            else
-            {
-                this.m_Angle_LeftHandModel = Quaternion.Angle(leftHandModel.localRotation, this.m_NetworkRotation_LeftHandModel);
-            }
+              //Get Left Hand rotation data
+              this.m_NetworkRotation_LeftHandModel = (Quaternion)stream.ReceiveNext();
+              if (m_firstTake)
+              {
+                  this.m_Angle_LeftHandModel = 0f;
+                  leftHandModel.localRotation = this.m_NetworkRotation_LeftHandModel;
+              }
+              else
+              {
+                  this.m_Angle_LeftHandModel = Quaternion.Angle(leftHandModel.localRotation, this.m_NetworkRotation_LeftHandModel);
+              }
+            */
+             /* //Get Right Hand position data
+              this.m_NetworkPosition_RightHandCon = (Vector3)stream.ReceiveNext();
+              this.m_Direction_RightHandCon = (Vector3)stream.ReceiveNext();
 
-            //Get Right Hand position data
-            this.m_NetworkPosition_RightHandModel = (Vector3)stream.ReceiveNext();
-            this.m_Direction_RightHandModel = (Vector3)stream.ReceiveNext();
+              if (m_firstTake)
+              {
+                  rightHandCon.localPosition = this.m_NetworkPosition_RightHandCon;
+                  this.m_Distance_RightHandCon = 0f;
+              }
+              else
+              {
+                  float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
+                  this.m_NetworkPosition_RightHandCon += this.m_Direction_RightHandCon * lag;
+                  this.m_Distance_RightHandCon = Vector3.Distance(rightHandCon.localPosition, this.m_NetworkPosition_RightHandCon);
+              }
 
-            if (m_firstTake)
-            {
-                rightHandModel.localPosition = this.m_NetworkPosition_RightHandModel;
-                this.m_Distance_RightHandModel = 0f;
-            }
-            else
-            {
-                float lag = Mathf.Abs((float)(PN.Time - info.SentServerTime));
-                this.m_NetworkPosition_RightHandModel += this.m_Direction_RightHandModel * lag;
-                this.m_Distance_RightHandModel = Vector3.Distance(rightHandModel.localPosition, this.m_NetworkPosition_RightHandModel);
-            }
-
-            //Get Right Hand rotation data
-            this.m_NetworkRotation_RightHandModel = (Quaternion)stream.ReceiveNext();
-            if (m_firstTake)
-            {
-                this.m_Angle_RightHandModel = 0f;
-                rightHandModel.localRotation = this.m_NetworkRotation_RightHandModel;
-            }
-            else
-            {
-                this.m_Angle_RightHandModel = Quaternion.Angle(rightHandModel.localRotation, this.m_NetworkRotation_RightHandModel);
-            }
-            if (m_firstTake)
-            {
-                m_firstTake = false;
-            }*/
+              //Get Right Hand rotation data
+              this.m_NetworkRotation_RightHandCon = (Quaternion)stream.ReceiveNext();
+              if (m_firstTake)
+              {
+                  this.m_Angle_RightHandCon = 0f;
+                  rightHandCon.localRotation = this.m_NetworkRotation_RightHandCon;
+              }
+              else
+              {
+                  this.m_Angle_RightHandCon = Quaternion.Angle(rightHandCon.localRotation, this.m_NetworkRotation_RightHandCon);
+              }
+              if (m_firstTake)
+              {
+                  m_firstTake = false;
+              }*/
         }
     }
 

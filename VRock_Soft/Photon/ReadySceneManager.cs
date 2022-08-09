@@ -206,7 +206,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
         //PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
         GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-
+        
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)
@@ -215,6 +215,10 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         }
     }
 
+    void OnPhotonInstaniate(PhotonMessageInfo info)
+    {
+        info.Sender.TagObject = this;
+    }
     public override void OnLeftRoom()
     {
 
@@ -229,7 +233,6 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     {
         // PN.LoadLevel("StartScene");
     }
-
 
 
     private void MigrateMaster()

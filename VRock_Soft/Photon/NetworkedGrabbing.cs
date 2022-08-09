@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class NetworkedGrabbing : MonoBehaviourPun, IPunOwnershipCallbacks
 {
     PhotonView PV;
 
@@ -42,7 +42,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     {
         Debug.Log("잡았다");
         PV.RPC("StartNetworkGrabbing", RpcTarget.AllBuffered);
-        if (PV.Owner == PN.LocalPlayer)
+        if (photonView.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
         }
