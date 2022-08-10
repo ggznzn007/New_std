@@ -25,15 +25,30 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable
         {
             targetDevice = devices[0];
         }
+        
     }
 
     private void FixedUpdate()
     {
-        HideHandGriped();
+        
+        if (photonView.IsMine)
+        {
+            IfGriped_HideHand();
+            //photonView.RPC("RPC_IfGriped_HideHand", RpcTarget.AllBuffered, avatarRightHand,targetDevice);
+        }
+        else
+        {          
+           
+             //   avatarRightHand[0].forceRenderingOff = true;
+              //  avatarRightHand[1].forceRenderingOff = true;
+                     
+           
+        }
+        
         /*if (photonView.IsMine)
         {
             //HideHandGriped();
-            photonView.RPC("RPC_HideHandGriped", RpcTarget.AllBuffered,avatarRightHand);
+            
         }*/
        /* else
         {
@@ -54,18 +69,28 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(avatarRightHand[0].forceRenderingOff);
-            stream.SendNext(avatarRightHand[1].forceRenderingOff);
+
+            // stream.SendNext(avatarRightHand[0].forceRenderingOff);
+            //stream.SendNext(avatarRightHand[1].forceRenderingOff);
+
         }
-        else
+        else if (stream.IsReading)
         {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-            avatarRightHand[0].forceRenderingOff = (bool)stream.ReceiveNext();
-            avatarRightHand[1].forceRenderingOff = (bool)stream.ReceiveNext();
+            stream.ReceiveNext();
+            stream.ReceiveNext();
+        }
+        else if (stream.IsReading)
+        {
+            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+
+            //  this.avatarRightHand[0].forceRenderingOff = (bool)stream.ReceiveNext();
+            //  this.avatarRightHand[1].forceRenderingOff = (bool)stream.ReceiveNext();
         }
     }
-    public void HideHandGriped()
+
+
+
+    public void IfGriped_HideHand()
     {
 
         if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
@@ -84,8 +109,8 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable
         }
 
     }
-   /* [PunRPC]
-    public void RPC_HideHandGriped(SkinnedMeshRenderer[] avatarRightHand)
+    [PunRPC]
+    public void RPC_IfGriped_HideHand()
     {
 
         if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
@@ -103,5 +128,5 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable
             }
         }
 
-    }*/
+    }
 }
