@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
+public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 생성하는 스크립트
 {
     public static SpawnWeapon_R rightWeapon;
     public GameObject gunPrefab;
@@ -18,10 +18,11 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
     public Transform attachPoint;
     public InputDevice targetDevice;
     public bool weaponInIt = false;
-    private Vector3 remotePos;
+    /*private Vector3 remotePos;
     private Quaternion remoteRot;
     private float intervalSpeed = 20;
-
+*/
+    
     private void Awake()
     {
         rightWeapon = this;
@@ -29,6 +30,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
     }
     private void Start()
     {
+       
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -63,6 +65,8 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
                 {
 
                     GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
+                  
+                    
                     /*GameObject myGun = Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 생성
                     myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정     */
 
@@ -104,12 +108,13 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
         }
     }
 
-    /*[PunRPC]
-    public void SpawnGun(GameObject myGun, Transform attachPoint)
+   /* [PunRPC]
+    public void SpawnGun(int actNumber)
     {
 
         //GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
-        //GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤                                                                                                          
+        GameObject myGun = Instantiate(gunPrefab);//, attachPoint.position, attachPoint.rotation);  // 포톤
+        myGun.GetComponent<GunManager>().actorNumber = actNumber;
         myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정        
         weaponInIt = true;                                                                                           //myGun.transform.parent = this.transform;
 
@@ -118,18 +123,18 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable
 
     }*/
 
- /*   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            attachPoint.position = (Vector3)stream.ReceiveNext();
-            attachPoint.rotation = (Quaternion)stream.ReceiveNext();
-        }
-    }*/
+    /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+     {
+         if (stream.IsWriting)
+         {
+             stream.SendNext(transform.position);
+             stream.SendNext(transform.rotation);
+         }
+         else
+         {
+             attachPoint.position = (Vector3)stream.ReceiveNext();
+             attachPoint.rotation = (Quaternion)stream.ReceiveNext();
+         }
+     }*/
 }
 

@@ -19,35 +19,36 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
     Transform tr;
     Rigidbody rb;
     public ParticleSystem exploreEffet;
-
+    public int actorNumber;
+    private PhotonView PV;
     private void Awake()
     {
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
-       
-
     }
-    private void OnEnable()
+    private void Start()
     {
-       
-        rb.AddForce(transform.forward * speed);
-
+        PV = GetComponent<PhotonView>();
+        
+       // GetComponent<Rigidbody>().AddForce(GunManager.gunManager.firePoint.forward * speed);        
+       // GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
     }
-
-
+        
+    private void OnEnable()
+    {        
+       // rb.AddForce(GunManager.gunManager.firePoint.forward * speed);
+        rb.AddForce(transform.forward * speed);
+    }
 
     private void OnBecameInvisible()
     {
         Enqueue();
     }
+
     private void OnDisable()
     {
         tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         rb.Sleep();
-    }
-    private void Start()
-    {
-        GetComponent<Rigidbody>().AddForce(transform.forward * speed);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -75,17 +76,24 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
 
 
     }
-
+    private void Update()
+    {
+        if (!PV.IsMine) return;
+    }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);         
+            stream.SendNext(transform.rotation);   
+           // stream.SendNext(transform.localPosition);
+           // stream.SendNext(transform.localRotation);
         }       
-        else if (stream.IsReading)
+        else 
         {
-            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());            
+            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());    
+            //this.transform.localPosition = (Vector3)stream.ReceiveNext();
+           // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
