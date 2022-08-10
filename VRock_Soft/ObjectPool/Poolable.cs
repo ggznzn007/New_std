@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 
 public class Poolable : MonoBehaviourPun
-{
+{ 
     protected BulletPool pool;
 
     public virtual void CreateBullet(BulletPool pool)
@@ -26,4 +26,6 @@ public class Poolable : MonoBehaviourPun
     {
         pool.Enqueue(this);
     }
+
+   
 }
