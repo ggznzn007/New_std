@@ -9,18 +9,19 @@ using TMPro;
 
 public class Poolable : MonoBehaviourPun
 { 
-    protected BulletPool pool;
+    protected BulletPool pool;    
 
     public virtual void CreateBullet(BulletPool pool)
-    {
-        this.pool = pool;
+    {        
+        this.pool = pool;       
         gameObject.SetActive(false);
     }
 
-   /* public virtual void Push()
-    {
-        pool.Push(this);
-    }*/
+    
+    /* public virtual void Push()
+     {
+         pool.Push(this);
+     }*/
 
     public virtual void Enqueue()
     {
