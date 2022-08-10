@@ -8,7 +8,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-public class AvatarHand_R : MonoBehaviourPun, IPunObservable
+public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하는 스크립트
 {
     public InputDevice targetDevice;
     public SkinnedMeshRenderer[] avatarRightHand;
@@ -30,20 +30,13 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable
 
     private void FixedUpdate()
     {
-        
+        /*if (!photonView.IsMine) return;
         if (photonView.IsMine)
         {
             IfGriped_HideHand();
             //photonView.RPC("RPC_IfGriped_HideHand", RpcTarget.AllBuffered, avatarRightHand,targetDevice);
-        }
-        else
-        {          
-           
-             //   avatarRightHand[0].forceRenderingOff = true;
-              //  avatarRightHand[1].forceRenderingOff = true;
-                     
-           
-        }
+        }*/
+       
         
         /*if (photonView.IsMine)
         {
