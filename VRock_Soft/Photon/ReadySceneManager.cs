@@ -217,12 +217,23 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public GunManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
+        foreach (GameObject Gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
+            if (Gun.GetPhotonView().IsMine) return Gun.GetComponent<GunManager>();
         }
         return null;
     }
+
+    /*  public AvatarHand_R FindHand()
+      {
+          foreach (GameObject Hand_R in GameObject.FindGameObjectsWithTag("RightHand"))
+          {
+              if (Hand_R.GetPhotonView().IsMine) return Hand_R.GetComponent<AvatarHand_R>();
+          }
+          return null;
+      }*/
+
+
 
     void OnPhotonInstaniate(PhotonMessageInfo info)
     {

@@ -57,8 +57,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (!PV.IsMine)
-        { return; }        
+        if (!PV.IsMine) return;        
     }
 
     void SetLayerRecursively(GameObject go, int layerNum)
