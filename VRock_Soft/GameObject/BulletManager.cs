@@ -13,7 +13,7 @@ using UnityEngine.XR;
 
 
 
-public class BulletManager : Poolable  //MonoBehaviour                                   // 총알 스크립트 
+public class BulletManager : Poolable, IPunObservable  //MonoBehaviour                                   // 총알 스크립트 
 {
     public float speed;
     Transform tr;
@@ -24,13 +24,17 @@ public class BulletManager : Poolable  //MonoBehaviour                          
     {
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
+        ReadySceneManager.readySceneManager.FindGun();
 
     }
     private void OnEnable()
     {
+       
         rb.AddForce(transform.forward * speed);
 
     }
+
+
 
     private void OnBecameInvisible()
     {
@@ -70,6 +74,19 @@ public class BulletManager : Poolable  //MonoBehaviour                          
         }
 
 
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);         
+        }       
+        else if (stream.IsReading)
+        {
+            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());            
+        }
     }
 
 
