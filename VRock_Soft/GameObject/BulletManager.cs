@@ -24,7 +24,7 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
     {
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
-        ReadySceneManager.readySceneManager.FindGun();
+       
 
     }
     private void OnEnable()
