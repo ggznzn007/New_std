@@ -25,33 +25,32 @@ public class GunManager : MonoBehaviourPun, IPunObservable
     private void Awake()
     {
         gunManager = this;
-        
+        ReadySceneManager.readySceneManager.FindGun();
         // PV = GetComponent<PhotonView>();
+       
     }
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출
+       
+    }
 
-    }   
-
-   /* GunManager FindGun()
-    {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
-        {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-        }
-        return null;
-    }*/
+    /* GunManager FindGun()
+     {
+         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
+         {
+             if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
+         }
+         return null;
+     }*/
 
     public void FireBullet()
     {
         if (!photonView.IsMine) return;   
         if (photonView.IsMine)
-        {
-           
-            photonView.RPC("PunFire", RpcTarget.AllViaServer);
-           // Debug.Log("RPC_발사 성공");
+        {           
+            photonView.RPC("PunFire", RpcTarget.AllViaServer);            
         }
         
 
@@ -143,15 +142,14 @@ public class GunManager : MonoBehaviourPun, IPunObservable
     {
         audioSource.Play();// 총알 발사 소리 재생
         muzzleFlash.Play();
-        GunManager myGun = ReadySceneManager.readySceneManager.FindGun();
-
+        
         GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
         if (_bullet != null)
         {
-            _bullet.transform.SetPositionAndRotation(myGun.firePoint.position, myGun.firePoint.rotation);
+            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             //_bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             _bullet.SetActive(true);
-            //Debug.Log("RPC_Bullet 발사");
+            Debug.Log("RPC_Bullet 발사");
         }
     }
 
