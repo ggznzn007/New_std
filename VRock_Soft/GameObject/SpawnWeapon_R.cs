@@ -17,6 +17,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     public Transform attachPoint;
     public InputDevice targetDevice;
+    public int actorNumber;
     public bool weaponInIt = false;
     /*private Vector3 remotePos;
     private Quaternion remoteRot;
@@ -65,7 +66,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 {
 
                     GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
-                  
+                     myGun.GetComponent<GunManager>().actorNumber = actorNumber;
                     
                     /*GameObject myGun = Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 생성
                     myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정     */
