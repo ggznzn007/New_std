@@ -11,59 +11,58 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
-public class BulletPool : MonoBehaviourPun
+public class BulletPool : MonoBehaviourPun // 싱글 플레이 풀방식
 {
-    [SerializeField] private Poolable poolBullet;
+   /* [SerializeField] private Poolable poolBullet;
     [SerializeField] private int allocateCount;
-    private PhotonView PV;
+
     //private readonly Stack<Poolable> poolStack = new Stack<Poolable>();  // 스택 방식
     private readonly Queue<Poolable> poolQueue = new Queue<Poolable>();    // 큐   방식
 
     private void Start()
     {
-        PV = GetComponent<PhotonView>();
-        Allocate();
+        if(PN.IsConnectedAndReady)
+        {
+            Allocate();
+        }
+        
     }
 
     public void Allocate()
     {
-       if(PV.IsMine)
+
+        for (int i = 0; i < allocateCount; i++)
         {
-            for (int i = 0; i < allocateCount; i++)
-            {
-                Poolable allocateBull = Instantiate(poolBullet, this.gameObject.transform);
-                //Poolable allocateBull = Instantiate(poolBullet);
-                allocateBull.CreateBullet(this);
-                // poolStack.Push(allocateBull);
-                poolQueue.Enqueue(allocateBull);
-            }
+            Poolable allocateBull = Instantiate(poolBullet, this.gameObject.transform);
+            //Poolable allocateBull = Instantiate(poolBullet);
+            allocateBull.CreateBullet(this);
+            // poolStack.Push(allocateBull);
+            poolQueue.Enqueue(allocateBull);
         }
-        
+
+
     }
 
-    
+
 
     public GameObject Dequeue()
     {
-        if (PV.IsMine)
-        {
-            Poolable bullet = poolQueue.Dequeue();
-            //bullet.gameObject.SetActive(true);
-            return bullet.gameObject;
-        }
-        return null;
-        
+
+        Poolable bullet = poolQueue.Dequeue();
+        //bullet.gameObject.SetActive(true);
+        return bullet.gameObject;
+
+
     }
 
     public void Enqueue(Poolable bullet)
     {
-        if(PV.IsMine)
-        {
-            bullet.gameObject.SetActive(false);
-            poolQueue.Enqueue(bullet);
-        }
-       
-    }  // 큐 방식
+
+        bullet.gameObject.SetActive(false);
+        poolQueue.Enqueue(bullet);
+
+
+    }  // 큐 방식*/
 
     /* public GameObject Pop()
      {

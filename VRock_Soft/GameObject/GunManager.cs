@@ -10,11 +10,12 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-
+using static ObjectPooler;
 public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static GunManager gunManager;
-   //public GameObject bullet;
+    //public GameObject bullet;
+    public float speed;
     public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
                                            // private PhotonView PV;
@@ -28,12 +29,14 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     private void Awake()
     {
         gunManager = this;
+        //OP.PrePoolInstantiate();
     }
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
-        muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ        
+        muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ
+       
     }
 
     private void Update()
@@ -57,7 +60,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (PV.IsMine)
         {
             //PunFire(PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.AllViaServer, PV.Owner.ActorNumber);
+            PV.RPC("PunFire", RpcTarget.All, PV.Owner.ActorNumber);
         }
 
 
@@ -153,17 +156,18 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         audioSource.Play();// ÃÑ¾Ë ¹ß»ç ¼Ò¸® Àç»ý
         muzzleFlash.Play();
 
-        GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
-            _bullet.GetComponent<BulletManager>().actorNumber = actNumber;
+        //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
+        GameObject _bullet = OP.PoolInstantiate("Bullet");
+            _bullet.GetComponent<BulletManager>().actorNumber = actNumber;                           // ÃÑ¾Ë Æ÷Åæºä »ç¿ëÀÚ ¹øÈ£
+            _bullet.GetComponent<Rigidbody>().AddRelativeForce(this.firePoint.forward * speed);      // ÃÑ¾Ë ¹æÇâ ¼Óµµ
+            _bullet.transform.SetPositionAndRotation(this.firePoint.position, firePoint.rotation);   // ÃÑ¾Ë À§Ä¡
+         //   _bullet.SetActive(true);
 
-        if (_bullet != null)
+       /* if (_bullet != null)
         {
-
-            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
             //_bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
-            _bullet.SetActive(true);
             Debug.Log("RPC_Bullet ¹ß»ç");
-        }
+        }*/
     }
 
 
