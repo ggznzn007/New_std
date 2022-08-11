@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : MonoBehaviour// 싱글 플레이 풀방식
 {
-    private static PoolManager poolManager;
+    /*private static PoolManager poolManager;
     public static PoolManager PoolingManager
     {
         get
-        { 
+        {
             return poolManager;
         }
     }
@@ -17,11 +17,11 @@ public class PoolManager : MonoBehaviour
 
     private void Awake()
     {
-        if(poolManager)
+        if (poolManager)
         {
             Destroy(gameObject);
             return;
         }
         poolManager = this;
-    }
+    }*/
 }
