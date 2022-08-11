@@ -11,9 +11,9 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
+using static ObjectPooler;
 
-
-public class BulletManager : Poolable, IPunObservable  //MonoBehaviour                                   // 총알 스크립트 
+public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
 {
     public float speed;
     Transform tr;
@@ -21,6 +21,7 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
     public ParticleSystem exploreEffet;
     public int actorNumber;
     private PhotonView PV;
+  
     private void Awake()
     {
         tr = GetComponent<Transform>();
@@ -29,20 +30,22 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
     private void Start()
     {
         PV = GetComponent<PhotonView>();
-        
-       // GetComponent<Rigidbody>().AddForce(GunManager.gunManager.firePoint.forward * speed);        
-       // GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
+        //OP.PrePoolInstantiate();
+      // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
+        //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
     }
         
     private void OnEnable()
     {        
-       // rb.AddForce(GunManager.gunManager.firePoint.forward * speed);
-        rb.AddForce(transform.forward * speed);
+          //rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
+        // rb.AddRelativeForce(transform.forward * speed);        
     }
 
     private void OnBecameInvisible()
     {
-        Enqueue();
+        //Enqueue();
+        OP.PoolDestroy(this.gameObject);
+
     }
 
     private void OnDisable()
@@ -64,7 +67,9 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
 
             Destroy(effect, 1f);
 
-            Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+           OP.PoolDestroy(this.gameObject);
+
 
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
             // ShowEffect(collision); // 이펙트 메서드 
@@ -110,6 +115,10 @@ public class BulletManager : Poolable, IPunObservable  //MonoBehaviour          
         // 폭발 효과 생성
         Instantiate(exploreEffet, contact.point, rot);
     }*/
-
+    [PunRPC]
+    void SetActiveRPC(bool bull)
+    {
+        gameObject.SetActive(bull);
+    }
 }
 
