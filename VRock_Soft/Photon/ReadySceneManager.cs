@@ -9,7 +9,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+//using static ObjectPooler;
 public class ReadySceneManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
 {
     public static ReadySceneManager readySceneManager;                                          // 싱글턴
@@ -20,7 +20,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     public GameObject localPlayer;
     public GameObject RedTeam;
     public GameObject BlueTeam;
-    public GameObject fadeScreen;
+    public GameObject fadeScreen;    
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
@@ -100,16 +100,16 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
                  PN.LeaveRoom();
              }
          }*/
-        if(PN.InRoom)
+        if (PN.InRoom)
         {
             if (PN.IsMasterClient)
             {
-                PN.LoadLevel("GunShooting");                
+                PN.LoadLevel("GunShooting");
                 PN.AutomaticallySyncScene = true;
             }
         }
-        
-       
+
+
     }
 
 
@@ -158,8 +158,11 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         localPlayer.SetActive(false);
         mainBG.SetActive(true);
         startUI.SetActive(true);
+        
+
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
+
             if (isRed)
             {
                 SpawnRedPlayer();
@@ -206,7 +209,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
         //PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
         GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-        
+
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)

@@ -14,21 +14,23 @@ using Antilatency.TrackingAlignment;
 using Antilatency.DeviceNetwork;
 using Antilatency.Alt;
 using Antilatency.SDK;
-
+using static ObjectPooler;
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
- {
+{
     public static PlayerNetworkSetup NetPlayer;
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
-   /* public GameObject AvatarHand_L;
-    public GameObject AvatarHand_R;
-*/
-    private PhotonView PV;    
+    /* public GameObject AvatarHand_L;
+     public GameObject AvatarHand_R;
+ */
+    private PhotonView PV;
 
     public void Awake()
     {
-        NetPlayer = this;  
+
+
+        NetPlayer = this;
         PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
@@ -43,21 +45,25 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             LocalXRRigGameObject.SetActive(false);
             SetLayerRecursively(go: AvatarHead, 0);
             SetLayerRecursively(go: AvatarBody, 0);
-           /* SetLayerRecursively(go: AvatarHand_L, 0);
-            SetLayerRecursively(go: AvatarHand_R, 0);*/
+            /* SetLayerRecursively(go: AvatarHand_L, 0);
+             SetLayerRecursively(go: AvatarHand_R, 0);*/
         }
 
     }
 
     private void Start()
     {
+        if(PN.InRoom)
+        {
+            OP.PrePoolInstantiate();
+        }    
         
     }
-       
+
 
     private void Update()
     {
-        if (!PV.IsMine) return;        
+        if (!PV.IsMine) return;
     }
 
     void SetLayerRecursively(GameObject go, int layerNum)
@@ -69,7 +75,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         }
     }
 
-   
 
-    
+
+
 }
