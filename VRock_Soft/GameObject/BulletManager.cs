@@ -19,7 +19,7 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
     Transform tr;
     Rigidbody rb;
     public ParticleSystem exploreEffet;
-    public int actorNumber;
+   // public int actorNumber;
     private PhotonView PV;
   
     private void Awake()
@@ -34,17 +34,18 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
       // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
         //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
     }
-        
-    private void OnEnable()
-    {        
-          //rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
+
+  /*  private void OnEnable()
+    {
+        rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
         // rb.AddRelativeForce(transform.forward * speed);        
-    }
+    }*/
 
     private void OnBecameInvisible()
     {
         //Enqueue();
-        OP.PoolDestroy(this.gameObject);
+        // OP.PoolDestroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
 
     }
 
@@ -52,6 +53,7 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
     {
         tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         rb.Sleep();
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -67,8 +69,9 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
 
             Destroy(effect, 1f);
 
-             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
-           OP.PoolDestroy(this.gameObject);
+            //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+            //OP.PoolDestroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
 
 
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
@@ -116,7 +119,7 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
         Instantiate(exploreEffet, contact.point, rot);
     }*/
     [PunRPC]
-    void SetActiveRPC(bool bull)
+   public void SetActiveRPC(bool bull)
     {
         gameObject.SetActive(bull);
     }
