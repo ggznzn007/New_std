@@ -65,8 +65,9 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 if (photonView.IsMine) // 자기 자신의 것일 때만
                 {
 
-                    GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
-                     myGun.GetComponent<GunManager>().actorNumber = actorNumber;
+                    GameObject myGun = PN.Instantiate(gunPrefab.name, attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
+                   // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
+                    // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
                     
                     /*GameObject myGun = Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 생성
                     myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정     */
