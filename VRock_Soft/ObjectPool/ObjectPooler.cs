@@ -8,65 +8,92 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
 
-public class ObjectPooler : MonoBehaviourPun
+public class ObjectPooler : MonoBehaviourPun//, IPunPrefabPool
 {
-    [System.Serializable]
+    /* [System.Serializable]
 
-    public class Pool
+     public class Pool
+     {
+         public string tag;
+         public GameObject prefab;
+         public int size;
+     }
+
+     public static ObjectPooler OP;
+     //public Transform firePoint;
+     void Awake() => OP = this;
+
+     public List<Pool> pools;
+     public Dictionary<string, Queue<GameObject>> poolDictionary;
+     public Queue<GameObject> myObj = new Queue<GameObject>();
+
+     public void PrePoolInstantiate()                                             // 포톤서버에서 총알을 미리 생성해서 풀에 저장
+     {
+         poolDictionary = new Dictionary<string, Queue<GameObject>>();
+         foreach(Pool pool in pools)
+         {
+             Queue<GameObject> objectPool = new Queue<GameObject>();
+             for (int i = 0; i < pool.size; i++)
+             {
+                 GameObject obj = PN.Instantiate(pool.tag, transform.position, transform.rotation);
+                 //GameObject obj = PN.Instantiate(pool.tag, firePoint.position, firePoint.rotation);
+                 obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);  // RPC총알을 비활성화
+                 objectPool.Enqueue(obj);                                                   // 생성한 총알을 큐에 저장
+                 Debug.Log("총알 생성(비활성화)");
+             }
+             poolDictionary.Add(pool.tag, objectPool);
+         }
+     }
+
+     public GameObject PoolInstantiate(string tag)  // 풀에 저장된 총알을 활성화하여 사용
+     {
+         if(!poolDictionary.ContainsKey(tag))
+         {
+             Debug.LogWarning($"풀에 해당 {tag}가 존재하지 않습니다.");
+             return null;
+         }
+
+         GameObject obj = poolDictionary[tag].Dequeue();
+         obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, true);      // RPC총알을 활성화
+         // obj.transform.position = GunManager.gunManager.firePoint.position;
+         // obj.transform.rotation = GunManager.gunManager.firePoint.rotation;
+         //obj.transform.SetPositionAndRotation(position, rotation);                     // RPC총알의 위치
+         poolDictionary[tag].Enqueue(obj);                                            // 사용된 총알 다시 큐로 저장
+         Debug.Log("총알 생성(활성화)");
+         return obj;
+     }
+
+     public void PoolDestroy(GameObject obj)                                                // 사용한 총알을 다시 풀에 저장
+     {
+         obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);    // 사용된 총알 다시 비활성화
+
+         Debug.Log("사용된 총알(비활성화)");
+     }*/
+
+    /*public List<GameObject> preFablist;
+
+    private void Start()
     {
-        public string tag;
-        public GameObject prefab;
-        public int size;
+        PN.PrefabPool = this;
     }
-
-    public static ObjectPooler OP;
-    //public Transform firePoint;
-    void Awake() => OP = this;
-
-    public List<Pool> pools;
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
-    public Queue<GameObject> myObj = new Queue<GameObject>();
-
-    public void PrePoolInstantiate()                                             // 포톤서버에서 총알을 미리 생성해서 풀에 저장
+    public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
-        foreach(Pool pool in pools)
+        foreach(var bull in preFablist)
         {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
-            for (int i = 0; i < pool.size; i++)
+            if(bull.name == prefabId)
             {
-                GameObject obj = PN.Instantiate(pool.tag, Vector3.zero, Quaternion.identity);
-                //GameObject obj = PN.Instantiate(pool.tag, firePoint.position, firePoint.rotation);
-                obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);  // RPC총알을 비활성화
-                objectPool.Enqueue(obj);                                                   // 생성한 총알을 큐에 저장
-                Debug.Log("총알 생성(비활성화)");
+                var go = Instantiate(bull, position, rotation);
+                go.SetActive(false);
+                Debug.Log("포톤프리팹풀생성");
+                return go;
             }
-            poolDictionary.Add(pool.tag, objectPool);
         }
+        return null;
     }
 
-    public GameObject PoolInstantiate(string tag)//,Vector3 position, Quaternion rotation)  // 풀에 저장된 총알을 활성화하여 사용
+    public void Destroy(GameObject go)
     {
-        if(!poolDictionary.ContainsKey(tag))
-        {
-            Debug.LogWarning($"풀에 해당 {tag}가 존재하지 않습니다.");
-            return null;
-        }
-
-        GameObject obj = poolDictionary[tag].Dequeue();
-        obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, true);      // RPC총알을 활성화
-       // obj.transform.position = GunManager.gunManager.firePoint.position;
-       // obj.transform.rotation = GunManager.gunManager.firePoint.rotation;
-        //obj.transform.SetPositionAndRotation(position, rotation);                     // RPC총알의 위치
-        poolDictionary[tag].Enqueue(obj);                                            // 사용된 총알 다시 큐로 저장
-        Debug.Log("총알 생성(활성화)");
-        return obj;
-    }
-
-    public void PoolDestroy(GameObject obj)                                                // 사용한 총알을 다시 풀에 저장
-    {
-        obj.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);    // 사용된 총알 다시 비활성화
-        Debug.Log("사용된 총알(비활성화)");
-    }
-  
+        Debug.Log("포톤프리팹풀파괴");
+        GameObject.Destroy(obj: go);
+    }*/
 }

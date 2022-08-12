@@ -9,7 +9,7 @@ using TMPro;
 
 public class Poolable : MonoBehaviourPun  // 싱글 플레이 풀방식
 {
-  /*  protected BulletPool pool;
+    protected BulletPool pool;
 
     public virtual void CreateBullet(BulletPool pool)
     {
@@ -20,13 +20,13 @@ public class Poolable : MonoBehaviourPun  // 싱글 플레이 풀방식
 
     public virtual void Push()
     {
-       // pool.Push(this);
+        // pool.Push(this);
     }
 
     public virtual void Enqueue()
     {
         pool.Enqueue(this);
-    }*/
+    }
 
 
 }
