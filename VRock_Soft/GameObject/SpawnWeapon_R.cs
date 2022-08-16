@@ -49,7 +49,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     {
         if (other.CompareTag("ItemBox"))
         {
-            Debug.Log("아이템박스 태그 시작");
+           // Debug.Log("아이템박스 태그 시작");
         }
     }
 
@@ -65,7 +65,8 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 if (photonView.IsMine) // 자기 자신의 것일 때만
                 {
 
-                    GameObject myGun = PN.Instantiate(gunPrefab.name, attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
+                    GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
+                    myGun.GetPhotonView().OwnerActorNr = actorNumber;
                    // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
                     // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
                     
@@ -106,7 +107,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     {
         if (other.CompareTag("ItemBox"))
         {
-            Debug.Log("아이템박스 태그 종료");
+           // Debug.Log("아이템박스 태그 종료");
         }
     }
 

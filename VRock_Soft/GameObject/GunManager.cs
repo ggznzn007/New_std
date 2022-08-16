@@ -25,9 +25,9 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     /*private Vector3 remotePos;
     private Quaternion remoteRot;
     private float intervalSpeed = 20;*/
-    
+
     private PhotonView PV;
-    //public int actorNumber;
+    public int actorNumber;
     private void Awake()
     {
         gunManager = this;
@@ -37,14 +37,15 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ
-       // firePoint.GetComponent<BulletManager>();
+                                                                           // firePoint.GetComponent<BulletManager>();
         FindGun();
         //OP.PrePoolInstantiate();
     }
 
     private void Update()
     {
-        if (!photonView.IsMine) return;      
+        if (!photonView.IsMine) return;
+
     }
     public GunManager FindGun()
     {
@@ -58,22 +59,27 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
     public void FireBullet()
     {
-        if (!PV.IsMine) { return; }
+        //if (!PV.IsMine) { return; }
         if (PV.IsMine)
         {
             audioSource.Play();
             muzzleFlash.Play();
 
-            //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
             //GameObject _bullet = OP.PoolInstantiate("Bullet");
-            GameObject _bullet = PN.Instantiate(bullet.name, transform.position, transform.rotation);
+            //GameObject _bullet = PN.Instantiate(bullet.name, firePoint.position, firePoint.rotation);
+            GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
+            //GameObject _bullet = PN.Instantiate("Bullet", firePoint.transform.position, firePoint.transform.rotation);
             _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);   // ÃÑ¾Ë À§Ä¡
-            _bullet.GetComponent<Rigidbody>().AddRelativeForce(firePoint.forward * speed);      // ÃÑ¾Ë ¹æÇâ ¼Óµµ
-            //PunFire();
+            //_bullet.GetPhotonView().ViewID = photonView.ViewID++;         
+            _bullet.GetPhotonView().OwnerActorNr = actorNumber;            
+            _bullet.GetPhotonView().ControllerActorNr = actorNumber;            
+            
+            _bullet.transform.GetComponent<Rigidbody>().AddForce(firePoint.forward * speed);
+            _bullet.SetActive(true);
             Debug.Log("Bullet ¹ß»ç");
-          //PV.RPC("PunFire", RpcTarget.All, PV.Owner.ActorNumber);
+            PV.RPC("PunFire", RpcTarget.Others);
         }
-       
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -84,14 +90,14 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             {
                 if (!griped)
                 {
-                    if (photonView.IsMine)
+                    if (PV.IsMine)
                     {
-                        photonView.RPC("DestroyGun_Delay", RpcTarget.AllViaServer);
+                        PV.RPC("DestroyGun_Delay", RpcTarget.All);
                         //DestroyGun_Delay();
                         //PN.Destroy(this.gameObject);
                         SpawnWeapon_L.leftWeapon.weaponInIt = false;
                         SpawnWeapon_R.rightWeapon.weaponInIt = false;
-                        Debug.Log("ÃÑ ÆÄ±«µÊ");
+                        //Debug.Log("ÃÑ ÆÄ±«µÊ");
                     }
 
                 }
@@ -102,7 +108,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }
 
-   
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -119,36 +125,34 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }
 
-   /* [PunRPC]
+    [PunRPC]
     public void PunFire()
     {
-
         audioSource.Play();
         muzzleFlash.Play();
 
-        //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
-        GameObject _bullet = OP.PoolInstantiate("Bullet", this.firePoint.position, this.firePoint.rotation);
-        _bullet.transform.SetPositionAndRotation(this.firePoint.position, firePoint.rotation);   // ÃÑ¾Ë À§Ä¡
-        _bullet.GetComponent<Rigidbody>().AddRelativeForce(this.firePoint.forward * speed);      // ÃÑ¾Ë ¹æÇâ ¼Óµµ
+        // _bullet.SetActive(true);
+
         //_bullet.GetComponent<BulletManager>().actorNumber = actNumber;                           // ÃÑ¾Ë Æ÷Åæºä »ç¿ëÀÚ ¹øÈ£
-       *//* _bullet.SetActive(true);
 
-        if (_bullet != null)
-        {
-            //_bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+        /* if (_bullet != null)
+         {
+             //_bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
 
-        }*//*
-    }*/
+         }*/
+    }
 
     [PunRPC]
     public void DestroyGun_Delay()                  // ÃÑ ÆÄ±« ½Ã°£ µô·¹ÀÌ ¸Þ¼­µå
     {
         StartCoroutine(DestoryPN_Gun());
+
     }
     public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1.1f);
-        PN.Destroy(gameObject);
+        Destroy(gameObject);
+        //Debug.Log("Æ÷ÅæÇÁ¸®ÆÕÇ®ÆÄ±«");
         // Destroy(gameObject);
     }
 

@@ -11,17 +11,16 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
-using static ObjectPooler;
 
-public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
+public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
 {
     public float speed;
     Transform tr;
     Rigidbody rb;
     public ParticleSystem exploreEffet;
-   // public int actorNumber;
+    // public int actorNumber;
     private PhotonView PV;
-  
+
     private void Awake()
     {
         tr = GetComponent<Transform>();
@@ -31,29 +30,38 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
     {
         PV = GetComponent<PhotonView>();
         //OP.PrePoolInstantiate();
-      // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
-        //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
+        // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
+      //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
     }
 
-  /*  private void OnEnable()
+    private void OnEnable()  //풀링할때 
     {
-        rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
-        // rb.AddRelativeForce(transform.forward * speed);        
-    }*/
+        // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
+        rb.AddForce(transform.forward * speed);
+
+    }
 
     private void OnBecameInvisible()
     {
         //Enqueue();
         // OP.PoolDestroy(this.gameObject);
-        GameObject.Destroy(this.gameObject);
 
+        //Destroy(gameObject);
+        //PN.Destroy(photonView);
+       /* if (GetComponent<PhotonView>().IsMine)
+        {
+            PN.Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }*/
     }
 
     private void OnDisable()
     {
-        tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         rb.Sleep();
-        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -67,19 +75,24 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
             // 충돌 지점에 이펙트 생성
             var effect = Instantiate(exploreEffet, contact.point, Quaternion.LookRotation(-contact.normal));
 
-            Destroy(effect, 1f);
+            Destroy(effect, 0.8f);
 
-            //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+           // PV.RPC("LocalDestruction", RpcTarget.All);
+
+            //PN.Destroy(photonView);
+            Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
-            GameObject.Destroy(this.gameObject);
-
+            //Destroy(gameObject);
+           
 
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
             // ShowEffect(collision); // 이펙트 메서드 
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
-            Debug.Log("콜라이더 태그됨");
+            Debug.Log("목표물에 명중");
+            Debug.Log("총알 파괴");
+
         }
 
 
@@ -93,19 +106,27 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);   
-           // stream.SendNext(transform.localPosition);
-           // stream.SendNext(transform.localRotation);
-        }       
-        else 
+            stream.SendNext(transform.rotation);
+            // stream.SendNext(transform.localPosition);
+            // stream.SendNext(transform.localRotation);
+        }
+        else
         {
-            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());    
+
+            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
             //this.transform.localPosition = (Vector3)stream.ReceiveNext();
-           // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
+            // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
-
+    /*[PunRPC]
+    public void LocalDestruction() => PN.Destroy(gameObject.GetPhotonView());*/
+    /*
+        [PunRPC]
+        void DestroyBullet()
+        {
+            PN.Destroy(photonView.gameObject);
+        }*/
 
     /*public void ShowEffect(Collision collision)   // 이펙트 메서드 버전
     {
@@ -118,10 +139,10 @@ public class BulletManager : MonoBehaviourPun, IPunObservable //MonoBehaviourPun
         // 폭발 효과 생성
         Instantiate(exploreEffet, contact.point, rot);
     }*/
-    [PunRPC]
-   public void SetActiveRPC(bool bull)
+    /*[PunRPC]
+    public void SetActiveRPC(bool bull)
     {
         gameObject.SetActive(bull);
-    }
+    }*/
 }
 
