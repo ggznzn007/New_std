@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour// 싱글 플레이 풀방식
 {
-    private static PoolManager poolManager;
+   /* private static PoolManager poolManager;
     public static PoolManager PoolingManager
     {
         get
@@ -23,5 +23,5 @@ public class PoolManager : MonoBehaviour// 싱글 플레이 풀방식
             return;
         }
         poolManager = this;
-    }
+    }*/
 }
