@@ -9,7 +9,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
-//using static ObjectPooler;
+using static ObjectPooler;
 public class ReadySceneManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
 {
     public static ReadySceneManager readySceneManager;                                          // 싱글턴
@@ -20,7 +20,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     public GameObject localPlayer;
     public GameObject RedTeam;
     public GameObject BlueTeam;
-    public GameObject fadeScreen;    
+    public GameObject fadeScreen;
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
@@ -38,20 +38,16 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             Destroy(this.gameObject);
         }
         readySceneManager = this;
-        StartToServer();                                                            // 게임시작과 동시에 서버연결
+        PN.SendRate = 60;
+        PN.SerializationRate = 30;
+        StartToServer();// 게임시작과 동시에 서버연결
     }
     public void StartToServer()                                                     // 서버연결 메서드
     {
         //PN.ConnectUsingSettings();
         PN.ConnectToMaster(masterAddress, portNum, appID);
         PN.GameVersion = gameVersion;
-        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
-
-        for (int i = 0; i < NickNumber.Length; i++)
-        {
-            //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
-            PN.NickName = NickNumber[i] + "번 VRock플레이어";
-        }
+        
 
     }
     #endregion 유니티 메서드 끝 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,18 +67,18 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         isRed = true;
         fadeScreen.SetActive(true);
         teamSelectUI.SetActive(false);
-        PN.JoinRoom("LobbyRoom");
-        //RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
-        //PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);        
+        //PN.JoinRoom("LobbyRoom");
+        RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
+        PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);        
     }
     public void InitiliazeRoomBlueTeam()      // 블루팀 버튼                            // 로비 진입 후 팀선택 패널에서 블루팀선택 메서드
     {
         isRed = false;
         fadeScreen.SetActive(true);
         teamSelectUI.SetActive(false);
-        PN.JoinRoom("LobbyRoom");
-        //RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
-        // PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);
+        //PN.JoinRoom("LobbyRoom");
+        RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
+        PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);
     }
 
     public void EnterGunShooting()
@@ -99,7 +95,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
                  // PN.Destroy(BlueTeam);                
                  PN.LeaveRoom();
              }
-         }*/
+         }*//*
         if (PN.InRoom)
         {
             if (PN.IsMasterClient)
@@ -107,8 +103,11 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
                 PN.LoadLevel("GunShooting");
                 PN.AutomaticallySyncScene = true;
             }
+        }*/
+        if(PN.IsConnected)
+        {
+            PN.Disconnect();
         }
-
 
     }
 
@@ -119,8 +118,16 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     #region 포톤 서버 콜백 메서드 시작///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
-        //Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
-        Debug.Log($"{PN.NickName} 서버에 접속하였습니다.");
+        
+        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
+
+        for (int i = 0; i < NickNumber.Length; i++)
+        {
+            //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
+        }
+
+        Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
         Debug.Log("서버상태 : " + PN.NetworkClientState);
         PN.JoinLobby();
     }
@@ -129,7 +136,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     {
         teamSelectUI.SetActive(true);
         //Debug.Log($"{PN.LocalPlayer.NickName} 로비에 입장하였습니다.");        
-        Debug.Log($"{PN.NickName} 로비에 입장하였습니다.");
+        Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
 
     }
 
@@ -154,11 +161,19 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public override void OnJoinedRoom()                                               // 방에 들어갔을 때 호출되는 메서드
     {
+        /* if (!PN.InRoom) { return; }
+         if(PN.IsMasterClient)
+         {
+
+         }*/
+       // OP.PrePoolInstantiate();
         Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
         localPlayer.SetActive(false);
         mainBG.SetActive(true);
         startUI.SetActive(true);
-        
+
+
+
 
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
@@ -169,9 +184,12 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             }
             else
             {
+
                 SpawnBluePlayer();
             }
         }
+
+        //if(PlayerNetworkSetup.NetP)
 
     }
 
@@ -189,7 +207,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         }
 
         //PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
-        GameObject myPlayer = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
+        PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
 
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
@@ -207,8 +225,9 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
-        //PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-        GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
+        PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
+        //PN.Instantiate(BlueTeam.name, Vector3.zero, Quaternion.identity);
+        //GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
 
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
@@ -247,14 +266,17 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
         //Debug.LogError("방을 나갔습니다.");
 
-        SceneManager.LoadScene("GunShooting");
+        //SceneManager.LoadScene("GunShooting");
         // Debug.LogError("방을 나갔습니다.");
-
+        //PN.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         // PN.LoadLevel("StartScene");
+       // PN.LeaveRoom();
+        Debug.Log("방을 나갔습니다.");
+        PN.JoinLobby();
     }
 
 
@@ -269,7 +291,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public void OnApplicationQuit()
     {
-        if (PN.InRoom)
+        if (PN.IsConnected)
         {
             if (PN.IsMasterClient && PN.CurrentRoom.PlayerCount > 1)
             {
