@@ -16,7 +16,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 {
     public static GunManager gunManager;
     public GameObject bullet;
-    public float speed;
+    public float speed;    
     public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
                                            // private PhotonView PV;
@@ -64,20 +64,21 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         {
             audioSource.Play();
             muzzleFlash.Play();
-
+            PN.Instantiate("Bullet",firePoint.position, firePoint.rotation)
+                .GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
             //GameObject _bullet = OP.PoolInstantiate("Bullet");
             //GameObject _bullet = PN.Instantiate(bullet.name, firePoint.position, firePoint.rotation);
-            GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
+            //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
             //GameObject _bullet = PN.Instantiate("Bullet", firePoint.transform.position, firePoint.transform.rotation);
-            _bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);   // ÃÑ¾Ë À§Ä¡
+            //_bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);   // ÃÑ¾Ë À§Ä¡
             //_bullet.GetPhotonView().ViewID = photonView.ViewID++;         
-            _bullet.GetPhotonView().OwnerActorNr = actorNumber;            
-            _bullet.GetPhotonView().ControllerActorNr = actorNumber;            
-            
-            _bullet.transform.GetComponent<Rigidbody>().AddForce(firePoint.forward * speed);
-            _bullet.SetActive(true);
+            // _bullet.GetPhotonView().OwnerActorNr = actorNumber;            
+            // _bullet.GetPhotonView().ControllerActorNr = actorNumber;            
+
+            // _bullet.transform.GetComponent<Rigidbody>().AddForce(firePoint.forward * speed);
+            //  _bullet.SetActive(true);
             Debug.Log("Bullet ¹ß»ç");
-            PV.RPC("PunFire", RpcTarget.Others);
+            //PV.RPC("PunFire", RpcTarget.Others);
         }
 
     }
@@ -92,7 +93,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
                 {
                     if (PV.IsMine)
                     {
-                        PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                        PV.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
                         //DestroyGun_Delay();
                         //PN.Destroy(this.gameObject);
                         SpawnWeapon_L.leftWeapon.weaponInIt = false;
