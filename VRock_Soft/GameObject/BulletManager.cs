@@ -12,34 +12,37 @@ using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 
-public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
+public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
 {
-    public float speed;
-    Transform tr;
+    public float speed;    
+   // Transform tr;
     Rigidbody rb;
-    public ParticleSystem exploreEffet;
+    public ParticleSystem exploreEffect;
     // public int actorNumber;
-    private PhotonView PV;
+    public PhotonView PV;
+    public Transform firePoint;
 
     private void Awake()
     {
-        tr = GetComponent<Transform>();
-        rb = GetComponent<Rigidbody>();
+       // tr = GetComponent<Transform>();
+       
     }
     private void Start()
     {
         PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, 1.2f);
         //OP.PrePoolInstantiate();
         // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
-      //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * speed);        
+      //GetComponent<Rigidbody>().AddForce(transform.forward * speed);        
     }
 
-    private void OnEnable()  //풀링할때 
+   /* private void OnEnable()  //풀링할때 
     {
         // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
         rb.AddForce(transform.forward * speed);
 
-    }
+    }*/
 
     private void OnBecameInvisible()
     {
@@ -58,33 +61,40 @@ public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //Mon
         }*/
     }
 
-    private void OnDisable()
+   /* private void OnDisable()
     {
         //tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         rb.Sleep();
+    }*/
+    private void Update()
+    {
+        if (!PV.IsMine) return;
+        //transform.Translate(firePoint.forward * speed * Time.deltaTime );
+      // transform.GetComponent<Rigidbody>().AddRelativeForce(firePoint.forward * speed ,ForceMode.Force);
+        rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+
+    private void OnCollisionEnter(Collision coll)
     {
         // 터지는 이펙트 보여지고
-        if (collision.collider.CompareTag("Cube"))
+        if (coll.collider.CompareTag("Cube"))//&&col.collider.GetComponent<PhotonView>().IsMine)
         {
-            // 충돌 지점 추출
-            var contact = collision.GetContact(0);
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = coll.contacts[0];
 
-            // 충돌 지점에 이펙트 생성
-            var effect = Instantiate(exploreEffet, contact.point, Quaternion.LookRotation(-contact.normal));
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);           
 
-            Destroy(effect, 0.8f);
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
 
-           // PV.RPC("LocalDestruction", RpcTarget.All);
+            Destroy(effect, 0.5f);
 
-            //PN.Destroy(photonView);
-            Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
-            //Destroy(gameObject);
-           
-
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
             // ShowEffect(collision); // 이펙트 메서드 
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
@@ -92,16 +102,48 @@ public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //Mon
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
             Debug.Log("목표물에 명중");
             Debug.Log("총알 파괴");
+        }
+
+        if (!PV.IsMine && coll.collider.CompareTag("Player") && coll.collider.GetComponent<PhotonView>().IsMine)
+        {
+
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = coll.contacts[0];
+
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
+            Destroy(effect, 0.5f);
+
+            coll.collider.GetComponent<MultiplayerVRSynchronization>().HitPlayer();
+            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            Destroy(effect, 0.5f);
+            Debug.Log("적에게 명중");
 
         }
 
 
     }
-    private void Update()
+
+
+    [PunRPC]
+    void BulletDir(float speed)//,int addSpeed)
     {
-        if (!PV.IsMine) return;
+        this.speed = speed;
+       // this.addSpeed = addSpeed;
     }
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+
+    [PunRPC]
+    void DestroyBullet() => Destroy(gameObject);
+
+    /*[PunRPC]
+    void DestoroyEffect() =>Destroy(exploreEffect);*/
+
+
+    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -117,7 +159,7 @@ public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //Mon
             //this.transform.localPosition = (Vector3)stream.ReceiveNext();
             // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
         }
-    }
+    }*/
 
     /*[PunRPC]
     public void LocalDestruction() => PN.Destroy(gameObject.GetPhotonView());*/
@@ -138,6 +180,16 @@ public class BulletManager : Poolable, IPunObservable //MonoBehaviourPun   //Mon
 
         // 폭발 효과 생성
         Instantiate(exploreEffet, contact.point, rot);
+
+     Collision collision = new Collision();  // 충돌지점 추출 메서드
+            // 충돌 지점 추출
+            var contact = collision.GetContact(0);
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, Quaternion.LookRotation(-contact.normal));
+
+            Destroy(effect, 0.5f);
+
     }*/
     /*[PunRPC]
     public void SetActiveRPC(bool bull)
