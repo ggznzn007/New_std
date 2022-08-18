@@ -21,14 +21,18 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
+    //public Rigidbody RB;
+    public PhotonView PV;
+    public Text Nickname;
+   // public Image HP;
     /* public GameObject AvatarHand_L;
      public GameObject AvatarHand_R;
  */
-    private PhotonView PV;
 
     public void Awake()
     {
-
+        Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;
+        Nickname.color = PV.IsMine ? Color.white : Color.red;
 
         NetPlayer = this;
         PV = GetComponent<PhotonView>();
@@ -53,11 +57,11 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if(PN.InRoom)
+        if (PV.IsMine)
         {
-            OP.PrePoolInstantiate();
-        }    
-        
+           // OP.PrePoolInstantiate();
+        }
+
     }
 
 
@@ -75,7 +79,9 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         }
     }
 
+ 
 
+   
 
-
+   
 }
