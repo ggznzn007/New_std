@@ -13,7 +13,7 @@ using UnityEngine.XR;
 
 public class BulletPool : MonoBehaviourPun // 싱글 플레이 풀방식
 {
-    [SerializeField] private Poolable poolBullet;
+    /*[SerializeField] private Poolable poolBullet;
     [SerializeField] private int allocateCount;
 
     //private readonly Stack<Poolable> poolStack = new Stack<Poolable>();  // 스택 방식
@@ -53,7 +53,7 @@ public class BulletPool : MonoBehaviourPun // 싱글 플레이 풀방식
         poolQueue.Enqueue(bullet);
 
 
-    }  // 큐 방식
+    }  // 큐 방식*/
 
     /* public GameObject Pop()
      {
