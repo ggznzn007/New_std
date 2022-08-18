@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
+using PN = Photon.Pun.PN;
 
 
 public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
@@ -10,7 +12,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
     private PhotonView m_PhotonView;
 
-
+    public Image HP;
 
     //Main VRPlayer Transform Synch
     [Header("Main VRPlayer Transform Synch")]
@@ -114,8 +116,23 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     //  private float m_Angle_RightHandCon;// 추가
 
 
-
-
+   public void HitPlayer()
+    {
+        HP.fillAmount -= 0.1f;
+        if (HP.fillAmount <= 0)
+        {
+            ReadySceneManager.readySceneManager.localPlayer.SetActive(true);
+            ReadySceneManager.readySceneManager.mainBG.SetActive(false);
+            ReadySceneManager.readySceneManager.startUI.SetActive(false);
+            m_PhotonView.RPC("DestroyPlayer", RpcTarget.AllBuffered);
+            Debug.Log("적에게 명중");
+        }
+    }
+    [PunRPC]
+    public void DestroyPlayer()
+    {
+        Destroy(gameObject);
+    }
 
     bool m_firstTake = false;
 
@@ -204,6 +221,8 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)// 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
         {
+
+            stream.SendNext(HP);
             //////////////////////////////////////////////////////////////////
             //General VRPlayer Transform Synch
 
@@ -290,6 +309,8 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         }
         else
         {
+
+            HP.fillAmount = (float)stream.ReceiveNext();
             ///////////////////////////////////////////////////////////////////
             //Ganeral VR Player Transform Synch
 
