@@ -33,13 +33,13 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
+        PN.SendRate = 60;
+        PN.SerializationRate = 30;
         if (readySceneManager != null && readySceneManager != this)
         {
             Destroy(this.gameObject);
         }
         readySceneManager = this;
-        PN.SendRate = 60;
-        PN.SerializationRate = 30;
         StartToServer();// 게임시작과 동시에 서버연결
     }
     public void StartToServer()                                                     // 서버연결 메서드
@@ -129,12 +129,13 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
         Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
         Debug.Log("서버상태 : " + PN.NetworkClientState);
-        PN.JoinLobby();
+        //PN.JoinLobby();
+        teamSelectUI.SetActive(true);
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
-        teamSelectUI.SetActive(true);
+       
         //Debug.Log($"{PN.LocalPlayer.NickName} 로비에 입장하였습니다.");        
         Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
 
@@ -263,7 +264,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     }
     public override void OnLeftRoom()
     {
-
+        PN.ConnectUsingSettings();
         //Debug.LogError("방을 나갔습니다.");
 
         //SceneManager.LoadScene("GunShooting");
@@ -274,9 +275,9 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     public override void OnDisconnected(DisconnectCause cause)
     {
         // PN.LoadLevel("StartScene");
-       // PN.LeaveRoom();
+       PN.LeaveRoom();
         Debug.Log("방을 나갔습니다.");
-        PN.JoinLobby();
+        //PN.JoinLobby();
     }
 
 
