@@ -15,25 +15,23 @@ using Antilatency.DeviceNetwork;
 using Antilatency.Alt;
 using Antilatency.SDK;
 using static ObjectPooler;
-public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
+public class PlayerNetworkSetup : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static PlayerNetworkSetup NetPlayer;
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody;
-    //public Rigidbody RB;
-    public PhotonView PV;
+   // public Rigidbody RB;
+    public Image HP;
     public Text Nickname;
-   // public Image HP;
+    private PhotonView PV;
     /* public GameObject AvatarHand_L;
      public GameObject AvatarHand_R;
  */
 
     public void Awake()
     {
-        Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;
-        Nickname.color = PV.IsMine ? Color.white : Color.red;
-
+       
         NetPlayer = this;
         PV = GetComponent<PhotonView>();
         if (PV.IsMine)
@@ -57,10 +55,12 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PV.IsMine)
+        if(PN.IsConnected)
         {
-           // OP.PrePoolInstantiate();
+            Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;
+            Nickname.color = PV.IsMine ? Color.white : Color.red;
         }
+           
 
     }
 
@@ -79,9 +79,34 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         }
     }
 
- 
 
-   
+    public void HitPlayer()
+    {
+        HP.fillAmount -= 0.1f;
+        if (HP.fillAmount <= 0)
+        {
+            ReadySceneManager.readySceneManager.localPlayer.SetActive(true);
+            ReadySceneManager.readySceneManager.mainBG.SetActive(false);
+            ReadySceneManager.readySceneManager.startUI.SetActive(false);
+            PV.RPC("DestroyPlayer", RpcTarget.AllBuffered);
+            Debug.Log("적에게 명중");
+        }
+    }
+    [PunRPC]
+    public void DestroyPlayer()
+    {
+        Destroy(gameObject);
+    }
 
-   
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(HP.fillAmount);
+        }
+        else
+        {
+            HP.fillAmount = (float)stream.ReceiveNext();
+        }
+    }
 }
