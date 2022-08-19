@@ -14,67 +14,26 @@ using UnityEngine.XR;
 
 public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
 {
-    public float speed;    
-   // Transform tr;
-    Rigidbody rb;
-    public ParticleSystem exploreEffect;
-    // public int actorNumber;
     public PhotonView PV;
-    public Transform firePoint;
-
-    private void Awake()
-    {
-       // tr = GetComponent<Transform>();
-       
-    }
+    public float speed;     
+    public Rigidbody rb;
+    public ParticleSystem exploreEffect;    
+    public Transform firePoint;  
+    
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 1.2f);
-        //OP.PrePoolInstantiate();
-        // GetComponent<Rigidbody>().AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);        
-      //GetComponent<Rigidbody>().AddForce(transform.forward * speed);        
+        Destroy(gameObject, 1.2f);              
     }
-
-   /* private void OnEnable()  //풀링할때 
-    {
-        // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
-        rb.AddForce(transform.forward * speed);
-
-    }*/
-
-    private void OnBecameInvisible()
-    {
-        //Enqueue();
-        // OP.PoolDestroy(this.gameObject);
-
-        //Destroy(gameObject);
-        //PN.Destroy(photonView);
-       /* if (GetComponent<PhotonView>().IsMine)
-        {
-            PN.Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }*/
-    }
-
-   /* private void OnDisable()
-    {
-        //tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        rb.Sleep();
-    }*/
+   
     private void Update()
     {
         if (!PV.IsMine) return;
         //transform.Translate(firePoint.forward * speed * Time.deltaTime );
       // transform.GetComponent<Rigidbody>().AddRelativeForce(firePoint.forward * speed ,ForceMode.Force);
-        rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+       transform.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
     }
-
-
 
     private void OnCollisionEnter(Collision coll)
     {
@@ -104,7 +63,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             Debug.Log("총알 파괴");
         }
 
-        if (!PV.IsMine && coll.collider.CompareTag("Player") && coll.collider.GetComponent<PhotonView>().IsMine)
+      /*  if (!PV.IsMine && coll.collider.CompareTag("Player") && coll.collider.GetComponent<PhotonView>().IsMine)
         {
 
             // 충돌지점의 정보를 추출
@@ -118,49 +77,82 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
             Destroy(effect, 0.5f);
 
-            coll.collider.GetComponent<MultiplayerVRSynchronization>().HitPlayer();
+            coll.collider.GetComponent<PlayerNetworkSetup>().HitPlayer();
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
             Destroy(effect, 0.5f);
             Debug.Log("적에게 명중");
 
-        }
+        }*/
 
 
     }
 
 
     [PunRPC]
-    void BulletDir(float speed)//,int addSpeed)
+   public void BulletDir(float speed)//,int addSpeed)
     {
         this.speed = speed;
        // this.addSpeed = addSpeed;
     }
 
     [PunRPC]
-    void DestroyBullet() => Destroy(gameObject);
+    public void DestroyBullet() => Destroy(gameObject);
 
     /*[PunRPC]
     void DestoroyEffect() =>Destroy(exploreEffect);*/
 
 
-    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            // stream.SendNext(transform.localPosition);
-            // stream.SendNext(transform.localRotation);
-        }
-        else
-        {
+    /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+      {
+          if (stream.IsWriting)
+          {
+              stream.SendNext(transform.position);
+              stream.SendNext(transform.rotation);
+              stream.SendNext(rb.position);
+              stream.SendNext(rb.rotation);
+              // stream.SendNext(transform.localPosition);
+              // stream.SendNext(transform.localRotation);
+          }
+          else
+          {
 
-            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
-            //this.transform.localPosition = (Vector3)stream.ReceiveNext();
-            // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
-        }
-    }*/
+              transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+              rb.position = (Vector3)stream.ReceiveNext();
+              rb.rotation = (Quaternion)stream.ReceiveNext();
+              //this.transform.localPosition = (Vector3)stream.ReceiveNext();
+              // this.transform.localRotation = (Quaternion)stream.ReceiveNext();
+          }
+      }
+  */
+    /* private void OnEnable()  //풀링할때 
+      {
+          // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
+          rb.AddForce(transform.forward * speed);
 
+      }
+
+      private void OnBecameInvisible()
+      {
+          //Enqueue();
+          // OP.PoolDestroy(this.gameObject);
+
+          //Destroy(gameObject);
+          //PN.Destroy(photonView);
+          if (GetComponent<PhotonView>().IsMine)
+          {
+              PN.Destroy(gameObject);
+          }
+          else
+          {
+              Destroy(this.gameObject);
+          }
+      }
+
+      private void OnDisable()
+      {
+          //tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+          rb.Sleep();
+      }*/
     /*[PunRPC]
     public void LocalDestruction() => PN.Destroy(gameObject.GetPhotonView());*/
     /*
