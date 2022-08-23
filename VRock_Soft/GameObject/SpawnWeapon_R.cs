@@ -58,7 +58,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     {
         if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
-            Debug.Log("아이템박스 태그 중");
+           // Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성
