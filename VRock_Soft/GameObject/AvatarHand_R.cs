@@ -8,118 +8,106 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하는 스크립트
+public class AvatarHand_R : MonoBehaviourPunCallbacks//, IPunObservable // 아바타 손 관리하는 스크립트
 {
     public InputDevice targetDevice;
-    public SkinnedMeshRenderer[] avatarRightHand;
+    public Renderer[] avatarRightHand;
+    public PhotonView PV;
 
     void Start()
     {
-
+        PV = GetComponent<PhotonView>();
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
+        avatarRightHand = GetComponentsInChildren<Renderer>();
 
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
-        }
-        
+        }        
     }
 
     private void FixedUpdate()
     {
-        /*if (!photonView.IsMine) return;
-        if (photonView.IsMine)
-        {
-            IfGriped_HideHand();
-            //photonView.RPC("RPC_IfGriped_HideHand", RpcTarget.AllBuffered, avatarRightHand,targetDevice);
-        }*/
-       
-        
-        /*if (photonView.IsMine)
-        {
-            //HideHandGriped();
-            
-        }*/
-       /* else
+        if (!PV.IsMine) return;
+        if (PV.IsMine)
+        {               
+            if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+            {
+                if (griped)
+                {
+                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, true);
+                }
+                else
+                {
+                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, false);
+                }
+            }         
+        }
+    }
+
+    [PunRPC]
+    public void RPC_IfGriped_HideHand(bool isGrip)
+    {
+        if (isGrip)
         {
             avatarRightHand[0].forceRenderingOff = true;
             avatarRightHand[1].forceRenderingOff = true;
-
-        }*/
-        /*  else
-        {
-            photonView.RPC("RPC_HideHandGriped", RpcTarget.OthersBuffered);
-        }*/
-
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-
-            // stream.SendNext(avatarRightHand[0].forceRenderingOff);
-            //stream.SendNext(avatarRightHand[1].forceRenderingOff);
-
         }
-        else if (stream.IsReading)
+        else
         {
-            stream.ReceiveNext();
-            stream.ReceiveNext();
-        }
-        else if (stream.IsReading)
-        {
-            this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
-
-            //  this.avatarRightHand[0].forceRenderingOff = (bool)stream.ReceiveNext();
-            //  this.avatarRightHand[1].forceRenderingOff = (bool)stream.ReceiveNext();
+            avatarRightHand[0].forceRenderingOff = false;
+            avatarRightHand[1].forceRenderingOff = false;
         }
     }
 
+    /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+     {
+         if (stream.IsWriting)
+         {
+             stream.SendNext(transform.position);
+             stream.SendNext(transform.rotation);
+
+             // stream.SendNext(avatarRightHand[0].forceRenderingOff);
+             //stream.SendNext(avatarRightHand[1].forceRenderingOff);
+
+         }
+         else if (stream.IsReading)
+         {
+             stream.ReceiveNext();
+             stream.ReceiveNext();
+         }
+         else if (stream.IsReading)
+         {
+             this.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+
+             //  this.avatarRightHand[0].forceRenderingOff = (bool)stream.ReceiveNext();
+             //  this.avatarRightHand[1].forceRenderingOff = (bool)stream.ReceiveNext();
+         }
+     }
+ */
 
 
-    public void IfGriped_HideHand()
-    {
+    /*  public void IfGriped_HideHand()
+      {
 
-        if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
-        {
+          if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+          {
 
-            if (griped)
-            {
-                avatarRightHand[0].forceRenderingOff = true;
-                avatarRightHand[1].forceRenderingOff = true;
-            }
-            else
-            {
-                avatarRightHand[0].forceRenderingOff = false;
-                avatarRightHand[1].forceRenderingOff = false;
-            }
-        }
+              if (griped)
+              {
+                  avatarRightHand[0].forceRenderingOff = true;
+                  avatarRightHand[1].forceRenderingOff = true;
+              }
+              else
+              {
+                  avatarRightHand[0].forceRenderingOff = false;
+                  avatarRightHand[1].forceRenderingOff = false;
+              }
+          }
 
-    }
-    [PunRPC]
-    public void RPC_IfGriped_HideHand()
-    {
+      }*/
 
-        if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
-        {
-
-            if (griped)
-            {
-                avatarRightHand[0].forceRenderingOff = true;
-                avatarRightHand[1].forceRenderingOff = true;
-            }
-            else
-            {
-                avatarRightHand[0].forceRenderingOff = false;
-                avatarRightHand[1].forceRenderingOff = false;
-            }
-        }
-
-    }
 }
