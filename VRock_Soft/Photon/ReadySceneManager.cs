@@ -171,7 +171,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
         localPlayer.SetActive(false);
         mainBG.SetActive(true);
-        startUI.SetActive(true);
+        //startUI.SetActive(true);
 
 
 
@@ -264,7 +264,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     }
     public override void OnLeftRoom()
     {
-        PN.ConnectUsingSettings();
+        PN.Disconnect();
         //Debug.LogError("방을 나갔습니다.");
 
         //SceneManager.LoadScene("GunShooting");
@@ -275,7 +275,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     public override void OnDisconnected(DisconnectCause cause)
     {
         // PN.LoadLevel("StartScene");
-       PN.LeaveRoom();
+        SceneManager.LoadScene("readyscene1");
         Debug.Log("방을 나갔습니다.");
         //PN.JoinLobby();
     }
@@ -292,19 +292,20 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public void OnApplicationQuit()
     {
-        if (PN.IsConnected)
+        PN.Disconnect();
+        /*if (PN.IsConnected)
         {
+            //SceneManager.LoadScene("readyscene1");
+            //PN.Destroy(gameObject);
             if (PN.IsMasterClient && PN.CurrentRoom.PlayerCount > 1)
             {
                 MigrateMaster();
             }
             else
             {
-                //PN.Destroy(RedTeam);                
-                // PN.Destroy(BlueTeam);                
                 PN.LeaveRoom();
             }
-        }
+        }*/
     }
 
     #endregion 포톤 서버 콜백 메서드 끝 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
