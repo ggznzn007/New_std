@@ -16,12 +16,16 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 {
     public static GunManager gunManager;
     public GameObject bullet;
-    public float speed;    
+    public float speed;
+    public float fireDistance = 20f;
+    RaycastHit hit;
+    Ray ray;
     public Transform firePoint;  // ÃÑ±¸        
     private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
                                            // private PhotonView PV;
     AudioSource audioSource;             // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
     public bool isBulletMine;
+    
     /*private Vector3 remotePos;
     private Quaternion remoteRot;
     private float intervalSpeed = 20;*/
@@ -46,6 +50,9 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         if (!photonView.IsMine) return;
 
+        ray = new Ray(firePoint.position, firePoint.forward);
+        ray.origin = firePoint.position;
+        ray.direction = firePoint.forward;
     }
     public GunManager FindGun()
     {
@@ -57,15 +64,24 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         return null;
     }
 
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(ray.origin, ray.direction * fireDistance, Color.red);
+    }
     public void FireBullet()
     {
+
         //if (!PV.IsMine) { return; }
-        if (PV.IsMine)
+        if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit, fireDistance))
         {
             audioSource.Play();
             muzzleFlash.Play();
-            PN.Instantiate("Bullet",firePoint.position, firePoint.rotation)
-                .GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
+            GameObject bullet = PN.Instantiate("Bullet", ray.origin, Quaternion.identity);
+            bullet.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);
+            PV.RPC("PunFire", RpcTarget.All);
+            Debug.Log(hit.transform.name);
+            ray.origin = hit.point;
             //GameObject _bullet = OP.PoolInstantiate("Bullet");
             //GameObject _bullet = PN.Instantiate(bullet.name, firePoint.position, firePoint.rotation);
             //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
@@ -147,13 +163,12 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     public void DestroyGun_Delay()                  // ÃÑ ÆÄ±« ½Ã°£ µô·¹ÀÌ ¸Þ¼­µå
     {
         StartCoroutine(DestoryPN_Gun());
-
     }
     public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1.1f);
         Destroy(gameObject);
-        //Debug.Log("Æ÷ÅæÇÁ¸®ÆÕÇ®ÆÄ±«");
+        Debug.Log("ÃÑ ÆÄ±«");
         // Destroy(gameObject);
     }
 
