@@ -56,7 +56,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped)&&!AvartarController.ATC.isDead)
         {
            // Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
