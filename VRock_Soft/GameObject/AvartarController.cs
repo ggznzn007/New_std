@@ -88,11 +88,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Bullet")&& !isDead)
+        if (collision.collider.CompareTag("Bullet")&&!PV.IsMine && !isDead)
         {
             HitPlayer();
             Debug.Log("총알에 맞음");
         }
+
 
     }
   
@@ -102,10 +103,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (HP.fillAmount <= 0)
         {           
             PV.RPC("DeadPlayer", RpcTarget.AllBuffered);
-           if(PV.IsMine)
-            {
-                GunManager.gunManager.DestroyGun_Delay();
-            }
+           
             Debug.Log("킬 성공");
         }
     }
@@ -115,6 +113,9 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         Nickname.gameObject.SetActive(false);
         HP.gameObject.SetActive(false);
         HP.fillAmount = 0f;
+        playerColls[2].enabled = false;
+        playerColls[3].enabled = false;
+        GunManager.gunManager.DestroyGun_Delay();
 
         head_Rend.material = DeadRend;                 
         body_Rend.material = DeadRend;       
@@ -130,6 +131,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         isDead = false;        
         HP.gameObject.SetActive(true);
         Nickname.gameObject.SetActive(true);
+        playerColls[2].enabled = true;
+        playerColls[3].enabled = true;
         HP.fillAmount = 1f;
 
         head_Rend.materials = head;
