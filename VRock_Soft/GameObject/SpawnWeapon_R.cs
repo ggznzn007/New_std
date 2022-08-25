@@ -14,7 +14,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 {
     public static SpawnWeapon_R rightWeapon;
     public GameObject gunPrefab;
-    private PhotonView PV;
+    //private PhotonView PV;
 
     public Transform attachPoint;
     public InputDevice targetDevice;
@@ -24,15 +24,16 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     private Quaternion remoteRot;
     private float intervalSpeed = 20;
 */
-    
+
     private void Awake()
     {
         rightWeapon = this;
-        PV = GetComponent<PhotonView>();
+
+        // PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
-       
+        
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -46,23 +47,32 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
          remoteRot = attachPoint.rotation;*/
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void FixedUpdate()
     {
-        if (other.CompareTag("ItemBox"))
+        if(!AvartarController.ATC.isAlive&&photonView.IsMine)
         {
-           // Debug.Log("아이템박스 태그 시작");
+            photonView.RPC("DestroyGun", RpcTarget.AllBuffered);
         }
     }
 
+
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped)&&!AvartarController.ATC.isDead)
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped) )
         {
-           // Debug.Log("아이템박스 태그 중");
-            if (griped && !weaponInIt)
+            // Debug.Log("아이템박스 태그 중");
+            if (griped && !weaponInIt && photonView.AmOwner&&photonView.IsMine && AvartarController.ATC.isAlive)
             {
-                GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성
+
+
+                GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 myGun.GetPhotonView().OwnerActorNr = actorNumber;
+                GunManager.gunManager.FindGun();
+                Debug.Log("총 생성");
+
+
+
+
                 // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
                 // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
 
@@ -83,13 +93,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 weaponInIt = true;
                 return;
 
-
-                /*if (PV.IsMine) // 자기 자신의 것일 때만
-                {
-
-                    
-                }*/
-
             }
             else
             {
@@ -104,28 +107,20 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("ItemBox"))
-        {
-           // Debug.Log("아이템박스 태그 종료");
-        }
-    }
+    /* [PunRPC]
+     public void SpawnGun(int actNumber)
+     {
 
-   /* [PunRPC]
-    public void SpawnGun(int actNumber)
-    {
+         //GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
+         GameObject myGun = Instantiate(gunPrefab);//, attachPoint.position, attachPoint.rotation);  // 포톤
+         myGun.GetComponent<GunManager>().actorNumber = actNumber;
+         myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정        
+         weaponInIt = true;                                                                                           //myGun.transform.parent = this.transform;
 
-        //GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
-        GameObject myGun = Instantiate(gunPrefab);//, attachPoint.position, attachPoint.rotation);  // 포톤
-        myGun.GetComponent<GunManager>().actorNumber = actNumber;
-        myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정        
-        weaponInIt = true;                                                                                           //myGun.transform.parent = this.transform;
+         // myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
+         Debug.Log("포톤서버 건 생성");
 
-        // myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
-        Debug.Log("포톤서버 건 생성");
-
-    }*/
+     }*/
 
     /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
      {
