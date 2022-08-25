@@ -18,9 +18,19 @@ using Antilatency.SDK;
 public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴 
-    public Image HP;                                                         // 플레이어 HP
+
+    [Header("플레이어 정보")]
     public Text Nickname;                                                    // 플레이어 닉네임
-    private PhotonView PV;                                                   // 포톤뷰
+    public Image HP;                                                         // 플레이어 HP
+    public float curHP = 100.0f;
+    public readonly float inItHP = 100.0f;
+    public PhotonView PV;                                                   // 포톤뷰
+    public int actNumber;
+    public float attackPower = 10f;
+    public GameObject myGun;
+    public GameObject hand_Right;
+
+    [Header("플레이어 렌더러")]
     public MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
     public MeshRenderer body_Rend;                                           // 아바타 몸      
     public MeshRenderer hair_Rend;                                           // 아바타 머리색   
@@ -28,6 +38,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public MeshRenderer eye_R_Rend;                                          // 아바타 오른쪽눈  
     public SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 장갑     
     public SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+
+    [Header("플레이어 머티리얼")]
     public Material[] head;                                                  // 아바타 머리     머티리얼
     public Material[] body;                                                  // 아바타 몸       
     public Material hair;                                                    // 아바타 머리색
@@ -35,32 +47,54 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public Material eye_R;                                                   // 아바타 오른쪽눈
     public Material glove_R;                                                 // 아바타 장갑
     public Material hand_R;                                                  // 아바타 오른손    
-    public Material DeadRend;                                                // 플레이어 죽음   머티리얼    
+    public Material DeadRend;                                                // 플레이어 죽음   머티리얼
+
+    [Header("플레이어 콜라이더")]
     public List<Collider> playerColls;                                       // 플레이어 콜라이더
-    public bool isDead;                                                      // 플레이어 죽음 판단여부
+
+    [Header("플레이어 죽음여부")]
+    public bool isAlive;                                                      // 플레이어 죽음 판단여부
+
+    [Header("플레이어 피격효과")]
+    public Image damageScreen;
+
+    [Header("플레이어 음향효과")]
+    public AudioClip[] audios;
 
     private void Awake()
     {
         ATC = this;
-        PV = GetComponent<PhotonView>();             
+        PV = GetComponent<PhotonView>();
+       // audios = GetComponentsInChildren<AudioClip>();
     }
 
     void Start()
-    {        
+    {
+        Initialize();
+    }
+
+    void Update()
+    {
+        if (!PV.IsMine) return;
+    }
+
+    public void Initialize()                                                  // 플레이어 초기화 메서드
+    {
         Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;         // 플레이어 포톤뷰가 자신이면 닉네임을 아니면 오너 닉네임
         Nickname.color = PV.IsMine ? Color.white : Color.red;                // 플레이어 포톤뷰가 자신이면 흰색 아니면 빨간색
-
-        HP.fillAmount = 1f;                                                  // 플레이어 HP 초기화
-        isDead = false;                                                      // 플레이어 죽음 초기화
-
-        head_Rend.materials = head;                                      
+        actNumber = PV.Owner.ActorNumber;
+        // 플레이어 HP 초기화
+        isAlive = true;                                                      // 플레이어 죽음 초기화
+        curHP = inItHP;
+        HP.fillAmount = curHP / inItHP;
+        GetNickNameByActorNumber(actNumber);
+        head_Rend.materials = head;
         body_Rend.materials = body;
         hair_Rend.material = hair;
         eye_L_Rend.material = eye_L;
         eye_R_Rend.material = eye_R;
         glove_R_Rend.material = glove_R;
         hand_R_Rend.material = hand_R;
-
         // DeadRend = GetComponentInChildren<Material>();
         /* head = GetComponentInChildren<MeshRenderer>().materials;
          body = GetComponentInChildren<MeshRenderer>().materials;
@@ -71,54 +105,36 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
          hand_R = GetComponentInChildren<SkinnedMeshRenderer>().material;*/
     }
 
-
-    void Update()
+    public string GetNickNameByActorNumber(int actorNumber)   //닉네임 가져오기
     {
-        if (!PV.IsMine) return;        
-    }    
-
-    private void OnTriggerEnter(Collider col)
-    {
-        if (col.CompareTag("Respawn")&& isDead)
+        //지금 현재 방에 접속한 사람의 닉네임을 가져온다   -- PlayerListOthers 자기 자신을 뺀 나머지 다 가져옴
+        foreach (Player player in PN.PlayerListOthers)
         {
-            PlayerRespawn();
-            PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
-            Debug.Log("리스폰");
+            if (player.ActorNumber == actorNumber)
+            {
+                return player.NickName;
+            }
         }
+        return "Ghost";
     }
-    private void OnCollisionEnter(Collision collision)
+
+    public void HitPlayer()                                                  // 피격 메서드
     {
-        if (collision.collider.CompareTag("Bullet")&&!PV.IsMine && !isDead)
-        {
-            HitPlayer();
-            Debug.Log("총알에 맞음");
-        }
 
 
+
     }
-  
-    public void HitPlayer()
+
+    public void PlayerDead()                                                 // 죽음 메서드
     {
-        HP.fillAmount -= 0.5f;
-        if (HP.fillAmount <= 0)
-        {           
-            PV.RPC("DeadPlayer", RpcTarget.AllBuffered);
-           
-            Debug.Log("킬 성공");
-        }
-    }
-    public void PlayerDead()
-    {
-        isDead = true;
         Nickname.gameObject.SetActive(false);
         HP.gameObject.SetActive(false);
-        HP.fillAmount = 0f;
+        hand_Right.SetActive(false);        
         playerColls[2].enabled = false;
-        playerColls[3].enabled = false;
-        GunManager.gunManager.DestroyGun_Delay();
+        playerColls[3].enabled = false;        
 
-        head_Rend.material = DeadRend;                 
-        body_Rend.material = DeadRend;       
+        head_Rend.material = DeadRend;
+        body_Rend.material = DeadRend;
         hair_Rend.material = DeadRend;
         eye_L_Rend.material = DeadRend;
         eye_R_Rend.material = DeadRend;
@@ -126,15 +142,17 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_R_Rend.material = DeadRend;
     }
 
-    public void PlayerRespawn()
+    public void PlayerRespawn()                                               // 리스폰 메서드
     {
-        isDead = false;        
+        isAlive = true;
         HP.gameObject.SetActive(true);
         Nickname.gameObject.SetActive(true);
+        hand_Right.SetActive(true);
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
-        HP.fillAmount = 1f;
 
+        curHP = inItHP;
+        HP.fillAmount = curHP / inItHP;
         head_Rend.materials = head;
         body_Rend.materials = body;
         hair_Rend.material = hair;
@@ -143,33 +161,78 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         glove_R_Rend.material = glove_R;
         hand_R_Rend.material = hand_R;
     }
-    
+    private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
+    {
+        if (col.CompareTag("Respawn") && !isAlive)
+        {
+            PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
+            Debug.Log("리스폰");
+        }
+    }
+    private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    {
+        if (collision.collider.CompareTag("Bullet") && isAlive)
+        {
+            // PhotonView pv = collision.collider.GetComponent<PhotonView>();
+            StartCoroutine(ShowDamage());
+            
+            PV.RPC("Damaged", RpcTarget.AllBuffered, attackPower);
+            //HitPlayer();
+            Debug.Log("총알에 맞음");
+        }
+    }
+
+    IEnumerator ShowDamage()
+    {
+        damageScreen.gameObject.SetActive(true);
+        damageScreen.color = new Color(1, 0, 0, 1.0f);
+        yield return new WaitForSeconds(0.1f);
+        damageScreen.color = Color.clear;
+        damageScreen.gameObject.SetActive(false);
+    }
 
     [PunRPC]
+    public void Damaged(float pow)
+    {
+        string hitter = GetNickNameByActorNumber(actNumber);
+        curHP = Mathf.Max(0, curHP - pow);
+        HP.fillAmount = curHP / inItHP;
+        if (PV.IsMine && curHP <= 0.0f)
+        {
+            isAlive = false;
+            PV.RPC("DeadPlayer", RpcTarget.AllBuffered);
+            Debug.Log("킬 성공" + hitter);
+        }
+    }
+    [PunRPC]
     public void DeadPlayer()
-    {       
+    {
         PlayerDead();
     }
 
     [PunRPC]
     public void RespawnPlayer()
-    {        
+    {
         PlayerRespawn();
     }
-
-
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
+            stream.SendNext(HP.transform.position);
+            stream.SendNext(HP.transform.rotation);
             stream.SendNext(HP.fillAmount);
-
+            stream.SendNext(Nickname.gameObject.transform.position);
+            stream.SendNext(Nickname.gameObject.transform.rotation);
+            stream.SendNext(Nickname.text);
         }
         else
         {
+            HP.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
             HP.fillAmount = (float)stream.ReceiveNext();
-
+            Nickname.gameObject.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+            Nickname.text = (string)stream.ReceiveNext();
         }
     }
 
