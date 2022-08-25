@@ -14,40 +14,61 @@ using UnityEngine.XR;
 
 public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // 총알 스크립트 
 {
+    public static BulletManager BM;
     public PhotonView PV;
     public float speed;     
     public Rigidbody rb;
     public ParticleSystem exploreEffect;    
-    public Transform firePoint;  
-    
+    public Transform firePoint;
+    public int actNumber = -1;
+    //Transform tr;
     private void Start()
     {
+        BM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 1.2f);              
+        
+        //tr = GetComponent<Transform>();
+        Destroy(gameObject, 1.2f);
+      //GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
+        
     }
    
     private void Update()
     {
-        if (!PV.IsMine) return;
-        //transform.Translate(firePoint.forward * speed * Time.deltaTime );
-      // transform.GetComponent<Rigidbody>().AddRelativeForce(firePoint.forward * speed ,ForceMode.Force);
-       transform.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
+        //if (!PV.IsMine) return;
+        
+        //transform.Translate(Vector3.forward * speed * Time.deltaTime );
+        //transform.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed ,ForceMode.Force);
+        //GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+        //transform.Translate(Vector3.forward * speed * Time.smoothDeltaTime);
+      // GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
     }
 
-    private void OnCollisionEnter(Collision coll)
+    /*private void OnTriggerEnter(Collider collider)
     {
-        // 터지는 이펙트 보여지고
-        if (coll.collider.CompareTag("Cube"))//&&col.collider.GetComponent<PhotonView>().IsMine)
+        //if (!PV.IsMine) return;
+        if (!PV.IsMine && collider.tag == "Player" && collider.GetComponent<PhotonView>().IsMine)
         {
-            // 충돌지점의 정보를 추출
-            ContactPoint contact = coll.contacts[0];
-
-            // 법선 벡타가 이루는 회전각도 추출
-            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);           
+            Debug.Log("플레이어 명중");           
 
             // 충돌 지점에 이펙트 생성           
-            var effect = Instantiate(exploreEffect, contact.point, rot);
+            var effect = Instantiate(exploreEffect, transform.position,transform.rotation);
+
+            Destroy(effect, 0.5f);
+
+            collider.GetComponent<PlayerNetworkSetup>().HitPlayer();
+
+            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            //Destroy(effect, 0.5f);
+
+
+        }
+        // 터지는 이펙트 보여지고
+        if (collider.tag == "Cube")
+        {
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, transform.position, transform.rotation);
 
             Destroy(effect, 0.5f);
 
@@ -59,32 +80,59 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
+
             Debug.Log("목표물에 명중");
-            Debug.Log("총알 파괴");
+
         }
-
-      /*  if (!PV.IsMine && coll.collider.CompareTag("Player") && coll.collider.GetComponent<PhotonView>().IsMine)
+    }*/
+    private void OnCollisionEnter(Collision collsion)
+    {              
+        // 터지는 이펙트 보여지고
+        if (collsion.collider.CompareTag("Cube") && PV.IsMine)
         {
-
             // 충돌지점의 정보를 추출
-            ContactPoint contact = coll.contacts[0];
+            ContactPoint contact = collsion.contacts[0];
 
             // 법선 벡타가 이루는 회전각도 추출
             Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
 
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.5f);
 
-            coll.collider.GetComponent<PlayerNetworkSetup>().HitPlayer();
+            transform.position = contact.point;
+
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
+            //OP.PoolDestroy(this.gameObject);
+            // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
+            // ShowEffect(collision); // 이펙트 메서드 
+            //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
+            //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
+            //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
+
+            Debug.Log("목표물에 명중");
+
+        }
+        if(collsion.collider.CompareTag("Player") && PV.IsMine)
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collsion.contacts[0];
+
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
             Destroy(effect, 0.5f);
-            Debug.Log("적에게 명중");
-
-        }*/
-
-
+            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+            Debug.Log("플레이어 명중");
+        }
+        
     }
 
 
@@ -96,7 +144,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     }
 
     [PunRPC]
-    public void DestroyBullet() => Destroy(gameObject);
+    public void DestroyBullet()
+    {
+        Destroy(gameObject);
+        Debug.Log("Bullet 파괴");
+    }
 
     /*[PunRPC]
     void DestoroyEffect() =>Destroy(exploreEffect);*/
