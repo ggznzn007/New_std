@@ -10,24 +10,17 @@ using PN = Photon.Pun.PN;
 
 public class HP_Bar : MonoBehaviourPunCallbacks
 {
-   // public PhotonView PV;
+    public GameObject player;
 
-    private void Start()
-    {
-      //  PV = GetComponent<PhotonView>();
-    }
-    void FixedUpdate()
+    void Update()
     {
         transform.LookAt(transform.position + Camera.main.transform.rotation * -Vector3.forward, Camera.main.transform.rotation * Vector3.up);
-        /*if(PV.IsMine)
-          {
-              PV.RPC("HP_Nick", RpcTarget.All);
-          }*/
     }
 
-   /* [PunRPC]
-    public void HP_Nick()
+    /*[PunRPC]
+    public void HP_Nick_Lookat()
     {
-        transform.LookAt(transform.position + Camera.main.transform.rotation * -Vector3.forward, Camera.main.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + Camera.main.transform.rotation * -Vector3.forward, player.transform.rotation * Vector3.up);
     }*/
+
 }
