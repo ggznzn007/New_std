@@ -57,15 +57,17 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("플레이어 피격효과")]
     public Image damageScreen;
+    public ParticleSystem[] effects;
 
-    [Header("플레이어 음향효과")]
+   /* [Header("플레이어 음향효과")]
     public AudioClip[] audios;
+    AudioSource effectAudio;*/
 
     private void Awake()
     {
         ATC = this;
         PV = GetComponent<PhotonView>();
-       // audios = GetComponentsInChildren<AudioClip>();
+       // effectAudio = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -94,15 +96,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         eye_L_Rend.material = eye_L;
         eye_R_Rend.material = eye_R;
         glove_R_Rend.material = glove_R;
-        hand_R_Rend.material = hand_R;
-        // DeadRend = GetComponentInChildren<Material>();
-        /* head = GetComponentInChildren<MeshRenderer>().materials;
-         body = GetComponentInChildren<MeshRenderer>().materials;
-         hair = GetComponentInChildren<MeshRenderer>().material;
-         eye_L = GetComponentInChildren<MeshRenderer>().material;
-         eye_R = GetComponentInChildren<MeshRenderer>().material;
-         glove_R = GetComponentInChildren<SkinnedMeshRenderer>().material;
-         hand_R = GetComponentInChildren<SkinnedMeshRenderer>().material;*/
+        hand_R_Rend.material = hand_R;       
     }
 
     public string GetNickNameByActorNumber(int actorNumber)   //닉네임 가져오기
@@ -124,6 +118,24 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
 
     }
+
+   /* public void PlaySound(string action)
+    {
+        switch(action)
+        {
+            case "DAMAGED":
+                effectAudio.clip = audios[0];
+                break;
+            case "DEAD":
+                effectAudio.clip = audios[1];
+                break;
+            case "RESPAWN":
+                effectAudio.clip = audios[2];
+                break;
+        }
+
+        effectAudio.Play();
+    }*/
 
     public void PlayerDead()                                                 // 죽음 메서드
     {
@@ -184,6 +196,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator ShowDamage()
     {
+        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
         damageScreen.gameObject.SetActive(true);
         damageScreen.color = new Color(1, 0, 0, 1.0f);
         yield return new WaitForSeconds(0.1f);
@@ -207,12 +220,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void DeadPlayer()
     {
+        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDead);
         PlayerDead();
     }
 
     [PunRPC]
     public void RespawnPlayer()
     {
+        AudioManager.AM.EffectPlay(AudioManager.Effect.ReSpawn);
         PlayerRespawn();
     }
 
