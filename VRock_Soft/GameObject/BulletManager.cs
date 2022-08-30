@@ -116,7 +116,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             Debug.Log("목표물에 명중");
 
         }
-        if(collsion.collider.CompareTag("Player") && PV.IsMine)
+
+        if(collsion.collider.CompareTag("Player") )
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -132,6 +133,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
             Debug.Log("플레이어 명중");
         }
+
+     
         
     }
 
