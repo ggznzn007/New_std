@@ -32,22 +32,18 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("플레이어 렌더러 묶음")]
     public MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
-    public MeshRenderer body_Rend;                                           // 아바타 몸      
-    public MeshRenderer hair_Rend;                                           // 아바타 머리색   
-    public MeshRenderer eye_L_Rend;                                          // 아바타 왼쪽눈   
-    public MeshRenderer eye_R_Rend;                                          // 아바타 오른쪽눈  
+    public MeshRenderer body_Rend;                                           // 아바타 몸         
     public SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 장갑     
     public SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
-    public Material[] head;                                                  // 아바타 머리     머티리얼
-    public Material[] body;                                                  // 아바타 몸       
-    public Material hair;                                                    // 아바타 머리색
-    public Material eye_L;                                                   // 아바타 왼쪽눈
-    public Material eye_R;                                                   // 아바타 오른쪽눈
+    public Material[] head_Mats;                                             // 아바타 머리     머티리얼    
+    public Material[] body_Mats;                                             // 아바타 몸          
     public Material glove_R;                                                 // 아바타 장갑
     public Material hand_R;                                                  // 아바타 오른손    
-    public Material DeadRend;                                                // 플레이어 죽음   머티리얼
+    public Material[] DeadMat_Heads;                                         // 머리 죽음   머티리얼
+    public Material[] DeadMat_Bodys;                                         // 몸   죽음   머티리얼
+    public Material DeadMat_Hand;                                           // 손   죽음   머티리얼
 
     [Header("플레이어 콜라이더")]
     public List<Collider> playerColls;                                       // 플레이어 콜라이더
@@ -62,15 +58,10 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 파티클 효과 묶음")]
     public GameObject[] effects;
 
-   /* [Header("플레이어 음향효과")]
-    public AudioClip[] audios;
-    AudioSource effectAudio;*/
-
     private void Awake()
     {
         ATC = this;
-        PV = GetComponent<PhotonView>();
-       // effectAudio = GetComponent<AudioSource>();
+        PV = GetComponent<PhotonView>();       
     }
 
     void Start()
@@ -85,22 +76,18 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void Initialize()                                                  // 플레이어 초기화 메서드
     {
+        
+        // 플레이어 HP 초기화
         Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;         // 플레이어 포톤뷰가 자신이면 닉네임을 아니면 오너 닉네임
         Nickname.color = PV.IsMine ? Color.white : Color.red;                // 플레이어 포톤뷰가 자신이면 흰색 아니면 빨간색
         actNumber = PV.Owner.ActorNumber;
        
-        // 플레이어 HP 초기화
+       
         isAlive = true;                                                      // 플레이어 죽음 초기화
-        curHP = inItHP;
-        HP.fillAmount = curHP / inItHP;
+        curHP = inItHP;                                                      // 플레이어 HP 초기화
+        HP.fillAmount = curHP / inItHP;                                      // 실제로 보여지는 HP양 초기화
         GetNickNameByActorNumber(actNumber);
-        head_Rend.materials = head;
-        body_Rend.materials = body;
-        hair_Rend.material = hair;
-        eye_L_Rend.material = eye_L;
-        eye_R_Rend.material = eye_R;
-        glove_R_Rend.material = glove_R;
-        hand_R_Rend.material = hand_R;       
+       
     }
 
     public string GetNickNameByActorNumber(int actorNumber)   //닉네임 가져오기
@@ -114,32 +101,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         return "Ghost";
-    }
-
-    public void HitPlayer()                                                  // 피격 메서드
-    {
-
-
-
-    }
-
-   /* public void PlaySound(string action)
-    {
-        switch(action)
-        {
-            case "DAMAGED":
-                effectAudio.clip = audios[0];
-                break;
-            case "DEAD":
-                effectAudio.clip = audios[1];
-                break;
-            case "RESPAWN":
-                effectAudio.clip = audios[2];
-                break;
-        }
-
-        effectAudio.Play();
-    }*/
+    }   
 
     public void PlayerDead()                                                 // 죽음 메서드
     {
@@ -150,15 +112,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_Right.SetActive(false);        
         playerColls[2].enabled = false;
         playerColls[3].enabled = false;
-       
 
-        head_Rend.material = DeadRend;
-        body_Rend.material = DeadRend;
-        hair_Rend.material = DeadRend;
-        eye_L_Rend.material = DeadRend;
-        eye_R_Rend.material = DeadRend;
-        glove_R_Rend.material = DeadRend;
-        hand_R_Rend.material = DeadRend;
+        curHP = inItHP;
+        HP.fillAmount = curHP / inItHP;
+
+        head_Rend.materials = DeadMat_Heads;       
+        body_Rend.materials = DeadMat_Bodys;        
+        glove_R_Rend.material = DeadMat_Hand;
+        hand_R_Rend.material = DeadMat_Hand;
     }
 
     public void PlayerRespawn()                                               // 리스폰 메서드
@@ -172,13 +133,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
 
-        curHP = inItHP;
-        HP.fillAmount = curHP / inItHP;
-        head_Rend.materials = head;
-        body_Rend.materials = body;
-        hair_Rend.material = hair;
-        eye_L_Rend.material = eye_L;
-        eye_R_Rend.material = eye_R;
+        head_Rend.materials = head_Mats;
+        body_Rend.materials = body_Mats;
         glove_R_Rend.material = glove_R;
         hand_R_Rend.material = hand_R;
     }
@@ -207,16 +163,15 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
         if (collision.collider.CompareTag("Bullet") && isAlive)
-        {
+        {            
             StartCoroutine(ShowDamageScreen());
-            DamagedPlayer(10f);
-            PV.RPC("Damaged", RpcTarget.OthersBuffered, attackPower);
-            
+            //DamagedPlayer(10f);
+            PV.RPC("Damaged", RpcTarget.AllBuffered, attackPower);
             Debug.Log("총알에 맞음");
         }
     }
 
-    IEnumerator ShowDamageScreen()
+    public IEnumerator ShowDamageScreen()
     {
         AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
         damageScreen.gameObject.SetActive(true);
@@ -225,15 +180,16 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         damageScreen.color = Color.clear;
         damageScreen.gameObject.SetActive(false);
     }
-   
-    IEnumerator ShowDeadEffect()
+
+
+    public IEnumerator ShowDeadEffect()
     {
         effects[0].SetActive(true);
         yield return new WaitForSeconds(3f);
         effects[0].SetActive(false);
     }
 
-    IEnumerator ShowRespawnEffect()
+    public IEnumerator ShowRespawnEffect()
     {
         effects[1].SetActive(true);
         yield return new WaitForSeconds(3f);
