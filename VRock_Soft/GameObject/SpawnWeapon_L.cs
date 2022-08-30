@@ -36,22 +36,16 @@ public class SpawnWeapon_L : MonoBehaviourPun
         }
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("ItemBox"))
-        {
-            Debug.Log("아이템박스 태그 시작");
-        }
-    }
+   
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
-            Debug.Log("아이템박스 태그 중");
+           // Debug.Log("아이템박스 태그 중");
             if (griped && !weaponInIt)
             {
-                SpawnGun();
+                //SpawnGun();
                 weaponInIt = true;
             }
             else
@@ -62,13 +56,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("ItemBox"))
-        {
-            Debug.Log("아이템박스 태그 종료");
-        }
-    }
+ 
 
     public void SpawnGun()
     {
