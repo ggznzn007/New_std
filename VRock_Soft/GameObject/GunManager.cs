@@ -17,7 +17,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     public static GunManager gunManager;
     public GameObject bullet;
     public float speed;
-    public float fireDistance = 10000000000000000000000000000000000000f;
+    public float fireDistance = 1000f;
     RaycastHit hit;
     Ray ray;
     public Transform firePoint;  // ÃÑ±¸        
@@ -49,12 +49,17 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         if (!photonView.IsMine) return;
         GetTarget();
-        FindGun();
-        DroptheGun();
-        if (!AvartarController.ATC.isAlive&&PV.IsMine)
+        //FindGun();
+       DroptheGun();
+        //DroptheGun_GS();
+        if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC("DestroyGun", RpcTarget.AllBuffered);
         }
+        /*if(!GunAvartarController.GAC.isAlive && PV.IsMine)
+        {
+            PV.RPC("DestroyGun", RpcTarget.AllBuffered);
+        }*/
     }
 
     public void DroptheGun()
@@ -74,13 +79,30 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }
 
+    public void DroptheGun_GS()
+    {
+        if (SpawnWeapon_R_GS.SGSR.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
+        {
+            if (!griped)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
+                    SpawnWeapon_R_GS.SGSR.weaponInIt = false;
+                    
+                }
+
+            }
+        }
+    }
+
     public void GetTarget()
     {
         ray = new Ray(firePoint.position, firePoint.forward);
         ray.origin = firePoint.position;
         ray.direction = firePoint.forward;
     }
-    public GunManager FindGun()
+    /*public GunManager FindGun()
     {
         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
@@ -88,7 +110,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             //Debug.Log("ÀÌ ÃÑÀº ³»²¨");
         }
         return null;
-    }
+    }*/
 
     private void OnDrawGizmos()
     {
@@ -105,17 +127,17 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             Debug.Log(" ¸íÁßÁöÁ¡ : " + hit.point + "\n °Å¸® : "
-                + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name+"\n ÅÂ±× : "+hit.transform.tag);
+                + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
             audioSource.Play();
             muzzleFlash.Play();
-            
+
             GameObject bullet = PN.Instantiate("Bullet", ray.origin, Quaternion.identity);
             bullet.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
-            bullet.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
             bullet.GetPhotonView().OwnerActorNr = actorNumber;
             PV.RPC("PunFire", RpcTarget.All);
-           
-            
+
+
             //GameObject _bullet = OP.PoolInstantiate("Bullet");
             //GameObject _bullet = PN.Instantiate(bullet.name, firePoint.position, firePoint.rotation);
             //GameObject _bullet = PoolManager.PoolingManager.pool.Dequeue();
@@ -127,8 +149,28 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             //_bullet.transform.GetComponent<Rigidbody>().AddForce(firePoint.forward * speed);
             //_bullet.SetActive(true);
 
-            Debug.Log("ÃÑ¾Ë ¹ß»ç");
-        }       
+            //Debug.Log("ÃÑ¾Ë ¹ß»ç");
+        }
+    }
+    public void FireBullet_GS()
+    {
+        
+        if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && GunAvartarController.GAC.isAlive)
+        {
+            Debug.Log(" ¸íÁßÁöÁ¡ : " + hit.point + "\n °Å¸® : "
+                + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
+            audioSource.Play();
+            muzzleFlash.Play();
+
+            GameObject bullet = PN.Instantiate("Bullet", ray.origin, Quaternion.identity);
+            bullet.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
+            bullet.GetPhotonView().OwnerActorNr = actorNumber;
+            PV.RPC("PunFire", RpcTarget.All);
+
+
+        
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
