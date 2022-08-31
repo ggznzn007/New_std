@@ -8,9 +8,10 @@ public class AudioManager : MonoBehaviour
 
     [Header("배경음 재생기")]
     public AudioSource bgmPlayer;
-
+        
     [Header("배경음 오디오소스")]
     public AudioClip[] bgm;
+    
 
     [Header("효과음 재생기")]
     public AudioSource[] effectPlayer;
@@ -54,7 +55,12 @@ public class AudioManager : MonoBehaviour
         if(!bgmPlayer.isPlaying)
         {
             RandomPlay();
-        }
+        } 
+       
+       /* if(gunBgmPlayer.isPlaying)
+        {
+            RandomPlayStop();
+        }*/
     }
 
     public void RandomPlay()
@@ -62,4 +68,15 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.clip = bgm[Random.Range(0, bgm.Length)];
         bgmPlayer.Play();
     }
+   /* public void RandomPlayStop()
+    {
+       // bgmPlayer.clip = bgm[Random.Range(0, bgm.Length)];
+        bgmPlayer.Stop();
+    }
+
+    public void NormalPlay()
+    {
+        gunBgmPlayer.clip = gunBgm;
+        gunBgmPlayer.Play();
+    }*/
 }
