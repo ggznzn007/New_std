@@ -36,13 +36,14 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
    
     private void Update()
     {
+        //GunManager.gunManager.FindGun();
         //if (!PV.IsMine) return;
-        
+
         //transform.Translate(Vector3.forward * speed * Time.deltaTime );
         //transform.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed ,ForceMode.Force);
         //GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
         //transform.Translate(Vector3.forward * speed * Time.smoothDeltaTime);
-      // GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+        // GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
     }
 
     /*private void OnTriggerEnter(Collider collider)
@@ -113,7 +114,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
 
-            Debug.Log("목표물에 명중");
+           // Debug.Log("목표물에 명중");
 
         }
 
@@ -131,8 +132,9 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
             Destroy(effect, 0.5f);
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
-            Debug.Log("플레이어 명중");
+            //Debug.Log("플레이어 명중");
         }
+        
 
      
         
@@ -150,7 +152,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     public void DestroyBullet()
     {
         Destroy(gameObject);
-        Debug.Log("Bullet 파괴");
+        Debug.Log("총알 파괴");
     }
 
     /*[PunRPC]
