@@ -28,11 +28,11 @@ public class AvatarInputConverter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //XRHead.position = XRCam.position;
+        //XRHead.position = headPositionOffset;
 
         //Head and Body synch
         //MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position + headPositionOffset, 0.5f);
-        MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position + headPositionOffset, 0.5f);
+        MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position+headPositionOffset, 2f);
         //AvatarHead.rotation = Quaternion.Lerp(AvatarHead.rotation, XRHead.rotation, 0.5f);
         AvatarHead.rotation = Quaternion.Lerp(AvatarHead.rotation, XRHead.rotation,2f);
        // AvatarBody.rotation = Quaternion.Lerp(AvatarBody.rotation, Quaternion.Euler(new Vector3(0, AvatarHead.rotation.eulerAngles.y, 0)), 0.05f);
