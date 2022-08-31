@@ -61,12 +61,10 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped) )
         {
             // Debug.Log("아이템박스 태그 중");
-            if (griped && !weaponInIt &&photonView.IsMine && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
+            if (griped && !weaponInIt &&photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
             {
-
-
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-                //myGun.GetPhotonView().OwnerActorNr = actorNumber;
+                myGun.GetPhotonView().OwnerActorNr = actorNumber;
                // GunManager.gunManager.FindGun();
                 Debug.Log("총 생성");
 
