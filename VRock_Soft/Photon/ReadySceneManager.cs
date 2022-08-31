@@ -124,7 +124,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         for (int i = 0; i < NickNumber.Length; i++)
         {
             //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
-            PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
         }
 
         Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
@@ -236,6 +236,20 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
         }
+    }
+
+
+    public string GetNickNameByActorNumber(int actorNumber)   //닉네임 가져오기
+    {
+        //지금 현재 방에 접속한 사람의 닉네임을 가져온다   -- PlayerListOthers 자기 자신을 뺀 나머지 다 가져옴
+        foreach (Player player in PN.PlayerListOthers)
+        {
+            if (player.ActorNumber == actorNumber)
+            {
+                return player.NickName;
+            }
+        }
+        return "Ghost";
     }
 
     public GunManager FindGun()

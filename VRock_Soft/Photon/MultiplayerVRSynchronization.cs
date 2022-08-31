@@ -12,8 +12,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 
     private PhotonView m_PhotonView;
 
-    public Image HP;
-
     //Main VRPlayer Transform Synch
     [Header("Main VRPlayer Transform Synch")]
     public Transform generalVRPlayerTransform;
@@ -116,28 +114,13 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     //  private float m_Angle_RightHandCon;// 추가
 
 
-   public void HitPlayer()
-    {
-        HP.fillAmount -= 0.1f;
-        if (HP.fillAmount <= 0)
-        {
-            ReadySceneManager.readySceneManager.localPlayer.SetActive(true);
-            ReadySceneManager.readySceneManager.mainBG.SetActive(false);
-            ReadySceneManager.readySceneManager.startUI.SetActive(false);
-            m_PhotonView.RPC("DestroyPlayer", RpcTarget.AllBuffered);
-            Debug.Log("적에게 명중");
-        }
-    }
-    [PunRPC]
-    public void DestroyPlayer()
-    {
-        Destroy(gameObject);
-    }
+   
 
     bool m_firstTake = false;
 
     public void Awake()
     {
+       
         m_PhotonView = GetComponent<PhotonView>();
 
         //Main VRPlayer Synch Init
@@ -177,6 +160,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         // m_NetworkRotation_RightHandCon = Quaternion.identity;
     }
 
+    
     void OnEnable()
     {
         m_firstTake = true;
@@ -222,7 +206,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)// 자신의 로컬 캐릭터인 경우 자신의 데이터를 다른 네트워크 유저에게 송신
         {
 
-            stream.SendNext(HP);
+            //stream.SendNext(HP);
             //////////////////////////////////////////////////////////////////
             //General VRPlayer Transform Synch
 
@@ -310,7 +294,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         else
         {
 
-            HP.fillAmount = (float)stream.ReceiveNext();
+           // HP.fillAmount = (float)stream.ReceiveNext();
             ///////////////////////////////////////////////////////////////////
             //Ganeral VR Player Transform Synch
 
@@ -532,4 +516,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
         }
     }
 
+
+   
 }
