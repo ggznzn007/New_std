@@ -50,7 +50,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (!photonView.IsMine) return;
         GetTarget();
         //FindGun();
-       DroptheGun();
+        DroptheGun();
         //DroptheGun_GS();
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
@@ -152,7 +152,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             //Debug.Log("ÃÑ¾Ë ¹ß»ç");
         }
     }
-    public void FireBullet_GS()
+    /*public void FireBullet_GS()
     {
         
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && GunAvartarController.GAC.isAlive)
@@ -171,7 +171,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
         
         }
-    }
+    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
