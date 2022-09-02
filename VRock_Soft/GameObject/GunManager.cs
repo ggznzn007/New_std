@@ -45,12 +45,12 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         actorNumber = PV.OwnerActorNr;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!photonView.IsMine) return;
         GetTarget();
         //FindGun();
-        DroptheGun();
+       DroptheGun();
         //DroptheGun_GS();
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
@@ -79,7 +79,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }
 
-    public void DroptheGun_GS()
+    /*public void DroptheGun_GS()
     {
         if (SpawnWeapon_R_GS.SGSR.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
         {
@@ -94,7 +94,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
             }
         }
-    }
+    }*/
 
     public void GetTarget()
     {
@@ -152,7 +152,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             //Debug.Log("ÃÑ¾Ë ¹ß»ç");
         }
     }
-    /*public void FireBullet_GS()
+   /* public void FireBullet_GS()
     {
         
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && GunAvartarController.GAC.isAlive)

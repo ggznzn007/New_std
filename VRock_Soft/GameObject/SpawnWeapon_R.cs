@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 생성하는 스크립트
+public class SpawnWeapon_R : MonoBehaviourPunCallbacks//, IPunObservable  // 손에서 총을 생성하는 스크립트
 {
     public static SpawnWeapon_R rightWeapon;
     public GameObject gunPrefab;
@@ -33,7 +33,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     }
     private void Start()
     {
-        
+
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -47,7 +47,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
          remoteRot = attachPoint.rotation;*/
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         /*if (!AvartarController.ATC.isAlive && photonView.IsMine)
         {
@@ -58,14 +58,14 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped) )
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
             // Debug.Log("아이템박스 태그 중");
-            if (griped && !weaponInIt &&photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
+            if (griped && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
             {
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 myGun.GetPhotonView().OwnerActorNr = actorNumber;
-               // GunManager.gunManager.FindGun();
+                // GunManager.gunManager.FindGun();
                 Debug.Log("총 생성");
 
 

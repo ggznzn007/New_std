@@ -134,10 +134,28 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
             //Debug.Log("플레이어 명중");
         }
-        
 
-     
-        
+        if (collsion.collider.CompareTag("Next"))
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collsion.contacts[0];
+
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
+            Destroy(effect, 0.5f);
+            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+
+            PN.Disconnect();
+            //PN.LoadLevel("GunShooting");
+            //Debug.Log("플레이어 명중");
+        }
+
+
     }
 
 
