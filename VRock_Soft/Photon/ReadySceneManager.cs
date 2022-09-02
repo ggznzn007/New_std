@@ -9,17 +9,19 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
-using static ObjectPooler;
+using Antilatency.DeviceNetwork;
+
 public class ReadySceneManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
 {
     public static ReadySceneManager readySceneManager;                                          // 싱글턴
     public GameObject mainBG;
-    public GameObject startUI;
-    public GameObject teamSelectUI;
+    public GameObject timerUI;
+    public GameObject teamSelectUI;    
 
     public GameObject localPlayer;
-    public GameObject RedTeam;
-    public GameObject BlueTeam;
+    private GameObject myPlayer; 
+   // public GameObject RedTeam;
+   // public GameObject BlueTeam;
     public GameObject fadeScreen;
 
     private readonly string gameVersion = "1.0";
@@ -41,29 +43,41 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         }
         readySceneManager = this;
         StartToServer();// 게임시작과 동시에 서버연결
+        
     }
+    private void Start()
+    {
+        //StartToServer();// 게임시작과 동시에 서버연결
+        myPlayer = localPlayer;
+    }
+
+    
     public void StartToServer()                                                     // 서버연결 메서드
     {
-        //PN.ConnectUsingSettings();
-        PN.ConnectToMaster(masterAddress, portNum, appID);
+        //PN.IsMessageQueueRunning = false;
+        PN.ConnectUsingSettings();
+        //PN.ConnectToMaster(masterAddress, portNum, appID);
         PN.GameVersion = gameVersion;
-        
-
+       // PN.AutomaticallySyncScene = true;
+       if(!PN.IsConnected)
+        {
+            PN.Reconnect();
+        }
     }
     #endregion 유니티 메서드 끝 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     #region UI 컨트롤 메서드 시작 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void LobbyJoin()                   // Start 버튼                           // 서버가 연결된 상태에서 로비진입 메서드
+   /* public void LobbyJoin()                   // Start 버튼                           // 서버가 연결된 상태에서 로비진입 메서드
     {
         if (PN.IsConnected)
         {
             PN.JoinLobby();
         }
-    }
+    }*/
 
     public void InitiliazeRoomRedTeam()       // 레드팀 버튼                            // 로비 진입 후 팀선택 패널에서 레드팀선택 메서드
-    {
+    {        
         isRed = true;
         fadeScreen.SetActive(true);
         teamSelectUI.SetActive(false);
@@ -72,7 +86,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);        
     }
     public void InitiliazeRoomBlueTeam()      // 블루팀 버튼                            // 로비 진입 후 팀선택 패널에서 블루팀선택 메서드
-    {
+    {       
         isRed = false;
         fadeScreen.SetActive(true);
         teamSelectUI.SetActive(false);
@@ -81,35 +95,15 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);
     }
 
-    public void EnterGunShooting()
+    public IEnumerator InRoomAction()
     {
-        /* if (PN.InRoom)
-         {
-             if (PN.IsMasterClient && PN.CurrentRoom.PlayerCount > 1)
-             {
-                 MigrateMaster();
-             }
-             else
-             {
-                 //PN.Destroy(RedTeam);                
-                 // PN.Destroy(BlueTeam);                
-                 PN.LeaveRoom();
-             }
-         }*//*
-        if (PN.InRoom)
-        {
-            if (PN.IsMasterClient)
-            {
-                PN.LoadLevel("GunShooting");
-                PN.AutomaticallySyncScene = true;
-            }
-        }*/
-        if(PN.IsConnected)
-        {
-            PN.Disconnect();
-        }
-
+        localPlayer.SetActive(false);
+        mainBG.SetActive(true);        
+        yield return new WaitForSeconds(5f);
+        timerUI.SetActive(true);
+       // PN.AutomaticallySyncScene = true;
     }
+       
 
 
     #endregion UI 컨트롤 메서드 끝 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,12 +118,11 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         for (int i = 0; i < NickNumber.Length; i++)
         {
             //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
-            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
+           PN.NickName = NickNumber[i] + "번 플레이어";
         }
-
-        Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
-        Debug.Log("서버상태 : " + PN.NetworkClientState);
-        //PN.JoinLobby();
+                
+        Debug.Log($" {PN.LocalPlayer.NickName}님 서버 접속완료 !!!\n\t서버상태:{ PN.NetworkClientState}");        
+        
         teamSelectUI.SetActive(true);
     }
 
@@ -137,7 +130,7 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     {
        
         //Debug.Log($"{PN.LocalPlayer.NickName} 로비에 입장하였습니다.");        
-        Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
+        Debug.Log($"{PN.NickName}님이 로비에 입장하였습니다.");
 
     }
 
@@ -156,47 +149,32 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public override void OnCreatedRoom()                                              // 방 생성 완료된 후 호출되는 메서드
     {
-        Debug.Log($"{PN.CurrentRoom.Name} 방을 생성하였습니다.");
+        Debug.Log($"  {PN.CurrentRoom.Name} 방 생성완료 !!!");
 
     }
 
     public override void OnJoinedRoom()                                               // 방에 들어갔을 때 호출되는 메서드
-    {
-        /* if (!PN.InRoom) { return; }
-         if(PN.IsMasterClient)
-         {
-
-         }*/
-       // OP.PrePoolInstantiate();
-        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
-        localPlayer.SetActive(false);
-        mainBG.SetActive(true);
-        //startUI.SetActive(true);
-
-
-
-
+    {        
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
-
-            if (isRed)
+            if (!isRed)
             {
-                SpawnRedPlayer();
+                SpawnBluePlayer();
+                StartCoroutine(InRoomAction());
+                Debug.Log($" {PN.CurrentRoom.Name} 방에 {PN.NickName}님 입장완료 !!!\n\t  현재접속인원 : {PN.CurrentRoom.PlayerCount}명");
             }
             else
             {
-
-                SpawnBluePlayer();
+                SpawnRedPlayer();
+                StartCoroutine(InRoomAction());
+                Debug.Log($" {PN.CurrentRoom.Name} 방에 {PN.NickName}님 입장완료 !!!\n\t  현재접속인원 : {PN.CurrentRoom.PlayerCount}명");
             }
         }
-
-        //if(PlayerNetworkSetup.NetP)
-
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log($"{newPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
+        Debug.Log($"  {newPlayer.NickName}님 접속완료 !!!\n\t현재접속인원 : {PN.CurrentRoom.PlayerCount}명");
     }
 
     public void SpawnRedPlayer()
@@ -209,13 +187,13 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
         //PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
         PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
-
+       
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
-        foreach (var player in PN.CurrentRoom.Players)
+       /* foreach (var player in PN.CurrentRoom.Players)
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
-        }
+        }*/
     }
 
     public void SpawnBluePlayer()
@@ -226,16 +204,16 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
             PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
         }
 
-        PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-        //PN.Instantiate(BlueTeam.name, Vector3.zero, Quaternion.identity);
-        //GameObject myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-
+        myPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
+        //PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
+        //PN.Instantiate(BlueTeam.name, Vector3.zero, Quaternion.identity);
+        
 
-        foreach (var player in PN.CurrentRoom.Players)
+        /*foreach (var player in PN.CurrentRoom.Players)
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
-        }
+        }*/
     }
 
 
@@ -252,35 +230,18 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
         return "Ghost";
     }
 
-    public GunManager FindGun()
+    /*public GunManager FindGun()
     {
         foreach (GameObject Gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
             if (Gun.GetPhotonView().IsMine) return Gun.GetComponent<GunManager>();
         }
         return null;
-    }
-
-    /*  public AvatarHand_R FindHand()
-      {
-          foreach (GameObject Hand_R in GameObject.FindGameObjectsWithTag("RightHand"))
-          {
-              if (Hand_R.GetPhotonView().IsMine) return Hand_R.GetComponent<AvatarHand_R>();
-          }
-          return null;
-      }*/
-
-
-
-    void OnPhotonInstaniate(PhotonMessageInfo info)
-    {
-        info.Sender.TagObject = this;
-    }
+    }*/
+       
     public override void OnLeftRoom()
     {
         PN.Disconnect();
-        //Debug.LogError("방을 나갔습니다.");
-
         //SceneManager.LoadScene("GunShooting");
         // Debug.LogError("방을 나갔습니다.");
         //PN.JoinLobby();
@@ -288,10 +249,9 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        // PN.LoadLevel("StartScene");
-        SceneManager.LoadScene("readyscene1");
-        Debug.Log("방을 나갔습니다.");
-        //PN.JoinLobby();
+        
+        SceneManager.LoadScene("GunShooting");
+        Debug.Log(" 서버 접속 끊김");        
     }
 
 
@@ -306,7 +266,9 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
 
     public void OnApplicationQuit()
     {
+       
         PN.Disconnect();
+
         /*if (PN.IsConnected)
         {
             //SceneManager.LoadScene("readyscene1");
