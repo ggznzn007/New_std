@@ -158,12 +158,12 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
     public override void OnJoinedRoom()                                               // 방에 들어갔을 때 호출되는 메서드
     {
-        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
-        //teamUI.SetActive(false);
         teamSelectUI.SetActive(false);
         localPlayer.SetActive(false);
         gunBG.SetActive(true);
-        //gameUI.SetActive(true);
+        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
+        
+        
 
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
@@ -230,14 +230,14 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     public override void OnLeftRoom()
     {
         // PN.LoadLevel("StartScene2");
-
+        PN.Disconnect();
        // SceneManager.LoadScene("readyscene_1");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        //PN.LoadLevel("GunShooting");
-       // SceneManager.LoadScene("readyscene1");
+        //PN.LoadLevel("GunShooting");       
+        SceneManager.LoadScene("readyscene_1");
         Debug.Log("방을 나갔습니다.");
     }
     
@@ -247,7 +247,6 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         var dict = PN.CurrentRoom.Players;
         if (PN.SetMasterClient(dict[dict.Count - 1]))
         {
-
             PN.LeaveRoom();
         }
     }
