@@ -10,30 +10,21 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
-public class SpawnWeapon_R : MonoBehaviourPunCallbacks//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» »ý¼ºÇÏ´Â ½ºÅ©¸³Æ®
+public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» »ý¼ºÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static SpawnWeapon_R rightWeapon;
     public GameObject gunPrefab;
-    //private PhotonView PV;
-
     public Transform attachPoint;
     public InputDevice targetDevice;
     public int actorNumber;
     public bool weaponInIt = false;
-    /*private Vector3 remotePos;
-    private Quaternion remoteRot;
-    private float intervalSpeed = 20;
-*/
 
     private void Awake()
     {
         rightWeapon = this;
-
-        // PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
-
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -43,24 +34,12 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks//, IPunObservable  // ¼Õ¿
         {
             targetDevice = devices[0];
         }
-        /* remotePos = attachPoint.position;
-         remoteRot = attachPoint.rotation;*/
     }
-
-    private void Update()
-    {
-        /*if (!AvartarController.ATC.isAlive && photonView.IsMine)
-        {
-            photonView.RPC("DestroyGun", RpcTarget.AllBuffered);
-        }*/
-    }
-
 
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
-        {
-            // Debug.Log("¾ÆÀÌÅÛ¹Ú½º ÅÂ±× Áß");
+        {            
             if (griped && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
             {
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // Æ÷Åæ¼­¹ö ¿ÀºêÁ§Æ® »ý¼º                    
@@ -68,9 +47,8 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks//, IPunObservable  // ¼Õ¿
                 // GunManager.gunManager.FindGun();
                 Debug.Log("ÃÑ »ý¼º");
 
-
-
-
+                weaponInIt = true;
+                return;
                 // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // Æ÷Åæ¼­¹ö ¿ÀºêÁ§Æ® »ý¼º
                 // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
 
@@ -87,22 +65,14 @@ public class SpawnWeapon_R : MonoBehaviourPunCallbacks//, IPunObservable  // ¼Õ¿
                 //myGun.GetPhotonView().OwnerActorNr = this.photonView.OwnerActorNr;
 
                 // SpawnGun(photonView.Owner.ActorNumber);
-
-                weaponInIt = true;
-                return;
-
             }
+
             else
             {
                 weaponInIt = false;
                 return;
             }
-
-
-
-
         }
-
     }
 
     /* [PunRPC]
