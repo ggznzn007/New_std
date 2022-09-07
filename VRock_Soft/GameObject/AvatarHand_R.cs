@@ -38,18 +38,18 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks//, IPunObservable // ╬ф╧ые
             {
                 if (griped)
                 {
-                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, true);
+                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, true);
                 }
                 else
                 {
-                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, false);
+                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, false);
                 }
             }         
         }
     }
 
     [PunRPC]
-    public void RPC_IfGriped_HideHand(bool isGrip)
+    public void RPC_IfGriped_HideHand_R(bool isGrip)
     {
         if (isGrip)
         {
