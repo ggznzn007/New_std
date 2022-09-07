@@ -45,28 +45,24 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         actorNumber = PV.OwnerActorNr;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!photonView.IsMine) return;
         GetTarget();
         //FindGun();
-       DroptheGun();
-        //DroptheGun_GS();
+        DroptheGun();
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC("DestroyGun", RpcTarget.AllBuffered);
         }
-        /*if(!GunAvartarController.GAC.isAlive && PV.IsMine)
-        {
-            PV.RPC("DestroyGun", RpcTarget.AllBuffered);
-        }*/
     }
 
     public void DroptheGun()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
+        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)&&
+            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
         {
-            if (!griped)
+            if (!griped_R&&!griped_L)
             {
                 if (PV.IsMine)
                 {
@@ -77,24 +73,21 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
             }
         }
-    }
-
-    /*public void DroptheGun_GS()
-    {
-        if (SpawnWeapon_R_GS.SGSR.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
+        /*if (SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
-            if (!griped)
+            if (!griped_L)
             {
                 if (PV.IsMine)
                 {
                     PV.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
-                    SpawnWeapon_R_GS.SGSR.weaponInIt = false;
-                    
+                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
+                    SpawnWeapon_R.rightWeapon.weaponInIt = false;
                 }
 
             }
-        }
-    }*/
+        }*/
+
+    }
 
     public void GetTarget()
     {
@@ -152,26 +145,6 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             //Debug.Log("ÃÑ¾Ë ¹ß»ç");
         }
     }
-   /* public void FireBullet_GS()
-    {
-        
-        if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && GunAvartarController.GAC.isAlive)
-        {
-            Debug.Log(" ¸íÁßÁöÁ¡ : " + hit.point + "\n °Å¸® : "
-                + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
-            audioSource.Play();
-            muzzleFlash.Play();
-
-            GameObject bullet = PN.Instantiate("Bullet", ray.origin, Quaternion.identity);
-            bullet.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.All, speed);
-            bullet.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
-            bullet.GetPhotonView().OwnerActorNr = actorNumber;
-            PV.RPC("PunFire", RpcTarget.All);
-
-
-        
-        }
-    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
