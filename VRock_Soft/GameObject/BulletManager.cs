@@ -88,6 +88,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     }*/
     private void OnCollisionEnter(Collision collsion)
     {              
+        if(!AvartarController.ATC.isAlive)
+        {
+            return;
+        }
+       
         // 터지는 이펙트 보여지고
         if (collsion.collider.CompareTag("Cube") && PV.IsMine)
         {
@@ -118,7 +123,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
         }
 
-        if(collsion.collider.CompareTag("Player") )
+        if(collsion.collider.CompareTag("Player"))
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -134,7 +139,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
             //Debug.Log("플레이어 명중");
         }
-
+        
+        
         if (collsion.collider.CompareTag("Next"))
         {
             // 충돌지점의 정보를 추출
@@ -151,9 +157,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
 
             PN.Disconnect();
-            //PN.LoadLevel("GunShooting");
             //Debug.Log("플레이어 명중");
         }
+
+
 
 
     }
