@@ -38,9 +38,10 @@ public class SpawnWeapon_L : MonoBehaviourPun
 
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) 
+            && SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
-            if (griped && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
+            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive&&!griped_R)// && photonView.AmOwner)//
             {
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 myGun.GetPhotonView().OwnerActorNr = actorNumber;                
