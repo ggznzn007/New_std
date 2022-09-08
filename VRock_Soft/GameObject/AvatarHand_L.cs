@@ -9,7 +9,7 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-public class AvatarHand_L : MonoBehaviourPunCallbacks
+public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
 {
     public InputDevice targetDevice;
     public Renderer[] avatarLeftHand;
@@ -61,6 +61,21 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks
         {
             avatarLeftHand[0].forceRenderingOff = false;
             avatarLeftHand[1].forceRenderingOff = false;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 }
