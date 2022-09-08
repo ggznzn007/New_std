@@ -18,7 +18,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     public InputDevice targetDevice;
     public int actorNumber;
     public bool weaponInIt = false;
-
+    
     private void Awake()
     {
         rightWeapon = this;
@@ -38,15 +38,16 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)
+            && SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {            
-            if (griped && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)// && photonView.AmOwner)//
+            if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive &&!griped_L)// && photonView.AmOwner)//
             {
                 GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 myGun.GetPhotonView().OwnerActorNr = actorNumber;
                 // GunManager.gunManager.FindGun();
                 Debug.Log("총 생성");
-
+               
                 weaponInIt = true;
                 return;
                 // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
@@ -69,6 +70,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
             else
             {
+               
                 weaponInIt = false;
                 return;
             }
