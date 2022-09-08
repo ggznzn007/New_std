@@ -48,8 +48,8 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
-        PN.SendRate = 100;
-        PN.SerializationRate = 50;
+        PN.SendRate = 80;
+        PN.SerializationRate = 40;
         if (gunShootingManager != null && gunShootingManager != this)
         {
             Destroy(this.gameObject);
@@ -92,7 +92,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         //PN.JoinRoom("LobbyRoom");
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
         Hashtable option = new Hashtable();
-        option.Add("Time", 120);
+        option.Add("Time", 150);
         options.CustomRoomProperties = option;
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
     }
@@ -105,7 +105,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         //PN.JoinRoom("LobbyRoom");
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
         Hashtable option = new Hashtable();
-        option.Add("Time", 120);
+        option.Add("Time", 150);
         options.CustomRoomProperties = option;
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
     }

@@ -33,8 +33,8 @@ public class ReadySceneManager : MonoBehaviourPunCallbacks                      
     #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
-        PN.SendRate = 100;
-        PN.SerializationRate = 50;
+        PN.SendRate = 80;
+        PN.SerializationRate = 40;
         if (readySceneManager != null && readySceneManager != this)
         {
             Destroy(this.gameObject);
