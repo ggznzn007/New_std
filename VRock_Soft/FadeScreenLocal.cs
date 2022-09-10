@@ -29,7 +29,7 @@ public class FadeScreenLocal : MonoBehaviour
         // FadeOut 알파값이 0 ~ 1로 화면이 점점 어두워짐
         // StartCoroutine(Fade(0, 1));
 
-        OnFade(FadeState.FadeOut);
+        OnFade(FadeState.FadeIn);
     }
 
     public void OnFade(FadeState state)
