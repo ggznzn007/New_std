@@ -15,13 +15,13 @@ public class SpawnWeapon_L : MonoBehaviourPun
     public static SpawnWeapon_L leftWeapon;
     public GameObject gunPrefab;
     public Transform attachPoint;
-    private InputDevice targetDevice;
+    public InputDevice targetDevice;
+    public int actorNumber;
     public bool weaponInIt = false;
-    //private PhotonView PV;
+
     private void Awake()
     {
         leftWeapon = this;
-        //PV = GetComponent<PhotonView>();
     }
     private void Start()
     {
@@ -34,20 +34,22 @@ public class SpawnWeapon_L : MonoBehaviourPun
         {
             targetDevice = devices[0];
         }
-
     }
-   
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider coll)
     {
-        if (other.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) 
+            && SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
-           // Debug.Log("아이템박스 태그 중");
-            if (griped && !weaponInIt)
+            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive&&!griped_R)// && photonView.AmOwner)//
             {
-                //SpawnGun();
+                GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                myGun.GetPhotonView().OwnerActorNr = actorNumber;                
+                Debug.Log("총 생성");
                 weaponInIt = true;
+                return;
             }
+
             else
             {
                 weaponInIt = false;
@@ -55,17 +57,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
             }
         }
     }
-
- 
-
-    public void SpawnGun()
-    {
-        GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
-        myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
-        //myGun.transform.position = attachPoint.position;
-        // myGun.transform.rotation = attachPoint.rotation;
-    }
-
-
-
 }
+
+
+

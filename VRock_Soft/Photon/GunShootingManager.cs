@@ -9,20 +9,32 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class GunShootingManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
+public class GunShootingManager : MonoBehaviourPunCallbacks                             // StartScene 스크립트
 {
     public static GunShootingManager gunShootingManager;                                          // 싱글턴
-    
-    
-    public GameObject teamSelectUI;    
-    public GameObject gunBG;
-    public GameObject scoreBoard;
-    public GameObject localPlayer;
-    public GameObject fadeScreen;
-    public GameObject RedTeam;
-    public GameObject BlueTeam;
 
+    [Header("팀선택 창")]
+    public GameObject teamSelectUI;
+    [Header("게임 맵")]
+    public GameObject gunBG;
+    /*[Header("게임 시간")]
+    public GameObject timerUI;*/
+    [Header("점수판")]
+    public GameObject scoreBoard;
+    [Header("로컬 플레이어")]
+    public GameObject localPlayer;
+    [Header("페이드 스크린")]
+    public GameObject fadeScreen;
+    [Header("레드팀")]
+    public GameObject RedTeam;
+    [Header("블루팀")]
+    public GameObject BlueTeam;
+    [Header("팀선택 판단")]
+    public bool isRed = false;
+    
+   
     //private GameObject ownPlayer;
 
 
@@ -32,23 +44,24 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     private readonly int portNum = 5055;
     private readonly int n = 1;
     private readonly int maxCount = 6;
-    public bool isRed = false;
 
     #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
-        PN.SendRate = 60;
-        PN.SerializationRate = 30;
+        PN.SendRate = 80;
+        PN.SerializationRate = 40;
         if (gunShootingManager != null && gunShootingManager != this)
         {
             Destroy(this.gameObject);
         }
         gunShootingManager = this;
         StartToServer();                                                            // 게임시작과 동시에 서버연결
+       
     }
     public void StartToServer()                                                     // 서버연결 메서드
     {
         //PN.ConnectUsingSettings();
+        PN.AutomaticallySyncScene = true;
         PN.ConnectToMaster(masterAddress, portNum, appID);
         PN.GameVersion = gameVersion;
         int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
@@ -56,9 +69,14 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         for (int i = 0; i < NickNumber.Length; i++)
         {
             //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
-            PN.NickName = NickNumber[i] + "번 플레이어";
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
         }
 
+    }
+
+    private void Update()
+    {
+       // PlayTimeSet();
     }
     #endregion 유니티 메서드 끝 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +91,9 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         //teamSelectUI.SetActive(false);
         //PN.JoinRoom("LobbyRoom");
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
+        Hashtable option = new Hashtable();
+        option.Add("Time", 150);
+        options.CustomRoomProperties = option;
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
     }
     public void InitiliazeRoomBlueTeam()      // 블루팀 버튼                            // 로비 진입 후 팀선택 패널에서 블루팀선택 메서드
@@ -83,10 +104,13 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         
         //PN.JoinRoom("LobbyRoom");
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 6, EmptyRoomTtl = 1000 }; // 방 옵션
+        Hashtable option = new Hashtable();
+        option.Add("Time", 150);
+        options.CustomRoomProperties = option;
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
     }
 
-    public void GoToReadyScene2()
+   /* public void GoToReadyScene2()
     {
         if (PN.InRoom)
         {
@@ -102,7 +126,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
                 PN.LeaveRoom();
             }
         }
-    }
+    }*/
    
 
     #endregion UI 컨트롤 메서드 끝 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,28 +135,25 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     #region 포톤 서버 콜백 메서드 시작///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
-        /*//Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
-        Debug.Log($"{PN.NickName} 서버에 접속하였습니다.");
+        Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
         Debug.Log("서버상태 : " + PN.NetworkClientState);
-        PN.JoinLobby();*/
-        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
+        //PN.JoinLobby();
+        teamSelectUI.SetActive(true);        
+       
+       /* int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
 
         for (int i = 0; i < NickNumber.Length; i++)
         {
             //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
             PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
-        }
+        }*/
 
-        Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
-        Debug.Log("서버상태 : " + PN.NetworkClientState);
-        //PN.JoinLobby();
-        teamSelectUI.SetActive(true);
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
        
-        Debug.Log($"{PN.NickName} 로비에 입장하였습니다.");
+        //Debug.Log($"{PN.NickName} 로비에 입장하였습니다.");
        // teamUI.SetActive(true);
 
     }
@@ -158,12 +179,13 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
     public override void OnJoinedRoom()                                               // 방에 들어갔을 때 호출되는 메서드
     {
+        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+        //teamUI.SetActive(false);
         teamSelectUI.SetActive(false);
         localPlayer.SetActive(false);
         gunBG.SetActive(true);
-        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.NickName} 님이 입장하셨습니다.");
-        
-        
+        //timerUI.SetActive(true);
+        //gameUI.SetActive(true);
 
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
@@ -217,10 +239,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         }
     }
 
-    void OnPhotonInstaniate(PhotonMessageInfo info)
-    {
-        info.Sender.TagObject = this;
-    }
+  
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"{newPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
@@ -236,7 +255,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        //PN.LoadLevel("GunShooting");       
+        //PN.LoadLevel("GunShooting");
         SceneManager.LoadScene("readyscene_1");
         Debug.Log("방을 나갔습니다.");
     }
@@ -247,8 +266,52 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         var dict = PN.CurrentRoom.Players;
         if (PN.SetMasterClient(dict[dict.Count - 1]))
         {
+
             PN.LeaveRoom();
         }
     }
-#endregion 포톤 서버 콜백 메서드 끝 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    #endregion 포톤 서버 콜백 메서드 끝 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    #region    플레이 타임 메서드 시작 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /*  public void PlayTimeSet()
+    {
+        if (!PN.IsMasterClient)
+            return;
+        realTimer -= Time.deltaTime;  // 설정시간 감소
+
+        // 설정시간이 60초 보다 클때
+        if (realTimer >= 60f)
+        {
+            min = (int)realTimer / 60;  // 60으로 나눠서 생기는 몫을 분단위로 변경
+            sec = realTimer % 60;       // 60으로 나워서 생기는 나머지를 초단위로 설정
+            timerText.text = "남은시간 : " + min + "분 " + (int)sec + "초";
+        }
+
+        // 설정시간이 60초 미만일 때
+        if (realTimer < 60f)
+        {
+            // 분단위는 필요없으므로 초단위만 남도록 설정
+            timerText.text = "남은시간 : " + (int)realTimer + "초";
+        }
+
+        // 설정시간이 0보다 작아질 때
+        if (realTimer <= 0)
+        {
+            // 0으로 고정
+            timerText.text = "남은시간 : 0초";
+            Debug.Log("타임오버");
+            realTimer = 0f;
+            if (PV.IsMine)
+            {
+                PN.Disconnect();
+            }
+
+
+
+        }
+
+    }*/
+    #endregion 플레이 타임 메서드 끝 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

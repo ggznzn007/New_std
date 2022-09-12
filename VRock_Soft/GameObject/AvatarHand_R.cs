@@ -8,7 +8,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-public class AvatarHand_R : MonoBehaviourPunCallbacks//, IPunObservable // 아바타 손 관리하는 스크립트
+public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 손 관리하는 스크립트
 {
     public InputDevice targetDevice;
     public Renderer[] avatarRightHand;
@@ -38,18 +38,18 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks//, IPunObservable // 아바�
             {
                 if (griped)
                 {
-                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, true);
+                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, true);
                 }
                 else
                 {
-                    PV.RPC("RPC_IfGriped_HideHand", RpcTarget.All, false);
+                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, false);
                 }
             }         
         }
     }
 
     [PunRPC]
-    public void RPC_IfGriped_HideHand(bool isGrip)
+    public void RPC_IfGriped_HideHand_R(bool isGrip)
     {
         if (isGrip)
         {
@@ -60,6 +60,22 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks//, IPunObservable // 아바�
         {
             avatarRightHand[0].forceRenderingOff = false;
             avatarRightHand[1].forceRenderingOff = false;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation); 
+
+        }
+        else 
+        {
+           transform.position=(Vector3)stream.ReceiveNext();
+           transform.rotation=(Quaternion)stream.ReceiveNext();
         }
     }
 
