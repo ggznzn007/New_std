@@ -25,8 +25,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public float curHP = 100.0f;
     public readonly float inItHP = 100.0f;
     public PhotonView PV;                                                   // 포톤뷰
-    public int actNumber = -1;
-    public float attackPower = 10f;
+    public int actNumber = 0;
+    public float attackPower = 20f;
     public GameObject myGun;
     public GameObject hand_Left;
     public GameObject hand_Right;
@@ -61,6 +61,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 피격효과 이미지")]
     public Image damageScreen;
     public Image deadScreen;
+    
 
     [Header("플레이어 파티클 효과 묶음")]
     public GameObject[] effects;
@@ -78,11 +79,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         isDeadLock = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!PV.IsMine) return;
         Nick_HP_Pos();
-    }
+       
+    }   
 
     public void Nick_HP_Pos()
     {
@@ -136,7 +138,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         playerColls[2].enabled = false;                                      // 아이템스폰박스 왼쪽
         playerColls[3].enabled = false;                                      // 아이템스폰박스 오른쪽
 
-        HP.fillAmount = 0f;                                             
+        HP.fillAmount = 0f;
         curHP = 0f;
 
 
@@ -194,7 +196,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
             Debug.Log("리스폰");
         }
-        if (col.CompareTag("RespawnRed") && !isAlive && GunShootingManager.gunShootingManager.isRed)
+
+        else if (col.CompareTag("RespawnRed") && !isAlive && GunShootingManager.gunShootingManager.isRed)
         {
             PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
             Debug.Log("리스폰");
@@ -202,15 +205,15 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && isAlive)
+        if (collision.collider.CompareTag("Bullet") && isAlive && ReadySceneManager.RSM.inGame)
         {
             StartCoroutine(ShowDamageScreen());
-            if(isDeadLock)
+            if (isDeadLock)
             {
                 PV.RPC("Damaged", RpcTarget.AllBuffered, attackPower);
                 Debug.Log("총알에 맞음");
-            }            
-        }      
+            }
+        }
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
@@ -226,7 +229,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         effects[0].SetActive(true);
         yield return new WaitForSeconds(3f);
-        effects[0].SetActive(false);        
+        effects[0].SetActive(false);
     }
 
     public IEnumerator ShowRespawnEffect()                                     // 부활 효과 보여주기
@@ -242,8 +245,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (isAlive)
         {
             AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
-        }        
-        curHP = Mathf.Max(0, curHP - pow);       
+        }
+        curHP = Mathf.Max(0, curHP - pow);        
         HP.fillAmount = curHP / inItHP;
         if (PV.IsMine && curHP <= 0.0f)
         {
@@ -252,8 +255,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("DeadPlayer", RpcTarget.AllBuffered);
             Debug.Log("킬 성공");
         }
-
     }
+
     [PunRPC]
     public void DeadPlayer()
     {
@@ -263,7 +266,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerKill);
         }
         AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDead);
-        
+
         PlayerDead();
     }
 
@@ -292,7 +295,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(Nickname.transform.position);
             stream.SendNext(Nickname.transform.forward);
             stream.SendNext(Nickname.text);
-           // stream.SendNext(isAlive);
+            // stream.SendNext(isAlive);
         }
         else
         {
@@ -303,7 +306,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             Nickname.transform.position = (Vector3)stream.ReceiveNext();
             Nickname.transform.forward = (Vector3)stream.ReceiveNext();
             Nickname.text = (string)stream.ReceiveNext();
-           // isAlive = (bool)stream.ReceiveNext();
+            // isAlive = (bool)stream.ReceiveNext();
         }
     }
 
