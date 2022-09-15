@@ -193,13 +193,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (col.CompareTag("RespawnBlue") && !isAlive && !GunShootingManager.gunShootingManager.isRed)
         {
-            PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
+            PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
         }
 
         else if (col.CompareTag("RespawnRed") && !isAlive && GunShootingManager.gunShootingManager.isRed)
         {
-            PV.RPC("RespawnPlayer", RpcTarget.AllBuffered);
+            PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
         }
     }
@@ -210,7 +210,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             StartCoroutine(ShowDamageScreen());
             if (isDeadLock)
             {
-                PV.RPC("Damaged", RpcTarget.AllBuffered, attackPower);
+                PV.RPC("Damaged", RpcTarget.All, attackPower);
                 Debug.Log("총알에 맞음");
             }
         }
@@ -252,7 +252,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             isAlive = false;
             deadScreen.gameObject.SetActive(true);
-            PV.RPC("DeadPlayer", RpcTarget.AllBuffered);
+            PV.RPC("DeadPlayer", RpcTarget.All);
             Debug.Log("킬 성공");
         }
     }

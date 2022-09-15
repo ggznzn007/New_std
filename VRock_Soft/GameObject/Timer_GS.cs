@@ -62,14 +62,23 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
 
-        if (limitedTime == 0)
+        if (nextTime == 0)
         {
             limitedTime = 0;
             timerText.text = string.Format("남은시간 0초");
-            PN.Disconnect();
+            StopCoroutine(timer());
+            
+            PN.LeaveRoom();
             Debug.Log("타임오버");
         }
     }
+
+   /* IEnumerator LoadNext()
+    {
+        SceneManager.LoadScene(0);
+        yield return new WaitForSeconds(1f);
+        PN.Disconnect();
+    }*/
 
 
     /////////////////////////////////// 1 버전

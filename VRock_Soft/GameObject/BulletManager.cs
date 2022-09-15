@@ -20,18 +20,14 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     public Rigidbody rb;
     public ParticleSystem exploreEffect;    
     public Transform firePoint;
-    public int actNumber = -1;
+    public int actNumber;
     //Transform tr;
     private void Start()
     {
         BM = this;
         PV = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody>();
-        
-        //tr = GetComponent<Transform>();
-        Destroy(gameObject, 1.2f);
-      //GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
-        
+        rb = GetComponent<Rigidbody>();        
+        Destroy(this.gameObject, 1f);        
     }
    
     private void Update()
@@ -94,7 +90,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
         }
        
         // 터지는 이펙트 보여지고
-        if (collsion.collider.CompareTag("Cube") && PV.IsMine)
+        if (collsion.collider.CompareTag("Cube")&& PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -107,7 +103,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.5f);
-
+            //Destroy(this.gameObject);
             transform.position = contact.point;
 
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
@@ -123,7 +119,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
         }
 
-        if(collsion.collider.CompareTag("Player"))
+        if(collsion.collider.CompareTag("BlueTeam")|| collsion.collider.CompareTag("RedTeam"))
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -136,13 +132,14 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.5f);
+            //Destroy(this.gameObject);
             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
             //Debug.Log("플레이어 명중");
         }
         
         
         if (collsion.collider.CompareTag("Next"))
-        {
+        {           
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
 
@@ -154,9 +151,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.5f);
-            PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
-
-            PN.Disconnect();
+             PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
+           
+            PN.LeaveRoom();
+            
             //Debug.Log("플레이어 명중");
         }
 
@@ -167,9 +165,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
 
     [PunRPC]
-   public void BulletDir(float speed)//,int addSpeed)
+   public void BulletDir(float speed, int actorNumber)//,int addSpeed)
     {
         this.speed = speed;
+        actNumber = actorNumber;
        // this.addSpeed = addSpeed;
     }
 

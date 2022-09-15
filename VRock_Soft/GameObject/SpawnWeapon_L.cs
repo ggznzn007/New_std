@@ -17,11 +17,11 @@ public class SpawnWeapon_L : MonoBehaviourPun
     public Transform attachPoint;
     public InputDevice targetDevice;
     public int actorNumber;
-    public bool weaponInIt = false;
+    public bool weaponInIt = false;    
 
     private void Awake()
     {
-        leftWeapon = this;
+        leftWeapon = this;        
     }
     private void Start()
     {
@@ -36,19 +36,41 @@ public class SpawnWeapon_L : MonoBehaviourPun
         }
     }
 
+    public GunManager FindGun()
+    {
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        {
+            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
+            //Debug.Log("이 총은 내꺼");
+        }
+        return null;
+    }
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) 
             && SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
-            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive&&!griped_R)// && photonView.AmOwner)//
+            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive&&!griped_R)
+               // && GunShootingManager.gunShootingManager.isRed)// && photonView.AmOwner)//
             {
-                GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-                myGun.GetPhotonView().OwnerActorNr = actorNumber;                
+                GameObject gunPrefab = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                gunPrefab.GetPhotonView().OwnerActorNr = actorNumber;
+                //FindGun();
                 Debug.Log("총 생성");
                 weaponInIt = true;
                 return;
             }
+          /*  else if(griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive && !griped_R
+                && !GunShootingManager.gunShootingManager.isRed)
+            {
+                GameObject myGun = PN.Instantiate("Gun_Blue", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                myGun.GetPhotonView().OwnerActorNr = actorNumber;
+                Debug.Log("총 생성");
+                weaponInIt = true;
+                return;
+            }*/
 
             else
             {
@@ -56,6 +78,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 return;
             }
         }
+
+        
     }
 }
 

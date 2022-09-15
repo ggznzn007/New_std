@@ -12,11 +12,11 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
 {
     public InputDevice targetDevice;
     public Renderer[] avatarRightHand;
-    public PhotonView PV;
+    //public PhotonView PV;
 
     void Start()
     {
-        PV = GetComponent<PhotonView>();
+        //PV = GetComponent<PhotonView>();
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -31,18 +31,18 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
 
     private void FixedUpdate()
     {
-        if (!PV.IsMine) return;
-        if (PV.IsMine)
+        if (!photonView.IsMine) return;
+        if (photonView.IsMine)
         {               
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
             {
                 if (griped)
                 {
-                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, true);
+                    photonView.RPC("RPC_IfGriped_HideHand_R", RpcTarget.All, true);
                 }
                 else
                 {
-                    PV.RPC("RPC_IfGriped_HideHand_R", RpcTarget.AllBuffered, false);
+                    photonView.RPC("RPC_IfGriped_HideHand_R", RpcTarget.All, false);
                 }
             }         
         }
