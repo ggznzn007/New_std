@@ -16,27 +16,22 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     public static GunShootingManager gunShootingManager;                                          // 싱글턴
 
     [Header("팀선택 창")]
-    public GameObject teamSelectUI;
-    [Header("게임 맵")]
-    public GameObject gunBG;
-    /*[Header("게임 시간")]
-    public GameObject timerUI;*/
-    [Header("점수판")]
-    public GameObject scoreBoard;
-    [Header("로컬 플레이어")]
-    public GameObject localPlayer;
-    [Header("페이드 스크린")]
-    public GameObject fadeScreen;
-    [Header("레드팀")]
-    public GameObject RedTeam;
-    [Header("블루팀")]
-    public GameObject BlueTeam;
-    [Header("팀선택 판단")]
-    public bool isRed = false;
-    
-   
-    //private GameObject ownPlayer;
+    [SerializeField] GameObject teamSelectUI;
 
+    [Header("게임 맵")]
+    [SerializeField] GameObject gunBG;
+   
+    [Header("점수판")]
+    [SerializeField] GameObject scoreBoard;
+
+    [Header("로컬 플레이어")]
+    [SerializeField] GameObject localPlayer;
+
+    [Header("페이드 스크린")]
+    [SerializeField] GameObject fadeScreen;
+    
+    [Header("팀선택 판단")]
+    public bool isRed = false;  
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
@@ -72,17 +67,12 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
 
         for (int i = 0; i < NickNumber.Length; i++)
-        {
-            //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
+        {            
             PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
         }
 
     }
 
-    private void Update()
-    {
-       // PlayTimeSet();
-    }
     #endregion 유니티 메서드 끝 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -96,7 +86,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         //teamSelectUI.SetActive(false);
         //PN.JoinRoom("LobbyRoom");
         Hashtable option = new Hashtable();
-        option.Add("Time", 300);
+        option.Add("Time", 180);
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000, CustomRoomProperties = option }; // 방 옵션
         //options.CustomRoomProperties = option;        
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
@@ -108,7 +98,7 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         scoreBoard.SetActive(true);        
         //PN.JoinRoom("LobbyRoom");
         Hashtable option = new Hashtable();
-        option.Add("Time", 300);
+        option.Add("Time", 180);
         RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000,CustomRoomProperties=option }; // 방 옵션
         //options.CustomRoomProperties = option;        
         PN.JoinOrCreateRoom("GunRoom", options, TypedLobbyInfo.Default);
@@ -121,51 +111,23 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
         Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
-        Debug.Log("서버상태 : " + PN.NetworkClientState);
+        //Debug.Log("서버상태 : " + PN.NetworkClientState);
         PN.JoinLobby();
-        
-       
-       /* int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 랜덤한 수 생성
-
-        for (int i = 0; i < NickNumber.Length; i++)
-        {
-            //PN.LocalPlayer.NickName = NickNumber[i] + "번 VRock플레이어";
-            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
-        }*/
-
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
         teamSelectUI.SetActive(true);
         Debug.Log($"{PN.LocalPlayer.NickName} 로비에 접속하였습니다.");
-        Debug.Log("서버상태 : " + PN.NetworkClientState);
-        //Debug.Log($"{PN.NickName} 로비에 입장하였습니다.");
-        // teamUI.SetActive(true);
-
+        //Debug.Log("서버상태 : " + PN.NetworkClientState);       
     }
-
-    /*public override void OnJoinRoomFailed(short returnCode, string message)          // 방 진입 실패시 호출되는 메서드
-    {
-        Debug.Log($"해당이름의 방이없어 새로운방을 생성합니다.");
-        CreateAndJoinRoom();
-    }
-
-    private void CreateAndJoinRoom()                                                  // 방을 생성하고 들어가는 메서드
-    {
-        // RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000 }; // 방 옵션      
-        Hashtable option = new Hashtable();
-        option.Add("Time", 300);
-        RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000, CustomRoomProperties = option }; // 방 옵션
-        PN.CreateRoom("GunRoom", options); // 방을 생성
-    }
-*/
+   
     public override void OnCreatedRoom()                                              // 방 생성 완료된 후 호출되는 메서드
     {
-        Debug.Log($"{PN.CurrentRoom.Name} 방을 생성하였습니다.");
+        //Debug.Log($"{PN.CurrentRoom.Name} 방을 생성하였습니다.");
 
     }
-
+    
     public override void OnJoinedRoom()                                               // 방에 들어갔을 때 호출되는 메서드
     {       
         
@@ -173,7 +135,8 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
         {
             if (isRed)
             {
-                SpawnRedPlayer();
+                //SpawnRedPlayer();
+                PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 teamSelectUI.SetActive(false);
                 localPlayer.SetActive(false);
@@ -182,7 +145,8 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
             }
             else
             {
-                SpawnBluePlayer();
+                //SpawnBluePlayer();
+                PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 teamSelectUI.SetActive(false);
                 localPlayer.SetActive(false);
@@ -190,12 +154,9 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
                 ReadySceneManager.RSM.inGame = true;
             }
         }
-
-
-
     }
 
-    public void SpawnRedPlayer()
+    /*public void SpawnRedPlayer()
     {
         if (!PN.IsConnected)
         {
@@ -205,15 +166,15 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
         PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
 
-       /* PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
+       *//* PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
-        }*/
-    }
+        }*//*
+    }*/
 
-    public void SpawnBluePlayer()
+    /*public void SpawnBluePlayer()
     {
         if (!PN.IsConnected)
         {
@@ -223,13 +184,13 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
         PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
 
-       /* PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
+       *//* PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화         
 
         foreach (var player in PN.CurrentRoom.Players)
         {
             Debug.Log($"UserID :  {player.Value.NickName}\n\t     ActorNumber : {player.Value.ActorNumber}번"); // $ == String.Format() 약자 
-        }*/
-    }
+        }*//*
+    }*/
 
   
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -245,30 +206,40 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
 
     public override void OnLeftRoom()
     {
-        PN.Disconnect();
+       /* if (isRed)
+        {
+            PN.Destroy(GameObject.FindGameObjectWithTag("RedTeam"));
+            //PN.Disconnect();
+            SceneManager.LoadScene("readyscene_1");
+        }
+        else
+        {
+            PN.Destroy(GameObject.FindGameObjectWithTag("BlueTeam"));
+            //PN.Disconnect();
+            SceneManager.LoadScene("readyscene_1");
+        }*/
+        // PN.Disconnect();
         Debug.Log("방을 나갔습니다.");
         // PN.LoadLevel("StartScene2");
-        // SceneManager.LoadScene("readyscene_1");
+         SceneManager.LoadScene("readyscene_1");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        //PN.LoadLevel("GunShooting");        
-        // StartCoroutine(DelayLoadRD1());
-        PN.IsMessageQueueRunning = false;
-        SceneManager.LoadScene("readyscene_1");
+        //PN.LoadLevel("GunShooting");
+       // SceneManager.LoadScene("readyscene_1");
+        //PN.IsMessageQueueRunning = false;
         Debug.Log("서버연결끊김");
-        Debug.Log("레디1으로진입");
+       // Debug.Log("레디1으로진입");
+        //StartCoroutine(DelayLoadRD1());
     }
 
-    /*IEnumerator DelayLoadRD1()
+   /* IEnumerator DelayLoadRD1()
     {
-        PN.LeaveRoom();
+        //PN.LeaveRoom();
+        
         yield return new WaitForSeconds(1);
-        PN.IsMessageQueueRunning = false;
-        SceneManager.LoadScene("readyscene_1");
-        Debug.Log("서버연결끊김");
-        Debug.Log("레디1으로진입");
+        
     }*/
 
 
@@ -283,7 +254,8 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     }*/
     public void OnApplicationQuit()
     {
-        //PN.Disconnect();       
+        PN.Disconnect();
+        //PN.LeaveRoom();
     }
 
     #endregion 포톤 서버 콜백 메서드 끝 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

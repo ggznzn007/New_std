@@ -17,7 +17,7 @@ using Antilatency.SDK;
 using static ObjectPooler;
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
 {
-    //public static PlayerNetworkSetup NetPlayer;
+    public static PlayerNetworkSetup NetPlayer;
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody; 
@@ -27,7 +27,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
 
     public void Awake()
     {      
-       // NetPlayer = this;
+        NetPlayer = this;
     }
 
     private void Start()
