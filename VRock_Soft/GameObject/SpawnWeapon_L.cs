@@ -57,7 +57,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 GameObject gunPrefab = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 gunPrefab.GetPhotonView().OwnerActorNr = actorNumber;
                 //FindGun();
-                Debug.Log("총 생성");
+                //Debug.Log("총 생성");
                 weaponInIt = true;
                 return;
             }

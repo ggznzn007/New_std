@@ -20,9 +20,10 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
     //PhotonView PV;
     public bool count;
     public int limitedTime;
+
     /*public float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
     public float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);*/
-    ExitGames.Client.Photon.Hashtable setTime = new ExitGames.Client.Photon.Hashtable();
+    readonly ExitGames.Client.Photon.Hashtable setTime = new ExitGames.Client.Photon.Hashtable();
 
 
     private void Awake()
@@ -42,7 +43,7 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
         timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);
         if (limitedTime < 60)
         {
-            timerText.text = string.Format("남은시간 {0:00}초", sec);
+            timerText.text = string.Format("남은시간 {0:0}초", sec);
         }
         if (PN.IsMasterClient)
         {
@@ -62,23 +63,24 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
 
-        if (nextTime == 0)
+        if (limitedTime == 0)
         {
             limitedTime = 0;
             timerText.text = string.Format("남은시간 0초");
-            StopCoroutine(timer());
-            
+            // StartCoroutine(LoadNext());
+            //PN.Disconnect();
             PN.LeaveRoom();
+
             Debug.Log("타임오버");
         }
     }
 
-   /* IEnumerator LoadNext()
+    IEnumerator LoadNext()
     {
         SceneManager.LoadScene(0);
         yield return new WaitForSeconds(1f);
         PN.Disconnect();
-    }*/
+    }
 
 
     /////////////////////////////////// 1 버전

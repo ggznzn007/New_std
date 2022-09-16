@@ -119,8 +119,8 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // 총을 관리하는 스�
         //if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit,fireDistance) && AvartarController.ATC.isAlive)
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
-            Debug.Log(" 명중지점 : " + hit.point + "\n 거리 : "
-                + hit.distance + "\n 이름 : " + hit.collider.name + "\n 태그 : " + hit.transform.tag);
+            //Debug.Log(" 명중지점 : " + hit.point + "\n 거리 : "
+            //    + hit.distance + "\n 이름 : " + hit.collider.name + "\n 태그 : " + hit.transform.tag);
             audioSource.Play();
             muzzleFlash.Play();
 
