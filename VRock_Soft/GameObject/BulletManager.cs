@@ -176,7 +176,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     public void DestroyBullet()
     {
         Destroy(gameObject);
-        Debug.Log("ÃÑ¾Ë ÆÄ±«");
+       // Debug.Log("ÃÑ¾Ë ÆÄ±«");
     }
 
     /*[PunRPC]
