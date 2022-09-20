@@ -26,7 +26,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public readonly float inItHP = 100.0f;
     public PhotonView PV;                                                   // 포톤뷰
     public int actNumber = 0;
-    public float attackPower = 20f;
+    public float attackPower = 10f;
     public GameObject myGun;
     public GameObject hand_Left;
     public GameObject hand_Right;
@@ -79,11 +79,10 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         isDeadLock = true;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!PV.IsMine) return;
-        Nick_HP_Pos();
-       
+        Nick_HP_Pos();       
     }   
 
     public void Nick_HP_Pos()
@@ -191,13 +190,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
       }*/
     private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
     {
-        if (col.CompareTag("RespawnBlue") && !isAlive && !GunShootingManager.gunShootingManager.isRed)
+        if (col.CompareTag("RespawnBlue") && !isAlive && !NetworkManager.NM.isRed)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
         }
 
-        else if (col.CompareTag("RespawnRed") && !isAlive && GunShootingManager.gunShootingManager.isRed)
+        else if (col.CompareTag("RespawnRed") && !isAlive && NetworkManager.NM.isRed)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
@@ -205,7 +204,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && isAlive && ReadySceneManager.RSM.inGame)
+        if (collision.collider.CompareTag("Bullet") && isAlive && NetworkManager.NM.inGame)
         {
             StartCoroutine(ShowDamageScreen());
             if (isDeadLock)
@@ -246,8 +245,9 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
         }
-        curHP = Mathf.Max(0, curHP - pow);        
-        HP.fillAmount = curHP / inItHP;
+        //curHP = Mathf.Max(0, curHP - pow);                
+        curHP -= pow;                
+        HP.fillAmount = curHP/inItHP;
         if (PV.IsMine && curHP <= 0.0f)
         {
             isAlive = false;
