@@ -152,8 +152,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
             Destroy(effect, 0.5f);
              PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
-           
+
+
             PN.LeaveRoom();
+            
             
             //Debug.Log("플레이어 명중");
         }
