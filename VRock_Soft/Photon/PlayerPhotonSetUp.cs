@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 public class PlayerPhotonSetUp : MonoBehaviourPunCallbacks
 {
-    public static GameObject LocalPlayerInstance;
+   /* public static GameObject LocalPlayerInstance;
     
     public GameObject local_XR_Player;
 
@@ -58,5 +58,5 @@ public class PlayerPhotonSetUp : MonoBehaviourPunCallbacks
         {
             trans.gameObject.layer = layerNum;
         }
-    }
+    }*/
 }

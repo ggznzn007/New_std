@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
 {
-    private GameObject spawnPlayerPrefab;
+    //private GameObject spawnPlayerPrefab;
     /*[SerializeField] Transform[] spawnPoints;
     public int GetIndex
     {
@@ -25,7 +25,7 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 */
-    public override void OnJoinedRoom()
+    /*public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         spawnPlayerPrefab = PN.Instantiate("Player", transform.position, transform.rotation);
@@ -35,5 +35,5 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
         PN.Destroy(spawnPlayerPrefab);
-    }
+    }*/
 }

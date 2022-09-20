@@ -12,17 +12,17 @@ using UnityEngine.SceneManagement;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     //public static PhotonManager PUN2;
-    private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용
+   // private readonly string version = "1.0"; // 게임 버전 입력 == 같은 버전의 유저끼리 접속허용
     [SerializeField] GameObject lobbyPlayer;
     [SerializeField] GameObject selectUI;
 
     #region 유니티 함수
     private void Awake()
     {
-        PN.AutomaticallySyncScene = true;
+       /* PN.AutomaticallySyncScene = true;
         PN.GameVersion = version;
         Debug.Log($"서버와 통신횟수 초당 : {PN.SendRate}");                            // 포톤 서버와 통신 횟수 설정. 초당 30회     
-        PN.ConnectUsingSettings();
+        PN.ConnectUsingSettings();*/
        
     }
 

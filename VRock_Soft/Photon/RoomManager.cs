@@ -12,7 +12,7 @@ using TMPro;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-    public static RoomManager Instance =null;
+   /* public static RoomManager Instance =null;
 
     private string mapType;
 
@@ -49,18 +49,18 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public void OnEnterButtonClicked_Gun_Shooting()
     {
-       /* mapType = MultiplayerVRConstants.MAP_TYPE_VALUE_GUNSHOOTING;
+       *//* mapType = MultiplayerVRConstants.MAP_TYPE_VALUE_GUNSHOOTING;
         ExitGames.Client.Photon.Hashtable expectCustomRoomProp 
             = new ExitGames.Client.Photon.Hashtable() { { MultiplayerVRConstants.MAP_TYPE_KEY,mapType } };
-        PN.JoinRandomRoom(expectCustomRoomProp,0);*/
+        PN.JoinRandomRoom(expectCustomRoomProp,0);*//*
     }
 
     public void OnEnterButtonClicked_Sling_Shot()
     {
-       /* mapType = MultiplayerVRConstants.MAP_TYPE_VALUE_SLINGSHOT;
+       *//* mapType = MultiplayerVRConstants.MAP_TYPE_VALUE_SLINGSHOT;
         ExitGames.Client.Photon.Hashtable expectCustomRoomProp
             = new ExitGames.Client.Photon.Hashtable() { { MultiplayerVRConstants.MAP_TYPE_KEY, mapType } };
-        PN.JoinRandomRoom(expectCustomRoomProp, 0);*/
+        PN.JoinRandomRoom(expectCustomRoomProp, 0);*//*
     }
 
     #endregion
@@ -95,7 +95,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             object mapType;
             if (PN.CurrentRoom.CustomProperties.TryGetValue(MultiplayerVRConstants.MAP_TYPE_KEY, out mapType))
             {
-               /* print("접속된 방: " + (string)mapType);
+               *//* print("접속된 방: " + (string)mapType);
                 if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_GUNSHOOTING)
                 {
                     PN.LoadLevel("GunShooting");
@@ -103,7 +103,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 else if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_SLINGSHOT)
                 {
                     PN.LoadLevel("SlingShot");
-                }*/
+                }*//*
             }
         }
     }
@@ -123,7 +123,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo room in roomList)
         {
-           /* print(room.Name);
+           *//* print(room.Name);
             if (room.Name.Contains(MultiplayerVRConstants.MAP_TYPE_VALUE_GUNSHOOTING))
             {
                 print("현재 접속한 방은 건슈팅, 접속한 플레이어는 " + room.PlayerCount + "명 입니다.");
@@ -133,7 +133,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
                 print("현재 접속한 방은 스노우, 접속한 플레이어는 " + room.PlayerCount + "명 입니다.");
                 OccupRateText_SlingShot.text = room.PlayerCount + " / " + 7;
-            }*/
+            }*//*
         }
     }
 
@@ -160,5 +160,5 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PN.CreateRoom(randomRoomName, roomOptions);
     }
 
-    #endregion
+    #endregion*/
 }

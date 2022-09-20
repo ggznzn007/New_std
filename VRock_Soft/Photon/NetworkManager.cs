@@ -7,131 +7,153 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-using ExitGames.Client.Photon;
+using TMPro;
+using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Security.Cryptography;
+
+[System.Serializable]
+public class DefaultRoom
+{
+    public string Name;
+    public int sceneNum;
+    public int maxPLayer;    
+}
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    /*public Transform spawnPoint;
-    public GameObject player;*/
-    [SerializeField] Vector3 playerPosition;
-    [SerializeField] Quaternion playerRotation;
-    [SerializeField] Transform[] spawnPoints;
+    public static NetworkManager NM;
+
+
+    [Header("방 목록")]
+    [SerializeField] List<DefaultRoom> defaultRooms;
+
+    [Header("팀선택 창")]
+    [SerializeField] GameObject teamSelectUI;
+
+    [Header("맵선택 창")]
+    [SerializeField] GameObject mapSelectUI;
+
+    [Header("로컬플레이어")]
+    [SerializeField] GameObject localPlayer;
+
+    [Header("페이드인 스크린")]
+    [SerializeField] GameObject fadeScreen;
+
+    [Header("팀선택 판단")]
+    public bool isRed = false;
+
+    [Header("인게임 판단")]
+    public bool inGame;
+
+    private readonly string gameVersion = "1.0";
+    private readonly string masterAddress = "125.134.36.239";
+    private readonly string appID = "698049ca-edd8-41f6-9c9b-b8561355930a";
+    private readonly int portNum = 5055;
+    private readonly int n = 1;
+    private readonly int maxCount = 6;
+
+    private void Awake()
+    {
+        if (NM != null && NM != this)
+        {
+            Destroy(this.gameObject);
+        }       
+        NM = this;        
+    }
     private void Start()
-     {
-         ConnectToServer();
-         
+    {        
+        StartToServer();
     }
 
-    void ConnectToServer() => PN.ConnectUsingSettings(); // 포톤 서버에 연결    
-
-     public override void OnConnectedToMaster() // 포톤 서버에 연결되었을 때 
-     {
-         base.OnConnectedToMaster();
-         print("서버 접속 완료");
-         RoomOptions roomOptions = new RoomOptions(); // 룸 할당
-         roomOptions.MaxPlayers = 6;                  // 룸 인원 설정 
-         roomOptions.IsVisible = true;                // 룸 비주얼 여부
-         roomOptions.IsOpen = true;                   // 룸 개방 여부
-
-         PN.JoinOrCreateRoom("Room 1", roomOptions, TypedLobby.Default); // 로비에서 방 생성
-         print("방만들고 접속 완료");
-        // 방 참가하는데 방이 없으면 생성하고 참가
-
-    }
-
-     public override void OnJoinedRoom() // 방안에 있을 때
-     {
-        //PN.Instantiate("NormalPlayer", new Vector3(-11.48f,4.03f,36.1f), Quaternion.identity, 0);  
-        //PN.Instantiate("NormalPlayer", transform.position, Quaternion.identity,0);  // 플레이어 생성
-        CreatePlayer();
-     }
-
-
-    void CreatePlayer()
+    public void StartToServer()                                                     // 서버연결 메서드
     {
+        //PN.ConnectUsingSettings();                                                // 디폴트 연결
+        PN.ConnectToMaster(masterAddress, portNum, appID);                          // 서버주소, 포트넘버, 앱아이디로 서버연결
+        PN.GameVersion = gameVersion;                                               // 게임 버전 *중요
+        PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
+        PN.SendRate = 60;
+        PN.SerializationRate = 30;
+        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
+
+        for (int i = 0; i < NickNumber.Length; i++)
+        {
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
+        }
+    }
+
+    public void InitRed()       
+    {
+        isRed = true;        
+        teamSelectUI.SetActive(false);
+        mapSelectUI.SetActive(true);
+    }
+    public void InitBlue()
+    {
+        isRed = false;
+        teamSelectUI.SetActive(false);
+        mapSelectUI.SetActive(true);
+    }
+
+    public void InitRoom(int defaultRoomIndex)
+    {              
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        PN.LoadLevel(roomSettings.sceneNum);
+        //SceneManager.LoadScene(roomSettings.sceneNum);
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 60000,
+            EmptyRoomTtl = 60000            
+        };
+
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);        
+    }
+
+    public void InitGun(int defaultRoomIndex)
+    {
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        PN.LoadLevel(roomSettings.sceneNum);
+        //SceneManager.LoadScene(roomSettings.sceneNum);
+        Hashtable options = new Hashtable
+        {
+            { "Time", 180 }
+        };
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 60000,
+            EmptyRoomTtl = 60000,
+            CustomRoomProperties = options
+        };
        
-        /*spawnPoints = GameObject.Find("SpawnPoints").GetComponentsInChildren<Transform>();
 
-        Vector3 position = spawnPoints[PN.CurrentRoom.PlayerCount].position;
-        Quaternion rotation = spawnPoints[PN.CurrentRoom.PlayerCount].rotation;*/
-
-        GameObject playerClone = PN.Instantiate("NewPlayer", spawnPoints[Random.Range(0,6)].position, Quaternion.identity, 0);
-        print("플레이어가 정상적으로 랜덤스폰되었습니다.");
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
 
-    [ContextMenu("포톤 서버 정보")]
-    void Info()
+    public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
+    {        
+        Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
+        PN.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
-        if(PN.InRoom)
-        {
-            print("현재 방 이름: " + PN.CurrentRoom.Name);
-            print("현재 방 인원 수: " + PN.CurrentRoom.PlayerCount);
-            print("현재 방 MAX인원: " + PN.CurrentRoom.MaxPlayers);
-
-            string playerStr = "방에 있는 플레이어 목록";
-            for (int i = 0; i < PN.PlayerList.Length; i++)
-            {
-                playerStr += PN.PlayerList[i].NickName + ",";
-                print(playerStr);
-            }
-
-        }
-        else
-        {
-            print("접속한 인원 수: " + PN.CountOfPlayers);
-            print("로비에 있는 여부: " + PN.InLobby);
-            print("접속한 인원 수: " + PN.CountOfPlayers);
-            print("서버 연결여부: " + PN.IsConnected);
-        }
+        teamSelectUI.SetActive(true);        
+        Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        
-    }
-
+    
+   
    
 
-    /*  public override void OnPlayerEnteredRoom(Player newPlayer)
-      {
-          base.OnPlayerEnteredRoom(newPlayer);
-      }*/
-
-    /* string _room = "Tutorial";
-
-     // Use this for initialization
-     void Start()
-     {
-
-         Debug.Log("Network Controller Start");
-
-         PN.ConnectUsingSettings();
-     }
-
-   public override void OnJoinedLobby()
-     {
-         Debug.Log("Joined Lobby");
-
-         PN.JoinRandomRoom();
-
-         //RoomOptions roomOptions = new RoomOptions() {};
-         //PhotonNetwork.JoinOrCreateRoom(_room, roomOptions, TypedLobby.Default);
-     }
-
-
-     public override void OnJoinedRoom()
-     {
-         Debug.Log("Joined Room");
-
-         PN.Instantiate("NormalPlayer", Vector3.one, Quaternion.identity, 0);
-     }*/
-
-
+  
 
 
 }
