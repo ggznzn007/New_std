@@ -54,7 +54,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 && AvartarController.ATC.isAlive&&!griped_R)
                // && GunShootingManager.gunShootingManager.isRed)// && photonView.AmOwner)//
             {
-                GameObject gunPrefab = PN.Instantiate("Gun_Pun", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 gunPrefab.GetPhotonView().OwnerActorNr = actorNumber;
                 //FindGun();
                 //Debug.Log("총 생성");

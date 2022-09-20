@@ -68,8 +68,9 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
             limitedTime = 0;
             timerText.text = string.Format("남은시간 0초");
             // StartCoroutine(LoadNext());
-            //PN.Disconnect();
-            PN.LeaveRoom();
+
+            Application.Quit();
+           // PN.LeaveRoom();
 
             Debug.Log("타임오버");
         }
