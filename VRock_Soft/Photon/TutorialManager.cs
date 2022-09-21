@@ -10,26 +10,40 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using static ObjectPooler;
 public class TutorialManager : MonoBehaviourPunCallbacks
 {
+    public static TutorialManager TM;
+
+    [SerializeField] GameObject redTeam;
+    [SerializeField] GameObject blueTeam;
+
     private GameObject spawnPlayer;
-    
-    public override void OnJoinedRoom()
+    public bool isIsRed;
+    private void Awake()
     {
-        if(NetworkManager.NM.isRed)
+        TM = this;
+    }
+    private void Start()
+    {
+        if (PN.IsConnectedAndReady && NetworkManager.NM.isRed)
         {
+            isIsRed = true;
             NetworkManager.NM.inGame = false;
-            spawnPlayer =  PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
+            Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+
         }
         else
         {
+            isIsRed = false;
             NetworkManager.NM.inGame = false;
-            spawnPlayer =  PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
+            Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+
         }
     }
-
+  
     [ContextMenu("포톤 서버 정보")]
     void Info()
     {
@@ -55,7 +69,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             print("서버 연결여부: " + PN.IsConnected);
         }
     }
-
+   
     public override void OnLeftRoom()
     {
         if(PN.IsMasterClient)
@@ -63,9 +77,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             PN.DestroyAll();
         }
         
-        PN.Destroy(spawnPlayer);
        
+        PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
+        
     }
 
 
@@ -79,4 +94,5 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
 
+   
 }
