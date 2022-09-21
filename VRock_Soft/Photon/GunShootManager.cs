@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using static ObjectPooler;
 public class GunShootManager : MonoBehaviourPunCallbacks
 {
     [Header("게임 제한시간")]
@@ -19,30 +20,27 @@ public class GunShootManager : MonoBehaviourPunCallbacks
     [SerializeField] bool count;
     [SerializeField] int limitedTime;
     readonly Hashtable setTime = new Hashtable();
-
-    public override void OnJoinedRoom()
-    {
-        if (PN.IsConnectedAndReady && NetworkManager.NM.isRed)
+      
+    private void Start()
+    {        
+        if (PN.IsConnected && NetworkManager.NM.isRed)
         {
             NetworkManager.NM.inGame = true;
+            count = true;
             spawnPlayer = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
         }
         else
         {
             NetworkManager.NM.inGame = true;
+            count = true;
             spawnPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
         }
     }
 
-    private void Start()
-    {
-        count = true;
-    }
-
     private void Update()
-    {
+    {        
         if (PN.InRoom && PN.IsConnectedAndReady && NetworkManager.NM.inGame)
         {
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
@@ -75,11 +73,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks
 
         if (limitedTime == 0)
         {
+            PN.LeaveRoom(spawnPlayer);
             limitedTime = 0;
-            timerText.text = string.Format("남은시간 0초");           
-
-            PN.LeaveRoom();
-
+            timerText.text = string.Format("남은시간 0초");
+            
             Debug.Log("타임오버");
         }
     }
@@ -91,9 +88,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks
             PN.DestroyAll();
         }
 
+        NetworkManager.NM.isRePlay = true;
         PN.Destroy(spawnPlayer);
+         SceneManager.LoadScene(0);
         
-        SceneManager.LoadScene(0);
     }
 
     [ContextMenu("포톤 서버 정보")]
@@ -132,4 +130,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
+
+   
 }
