@@ -10,30 +10,32 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using static ObjectPooler;
 
 
-public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoBehaviourPun   //MonoBehaviour     Poolable                           // ÃÑ¾Ë ½ºÅ©¸³Æ® 
+public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservable //MonoBehaviourPun   //MonoBehaviour                                // ÃÑ¾Ë ½ºÅ©¸³Æ® 
 {
     public static BulletManager BM;
-    public PhotonView PV;
-    public float speed;     
-    public Rigidbody rb;
-    public ParticleSystem exploreEffect;    
-    public Transform firePoint;
-    public int actNumber;
+    [SerializeField] PhotonView PV;
+    [SerializeField] Rigidbody rb;
+    [SerializeField] ParticleSystem exploreEffect;
+    [SerializeField] Transform firePoint;
+    [SerializeField] int actNumber;
+    [SerializeField] float speed;
     //Transform tr;
     private void Start()
     {
         BM = this;
         PV = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody>();        
-        Destroy(this.gameObject, 1f);        
+        rb = GetComponent<Rigidbody>();
+         Destroy(this.gameObject, 1f);
+        //OP.PoolDestroy(gameObject);
+       // StartCoroutine(DestroyDelay());
     }
    
     private void Update()
-    {
+    {        
         //GunManager.gunManager.FindGun();
-        //if (!PV.IsMine) return;
 
         //transform.Translate(Vector3.forward * speed * Time.deltaTime );
         //transform.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * speed ,ForceMode.Force);
@@ -152,17 +154,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
 
             Destroy(effect, 0.5f);
              PV.RPC("DestroyBullet", RpcTarget.AllBuffered);
-
-
-            PN.LeaveRoom();
-            
+            PN.LeaveRoom();           
             
             //Debug.Log("ÇÃ·¹ÀÌ¾î ¸íÁß");
         }
-
-
-
-
     }
 
 
@@ -178,8 +173,16 @@ public class BulletManager : MonoBehaviourPunCallbacks//, IPunObservable //MonoB
     public void DestroyBullet()
     {
         Destroy(gameObject);
-       // Debug.Log("ÃÑ¾Ë ÆÄ±«");
+       // PoolManager.PoolingManager.pool.Enqueue(this.gameObject);
+       // OP.PoolDestroy(gameObject);
+        // Debug.Log("ÃÑ¾Ë ÆÄ±«");
     }
+
+    /*public IEnumerator DestroyDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        OP.PoolDestroy(gameObject);
+    }*/
 
     /*[PunRPC]
     void DestoroyEffect() =>Destroy(exploreEffect);*/

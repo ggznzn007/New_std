@@ -20,52 +20,52 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public static AvartarController ATC;                                     // 싱글턴 
 
     [Header("플레이어 정보")]
-    public Text Nickname;                                                    // 플레이어 닉네임
-    public Image HP;                                                         // 플레이어 HP
-    public float curHP = 100.0f;
-    public readonly float inItHP = 100.0f;
-    public PhotonView PV;                                                   // 포톤뷰
-    public int actNumber = 0;
-    public float attackPower = 10f;
-    public GameObject myGun;
-    public GameObject hand_Left;
-    public GameObject hand_Right;
-    public GameObject at_hand_Left;
-    public GameObject at_hand_Right;
-    public GameObject FPS;
-    public Camera myCam;
+    [SerializeField] Text Nickname;                                                    // 플레이어 닉네임
+    [SerializeField] Image HP;                                                         // 플레이어 HP
+    [SerializeField] float curHP = 100.0f;
+    [SerializeField] float inItHP = 100.0f;
+    [SerializeField] PhotonView PV;                                                   // 포톤뷰
+    [SerializeField] int actNumber = 0;
+    [SerializeField] float attackPower = 10f;
+    [SerializeField] GameObject myGun;
+    [SerializeField] GameObject hand_Left;
+    [SerializeField] GameObject hand_Right;
+    [SerializeField] GameObject at_hand_Left;
+    [SerializeField] GameObject at_hand_Right;
+    [SerializeField] GameObject FPS;
+    [SerializeField] Camera myCam;
 
     [Header("플레이어 렌더러 묶음")]
-    public MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
-    public MeshRenderer body_Rend;                                           // 아바타 몸         
-    public SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
-    public SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-    public SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-    public SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+    [SerializeField] MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
+    [SerializeField] MeshRenderer body_Rend;                                           // 아바타 몸         
+    [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
+    [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
+    [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
+    [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
-    public Material[] head_Mats;                                             // 아바타 머리     머티리얼    
-    public Material[] body_Mats;                                             // 아바타 몸      
-    public Material glove_R;                                                 // 아바타 오른손 장갑 
-    public Material hand_R;                                                  // 아바타 오른손    
-    public Material[] DeadMat_Heads;                                         // 머리 죽음   머티리얼
-    public Material[] DeadMat_Bodys;                                         // 몸   죽음   머티리얼
-    public Material DeadMat_Hand;                                            // 손   죽음   머티리얼
+    [SerializeField] Material[] head_Mats;                                             // 아바타 머리     머티리얼    
+    [SerializeField] Material[] body_Mats;                                             // 아바타 몸      
+    [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
+    [SerializeField] Material hand_R;                                                  // 아바타 오른손    
+    [SerializeField] Material[] DeadMat_Heads;                                         // 머리 죽음   머티리얼
+    [SerializeField] Material[] DeadMat_Bodys;                                         // 몸   죽음   머티리얼
+    [SerializeField] Material DeadMat_Hand;                                            // 손   죽음   머티리얼
 
     [Header("플레이어 콜라이더")]
-    public List<Collider> playerColls;                                       // 플레이어 콜라이더
+    [SerializeField] List<Collider> playerColls;                                       // 플레이어 콜라이더
 
     [Header("플레이어 죽음여부")]
-    public bool isAlive;                                                      // 플레이어 죽음 판단여부
+     public bool isAlive;                                                      // 플레이어 죽음 판단여부
 
     [Header("플레이어 피격효과 이미지")]
-    public Image damageScreen;
-    public Image deadScreen;
+    [SerializeField] Image damageScreen;
+    [SerializeField] Image deadScreen;
     
 
     [Header("플레이어 파티클 효과 묶음")]
-    public GameObject[] effects;
-    public bool isDeadLock;
+    [SerializeField] GameObject[] effects;
+    [SerializeField] bool isDeadLock;
 
     private void Awake()
     {
