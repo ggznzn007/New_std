@@ -19,7 +19,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject blueTeam;
 
     private GameObject spawnPlayer;
-    public bool isIsRed;
+    
+    
     private void Awake()
     {
         TM = this;
@@ -27,20 +28,18 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         if (PN.IsConnectedAndReady && NetworkManager.NM.isRed)
-        {
-            isIsRed = true;
+        {            
             NetworkManager.NM.inGame = false;
             spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
             Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∑πµÂ∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");
-
+            Info();
         }
-        else
-        {
-            isIsRed = false;
+        else 
+        {            
             NetworkManager.NM.inGame = false;
             spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
             Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∫Ì∑Á∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");
-
+            Info();
         }
     }
   
@@ -59,7 +58,6 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 playerStr += PN.PlayerList[i].NickName + ",";
                 print(playerStr);
             }
-
         }
         else
         {
@@ -75,14 +73,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         if(PN.IsMasterClient)
         {
             PN.DestroyAll();
-        }
-        
+        }        
        
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
         
-    }
-
+    }    
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
