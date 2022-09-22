@@ -13,52 +13,58 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using static ObjectPooler;
 public class GunShootManager : MonoBehaviourPunCallbacks
 {
+    public static GunShootManager GSM;
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
 
+    [Header("게임종료 UI")]
+    [SerializeField] GameObject quitUI;
     private GameObject spawnPlayer;
     [SerializeField] bool count;
     [SerializeField] int limitedTime;
     readonly Hashtable setTime = new Hashtable();
-      
+    public Hashtable isRed = new Hashtable();
+
+    private void Awake()
+    {
+        GSM = this;
+    }
     private void Start()
     {        
         if (PN.IsConnected && NetworkManager.NM.isRed)
         {
+            isRed["isRed"]=true;
             NetworkManager.NM.inGame = true;
             count = true;
             spawnPlayer = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
             Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            Info();
         }
         else
         {
+            isRed["isRed"] = false;
             NetworkManager.NM.inGame = true;
             count = true;
             spawnPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
             Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+            Info();
         }
     }
 
     private void Update()
-    {        
-        if (PN.InRoom && PN.IsConnectedAndReady && NetworkManager.NM.inGame)
+    {
+        limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
+        float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
+        float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
+        timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);        
+        if (limitedTime < 60)
         {
-            limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
-            float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
-            float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
-            timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);
-            if (PN.IsMasterClient)
-            {
-                if (count)
-                {
-                    count = false;
-                    StartCoroutine(PlayTimer());
-                }
-            }
-            if (limitedTime < 60)
-            {
-                timerText.text = string.Format("남은시간 {0:0}초", sec);
-            }
+            timerText.text = string.Format("남은시간 {0:0}초", sec);
+        }
+        if (count)
+        {
+            count = false;
+            StartCoroutine(PlayTimer());
         }
     }
 
@@ -72,11 +78,11 @@ public class GunShootManager : MonoBehaviourPunCallbacks
         count = true;
 
         if (limitedTime == 0)
-        {
-            PN.LeaveRoom(spawnPlayer);
+        {            
             limitedTime = 0;
             timerText.text = string.Format("남은시간 0초");
-            
+            timerText.gameObject.SetActive(false);
+            quitUI.SetActive(true);
             Debug.Log("타임오버");
         }
     }
@@ -88,8 +94,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks
             PN.DestroyAll();
         }
 
-        NetworkManager.NM.isRePlay = true;
-        PN.Destroy(spawnPlayer);
+        
+         PN.Destroy(spawnPlayer);
          SceneManager.LoadScene(0);
         
     }
@@ -131,5 +137,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
 
-   
+   public void QuitGame()
+    {
+        PN.LeaveRoom(spawnPlayer);
+    }
 }
