@@ -14,60 +14,80 @@ using static ObjectPooler;
 public class GunShootManager : MonoBehaviourPunCallbacks
 {
     public static GunShootManager GSM;
+
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
 
     [Header("게임종료 UI")]
     [SerializeField] GameObject quitUI;
+
+    [Header("레드팀")]
+    [SerializeField] GameObject redTeam;
+
+    [Header("블루팀")]
+    [SerializeField] GameObject blueTeam;
+
     private GameObject spawnPlayer;
-    [SerializeField] bool count;
     [SerializeField] int limitedTime;
-    readonly Hashtable setTime = new Hashtable();
-    public Hashtable isRed = new Hashtable();
+
+    public bool count;
+    readonly Hashtable setTime = new Hashtable();    
 
     private void Awake()
     {
         GSM = this;
     }
     private void Start()
-    {        
-        if (PN.IsConnected && NetworkManager.NM.isRed)
+    {
+        if (!PN.IsConnectedAndReady)
         {
-            isRed["isRed"]=true;
+            SceneManager.LoadScene(0);
+            //PN.LoadLevel(0);
+        }
+        if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.RED)
+        {
+            PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
             NetworkManager.NM.inGame = true;
             count = true;
-            spawnPlayer = PN.Instantiate("AltRed", Vector3.zero, Quaternion.identity);
+            spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity, 0);
             Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
             Info();
         }
         else
         {
-            isRed["isRed"] = false;
+            PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
             NetworkManager.NM.inGame = true;
             count = true;
-            spawnPlayer = PN.Instantiate("AltBlue", Vector3.zero, Quaternion.identity);
+            spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity, 0);
             Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
             Info();
         }
+         
     }
 
     private void Update()
     {
-        limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
-        float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
-        float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
-        timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);        
-        if (limitedTime < 60)
+        if (PN.InRoom)
         {
-            timerText.text = string.Format("남은시간 {0:0}초", sec);
-        }
-        if (count)
-        {
-            count = false;
-            StartCoroutine(PlayTimer());
+            limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
+            float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
+            float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
+            timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);
+            if (limitedTime < 60)
+            {
+                timerText.text = string.Format("남은시간 {0:0}초", sec);
+            }
+            if (count)
+            {
+                count = false;
+                StartCoroutine(PlayTimer());
+            }
+            /*if (PN.IsMasterClient)
+            {
+               
+            }*/
         }
     }
-
 
     public IEnumerator PlayTimer()
     {
@@ -97,7 +117,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks
         
          PN.Destroy(spawnPlayer);
          SceneManager.LoadScene(0);
-        
+        //PN.LoadLevel(0);
     }
 
     [ContextMenu("포톤 서버 정보")]
@@ -140,5 +160,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks
    public void QuitGame()
     {
         PN.LeaveRoom(spawnPlayer);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PN.Disconnect();
     }
 }
