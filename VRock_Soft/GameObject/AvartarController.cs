@@ -190,13 +190,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
       }*/
     private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
     {
-        if (col.CompareTag("RespawnBlue") && !isAlive && !NetworkManager.NM.isRed)
+        if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam==Team.BLUE)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
         }
 
-        else if (col.CompareTag("RespawnRed") && !isAlive && NetworkManager.NM.isRed)
+        else if (col.CompareTag("RespawnRed") && !isAlive && DataManager.DM.currentTeam == Team.RED)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
