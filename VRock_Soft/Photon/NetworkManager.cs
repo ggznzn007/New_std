@@ -17,7 +17,13 @@ public class DefaultRoom
 {
     public string Name;
     public int sceneNum;
-    public int maxPLayer;    
+    public int maxPLayer;
+}
+
+public enum TARGET
+{
+    MASTER = 0,
+    CLIENT = 1
 }
 
 
@@ -35,28 +41,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject teamSelectUI;
 
     [Header("맵선택 창")]
-    [SerializeField] GameObject mapSelectUI;
-
-    [Header("맵선택 창")]
-    [SerializeField] GameObject mapRedUI;
-
-    [Header("맵선택 창")]
-    [SerializeField] GameObject mapBlueUI;
+    [SerializeField] GameObject mapSelectUI;    
 
     [Header("로컬플레이어")]
     [SerializeField] GameObject localPlayer;
-    
-    [Header("페이드인 스크린")]
-    [SerializeField] GameObject fadeScreen;
 
-    /*[Header("게임플레이 팀선택 판단")]
-    public bool isRed;*/
+    [Header("페이드인 스크린")]
+    [SerializeField] GameObject fadeScreen;    
 
     [Header("게임중 여부 판단")]
     public bool inGame;
 
     [Header("게임시간 유무 판단")]
-    public bool isTime;    
+    public bool isTime;
 
     private readonly string gameVersion = "1.0";                                           // 게임버전
     //private readonly string masterAddress = "125.134.36.239";                            // 서버주소
@@ -71,12 +68,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (NM != null && NM != this)
         {
             Destroy(this.gameObject);
-        }        
+        }
         NM = this;
         PN.AutomaticallySyncScene = true;
     }
     private void Start()
-    {       
+    {
         DataManager.DM.startingNum++;                                                // 씬이 로딩 될 때마다 증가       
     }
 
@@ -94,20 +91,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";                  // 닉네임 n개 난수 번 플레이어
         }
+        
     }
- 
+
     public void InitRed()                                                           // 레드팀 선택
     {
         DataManager.DM.currentTeam = Team.RED;
-        DataManager.DM.isSelected= true;           
-        
+        DataManager.DM.isSelected = true;
+
         PN.JoinLobby();
     }
     public void InitBlue()                                                          // 블루팀 선택
     {
         DataManager.DM.currentTeam = Team.BLUE;
         DataManager.DM.isSelected = true;
-        
+
         PN.JoinLobby();
     }
 
@@ -115,7 +113,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         isTime = false;                                                                   // 시간 프로퍼티 유무
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
-       
+
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -133,7 +131,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         isTime = true;                                                                      // 시간 프로퍼티 유무
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        
+
         Hashtable options = new Hashtable
         {
             { "Time", 40 }
@@ -156,11 +154,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     #region @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 포톤 서버 콜백 메서드 시작 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
-    {              
-        if(DataManager.DM.startingNum==1)                                            // 게임 처음 시작시에만 호출
+    {
+        if (DataManager.DM.startingNum == 1)                                            // 게임 처음 시작시에만 호출
         {
             connectUI.SetActive(false);
-            teamSelectUI.SetActive(true);            
+            teamSelectUI.SetActive(true);
         }
         else if (DataManager.DM.startingNum > 1)                                     // 두번째부터는 맵선택만 호출
         {
@@ -173,12 +171,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
-    {        
+    {
         if (DataManager.DM.isSelected)                                               // 팀 선택을 했을 때 
         {
             teamSelectUI.SetActive(false);
             mapSelectUI.SetActive(true);
-        }            
+        }
 
         Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
     }
@@ -196,7 +194,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
     }
-    
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+       
+    }
+
 
     #endregion @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 포톤 서버 콜백 메서드 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
