@@ -11,6 +11,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [System.Serializable]
 public class DefaultRoom
@@ -20,16 +22,11 @@ public class DefaultRoom
     public int maxPLayer;
 }
 
-public enum TARGET
-{
-    MASTER = 0,
-    CLIENT = 1
-}
-
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public static NetworkManager NM;
+
 
     [Header("방 목록")]
     [SerializeField] List<DefaultRoom> defaultRooms;
@@ -41,28 +38,40 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject teamSelectUI;
 
     [Header("맵선택 창")]
-    [SerializeField] GameObject mapSelectUI;    
+    [SerializeField] GameObject mapSelectUI;
+
+    [Header("튜토리얼1 참가인원")]
+    [SerializeField] TextMeshProUGUI countText_TT;
+
+    /*[Header("TOY 참가인원")]
+    [SerializeField] TextMeshProUGUI countText_T;*/
+
+    [Header("튜토리얼2 참가인원")]
+    [SerializeField] TextMeshProUGUI countText_TW;
+
+    /*[Header("Western 참가인원")]
+    [SerializeField] TextMeshProUGUI countText_W;*/
 
     [Header("로컬플레이어")]
     [SerializeField] GameObject localPlayer;
 
     [Header("페이드인 스크린")]
-    [SerializeField] GameObject fadeScreen;    
+    [SerializeField] GameObject fadeScreen;
 
-    [Header("게임중 여부 판단")]
+    [Header("인게임 판단")]
     public bool inGame;
 
-    [Header("게임시간 유무 판단")]
-    public bool isTime;
+    /*[Header("게임시간여부 판단")]
+    public bool gamehasTime;*/
 
-    private readonly string gameVersion = "1.0";                                           // 게임버전
-    //private readonly string masterAddress = "125.134.36.239";                            // 서버주소
-    // private readonly string appID = "698049ca-edd8-41f6-9c9b-b8561355930a";             // 앱아이디
-    // private readonly int portNum = 5055;                                                // 포트넘버
-    private readonly int n = 1;                                                            // 난수 n개 생성
-    private readonly int maxCount = 1000;                                                  // 난수 최대 범위
-
-    #region ######################################### 유니티 & UI 메서드 시작 #####################################################################
+    private readonly string gameVersion = "1.0";
+    //private readonly string masterAddress = "125.134.36.239";
+    // private readonly string appID = "698049ca-edd8-41f6-9c9b-b8561355930a";
+    // private readonly int portNum = 5055;
+    private readonly int n = 1;
+    private readonly int maxCount = 100;
+    public Hashtable team = new Hashtable();
+    
     private void Awake()
     {
         if (NM != null && NM != this)
@@ -70,72 +79,53 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Destroy(this.gameObject);
         }
         NM = this;
+        //DontDestroyOnLoad(this);
         PN.AutomaticallySyncScene = true;
+
     }
     private void Start()
     {
-        DataManager.DM.startingNum++;                                                // 씬이 로딩 될 때마다 증가       
+        DataManager.DM.startingNum++;
     }
 
     public void StartToServer()                                                     // 서버연결 메서드
     {
-        PN.ConnectUsingSettings();                                                  // 디폴트 연결 포톤클라우드
-        //PN.ConnectToMaster(masterAddress, portNum, appID);                        // 포톤서버주소, 포트넘버, 앱아이디로 서버연결
+        PN.ConnectUsingSettings();                                                  // 디폴트 연결
+        //PN.ConnectToMaster(masterAddress, portNum, appID);                        // 서버주소, 포트넘버, 앱아이디로 서버연결
         PN.GameVersion = gameVersion;                                               // 게임 버전 *중요
         PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
-        PN.SendRate = 60;                                                           // 서버전송 비율
-        PN.SerializationRate = 30;                                                  // 동기화   비율
+        PN.SendRate = 60;
+        PN.SerializationRate = 30;
         int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
 
         for (int i = 0; i < NickNumber.Length; i++)
         {
-            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";                  // 닉네임 n개 난수 번 플레이어
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
         }
-        
     }
 
-    public void InitRed()                                                           // 레드팀 선택
+
+    public void InitRed()
     {
         DataManager.DM.currentTeam = Team.RED;
         DataManager.DM.isSelected = true;
-
         PN.JoinLobby();
     }
-    public void InitBlue()                                                          // 블루팀 선택
+    public void InitBlue()
     {
         DataManager.DM.currentTeam = Team.BLUE;
         DataManager.DM.isSelected = true;
-
         PN.JoinLobby();
     }
 
-    public void InitRoomNormal(int defaultRoomIndex)                                      // 게임시간이 없는 방 생성 메서드
+    public void InitTutoT(int defaultRoomIndex)
     {
-        isTime = false;                                                                   // 시간 프로퍼티 유무
+        DataManager.DM.currentMap = Map.TUTORIAL_T;
+        //PN.KeepAliveInBackground = 3;
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        RoomOptions roomOptions = new RoomOptions
-        {
-            IsVisible = true,
-            IsOpen = true,
-            MaxPlayers = (byte)roomSettings.maxPLayer,
-            PlayerTtl = 235,
-            EmptyRoomTtl = 236
-        };
+        Hashtable options = new Hashtable { { "Time", 300 } };
 
-        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
-        //localPlayer.SetActive(false);
-    }
-    public void InitRoomHasTime(int defaultRoomIndex)                                       // 게임시간이 있는 방 생성 메서드
-    {
-        isTime = true;                                                                      // 시간 프로퍼티 유무
-        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
-
-
-        Hashtable options = new Hashtable
-        {
-            { "Time", 40 }
-        };
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -147,20 +137,88 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         };
 
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
-        // localPlayer.SetActive(false);
+
+    }
+    public void InitToy(int defaultRoomIndex)
+    {
+        DataManager.DM.currentMap = Map.TOY;
+       
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        Hashtable options = new Hashtable { { "Time", 120 } };
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 235,
+            EmptyRoomTtl = 236,
+            CustomRoomProperties = options
+
+        };
+
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
+
     }
 
-    #endregion ######################################### 유니티 & UI 메서드 끝 ###################################################################
+    public void InitTutoW(int defaultRoomIndex)
+    {
+        DataManager.DM.currentMap = Map.TUTORIAL_W;
 
-    #region @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 포톤 서버 콜백 메서드 시작 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        Hashtable options = new Hashtable { { "Time", 300 } };
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 235,
+            EmptyRoomTtl = 236,
+            CustomRoomProperties = options
+        };
+
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
+
+    }
+
+    public void InitWestern(int defaultRoomIndex)
+    {
+        DataManager.DM.currentMap = Map.WESTERN;
+        
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        Hashtable options = new Hashtable { { "Time", 120 } };
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 235,
+            EmptyRoomTtl = 236,
+            CustomRoomProperties = options
+        };
+
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
+
+    }
+
+    public void QuitApp()
+    {
+        Application.Quit();
+    }
+
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
-        if (DataManager.DM.startingNum == 1)                                            // 게임 처음 시작시에만 호출
+        if (DataManager.DM.startingNum == 1)
         {
             connectUI.SetActive(false);
             teamSelectUI.SetActive(true);
         }
-        else if (DataManager.DM.startingNum > 1)                                     // 두번째부터는 맵선택만 호출
+        else if (DataManager.DM.startingNum > 1)
         {
             connectUI.SetActive(false);
             teamSelectUI.SetActive(false);
@@ -172,11 +230,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
-        if (DataManager.DM.isSelected)                                               // 팀 선택을 했을 때 
+        if (DataManager.DM.isSelected && PN.InLobby)
         {
             teamSelectUI.SetActive(false);
             mapSelectUI.SetActive(true);
         }
+
 
         Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
     }
@@ -184,29 +243,89 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         mapSelectUI.SetActive(false);
-        if (!isTime)                                                                 // 게임씬에 시간 프로퍼티 적용 여부
-        {
-            PN.LoadLevel(1); // 튜토리얼씬
-        }
-        else
-        {
-            PN.LoadLevel(2); // 건슈팅씬
-        }
 
+        switch (DataManager.DM.currentMap)
+        {
+            case Map.TUTORIAL_T:
+                PN.LoadLevel(1); // 튜토리얼T
+                break;
+            case Map.TOY:
+                PN.LoadLevel(2); // 토이
+                break;
+            case Map.TUTORIAL_W:
+                PN.LoadLevel(3); // 튜토리얼W
+                break;
+            case Map.WESTERN:
+                PN.LoadLevel(4); // 웨스턴
+                break;
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-       
+        if (roomList.Count == 0)                                 // 방에 아무도 없을 때
+        {
+            countText_TT.text = 0 + " 명";
+            //countText_T.text = 0 + " 명";
+            countText_TW.text = 0 + " 명";
+           // countText_W.text = 0 + " 명";
+        }
+
+        foreach (RoomInfo room in roomList)
+        {
+            Debug.Log(room.Name);
+            // DefaultRoom roomName = new DefaultRoom();            
+            string roomString = room.Name.ToString();
+            switch (roomString)
+            {
+                case "Tutorial_T":
+                    Debug.Log("토이튜토 인원 : " + room.PlayerCount);
+                    countText_TT.text = room.PlayerCount + " 명";
+                    break;
+                case "Tutorial_W":
+                    Debug.Log("웨스턴튜토 인원 : " + room.PlayerCount);
+                    countText_TW.text = room.PlayerCount + " 명";
+                    break;
+               /* case "Toy":
+                    Debug.Log("토이방 인원 : " + room.PlayerCount);
+                    countText_T.text = room.PlayerCount + " 명";
+                    break;
+                case "Western":
+                    Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
+                    countText_W.text = room.PlayerCount + " 명";
+                    break;*/
+            }
+        }
     }
 
+    // 방 참가인원 업데이트 if문
+    /*if (room.Name.Contains(roomName.Name = "Tutorial"))
+            {
+               Debug.Log("튜토리얼방 인원 : " + room.PlayerCount);
+                    countText_TU.text = room.PlayerCount + " 명";
+            }
+            else if(room.Name.Contains(roomName.Name = "Toy"))
+            {
+                Debug.Log("토이방 인원 : " + room.PlayerCount);
+                    countText_T.text = room.PlayerCount + " 명";
+            }
+            else if (room.Name.Contains(roomName.Name = "Western"))
+            {
+                Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
+                    countText_W.text = room.PlayerCount + " 명";
+            }*/
 
-    #endregion @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 포톤 서버 콜백 메서드 끝 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-    private void OnApplicationQuit()
-    {
-        PN.Disconnect();
-    }
-
+    // 로딩 맵 if문
+    /* if (DataManager.DM.currentMap == Map.TUTORIAL1)
+       {
+           PN.LoadLevel(1); // 튜토리얼1
+       }
+       else if (DataManager.DM.currentMap == Map.TOY)
+       {
+           PN.LoadLevel(2); // 토이
+       }
+       else if (DataManager.DM.currentMap == Map.WESTERN)
+       {
+           PN.LoadLevel(3); // 웨스턴
+       }*/
 }

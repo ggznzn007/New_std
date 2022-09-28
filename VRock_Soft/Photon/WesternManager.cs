@@ -10,21 +10,16 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using static ObjectPooler;
-
-
-public class GunShootManager : MonoBehaviourPunCallbacks                      // 토이
+public class WesternManager : MonoBehaviourPunCallbacks
 {
-    public static GunShootManager GSM;
-
+    public static WesternManager WM;
     [Header("게임 시작 텍스트")]
     [SerializeField] TextMeshPro startText;
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
-    public DefaultRoom room;
 
-    // [Header("게임종료 UI")]
-    //[SerializeField] GameObject quitUI;
+    //[Header("게임종료 UI")]
+   // [SerializeField] GameObject quitUI;
     private GameObject spawnPlayer;
 
     [SerializeField] GameObject redTeam;
@@ -32,20 +27,17 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
-
     private void Awake()
     {
-        GSM = this;
-        DataManager.DM.currentMap = Map.TOY;        
+        WM = this;
+        DataManager.DM.currentMap = Map.WESTERN;
     }
-        
-    private void Start()
+    void Start()
     {
-        if (PN.IsConnectedAndReady&&PN.InRoom)
-        {           
+        if (PN.IsConnectedAndReady && PN.InRoom)
+        {
             SpawnPlayer();
-            
-        }        
+        }      
     }
 
     public void SpawnPlayer()
@@ -80,12 +72,11 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                 return;
         }
     }
-     void Update()
+    void FixedUpdate()
     {
-        if (PN.InRoom && PN.IsConnectedAndReady)
-        {            
+        if (PN.InRoom&& PN.IsConnectedAndReady)
+        {           
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
-            limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
             float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
             timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);
@@ -97,34 +88,29 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             {
                 count = false;
                 limitedTime = 0;
-                timerText.text = string.Format("GAME OVER\n 5초 뒤에 로비로 이동합니다.");
-                //timerText.gameObject.SetActive(false);
+                timerText.text = string.Format("GAME OVER\n 5초 뒤에 로비로 이동합니다.");                
                 StartCoroutine(LeaveGame());
                 Debug.Log("타임오버");
             }
             if (PN.IsMasterClient)
-            {   
-                
+            {
                 if (count)
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
                 }
-            }            
+            }
         }
     }
 
-
-
-     IEnumerator PlayTimer()
+    public IEnumerator PlayTimer()
     {
         yield return new WaitForSeconds(1);
         int nextTime = limitedTime -= 1;
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
-        count = true;       
+        count = true;      
     }
-
     IEnumerator StartTimer()
     {
         startText.text = string.Format("게임이 5초 뒤에 시작됩니다.");
@@ -149,13 +135,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     IEnumerator LeaveGame()
     {
         yield return new WaitForSeconds(5);
-        /*if(PN.IsMasterClient)
+        /*if (PN.IsMasterClient)
         {
             PN.LoadLevel(3);
         }*/
-        PN.LeaveRoom();
+         PN.LeaveRoom();
     }
-
     public override void OnLeftRoom()
     {
         if (PN.IsMasterClient)
@@ -211,23 +196,4 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         PN.LeaveRoom();
     }
 
-    // 팀별 캐릭터생성 if문
-    /*if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.RED)
-       {
-           PN.AutomaticallySyncScene = true;
-           NetworkManager.NM.inGame = true;
-           spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
-           count = true;
-           Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-           Info();
-       }
-       else if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.BLUE)
-       {
-           PN.AutomaticallySyncScene = true;
-           NetworkManager.NM.inGame = true;
-           spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
-           count = true;
-           Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-           Info();
-       }*/
 }

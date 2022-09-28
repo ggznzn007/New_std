@@ -10,10 +10,10 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using static ObjectPooler;
-public class TutorialManager : MonoBehaviourPunCallbacks
+
+public class TutorialManager2 : MonoBehaviourPunCallbacks
 {
-    public static TutorialManager TM;
+    public static TutorialManager2 TM2;
 
     [SerializeField] GameObject redTeam;
     [SerializeField] GameObject blueTeam;
@@ -22,17 +22,17 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        TM = this;
+        TM2 = this;
 
     }
     private void Start()
     {
-        if(!PN.IsConnectedAndReady)
+        if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
-           // PN.LoadLevel(0);
+            // PN.LoadLevel(0);
         }
-        
+
         if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.RED)
         {
             PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
@@ -41,7 +41,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
             Info();
         }
-        else if(PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.BLUE)
+        else if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.BLUE)
         {
             PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
             NetworkManager.NM.inGame = false;
@@ -50,7 +50,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             Info();
         }
     }
-         
+
 
     [ContextMenu("포톤 서버 정보")]
     void Info()
@@ -99,5 +99,4 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
 
-   
 }
