@@ -96,19 +96,16 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         Nickname.transform.forward = -myCam.transform.forward;
     }
     public void Initialize()                                                  // 플레이어 초기화 메서드
-    {
-
-        // 플레이어 HP 초기화
+    {        
+        // 플레이어 HP & 닉네임 초기화
         Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;         // 플레이어 포톤뷰가 자신이면 닉네임을 아니면 오너 닉네임
         Nickname.color = PV.IsMine ? Color.white : Color.red;                // 플레이어 포톤뷰가 자신이면 흰색 아니면 빨간색
         actNumber = PV.Owner.ActorNumber;
-
 
         isAlive = true;                                                      // 플레이어 죽음 초기화
         curHP = inItHP;                                                      // 플레이어 HP 초기화
         HP.fillAmount = inItHP;                                              // 실제로 보여지는 HP양 초기화
         GetNickNameByActorNumber(actNumber);
-
     }
 
     public string GetNickNameByActorNumber(int actorNumber)   //닉네임 가져오기
