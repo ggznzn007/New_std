@@ -34,19 +34,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("서버 접속창")]
     [SerializeField] GameObject connectUI;
 
+    [Header("유저 닉네임")]
+    [SerializeField] TMP_InputField nick;
+
     [Header("팀선택 창")]
     [SerializeField] GameObject teamSelectUI;
 
     [Header("맵선택 창")]
     [SerializeField] GameObject mapSelectUI;
 
-    [Header("튜토리얼1 참가인원")]
+    [Header("튜토리얼 & 토이 참가인원")]
     [SerializeField] TextMeshProUGUI countText_TT;
 
     /*[Header("TOY 참가인원")]
     [SerializeField] TextMeshProUGUI countText_T;*/
 
-    [Header("튜토리얼2 참가인원")]
+    [Header("튜토리얼 & 웨스턴 참가인원")]
     [SerializeField] TextMeshProUGUI countText_TW;
 
     /*[Header("Western 참가인원")]
@@ -89,19 +92,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     public void StartToServer()                                                     // 서버연결 메서드
-    {
+    {        
         PN.ConnectUsingSettings();                                                  // 디폴트 연결
         //PN.ConnectToMaster(masterAddress, portNum, appID);                        // 서버주소, 포트넘버, 앱아이디로 서버연결
         PN.GameVersion = gameVersion;                                               // 게임 버전 *중요
         PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
         PN.SendRate = 60;
         PN.SerializationRate = 30;
-        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
-
-        for (int i = 0; i < NickNumber.Length; i++)
+        // int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
+        /*for (int i = 0; i < NickNumber.Length; i++)
         {
             PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
-        }
+        }*/
+        PN.LocalPlayer.NickName = nick.text;
     }
 
 
@@ -124,7 +127,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         //PN.KeepAliveInBackground = 3;
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 300 } };
+        Hashtable options = new Hashtable { { "Time", 10 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -168,7 +171,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 300 } };
+        Hashtable options = new Hashtable { { "Time", 10 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -243,7 +246,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         mapSelectUI.SetActive(false);
-
+        
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:

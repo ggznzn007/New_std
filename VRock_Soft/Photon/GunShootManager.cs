@@ -17,22 +17,25 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 {
     public static GunShootManager GSM;
 
-    [Header("게임 시작 텍스트")]
-    [SerializeField] TextMeshPro startText;
+    [Header("카운트다운 텍스트")]
+    [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
-    public DefaultRoom room;
-
-    // [Header("게임종료 UI")]
-    //[SerializeField] GameObject quitUI;
-    private GameObject spawnPlayer;
-
+    [Header("게임 시작 텍스트(마스터)")]
+    public TextMeshPro startText;
+    [Header("스타트 버튼(마스터)")]
+    public GameObject startBtn;
+    [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
+    [Header("블루팀 프리팹")]
     [SerializeField] GameObject blueTeam;
+    
+    private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
-
+    PhotonView PV;
+    
     private void Awake()
     {
         GSM = this;
@@ -41,10 +44,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         
     private void Start()
     {
+       PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady&&PN.InRoom)
         {           
-            SpawnPlayer();
-            
+            SpawnPlayer();             
         }        
     }
 
@@ -54,33 +57,36 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         {
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = true;
+                NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);                
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 if (PN.IsMasterClient)
                 {
-                    StartCoroutine(StartTimer());
+                    startText.gameObject.SetActive(true);
+                    startBtn.SetActive(true);
                 }
                 break;
 
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = true;
+                NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);                
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 if (PN.IsMasterClient)
                 {
-                    StartCoroutine(StartTimer());
+                    startText.gameObject.SetActive(true);
+                    startBtn.SetActive(true);
                 }
+                
                 break;
 
             default:
                 return;
         }
     }
-     void Update()
+     void FixedUpdate()
     {
         if (PN.InRoom && PN.IsConnectedAndReady)
         {            
@@ -92,29 +98,33 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             if (limitedTime < 60)
             {
                 timerText.text = string.Format("남은시간 {0:0}초", sec);
-            }
-            if (limitedTime <= 0)
-            {
-                count = false;
-                limitedTime = 0;
-                timerText.text = string.Format("GAME OVER\n 5초 뒤에 로비로 이동합니다.");
-                //timerText.gameObject.SetActive(false);
-                StartCoroutine(LeaveGame());
-                Debug.Log("타임오버");
-            }
+            }            
             if (PN.IsMasterClient)
-            {   
+            {
                 
                 if (count)
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
                 }
+               
             }            
         }
     }
 
+    
+    public void StartBtnT()
+    {
+        StartCoroutine(StartTimer());
+        startBtn.SetActive(false);
+        startText.gameObject.SetActive(false);
+    }
 
+    [PunRPC]
+    public void EndGameT()
+    {
+        StartCoroutine(LeaveGame());
+    }
 
      IEnumerator PlayTimer()
     {
@@ -122,38 +132,56 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         int nextTime = limitedTime -= 1;
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
-        count = true;       
-    }
+        count = true;
 
-    IEnumerator StartTimer()
-    {
-        startText.text = string.Format("게임이 5초 뒤에 시작됩니다.");
-        yield return new WaitForSeconds(5);
-        startText.text = string.Format("5");
+        if (limitedTime <= 0)
+        {
+            count = false;
+            limitedTime = 0;            
+            PV.RPC("EndGameT", RpcTarget.All);
+            Debug.Log("타임오버");
+        }
+    }
+      
+    
+
+   public  IEnumerator StartTimer()
+    {        
+        AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
+        countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
+        yield return new WaitForSeconds(3);
+        AudioManager.AM.EffectPlay(AudioManager.Effect.Three);
+        countText.text = string.Format("3");
         yield return new WaitForSeconds(1);
-        startText.text = string.Format("4");
+        AudioManager.AM.EffectPlay(AudioManager.Effect.Two);
+        countText.text = string.Format("2");
         yield return new WaitForSeconds(1);
-        startText.text = string.Format("3");
+        AudioManager.AM.EffectPlay(AudioManager.Effect.One);
+        countText.text = string.Format("1");
         yield return new WaitForSeconds(1);
-        startText.text = string.Format("2");
-        yield return new WaitForSeconds(1);
-        startText.text = string.Format("1");
-        yield return new WaitForSeconds(1);
-        startText.text = string.Format("게임 스타트!!!");
+        AudioManager.AM.EffectPlay(AudioManager.Effect.START);
+        countText.text = string.Format("게임 스타트!!!");
         yield return new WaitForSeconds(1);
         count = true;
+        NetworkManager.NM.inGame = true;
         timerText.gameObject.SetActive(true);
-        startText.gameObject.SetActive(false);
+        countText.gameObject.SetActive(false);
     }
 
-    IEnumerator LeaveGame()
+   
+    public  IEnumerator LeaveGame()
     {
-        yield return new WaitForSeconds(5);
-        /*if(PN.IsMasterClient)
-        {
-            PN.LoadLevel(3);
-        }*/
+        timerText.gameObject.SetActive(false);
+        countText.gameObject.SetActive(true);
+        NetworkManager.NM.inGame = false;
+        AudioManager.AM.EffectPlay(AudioManager.Effect.GAMEOVER);
+        countText.text = string.Format("GAME OVER");
+        yield return new WaitForSeconds(1);
+        AudioManager.AM.EffectPlay(AudioManager.Effect.END);
+        countText.text = string.Format("3초 뒤에 로비로 이동합니다");
+        yield return new WaitForSeconds(5);            
         PN.LeaveRoom();
+        StopCoroutine(LeaveGame());
     }
 
     public override void OnLeftRoom()
