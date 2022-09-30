@@ -56,12 +56,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] List<Collider> playerColls;                                       // 플레이어 콜라이더
 
     [Header("플레이어 죽음여부")]
-     public bool isAlive;                                                      // 플레이어 죽음 판단여부
+    public bool isAlive;                                                      // 플레이어 죽음 판단여부
 
     [Header("플레이어 피격효과 이미지")]
     [SerializeField] Image damageScreen;
     [SerializeField] Image deadScreen;
-    
+
 
     [Header("플레이어 파티클 효과 묶음")]
     [SerializeField] GameObject[] effects;
@@ -82,8 +82,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
         if (!PV.IsMine) return;
-        Nick_HP_Pos();       
-    }   
+        Nick_HP_Pos();
+    }
 
     public void Nick_HP_Pos()
     {
@@ -96,7 +96,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         Nickname.transform.forward = -myCam.transform.forward;
     }
     public void Initialize()                                                  // 플레이어 초기화 메서드
-    {        
+    {
         // 플레이어 HP & 닉네임 초기화
         Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;         // 플레이어 포톤뷰가 자신이면 닉네임을 아니면 오너 닉네임
         Nickname.color = PV.IsMine ? Color.white : Color.red;                // 플레이어 포톤뷰가 자신이면 흰색 아니면 빨간색
@@ -121,8 +121,9 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         return "Ghost";
     }
 
-    public void PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
+    public IEnumerator PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
     {
+        yield return null;
         isDeadLock = false;                                                  // 중복죽음방지
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
         HP.gameObject.SetActive(false);                                      // 플레이어 HP
@@ -137,7 +138,6 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         HP.fillAmount = 0f;
         curHP = 0f;
 
-
         head_Rend.materials = DeadMat_Heads;                                 // 아바타 머리 머티리얼
         body_Rend.materials = DeadMat_Bodys;                                 // 아바타 몸통 머티리얼
         glove_L_Rend.material = DeadMat_Hand;                                // 아바타 왼손 장갑 머티리얼
@@ -146,12 +146,9 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
     }
 
-    public void PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
+    public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
     {
-        isDeadLock = true;
         deadScreen.gameObject.SetActive(false);
-        isAlive = true;
-        HP.gameObject.SetActive(true);
         Nickname.gameObject.SetActive(true);
         at_hand_Left.SetActive(true);
         at_hand_Right.SetActive(true);
@@ -161,15 +158,21 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
 
-        HP.fillAmount = inItHP;
-        curHP = inItHP;
-
         head_Rend.materials = head_Mats;
         body_Rend.materials = body_Mats;
         glove_L_Rend.material = glove_R;
         glove_R_Rend.material = glove_R;
         hand_L_Rend.material = hand_R;
         hand_R_Rend.material = hand_R;
+
+        effects[2].SetActive(true);                   // 실드 효과 On
+        yield return new WaitForSeconds(4);           // 4초간격
+        effects[2].SetActive(false);                  // 실드 효과 Off
+        isAlive = true;
+        isDeadLock = true;
+        curHP = inItHP;
+        HP.fillAmount = inItHP;
+        HP.gameObject.SetActive(true);
     }
 
     /*  public void DamagedPlayer(float pow)
@@ -187,7 +190,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
       }*/
     private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
     {
-        if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam==Team.BLUE)
+        if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam == Team.BLUE)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("리스폰");
@@ -207,6 +210,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             if (isDeadLock)
             {
                 PV.RPC("Damaged", RpcTarget.All, attackPower);
+                AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
                 Debug.Log("총알에 맞음");
             }
         }
@@ -214,11 +218,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
-        damageScreen.gameObject.SetActive(true);
-        damageScreen.color = new Color(1, 0, 0, 1.0f);
-        yield return new WaitForSeconds(0.1f);
+        //damageScreen.gameObject.SetActive(true);
+        damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f,0.75f));
+        yield return new WaitForSeconds(0.3f);
         damageScreen.color = Color.clear;
-        damageScreen.gameObject.SetActive(false);
+        //yield return new WaitForSeconds(0.1f);
+       // damageScreen.gameObject.SetActive(false);
     }
 
     public IEnumerator ShowDeadEffect()                                       // 죽음 효과 보여주기
@@ -238,13 +243,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void Damaged(float pow)
     {
-        if (isAlive)
+        if (PV.IsMine && isAlive)
         {
             AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
         }
         //curHP = Mathf.Max(0, curHP - pow);                
-        curHP -= pow;                
-        HP.fillAmount = curHP/inItHP;
+        curHP -= pow;
+        HP.fillAmount = curHP / inItHP;
         if (PV.IsMine && curHP <= 0.0f)
         {
             isAlive = false;
@@ -264,7 +269,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
         AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDead);
 
-        PlayerDead();
+        StartCoroutine(PlayerDead());
     }
 
     [PunRPC]
@@ -276,7 +281,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
         StartCoroutine(ShowRespawnEffect());
 
-        PlayerRespawn();
+        StartCoroutine(PlayerRespawn());
     }
 
 
