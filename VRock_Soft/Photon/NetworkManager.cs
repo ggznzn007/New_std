@@ -36,12 +36,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     [Header("유저 닉네임")]
     [SerializeField] TMP_InputField nick;
-
-    [Header("팀선택 창")]
-    [SerializeField] GameObject teamSelectUI;
-
+    
     [Header("맵선택 창")]
     [SerializeField] GameObject mapSelectUI;
+
+    [Header("토이 팀선택 창")]
+    [SerializeField] GameObject teamSelectUI_T;
+
+    [Header("웨스턴 팀선택 창")]
+    [SerializeField] GameObject teamSelectUI_W;
 
     [Header("튜토리얼 & 토이 참가인원")]
     [SerializeField] TextMeshProUGUI countText_TT;
@@ -73,6 +76,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // private readonly int portNum = 5055;
     private readonly int n = 1;
     private readonly int maxCount = 100;
+    
     public Hashtable team = new Hashtable();
     
     private void Awake()
@@ -88,7 +92,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        DataManager.DM.startingNum++;
+       // DataManager.DM.startingNum++;
     }
 
     public void StartToServer()                                                     // 서버연결 메서드
@@ -104,30 +108,49 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
         }*/
-        PN.LocalPlayer.NickName = nick.text;
+        string str = nick.text;
+        PN.LocalPlayer.NickName = str.ToUpper();
+
+    }
+    public void InitTutoT()                                                          // 토이 선택
+    {
+        DataManager.DM.currentMap = Map.TUTORIAL_T;        
+        PN.JoinLobby();
     }
 
+    public void InitTutoW()                                                         // 웨스턴 선택
+    {
+        DataManager.DM.currentMap = Map.TUTORIAL_W;
+        PN.JoinLobby();
+    }
 
-    public void InitRed()
+    public void InitRed(int defaultRoomIndex)                                       // 레드팀 선택
     {
         DataManager.DM.currentTeam = Team.RED;
-        DataManager.DM.isSelected = true;
-        PN.JoinLobby();
-    }
-    public void InitBlue()
-    {
-        DataManager.DM.currentTeam = Team.BLUE;
-        DataManager.DM.isSelected = true;
-        PN.JoinLobby();
-    }
-
-    public void InitTutoT(int defaultRoomIndex)
-    {
-        DataManager.DM.currentMap = Map.TUTORIAL_T;
-        //PN.KeepAliveInBackground = 3;
+          
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 10 } };
+        Hashtable options = new Hashtable { { "Time", 180 } };
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            IsVisible = true,
+            IsOpen = true,
+            MaxPlayers = (byte)roomSettings.maxPLayer,
+            PlayerTtl = 235,
+            EmptyRoomTtl = 236, 
+            CustomRoomProperties = options
+        };
+
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
+    }
+    public void InitBlue(int defaultRoomIndex)                                      // 블루팀 선택
+    {
+        DataManager.DM.currentTeam = Team.BLUE;
+
+        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
+
+        Hashtable options = new Hashtable { { "Time", 180 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -139,9 +162,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             CustomRoomProperties = options
         };
 
-        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
-
+        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);        
     }
+
+    
     public void InitToy(int defaultRoomIndex)
     {
         DataManager.DM.currentMap = Map.TOY;
@@ -164,29 +188,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
 
     }
-
-    public void InitTutoW(int defaultRoomIndex)
-    {
-        DataManager.DM.currentMap = Map.TUTORIAL_W;
-
-        DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
-
-        Hashtable options = new Hashtable { { "Time", 10 } };
-
-        RoomOptions roomOptions = new RoomOptions
-        {
-            IsVisible = true,
-            IsOpen = true,
-            MaxPlayers = (byte)roomSettings.maxPLayer,
-            PlayerTtl = 235,
-            EmptyRoomTtl = 236,
-            CustomRoomProperties = options
-        };
-
-        PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
-
-    }
-
     public void InitWestern(int defaultRoomIndex)
     {
         DataManager.DM.currentMap = Map.WESTERN;
@@ -216,51 +217,50 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
-        if (DataManager.DM.startingNum == 1)
-        {
-            connectUI.SetActive(false);
-            teamSelectUI.SetActive(true);
-        }
-        else if (DataManager.DM.startingNum > 1)
-        {
-            connectUI.SetActive(false);
-            teamSelectUI.SetActive(false);
-            PN.JoinLobby();
-        }
+        connectUI.SetActive(false);
+        mapSelectUI.SetActive(true);
 
         Debug.Log($"{PN.LocalPlayer.NickName} 서버에 접속하였습니다.");
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
-    {
-        if (DataManager.DM.isSelected && PN.InLobby)
+    {        
+        switch(DataManager.DM.currentMap)
         {
-            teamSelectUI.SetActive(false);
-            mapSelectUI.SetActive(true);
+            case Map.TUTORIAL_T:
+                teamSelectUI_T.SetActive(true);
+                mapSelectUI.SetActive(false);
+                break;
+            case Map.TUTORIAL_W:
+                teamSelectUI_W.SetActive(true);
+                mapSelectUI.SetActive(false);
+                break;
+            default:
+                return;
         }
-
-
         Debug.Log($"{PN.LocalPlayer.NickName}님이 로비에 입장하였습니다.");
     }
 
     public override void OnJoinedRoom()
-    {
-        mapSelectUI.SetActive(false);
-        
+    {        
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
+                teamSelectUI_T.SetActive(false);
                 PN.LoadLevel(1); // 튜토리얼T
                 break;
             case Map.TOY:
                 PN.LoadLevel(2); // 토이
                 break;
             case Map.TUTORIAL_W:
+                teamSelectUI_W.SetActive(false);
                 PN.LoadLevel(3); // 튜토리얼W
                 break;
             case Map.WESTERN:
                 PN.LoadLevel(4); // 웨스턴
                 break;
+            default:
+                return;
         }
     }
 
@@ -289,14 +289,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     Debug.Log("웨스턴튜토 인원 : " + room.PlayerCount);
                     countText_TW.text = room.PlayerCount + " 명";
                     break;
-               /* case "Toy":
-                    Debug.Log("토이방 인원 : " + room.PlayerCount);
-                    countText_T.text = room.PlayerCount + " 명";
-                    break;
-                case "Western":
-                    Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
-                    countText_W.text = room.PlayerCount + " 명";
-                    break;*/
+                default:
+                    return;
+                    /* case "Toy":
+                         Debug.Log("토이방 인원 : " + room.PlayerCount);
+                         countText_T.text = room.PlayerCount + " 명";
+                         break;
+                     case "Western":
+                         Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
+                         countText_W.text = room.PlayerCount + " 명";
+                         break;*/
             }
         }
     }

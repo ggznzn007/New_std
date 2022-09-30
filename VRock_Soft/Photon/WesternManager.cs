@@ -154,18 +154,19 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText.gameObject.SetActive(false);
     }
 
-    IEnumerator LeaveGame()
+   public IEnumerator LeaveGame()
     {
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
         NetworkManager.NM.inGame = false;
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMEOVER);
-        timerText.text = string.Format("GAME OVER");
+        countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(1);
         AudioManager.AM.EffectPlay(AudioManager.Effect.END);
-        timerText.text = string.Format("3초 뒤에 로비로 이동합니다");
-        yield return new WaitForSeconds(5);
+        countText.text = string.Format("3초 뒤에 로비로 이동합니다");
+        yield return new WaitForSeconds(4);            
         PN.LeaveRoom();
+        StopCoroutine(LeaveGame());
     }
     public override void OnLeftRoom()
     {
