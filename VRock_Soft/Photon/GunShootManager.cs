@@ -64,7 +64,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                 if (PN.IsMasterClient)
                 {
                     startText.gameObject.SetActive(true);
-                    startBtn.SetActive(true);
+                    startBtn.SetActive(true);                    
                 }
                 break;
 
@@ -132,7 +132,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         int nextTime = limitedTime -= 1;
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
-        count = true;
+        count = true;       
 
         if (limitedTime <= 0)
         {
@@ -179,7 +179,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         yield return new WaitForSeconds(1);
         AudioManager.AM.EffectPlay(AudioManager.Effect.END);
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
-        yield return new WaitForSeconds(5);            
+        yield return new WaitForSeconds(4);        
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }

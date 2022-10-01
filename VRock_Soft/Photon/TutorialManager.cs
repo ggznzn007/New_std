@@ -17,6 +17,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject redTeam;
     [SerializeField] GameObject blueTeam;
+    //[SerializeField] GameObject startBtn;
+    
 
     private GameObject spawnPlayer;
 
@@ -27,30 +29,48 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        if(!PN.IsConnectedAndReady)
+        if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
-           // PN.LoadLevel(0);
         }
-        
-        if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.RED)
+        if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
-            NetworkManager.NM.inGame = false;
-            spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity, 0);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-            Info();
+            SpawnPlayer();
         }
-        else if(PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.BLUE)
+
+    }
+
+    public void SpawnPlayer()
+    {
+        switch (DataManager.DM.currentTeam)
         {
-            PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
-            NetworkManager.NM.inGame = false;
-            spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity, 0);
-            Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-            Info();
+            case Team.RED:
+                PN.AutomaticallySyncScene = true;
+                NetworkManager.NM.inGame = false;
+                spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
+                Info();
+                break;
+
+            case Team.BLUE:
+                PN.AutomaticallySyncScene = true;
+                NetworkManager.NM.inGame = false;
+                spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
+                Info();
+                break;
+
+            default:
+                return;
         }
     }
-         
+
+   /*public IEnumerator MasterKey()
+    {
+        yield return new WaitForSeconds(5);
+        startBtn.SetActive(true);       
+    }
+*/
 
     [ContextMenu("포톤 서버 정보")]
     void Info()
@@ -99,5 +119,5 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
 
-   
+
 }
