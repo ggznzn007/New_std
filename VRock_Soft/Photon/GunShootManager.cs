@@ -51,16 +51,16 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
+            if(PN.IsMasterClient)
+            {
+                PV.RPC("StartBtnT", RpcTarget.AllBuffered);
+            }
             
             if (DataManager.DM.currentTeam != Team.ADMIN)
             {
                 admin.SetActive(false);
             }
-        }
-        if(PN.CurrentRoom.PlayerCount==2)
-        {
-            PV.RPC("StartBtnT", RpcTarget.All);
-        }
+        }        
     }
 
     public void SpawnPlayer()
