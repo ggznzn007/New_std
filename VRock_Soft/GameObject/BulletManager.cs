@@ -132,7 +132,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
+            
             Destroy(effect, 0.5f);
             //Destroy(this.gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
@@ -140,7 +140,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         }
         
         
-        if (collsion.collider.CompareTag("Toy"))
+        if (collsion.collider.CompareTag("Toy"))   // 토이 튜토리얼 갈릭 태그
         {           
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -153,16 +153,35 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             var effect = Instantiate(exploreEffect, contact.point, rot);
             AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
             Destroy(effect, 0.5f);
+            Destroy(collsion.collider.gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
-
-            //PN.LeaveRoom();
+            
             if (PN.IsMasterClient)
             {
                 PN.LoadLevel(2);
             }
+           
         }
 
-        if (collsion.collider.CompareTag("Tuto_W"))
+        /* if (collsion.collider.CompareTag("Tuto_W"))
+         {
+             // 충돌지점의 정보를 추출
+             ContactPoint contact = collsion.contacts[0];
+             // 법선 벡타가 이루는 회전각도 추출
+             Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+             // 충돌 지점에 이펙트 생성           
+             var effect = Instantiate(exploreEffect, contact.point, rot);
+             AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
+             Destroy(effect, 0.5f);
+             PV.RPC("DestroyBullet", RpcTarget.All);
+              PN.LeaveRoom();
+             *//*if (PN.IsMasterClient)
+             {
+                 PN.LoadLevel(3);
+             }*//*
+         }*/
+
+        if (collsion.collider.CompareTag("West"))  // 웨스트 튜토리얼 갈릭 태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -173,24 +192,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
             Destroy(effect, 0.5f);
             PV.RPC("DestroyBullet", RpcTarget.All);
-             PN.LeaveRoom();
-            /*if (PN.IsMasterClient)
-            {
-                PN.LoadLevel(3);
-            }*/
-        }
-
-        if (collsion.collider.CompareTag("West"))
-        {
-            // 충돌지점의 정보를 추출
-            ContactPoint contact = collsion.contacts[0];
-            // 법선 벡타가 이루는 회전각도 추출
-            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-            // 충돌 지점에 이펙트 생성           
-            var effect = Instantiate(exploreEffect, contact.point, rot);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
-            Destroy(effect, 0.5f);
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            Destroy(collsion.collider.gameObject);
             // PN.LeaveRoom();
             if (PN.IsMasterClient)
             {
@@ -198,7 +200,23 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             }
         }
 
-        if (collsion.collider.CompareTag("Next"))
+        if (collsion.collider.CompareTag("Next")) 
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collsion.contacts[0];
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+            AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
+            Destroy(effect, 0.5f);
+            Destroy(collsion.collider);
+            PV.RPC("DestroyBullet", RpcTarget.All);
+            PN.LeaveRoom();
+           
+        }
+
+       /* if (collsion.collider.CompareTag("TS"))
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collsion.contacts[0];
@@ -209,12 +227,47 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
             Destroy(effect, 0.5f);
             PV.RPC("DestroyBullet", RpcTarget.All);
-            PN.LeaveRoom();
-           
-        }
+            if(PN.IsMasterClient)
+            {
+                GunShootManager.GSM.StartBtnT();
+                PV.RPC("StartBtn2",RpcTarget.All);
+            }
+        }*/
+
+      /*  if (collsion.collider.CompareTag("WS"))
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collsion.contacts[0];
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+            AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
+            Destroy(effect, 0.5f);
+            PV.RPC("DestroyBullet", RpcTarget.All);
+            if (PN.IsMasterClient)
+            {
+                WesternManager.WM.StartBtnW();
+                PV.RPC("StartBtn3", RpcTarget.All);
+            }
+
+
+        }*/
     }
 
-    
+    /*[PunRPC]
+    public void StartBtn2()
+    {
+       GunShootManager.GSM.StartBtnT();
+       GunShootManager.GSM.startBtn.SetActive(false);
+    }*/
+
+   /* [PunRPC]
+    public void StartBtn3()
+    {
+        WesternManager.WM.StartBtnW();
+        WesternManager.WM.startBtn.SetActive(false);
+    }*/
 
     [PunRPC]
    public void BulletDir(float speed, int actorNumber)//,int addSpeed)
