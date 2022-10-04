@@ -18,15 +18,17 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
-    [Header("게임 시작 텍스트(마스터)")]
+    /*[Header("게임 시작 텍스트(마스터)")]
     public TextMeshPro startText;
     [Header("스타트 버튼(마스터)")]
-    public GameObject startBtn;
+    public GameObject startBtn;*/
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
     [Header("블루팀 프리팹")]
     [SerializeField] GameObject blueTeam;
-    
+    [Header("관리자")]
+    public GameObject admin;
+
     private GameObject spawnPlayer;
 
     [SerializeField] bool count = false;
@@ -44,6 +46,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
+            if (DataManager.DM.currentTeam != Team.ADMIN)
+            {
+                admin.SetActive(false);
+            }
         }
     }
 
@@ -56,12 +62,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
-                if (PN.IsMasterClient)
-                {
-                    startText.gameObject.SetActive(true);
-                    startBtn.SetActive(true);
-                }
+                Info();               
                 break;
 
             case Team.BLUE:
@@ -69,20 +70,38 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
-                if (PN.IsMasterClient)
-                {
-                    startText.gameObject.SetActive(true);
-                    startBtn.SetActive(true);
-                }
+                Info();                
                 break;
-
+#if UNITY_EDITOR_WIN
+            case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                NetworkManager.NM.inGame = false;
+                spawnPlayer = admin;
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+                break;
+#endif
             default:
                 return;
         }
     }
+
+    private void Update()
+    {
+#if UNITY_EDITOR_WIN
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            PV.RPC("StartBtnW", RpcTarget.All);
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            PV.RPC("EndGameW", RpcTarget.All);
+        }
+#endif
+    }
     void FixedUpdate()
     {
+
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
@@ -104,11 +123,13 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    [PunRPC]
     public void StartBtnW()
     {
         StartCoroutine(StartTimer());
-        startBtn.SetActive(false);
-        startText.gameObject.SetActive(false);
+        //startBtn.SetActive(false);
+        //startText.gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -174,6 +195,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         {
             PN.DestroyAll();
         }
+
+#if UNITY_EDITOR_WIN
+        admin.SetActive(false);
+#endif
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
 

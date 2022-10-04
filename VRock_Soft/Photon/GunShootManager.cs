@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using static ObjectPooler;
-
+using Unity.VisualScripting;
 
 public class GunShootManager : MonoBehaviourPunCallbacks                      // 토이
 {
@@ -21,34 +21,46 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간")]
     [SerializeField] TextMeshPro timerText;
-    [Header("게임 시작 텍스트(마스터)")]
+    /*[Header("게임 시작 텍스트(마스터)")]
     public TextMeshPro startText;
     [Header("스타트 버튼(마스터)")]
-    public GameObject startBtn;
+    public GameObject startBtn;*/
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
     [Header("블루팀 프리팹")]
     [SerializeField] GameObject blueTeam;
-    
+    [Header("관리자")]
+    public GameObject admin;
+
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
-    
+    Vector3 adminPos = new Vector3(-8.5f, 9, 0);
+    Quaternion adminRot = new Quaternion(30, 90, 0, 0);
     private void Awake()
     {
         GSM = this;
-        DataManager.DM.currentMap = Map.TOY;        
+        DataManager.DM.currentMap = Map.TOY;
     }
-        
+
     private void Start()
     {
-       PV = GetComponent<PhotonView>();
-        if (PN.IsConnectedAndReady&&PN.InRoom)
-        {           
-            SpawnPlayer();             
-        }        
+        PV = GetComponent<PhotonView>();
+        if (PN.IsConnectedAndReady && PN.InRoom)
+        {
+            SpawnPlayer();
+            
+            if (DataManager.DM.currentTeam != Team.ADMIN)
+            {
+                admin.SetActive(false);
+            }
+        }
+        if(PN.CurrentRoom.PlayerCount==2)
+        {
+            PV.RPC("StartBtnT", RpcTarget.All);
+        }
     }
 
     public void SpawnPlayer()
@@ -58,38 +70,67 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;
-                spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);                
+                spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-                if (PN.IsMasterClient)
+                /*if (PN.IsMasterClient)
                 {
                     startText.gameObject.SetActive(true);
                     startBtn.SetActive(true);                    
-                }
+                }*/
                 break;
 
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;
-                spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);                
+                spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-                if (PN.IsMasterClient)
+                /* if (PN.IsMasterClient)
+                 {
+                     startText.gameObject.SetActive(true);
+                     startBtn.SetActive(true);
+                 }*/
+
+                break;
+#if UNITY_EDITOR_WIN
+            case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                NetworkManager.NM.inGame = false;
+                spawnPlayer = admin;
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+                /*if (PN.IsMasterClient)
                 {
                     startText.gameObject.SetActive(true);
                     startBtn.SetActive(true);
-                }
-                
-                break;
+                }*/
 
+                break;
+#endif
             default:
                 return;
         }
     }
-     void FixedUpdate()
+
+    private void Update()
+    {
+#if UNITY_EDITOR_WIN
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            PV.RPC("StartBtnT", RpcTarget.All);
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            PV.RPC("EndGameT", RpcTarget.All);
+        }
+#endif
+    }
+
+    void FixedUpdate()
     {
         if (PN.InRoom && PN.IsConnectedAndReady)
-        {            
+        {
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
             limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
@@ -98,26 +139,27 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             if (limitedTime < 60)
             {
                 timerText.text = string.Format("남은시간 {0:0}초", sec);
-            }            
+            }
             if (PN.IsMasterClient)
             {
-                
+
                 if (count)
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
                 }
-               
-            }            
+
+            }
         }
     }
 
-    
+   
+    [PunRPC]
     public void StartBtnT()
     {
-        StartCoroutine(StartTimer());
-        startBtn.SetActive(false);
-        startText.gameObject.SetActive(false);
+        StartCoroutine(StartTimer());        
+        //startBtn.SetActive(false);
+      //  startText.gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -126,27 +168,28 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         StartCoroutine(LeaveGame());
     }
 
-     IEnumerator PlayTimer()
+    IEnumerator PlayTimer()
     {
         yield return new WaitForSeconds(1);
         int nextTime = limitedTime -= 1;
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
-        count = true;       
+        count = true;
 
         if (limitedTime <= 0)
         {
             count = false;
-            limitedTime = 0;            
+            limitedTime = 0;
             PV.RPC("EndGameT", RpcTarget.All);
             Debug.Log("타임오버");
         }
     }
-      
-    
 
-   public  IEnumerator StartTimer()
-    {        
+
+
+    public IEnumerator StartTimer()
+    {
+        yield return new WaitForSeconds(5);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -168,8 +211,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         countText.gameObject.SetActive(false);
     }
 
-   
-    public  IEnumerator LeaveGame()
+
+    public IEnumerator LeaveGame()
     {
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
@@ -179,7 +222,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         yield return new WaitForSeconds(1);
         AudioManager.AM.EffectPlay(AudioManager.Effect.END);
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
-        yield return new WaitForSeconds(4);        
+        yield return new WaitForSeconds(4);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }
@@ -191,7 +234,9 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             PN.DestroyAll();
         }
 
-
+#if UNITY_EDITOR_WIN
+        admin.SetActive(false);
+#endif
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
 

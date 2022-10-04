@@ -17,6 +17,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject redTeam;
     [SerializeField] GameObject blueTeam;
+    [SerializeField] GameObject admin;
+
+    Vector3 adminPos = new Vector3(0, 3f, 4.8f);
+    Quaternion adminRot = new Quaternion(30f,180f,0,0);
     //[SerializeField] GameObject startBtn;
     
 
@@ -36,8 +40,22 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
+            if(DataManager.DM.currentTeam!=Team.ADMIN)
+            {
+                admin.SetActive(false);
+            }
         }
 
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR_WIN
+        if (PN.InRoom&&PN.IsMasterClient)
+        {
+           if (Input.GetKeyDown(KeyCode.Return)) { PN.LoadLevel(2); }
+        }
+#endif
     }
 
     public void SpawnPlayer()
@@ -59,6 +77,15 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
                 Info();
                 break;
+#if UNITY_EDITOR_WIN
+            case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                NetworkManager.NM.inGame = false;
+                spawnPlayer = admin;
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+                break;
+#endif
 
             default:
                 return;
