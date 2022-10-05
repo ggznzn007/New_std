@@ -37,8 +37,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
-    Vector3 adminPos = new Vector3(-8.5f, 9, 0);
-    Quaternion adminRot = new Quaternion(30, 90, 0, 0);
+    /*Vector3 adminPos = new Vector3(-8.5f, 9, 0);
+    Quaternion adminRot = new Quaternion(30, 90, 0, 0);*/
     private void Awake()
     {
         GSM = this;
@@ -53,7 +53,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             SpawnPlayer();
             if(PN.IsMasterClient)
             {
-                PV.RPC("StartBtnT", RpcTarget.AllBuffered);
+                PV.RPC("StartBtnT", RpcTarget.AllViaServer);
             }
             
             if (DataManager.DM.currentTeam != Team.ADMIN)
@@ -124,6 +124,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         {
             PV.RPC("EndGameT", RpcTarget.All);
         }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 #endif
     }
 
@@ -189,7 +193,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -234,9 +238,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
             PN.DestroyAll();
         }
 
-#if UNITY_EDITOR_WIN
-        admin.SetActive(false);
-#endif
+
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
 

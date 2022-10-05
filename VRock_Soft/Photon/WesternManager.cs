@@ -46,6 +46,11 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
+
+            if (PN.IsMasterClient)
+            {
+                PV.RPC("StartBtnW", RpcTarget.AllViaServer);
+            }
             if (DataManager.DM.currentTeam != Team.ADMIN)
             {
                 admin.SetActive(false);
@@ -96,6 +101,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
             PV.RPC("EndGameW", RpcTarget.All);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
 #endif
     }
@@ -154,6 +163,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     IEnumerator StartTimer()
     {
+        yield return new WaitForSeconds(10);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -196,9 +206,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             PN.DestroyAll();
         }
 
-#if UNITY_EDITOR_WIN
-        admin.SetActive(false);
-#endif
+
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
 

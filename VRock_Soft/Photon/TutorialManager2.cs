@@ -48,7 +48,12 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         if (PN.InRoom && PN.IsMasterClient)
         {
             if (Input.GetKeyDown(KeyCode.Return)) { PN.LoadLevel(4); }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
+       
 #endif
     }
 
