@@ -204,26 +204,62 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && isAlive && NetworkManager.NM.inGame)
+        switch (DataManager.DM.currentTeam)
         {
-            StartCoroutine(ShowDamageScreen());
-            if (isDeadLock)
-            {
-                PV.RPC("Damaged", RpcTarget.All, attackPower);
-                AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
-                Debug.Log("총알에 맞음");
-            }
+            case Team.RED:
+                if (collision.collider.CompareTag("BlueBull") && isAlive && NetworkManager.NM.inGame)
+                {
+                    StartCoroutine(ShowDamageScreen());
+                    if (isDeadLock)
+                    {
+                        PV.RPC("Damaged", RpcTarget.All, attackPower);
+                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+                        Debug.Log("총알에 맞음");
+                    }
+                }
+                else if(collision.collider.CompareTag("BlueBull") && isAlive && NetworkManager.NM.inGame)
+                {
+                    if (isDeadLock)
+                    {                       
+                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+                        Debug.Log("총알에 맞음");
+                    }
+                }
+                break;
+            case Team.BLUE:
+                if (collision.collider.CompareTag("RedBull") && isAlive && NetworkManager.NM.inGame)
+                {
+                    StartCoroutine(ShowDamageScreen());
+                    if (isDeadLock)
+                    {
+                        PV.RPC("Damaged", RpcTarget.All, attackPower);
+                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+                        Debug.Log("총알에 맞음");
+                    }
+                }
+                else if (collision.collider.CompareTag("RedBull") && isAlive && NetworkManager.NM.inGame)
+                {
+                    if (isDeadLock)
+                    {
+                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+                        Debug.Log("총알에 맞음");
+                    }
+                }
+                break;
+
+
         }
+
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
         //damageScreen.gameObject.SetActive(true);
-        damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f,0.75f));
+        damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
         yield return new WaitForSeconds(0.3f);
         damageScreen.color = Color.clear;
         //yield return new WaitForSeconds(0.1f);
-       // damageScreen.gameObject.SetActive(false);
+        // damageScreen.gameObject.SetActive(false);
     }
 
     public IEnumerator ShowDeadEffect()                                       // 죽음 효과 보여주기
