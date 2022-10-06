@@ -18,15 +18,18 @@ using Antilatency.SDK;
 public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴 
-
+   /* public static Action headShot;
+    public static Action bodyShot;
+    public static Action respawnP;*/
     [Header("플레이어 정보")]
     [SerializeField] Text Nickname;                                                    // 플레이어 닉네임
+    [SerializeField] PhotonView PV;                                                   // 포톤뷰
     [SerializeField] Image HP;                                                         // 플레이어 HP
     [SerializeField] float curHP = 100.0f;
     [SerializeField] float inItHP = 100.0f;
-    [SerializeField] PhotonView PV;                                                   // 포톤뷰
     [SerializeField] int actNumber = 0;
-    [SerializeField] float attackPower = 10f;
+    [SerializeField] float attackPower = 15f;
+    [SerializeField] float attackPowerH = 30f;
     [SerializeField] GameObject myGun;
     [SerializeField] GameObject hand_Left;
     [SerializeField] GameObject hand_Right;
@@ -54,6 +57,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("플레이어 콜라이더")]
     [SerializeField] List<Collider> playerColls;                                       // 플레이어 콜라이더
+    
 
     [Header("플레이어 죽음여부")]
     public bool isAlive;                                                      // 플레이어 죽음 판단여부
@@ -69,8 +73,21 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+       /* headShot = () =>
+        {
+            CriticalDamage();
+        };
+        bodyShot = () =>
+        {
+            NormalDamage();
+        };
+        respawnP = () =>
+        {
+            Respawn();
+        };*/
+
         ATC = this;
-        PV = GetComponent<PhotonView>();
+        PV = GetComponent<PhotonView>();        
     }
 
     void Start()
@@ -132,8 +149,11 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_Left.SetActive(false);                                          // 왼손 컨트롤러
         hand_Right.SetActive(false);                                         // 오른손 컨트롤러
         FPS.SetActive(false);                                                // 프레임UI
+        playerColls[0].enabled = true;                                      // 아이템스폰박스 왼쪽
+        playerColls[1].enabled = false;                                      // 아이템스폰박스 왼쪽
         playerColls[2].enabled = false;                                      // 아이템스폰박스 왼쪽
         playerColls[3].enabled = false;                                      // 아이템스폰박스 오른쪽
+        playerColls[4].enabled = false;                                      // 아이템스폰박스 오른쪽
 
         HP.fillAmount = 0f;
         curHP = 0f;
@@ -148,6 +168,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
     {
+        Debug.Log("리스폰");
         deadScreen.gameObject.SetActive(false);
         Nickname.gameObject.SetActive(true);
         at_hand_Left.SetActive(true);
@@ -155,8 +176,11 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_Left.SetActive(true);
         hand_Right.SetActive(true);
         FPS.SetActive(true);
+        playerColls[0].enabled = false;
+        playerColls[1].enabled = true;
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
+        playerColls[4].enabled = true;
 
         head_Rend.materials = head_Mats;
         body_Rend.materials = body_Mats;
@@ -166,7 +190,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         hand_R_Rend.material = hand_R;
 
         effects[2].SetActive(true);                   // 실드 효과 On
-        yield return new WaitForSeconds(4);           // 4초간격
+        yield return new WaitForSeconds(4.5f);           // 4초간격
         effects[2].SetActive(false);                  // 실드 효과 Off
         isAlive = true;
         isDeadLock = true;
@@ -188,68 +212,60 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
               Debug.Log("킬 성공" + hitter);
           }
       }*/
+
+    private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    {
+        if (collision.collider.CompareTag("Bullet") && isAlive && NetworkManager.NM.inGame)
+        {
+            if (playerColls[1])
+            {
+                CriticalDamage();
+            }
+            if (playerColls[2])
+            {
+                NormalDamage();
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
     {
         if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam == Team.BLUE)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
-            Debug.Log("리스폰");
+            Debug.Log("블루팀 리스폰");
         }
 
         else if (col.CompareTag("RespawnRed") && !isAlive && DataManager.DM.currentTeam == Team.RED)
         {
             PV.RPC("RespawnPlayer", RpcTarget.All);
-            Debug.Log("리스폰");
+            Debug.Log("레드팀 리스폰");
         }
     }
-    private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    public void CriticalDamage()
     {
-        switch (DataManager.DM.currentTeam)
+        StartCoroutine(ShowDamageScreen());
+        if (isDeadLock)
         {
-            case Team.RED:
-                if (collision.collider.CompareTag("BlueBull") && isAlive && NetworkManager.NM.inGame)
-                {
-                    StartCoroutine(ShowDamageScreen());
-                    if (isDeadLock)
-                    {
-                        PV.RPC("Damaged", RpcTarget.All, attackPower);
-                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
-                        Debug.Log("총알에 맞음");
-                    }
-                }
-                else if(collision.collider.CompareTag("BlueBull") && isAlive && NetworkManager.NM.inGame)
-                {
-                    if (isDeadLock)
-                    {                       
-                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
-                        Debug.Log("총알에 맞음");
-                    }
-                }
-                break;
-            case Team.BLUE:
-                if (collision.collider.CompareTag("RedBull") && isAlive && NetworkManager.NM.inGame)
-                {
-                    StartCoroutine(ShowDamageScreen());
-                    if (isDeadLock)
-                    {
-                        PV.RPC("Damaged", RpcTarget.All, attackPower);
-                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
-                        Debug.Log("총알에 맞음");
-                    }
-                }
-                else if (collision.collider.CompareTag("RedBull") && isAlive && NetworkManager.NM.inGame)
-                {
-                    if (isDeadLock)
-                    {
-                        AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
-                        Debug.Log("총알에 맞음");
-                    }
-                }
-                break;
-
-
+            PV.RPC("Damaged", RpcTarget.All, attackPowerH);
+            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            Debug.Log("헤드샷");
         }
+    }
+    public void NormalDamage()
+    {
+        StartCoroutine(ShowDamageScreen());
+        if (isDeadLock)
+        {
+            PV.RPC("Damaged", RpcTarget.All, attackPower);
+            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            Debug.Log("바디샷");
+        }
+    }
 
+    public void Respawn()
+    {
+        PV.RPC("RespawnPlayer", RpcTarget.All);        
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
@@ -283,7 +299,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDamaged);
         }
-        //curHP = Mathf.Max(0, curHP - pow);                
+
         curHP -= pow;
         HP.fillAmount = curHP / inItHP;
         if (PV.IsMine && curHP <= 0.0f)
