@@ -85,7 +85,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         //DontDestroyOnLoad(this);
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         adminPlayer.SetActive(true);
         localPlayer.SetActive(false);
 #endif
@@ -97,7 +97,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         if (Input.GetKeyDown(KeyCode.Return)) { StartToServer_Admin(); }             // 관리자        접속
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
         else if (Input.GetKeyDown(KeyCode.T)) { InitTutoT(); }                       // 토이
@@ -275,7 +275,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         connectUI.gameObject.SetActive(false);
         mapSelectUI.gameObject.SetActive(true);
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         ad_ConnectUI.gameObject.SetActive(false);
         ad_MapUI.gameObject.SetActive(true);
 #endif
@@ -289,7 +289,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case Map.TUTORIAL_T:
                 teamSelectUI_T.gameObject.SetActive(true);
                 mapSelectUI.gameObject.SetActive(false);
-#if UNITY_EDITOR_WIN                
+#if UNITY_STANDALONE_WIN                
                 ad_MapUI.gameObject.SetActive(false);
                 ad_ToyUI.gameObject.SetActive(true);
 #endif
@@ -297,7 +297,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case Map.TUTORIAL_W:
                 mapSelectUI.gameObject.SetActive(false);
                 teamSelectUI_W.gameObject.SetActive(true);
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
                 ad_WesternUI.gameObject.SetActive(true);
                 ad_MapUI.gameObject.SetActive(false);
 #endif
@@ -314,8 +314,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case Map.TUTORIAL_T:
             teamSelectUI_T.gameObject.SetActive(false);
-#if UNITY_EDITOR_WIN
-                ad_ToyUI.gameObject.SetActive(false);                
+#if UNITY_STANDALONE_WIN
+                ad_ToyUI.gameObject.SetActive(false);
 #endif
                 PN.LoadLevel(1); // 튜토리얼T
                 break;
@@ -324,7 +324,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case Map.TUTORIAL_W:
             teamSelectUI_W.gameObject.SetActive(false);
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
                 ad_WesternUI.gameObject.SetActive(false);
 #endif
                 PN.LoadLevel(3); // 튜토리얼W
