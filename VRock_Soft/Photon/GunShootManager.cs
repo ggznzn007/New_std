@@ -93,7 +93,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                  }*/
 
                 break;
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;
@@ -115,7 +115,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     private void Update()
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         if (Input.GetKeyDown(KeyCode.Return))
         {
             PV.RPC("StartBtnT", RpcTarget.All);

@@ -50,7 +50,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         if (PN.InRoom&&PN.IsMasterClient)
         {
            if (Input.GetKeyDown(KeyCode.Return)) { PN.LoadLevel(2); }
@@ -81,7 +81,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∫Ì∑Á∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");                
                 Info();
                 break;
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;
