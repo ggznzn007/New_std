@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
-using System;
-using UnityEngine.UI;
-using PN = Photon.Pun.PN;
-using Random = UnityEngine.Random;
 
 public enum Team
 {
-    BLUE,RED
+   ADMIN,BLUE,RED
 }
 
-public class DataManager : MonoBehaviourPun
+public enum Map
+{
+    TUTORIAL_T,
+    TOY,
+    TUTORIAL_W,
+    WESTERN
+}
+
+public class DataManager : MonoBehaviour
 {
     public static DataManager DM;
 
@@ -24,9 +26,11 @@ public class DataManager : MonoBehaviourPun
         DontDestroyOnLoad(gameObject);
     }
 
-    public Team currentTeam;
+    public Team currentTeam;  // 현재 팀구분
 
-    public bool isSelected;
+    public Map currentMap;    // 현재 맵구분
 
-    public int startingNum;
+    public bool isSelected;   // 팀을 선택했는지 여부
+
+    public int startingNum;   // 처음 시작을 구분하기위한 수
 }
