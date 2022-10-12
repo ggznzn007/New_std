@@ -85,10 +85,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         //DontDestroyOnLoad(this);
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
         adminPlayer.SetActive(true);
         localPlayer.SetActive(false);
-#endif
+#endif*/
     }
     private void Start()
     {        
@@ -97,11 +97,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-#if UNITY_STANDALONE_WIN
-        if (Input.GetKeyDown(KeyCode.Return)) { StartToServer_Admin(); }             // 관리자        접속
+#if UNITY_EDITOR_WIN        
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
         else if (Input.GetKeyDown(KeyCode.T)) { InitTutoT(); }                       // 토이
         else if (Input.GetKeyDown(KeyCode.W)) { InitTutoW(); }                       // 웨스턴
+        else if (Input.GetKeyDown(KeyCode.Keypad0)) { InitRed(0); }                  //  토이 레드
+        else if (Input.GetKeyDown(KeyCode.Keypad1)) { InitBlue(0); }                 //  토이 블루
+        else if (Input.GetKeyDown(KeyCode.Keypad2)) { InitRed(2); }                  //  웨스턴 레드
+        else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
 #endif
@@ -151,7 +155,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 180 } };
+        Hashtable options = new Hashtable { { "Time", 240 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -186,7 +190,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 180 } };
+        Hashtable options = new Hashtable { { "Time", 240 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -206,7 +210,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 180 } };
+        Hashtable options = new Hashtable { { "Time", 240 } };
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -275,10 +279,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         connectUI.gameObject.SetActive(false);
         mapSelectUI.gameObject.SetActive(true);
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
         ad_ConnectUI.gameObject.SetActive(false);
         ad_MapUI.gameObject.SetActive(true);
-#endif
+#endif*/
         Debug.Log($"{PN.LocalPlayer.NickName}님이 서버에 접속하였습니다.");
     }
 
@@ -289,18 +293,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case Map.TUTORIAL_T:
                 teamSelectUI_T.gameObject.SetActive(true);
                 mapSelectUI.gameObject.SetActive(false);
-#if UNITY_STANDALONE_WIN                
+/*#if UNITY_EDITOR_WIN                
                 ad_MapUI.gameObject.SetActive(false);
                 ad_ToyUI.gameObject.SetActive(true);
-#endif
+#endif*/
                 break;
             case Map.TUTORIAL_W:
                 mapSelectUI.gameObject.SetActive(false);
                 teamSelectUI_W.gameObject.SetActive(true);
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
                 ad_WesternUI.gameObject.SetActive(true);
                 ad_MapUI.gameObject.SetActive(false);
-#endif
+#endif*/
                 break;
             default:
                 return;
@@ -314,9 +318,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case Map.TUTORIAL_T:
             teamSelectUI_T.gameObject.SetActive(false);
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
                 ad_ToyUI.gameObject.SetActive(false);
-#endif
+#endif*/
                 PN.LoadLevel(1); // 튜토리얼T
                 break;
             case Map.TOY:
@@ -324,9 +328,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case Map.TUTORIAL_W:
             teamSelectUI_W.gameObject.SetActive(false);
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
                 ad_WesternUI.gameObject.SetActive(false);
-#endif
+#endif*/
                 PN.LoadLevel(3); // 튜토리얼W
                 break;
             case Map.WESTERN:
@@ -406,4 +410,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
        {
            PN.LoadLevel(3); // 웨스턴
        }*/
+
+    // 에디터 인풋 switch문
+    /* switch(Input.inputString)
+         {
+             case "Return":
+                 { StartToServer_Admin(); }
+                 break;
+             case "Escape":
+                 { Application.Quit(); }
+                 break;
+             case "T":
+                 { InitTutoT(); }
+                 break;
+             case "W":
+                 { InitTutoW(); }
+                 break;
+             case "Keypad0":
+                 { InitRed(0); }
+                 break;
+             case "Keypad1":
+                 { InitBlue(0); }
+                 break;
+             case "Keypad2":
+                 { InitRed(2); }
+                 break;
+             case "Keypad3":
+                 { InitBlue(2); }
+                 break;
+             case "A":
+                 { InitAdmin(0); }
+                 break;
+             case "S":
+                 { InitAdmin(2); }
+                 break;
+         }*/
 }

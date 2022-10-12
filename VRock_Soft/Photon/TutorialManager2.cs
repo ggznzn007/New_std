@@ -44,16 +44,12 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-#if UNITY_STANDALONE_WIN
+#if UNITY_EDITOR_WIN
         if (PN.InRoom && PN.IsMasterClient)
         {
-            if (Input.GetKeyDown(KeyCode.Return)) { PN.LoadLevel(4); }
-            else if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
         }
-       
 #endif
     }
 
@@ -76,7 +72,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∫Ì∑Á∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");
                 Info();
                 break;
-#if UNITY_STANDALONE_WIN
+#if UNITY_EDITOR_WIN
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;

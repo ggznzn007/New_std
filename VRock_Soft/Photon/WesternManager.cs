@@ -67,7 +67,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();               
+                Info();
                 break;
 
             case Team.BLUE:
@@ -75,17 +75,17 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 NetworkManager.NM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();                
-                break;
-#if UNITY_STANDALONE_WIN
-            case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
-                spawnPlayer = admin;
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-#endif
+            /*#if UNITY_EDITOR_WIN
+                        case Team.ADMIN:
+                            PN.AutomaticallySyncScene = true;
+                            NetworkManager.NM.inGame = false;
+                            spawnPlayer = admin;
+                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                            Info();
+                            break;
+            #endif*/
             default:
                 return;
         }
@@ -93,19 +93,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-#if UNITY_STANDALONE_WIN
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            PV.RPC("StartBtnW", RpcTarget.All);
-        }
-        else if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            PV.RPC("EndGameW", RpcTarget.All);
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+#if UNITY_EDITOR_WIN
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }        
+        else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
 #endif
     }
     void FixedUpdate()
@@ -121,7 +112,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             if (limitedTime < 60)
             {
                 timerText.text = string.Format("남은시간 {0:0}초", sec);
-            }            
+            }
             if (PN.IsMasterClient)
             {
                 if (count)
@@ -185,7 +176,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText.gameObject.SetActive(false);
     }
 
-   public IEnumerator LeaveGame()
+    public IEnumerator LeaveGame()
     {
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
@@ -195,7 +186,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1);
         AudioManager.AM.EffectPlay(AudioManager.Effect.END);
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
-        yield return new WaitForSeconds(4);            
+        yield return new WaitForSeconds(4);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }

@@ -93,21 +93,21 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                  }*/
 
                 break;
-#if UNITY_STANDALONE_WIN
+/*#if UNITY_EDITOR_WIN
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 NetworkManager.NM.inGame = false;
                 spawnPlayer = admin;
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-                /*if (PN.IsMasterClient)
+                *//*if (PN.IsMasterClient)
                 {
                     startText.gameObject.SetActive(true);
                     startBtn.SetActive(true);
-                }*/
+                }*//*
 
                 break;
-#endif
+#endif*/
             default:
                 return;
         }
@@ -115,19 +115,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     private void Update()
     {
-#if UNITY_STANDALONE_WIN
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            PV.RPC("StartBtnT", RpcTarget.All);
-        }
-        else if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            PV.RPC("EndGameT", RpcTarget.All);
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+#if UNITY_EDITOR_WIN
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All);}        
+        else if (Input.GetKeyDown(KeyCode.Backspace)){ PV.RPC("EndGameT", RpcTarget.All);}
+        else if (Input.GetKeyDown(KeyCode.Escape)){ Application.Quit();}
 #endif
     }
 
@@ -193,7 +184,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(10);
+       // yield return new WaitForSeconds(10);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
