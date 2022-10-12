@@ -12,8 +12,8 @@ using Random = UnityEngine.Random;
 using TMPro;
 public class SpawnWeapon_L : MonoBehaviourPun
 {
-    public static SpawnWeapon_L leftWeapon;
-    [SerializeField] GameObject gunPrefab;
+    public static SpawnWeapon_L leftWeapon;    
+    [SerializeField] GameObject gun;
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
@@ -55,12 +55,9 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 && AvartarController.ATC.isAlive&&!griped_R)
                // && GunShootingManager.gunShootingManager.isRed)// && photonView.AmOwner)//
             {
-                myGun= PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 weaponInIt = true;
                 return;
-                //gunPrefab.GetPhotonView().OwnerActorNr = actorNumber;
-                //FindGun();
-                //Debug.Log("총 생성");
             }
             else
             {

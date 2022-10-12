@@ -13,7 +13,7 @@ using TMPro;
 public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 생성하는 스크립트
 {
     public static SpawnWeapon_R rightWeapon;
-    [SerializeField] GameObject gunPrefab;
+    [SerializeField] GameObject gun;    
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
@@ -55,13 +55,14 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 && AvartarController.ATC.isAlive &&!griped_L)
                // && GunShootingManager.gunShootingManager.isRed)// && photonView.AmOwner)//
             {
-               myGun = PN.Instantiate(gunPrefab.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-               weaponInIt = true;
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                weaponInIt = true;
                 return;
+
                 //myGun.GetPhotonView().OwnerActorNr = actorNumber;
                 //FindGun();
-               // Debug.Log("총 생성");
-               
+                // Debug.Log("총 생성");
+
                 // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
                 // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
 

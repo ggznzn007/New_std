@@ -10,15 +10,26 @@ using Random = UnityEngine.Random;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 public class HeadDamaged : MonoBehaviourPun
-{ 
-    public PhotonView PV;
+{
+    public AvartarController AT;
+
+    private void Start()
+    {
+        AT = GetComponentInParent<AvartarController>();
+    }
+
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
-    {       
-        if (collision.collider.CompareTag("Bullet") && AvartarController.ATC.isAlive && NetworkManager.NM.inGame)
+    {
+        if (collision.collider.CompareTag("Bullet") && AT.isAlive && NetworkManager.NM.inGame)
         {
-            AvartarController.ATC.CriticalDamage();
+            if (!AT.isDamaged)
+            {
+                AT.CriticalDamage();
+                Debug.Log("헤드샷!!!");
+            }
+
         }
     }
 
-   
+
 }

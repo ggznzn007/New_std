@@ -9,32 +9,35 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-using TMPro;
 
-using static ObjectPooler;
 public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static GunManager gunManager;
-    [SerializeField] GameObject redBullet;
-    [SerializeField] GameObject blueBullet;
-    [SerializeField] float speed;
-    [SerializeField] float fireDistance = 1000f;
+    [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")]
+    [SerializeField] GameObject bullet;
+
+    [Header("ÃÑ±¸ À§Ä¡")]
+    [SerializeField] Transform firePoint;
+
+    [Header("ÃÑ¾Ë ¼Óµµ")]
+    [SerializeField] float speed;    
+
+    [Header("ÃÑ¾Ë ¼ÒÀ¯±Ç")]
     [SerializeField] bool isBulletMine;
-    [SerializeField] Transform firePoint;  // ÃÑ±¸        
+
+    [Header("¾×ÅÍ³Ñ¹ö")]
     [SerializeField] int actorNumber;
 
-    private RaycastHit hit;
-    private Ray ray;
-    private ParticleSystem muzzleFlash;    // ÃÑ±¸ ÀÌÆåÆ®
-                                           // private PhotonView PV;
-    private AudioSource audioSource;             // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
-    private PhotonView PV;
-    private GameObject myBull;
-
-    /*private Vector3 remotePos;
-    private Quaternion remoteRot;
-    private float intervalSpeed = 20;*/
-
+    private RaycastHit hit;                          // ·¹ÀÌÄ³½ºÆ®±¤¼± È÷Æ®
+    private Ray ray;                                 // ·¹ÀÌÄ³½ºÆ® ±¤¼±
+    private ParticleSystem muzzleFlash;              // ÃÑ±¸ ÀÌÆåÆ®                                           
+    private AudioSource audioSource;                 // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
+    private PhotonView PV;                           // Æ÷Åæºä
+    private GameObject myBull;                       // ÀÚ±â ÃÑ¾Ë    
+    private float fireTime = 0;                      // ÃÑ¾Ë µô·¹ÀÌ Å¸ÀÓ 
+    private readonly float delayfireTime = 0.15f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
+    private readonly float fireDistance = 1000f;     // ÃÑ¾Ë ºñ°Å¸®    
+  
     private void Awake()
     {
         gunManager = this;
@@ -43,29 +46,28 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
-        muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ                                                                     
-        //GetTarget();
-       actorNumber = PV.OwnerActorNr;
+        muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ 
+        actorNumber = PV.OwnerActorNr;
     }
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
+        if (!PV.IsMine) return;
         GetTarget();
-        //FindGun();
+        Reload();        
         DroptheGun();
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
-            PV.RPC("DestroyGun", RpcTarget.AllBuffered);
-        }
+            PV.RPC("DestroyGun", RpcTarget.All);
+        }      
     }
 
-    public void DroptheGun()
+    public void DroptheGun()                                            // ÃÑÀ» ³õÀ¸¸é ÃÑ ÀÚµ¿ ÆÄ±«
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)&&
+        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
         {
-            if (!griped_R&&!griped_L)
+            if (!griped_R && !griped_L)
             {
                 if (PV.IsMine)
                 {
@@ -76,19 +78,6 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
             }
         }
-        /*if (SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
-        {
-            if (!griped_L)
-            {
-                if (PV.IsMine)
-                {
-                    PV.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
-                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
-                    SpawnWeapon_R.rightWeapon.weaponInIt = false;
-                }
-
-            }
-        }*/
 
     }
 
@@ -97,16 +86,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         ray = new Ray(firePoint.position, firePoint.forward);
         ray.origin = firePoint.position;
         ray.direction = firePoint.forward;
-    }
-    public GunManager FindGun()
-    {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
-        {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            //Debug.Log("ÀÌ ÃÑÀº ³»²¨");
-        }
-        return null;
-    }
+    }  
 
     private void OnDrawGizmos()
     {
@@ -119,33 +99,19 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         //Debug.Log(" ¸íÁßÁöÁ¡ : " + hit.point + "\n °Å¸® : "
         //    + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
     }
-    public void FireBullet()
-    {
-        switch(DataManager.DM.currentTeam)
+    public void FireBullet()                                              // ÄÁÆ®·Ñ·¯ Æ®¸®°Å¸¦ ÀÌ¿ëÇÑ ÃÑ¾Ë ¹ß»ç·ÎÁ÷
+    {        
+        if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
-            case Team.RED:
-                if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
-                {
-                    audioSource.Play();
-                    muzzleFlash.Play();
-                    myBull = PN.Instantiate(redBullet.name, ray.origin, Quaternion.identity);
-                    myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
-                    myBull.GetComponent<PhotonView>().RPC("BulletDirR", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-                    PV.RPC("PunFire", RpcTarget.All);
-                }
-                break;
-                case Team.BLUE:
-                if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
-                {
-                    audioSource.Play();
-                    muzzleFlash.Play();
-                    myBull = PN.Instantiate(blueBullet.name, ray.origin, Quaternion.identity);
-                    myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
-                    myBull.GetComponent<PhotonView>().RPC("BulletDirB", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-                    PV.RPC("PunFire", RpcTarget.All);
-                }
-                break;
-        }        
+            if (fireTime < delayfireTime) { return; }
+            audioSource.Play();
+            muzzleFlash.Play();
+            myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
+            myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
+            myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+            PV.RPC("PunFire", RpcTarget.All);   
+            fireTime = 0;
+        }       
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -153,15 +119,26 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            //stream.SendNext(firePoint.position);
-            //stream.SendNext(firePoint.rotation);
+            stream.SendNext(transform.rotation);            
         }
         else
         {
-            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
-            //firePoint.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());            
         }
+    }
+  
+    void Reload()                                   // ÃÑ¾Ë ÀçÀåÀü ½Ã°£
+    {
+        fireTime += Time.deltaTime;       
+    }
+    public GunManager FindGun()
+    {
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        {
+            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
+            //Debug.Log("ÀÌ ÃÑÀº ³»²¨");
+        }
+        return null;
     }
 
     [PunRPC]
@@ -180,15 +157,21 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     [PunRPC]
     public void DestroyGun()
     {
-        Destroy(gameObject);
-        // Debug.Log("ÃÑ Áï½Ã ÆÄ±«");
+        Destroy(gameObject);        
     }
     public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
-        // Debug.Log("ÃÑ µô·¹ÀÌ ÆÄ±«");
+        Destroy(gameObject);        
     }
+
+    /// <summary>
+    /// ÃÑ¾Ë µô·¹ÀÌ ·ÎÁ÷
+    /// fireTimeÀ» 0ÀÌ µÉ ¶§¸¸ ÃÑ¾ËÀ» ¹ß»çÇÒ ¼ö ÀÖ°Ô ÅÒÀ» µÎ´Â °Í 
+    /// fireTimeÀÌ delayfireTimeÀ» ³Ñ¾î°¡¸é ¹ß»ç ºÒ°¡
+    /// ÃÑ¾ËÀ» ¹ß»çÇÏ°í ³ª¸é ½Ã°£À» ´Ù½Ã 0À¸·Î ÃÊ±âÈ­
+    /// </summary>
+    
     /*public void FireBullet_Red()
     {
         //if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit,fireDistance) && AvartarController.ATC.isAlive)
@@ -252,15 +235,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }*/
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Cube"))
-        {
-            //DroptheGun();
-        }
-    }
-     
-
+   
     /* [PunRPC]
      public void TakeDamage(float damage,PhotonMessageInfo info)
      {
@@ -283,6 +258,6 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         // bullet.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
          bullet.GetComponent<BulletManager>().actNumber = actorNumber;
      }*/
-    
+
 }
 

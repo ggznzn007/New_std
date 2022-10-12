@@ -11,12 +11,23 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 public class BodyDamaged : MonoBehaviourPun
 {
-    public PhotonView PV;
+    public AvartarController AT;
+
+    private void Start()
+    {
+        AT = GetComponentInParent<AvartarController>();
+    }
+    // public PhotonView PV;
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && AvartarController.ATC.isAlive && NetworkManager.NM.inGame )
+        if (collision.collider.CompareTag("Bullet") && AT.isAlive && NetworkManager.NM.inGame )
         {
-            AvartarController.ATC.NormalDamage();
+            if(!AT.isDamaged)
+            {
+                AT.NormalDamage();
+                Debug.Log("바디샷!");
+            }
+            
         }
     }
     
