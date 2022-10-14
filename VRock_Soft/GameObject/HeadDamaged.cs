@@ -32,17 +32,30 @@ public class HeadDamaged : MonoBehaviourPun
         }
     }
 
-    private void OnParticleCollision(GameObject explosion)
+    /*private void OnTriggerEnter(Collider coll)
     {
-        if (explosion.CompareTag("Bullet") && AT.isAlive && NetworkManager.NM.inGame)
+        if (coll.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
         {
             if (!AT.isDamaged)
             {
-                AT.CriticalDamage();
+                AT.GrenadeDamage();
+                Debug.Log("ÆøÅºµ¥¹ÌÁö!");
+            }
+
+        }
+    }*/
+
+  /*  private void OnParticleCollision(GameObject explosion)
+    {
+        if (explosion.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
+        {
+            if (!AT.isDamaged)
+            {
+                AT.GrenadeDamage();
                 Debug.Log("Çìµå¼¦!");
             }
         }
     }
-
+*/
 
 }

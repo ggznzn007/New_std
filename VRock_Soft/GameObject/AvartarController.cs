@@ -32,7 +32,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     //[SerializeField] TextMeshPro hpText;                                                    // 플레이어 닉네임
     [SerializeField] int actNumber = 0;
     [SerializeField] int attackPower = 10;
-    [SerializeField] int attackPowerH = 15;    
+    [SerializeField] int attackPowerH = 20;    
+    [SerializeField] int grenadePower = 50;    
     [SerializeField] GameObject myGun;
     [SerializeField] GameObject hand_Left;
     [SerializeField] GameObject hand_Right;
@@ -230,6 +231,16 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log("레드팀 리스폰");
         }
     }
+
+    public void GrenadeDamage()                                              // 크리티컬(헤드샷) 데미지
+    {
+        StartCoroutine(ShowDamageScreen());
+        if (isDeadLock)
+        {
+            PV.RPC("Damaged", RpcTarget.All, grenadePower);
+          //  PV.RPC("HeadShot", RpcTarget.All);
+        }
+    }
     public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
     {
         StartCoroutine(ShowDamageScreen());
@@ -285,11 +296,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log("콜라이더 OFF");
             playerColls[1].enabled = false;                                      // 머리 콜라이더
             playerColls[2].enabled = false;                                      // 몸통 콜라이더           
+                    
             isDamaged = true;
         }        
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.17f);
         playerColls[1].enabled = true;                                      // 머리 콜라이더
         playerColls[2].enabled = true;                                      // 몸통 콜라이더
+        
         isDamaged = false;
         Debug.Log("콜라이더 ON");
         if (HP.value<=0)
