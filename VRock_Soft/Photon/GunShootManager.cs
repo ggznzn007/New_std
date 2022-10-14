@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using static ObjectPooler;
 using Unity.VisualScripting;
+using UnityEngine.XR;
 
 public class GunShootManager : MonoBehaviourPunCallbacks                      // 토이
 {
@@ -41,7 +42,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     Hashtable setTime = new Hashtable();
     PhotonView PV;
     public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
-    public Quaternion adminRot = new Quaternion(40, 90, 0, 0);    
+    public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
     public Transform bSpawnPosition;
 
     private void Awake()
@@ -52,21 +53,21 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     private void Start()
     {
-        StartCoroutine(SpawnBomb());
+        // StartCoroutine(SpawnBomb());
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
-            if(PN.IsMasterClient)
+            if (PN.IsMasterClient)
             {
                 PV.RPC("StartBtnT", RpcTarget.AllViaServer);
             }
-            
+
             if (DataManager.DM.currentTeam != Team.ADMIN)
             {
                 admin.SetActive(false);
             }
-        }        
+        }
     }
 
     public void SpawnPlayer()
@@ -79,7 +80,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-               
+
                 break;
 
             case Team.BLUE:
@@ -88,29 +89,37 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-                
-                break;
-/*#if UNITY_EDITOR_WIN
-            case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name,adminPos,adminRot);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
 
                 break;
-#endif*/
+            /*#if UNITY_EDITOR_WIN
+                        case Team.ADMIN:
+                            PN.AutomaticallySyncScene = true;
+                            NetworkManager.NM.inGame = false;
+                            spawnPlayer = PN.Instantiate(admin.name,adminPos,adminRot);
+                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                            Info();
+
+                            break;
+            #endif*/
             default:
                 return;
         }
     }
 
     private void Update()
-    {       
+    {
+        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+        {
+            if(pressed)
+            {
+                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0);
+            }            
+        }
 #if UNITY_EDITOR_WIN
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All);}        
-        else if (Input.GetKeyDown(KeyCode.Backspace)){ PV.RPC("EndGameT", RpcTarget.All);}
-        else if (Input.GetKeyDown(KeyCode.Escape)){ Application.Quit();}  
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0); }
 #endif
     }
 
@@ -118,7 +127,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     {
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
-            
+
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
             limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
@@ -141,21 +150,21 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         }
     }
 
-   public IEnumerator SpawnBomb()
+    public IEnumerator SpawnBomb()
     {
-        yield return new WaitForSeconds(5);
-        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation,0);        
+        yield return new WaitForSeconds(3);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0);
         StartCoroutine(SpawnBomb());
     }
 
-   
+
 
     [PunRPC]
     public void StartBtnT()
     {
-        StartCoroutine(StartTimer());        
+        StartCoroutine(StartTimer());
         //startBtn.SetActive(false);
-      //  startText.gameObject.SetActive(false);
+        //  startText.gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -185,10 +194,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
     public IEnumerator StartTimer()
     {
-       // yield return new WaitForSeconds(10);
+        // yield return new WaitForSeconds(10);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         AudioManager.AM.EffectPlay(AudioManager.Effect.Three);
         countText.text = string.Format("3");
         yield return new WaitForSeconds(1);

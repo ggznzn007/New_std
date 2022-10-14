@@ -10,16 +10,18 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
-{   
+{
     PhotonView PV;
-    public GameObject effect;
     Rigidbody rb;
+    public GameObject effect;
+    public int bCount;
     public bool isBeingHeld = false;
-    int bCount;
+    public bool isExplo;
+
     private void Awake()
     {
-       
         PV = GetComponent<PhotonView>();
+        isExplo = false;
     }
 
     private void Start()
@@ -32,30 +34,30 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         ThrowBomb();
         if (isBeingHeld)
         {
-            rb.isKinematic = true;
-            gameObject.layer = 7;
             bCount++;
+            isExplo = false;
+            //rb.isKinematic = true;
+            gameObject.layer = 7;
         }
         else
         {
-            rb.isKinematic = false;
+            isExplo = true;
+            //rb.isKinematic = false;
             gameObject.layer = 6;
-            //StartCoroutine(ThrowBomb());
-            
+            //StartCoroutine(ThrowBomb());          
         }
-        
-    }
 
-   public void ThrowBomb()                                            // ÃÑÀ» ³õÀ¸¸é ÃÑ ÀÚµ¿ ÆÄ±«
+    }
+    public void ThrowBomb()
     {
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
         {
             if (!griped_R && !griped_L)
             {
-                if (PV.IsMine&&bCount>=1)
+                if (PV.IsMine && isExplo && bCount >=1 )
                 {
-                    StartCoroutine(Explosion());                   
+                    StartCoroutine(Explosion());
                     SpawnWeapon_L.leftWeapon.weaponInIt = false;
                     SpawnWeapon_R.rightWeapon.weaponInIt = false;
                 }
@@ -64,24 +66,23 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         }
     }
 
-    IEnumerator Explosion()
+    public IEnumerator Explosion()
     {
-        yield return new WaitForSeconds(2);
-        var exPlo = Instantiate(effect, transform.position, transform.rotation);
-        Destroy(exPlo, 1f);
-       /* Collider[] collider = Physics.OverlapSphere(transform.position, 4f);
-        //RaycastHit[] rayHits = Physics.SphereCastAll(transform.position, 15, Vector3.up, 0,LayerMask.GetMask("Player"));
-        foreach (Collider hit in collider)
-        {
-            AvartarController controller = hit.GetComponent<AvartarController>();
-            if(controller != null)
-            {
-                hit.GetComponent<AvartarController>().CriticalDamage();
-            }            
-        }*/
+        yield return new WaitForSeconds(2.5f);
+        var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
+        Destroy(exPlo, 0.5f);
+        yield return new WaitForSeconds(0.1f);
         PV.RPC("ExploBomb", RpcTarget.All);
+
+
     }
 
+
+    [PunRPC]
+    public void ExploBomb()
+    {
+        Destroy(gameObject);
+    }
 
     private void TransferOwnership()
     {
@@ -109,7 +110,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if(targetView != PV)
+        if (targetView != PV)
         {
             return;
         }
@@ -140,9 +141,5 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         isBeingHeld = false;
     }
 
-    [PunRPC]
-    public void ExploBomb()
-    {        
-        Destroy(gameObject);
-    }
+
 }
