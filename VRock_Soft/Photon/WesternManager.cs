@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.XR;
+
 public class WesternManager : MonoBehaviourPunCallbacks
 {
     public static WesternManager WM;
@@ -28,15 +30,18 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject blueTeam;
     [Header("관리자")]
     public GameObject admin;
+    [Header("폭탄 프리팹")]
+    public GameObject bomB;
 
     private GameObject spawnPlayer;
-
+    private GameObject spawnBomb;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
     public Vector3 adminPos = new Vector3(8.28f, 20, 0f);
     public Quaternion adminRot = new Quaternion(52, -90, 0, 0);
+    public Transform[] bSpawnPosition;
     private void Awake()
     {
         WM = this;
@@ -44,6 +49,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
+        //StartCoroutine(SpawnDynamite());
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -66,7 +72,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         {
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -74,7 +80,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -95,10 +101,21 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+        {
+            if (pressed)
+            {
+                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+            }
+        }
+        
 #if UNITY_EDITOR_WIN
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }        
         else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0); }
+        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0); }
 #endif
     }
     void FixedUpdate()
@@ -124,6 +141,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    public IEnumerator SpawnDynamite()
+    {
+        yield return new WaitForSeconds(3);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+        StartCoroutine(SpawnDynamite());
     }
 
     [PunRPC]
@@ -156,7 +181,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(10);
+        //yield return new WaitForSeconds(10);
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -173,7 +198,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText.text = string.Format("게임 스타트!!!");
         yield return new WaitForSeconds(1);
         count = true;
-        NetworkManager.NM.inGame = true;
+        DataManager.DM.inGame = true;
         timerText.gameObject.SetActive(true);
         countText.gameObject.SetActive(false);
     }
@@ -182,7 +207,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
-        NetworkManager.NM.inGame = false;
+        DataManager.DM.inGame = false;
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMEOVER);
         countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(1);

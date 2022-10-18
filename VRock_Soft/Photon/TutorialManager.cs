@@ -11,6 +11,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using static ObjectPooler;
+using UnityEngine.XR;
+
 public class TutorialManager : MonoBehaviourPunCallbacks
 {
     public static TutorialManager TM;
@@ -48,6 +50,13 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+       /* if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
+        {
+            if (pressed)
+            {
+                PN.LoadLevel(2);
+            }
+        }*/
 #if UNITY_EDITOR_WIN
         if (PN.InRoom&&PN.IsMasterClient)
         {
@@ -63,7 +72,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         {
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∑πµÂ∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");                
                 Info();
@@ -71,7 +80,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} πÊø° ∫Ì∑Á∆¿{PN.LocalPlayer.NickName} ¥‘¿Ã ¿‘¿Â«œºÃΩ¿¥œ¥Ÿ.");                
                 Info();

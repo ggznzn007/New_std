@@ -56,8 +56,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("페이드인 스크린")]
     [SerializeField] Canvas fadeScreen;
 
-    [Header("인게임 판단")]
-    public bool inGame;   
+    
+    /*[Header("인게임 판단")]
+    public bool inGame;  */ 
 
     private readonly string gameVersion = "1.0";
     //private readonly string masterAddress = "125.134.36.239";

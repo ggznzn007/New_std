@@ -43,7 +43,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     PhotonView PV;
     public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
     public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
-    public Transform bSpawnPosition;
+    public Transform[] bSpawnPosition;
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         {
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -85,7 +85,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
 
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
+                DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -112,14 +112,16 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         {
             if(pressed)
             {
-                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0);
+                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
             }            
         }
 #if UNITY_EDITOR_WIN
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0); }
+        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0); }
+        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0); }
 #endif
     }
 
@@ -153,7 +155,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     public IEnumerator SpawnBomb()
     {
         yield return new WaitForSeconds(3);
-        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition.position, bSpawnPosition.rotation, 0);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
         StartCoroutine(SpawnBomb());
     }
 
@@ -211,7 +214,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
         countText.text = string.Format("게임 스타트!!!");
         yield return new WaitForSeconds(1);
         count = true;
-        NetworkManager.NM.inGame = true;
+        DataManager.DM.inGame = true;
         timerText.gameObject.SetActive(true);
         countText.gameObject.SetActive(false);
     }
@@ -221,7 +224,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     {
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
-        NetworkManager.NM.inGame = false;
+        DataManager.DM.inGame = false;
         AudioManager.AM.EffectPlay(AudioManager.Effect.GAMEOVER);
         countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(1);
