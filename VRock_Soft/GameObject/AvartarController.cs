@@ -33,7 +33,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] int actNumber = 0;
     [SerializeField] int attackPower = 10;
     [SerializeField] int attackPowerH = 20;    
-    [SerializeField] int grenadePower = 50;    
+    [SerializeField] int grenadePower = 40;    
     [SerializeField] GameObject myGun;
     [SerializeField] GameObject hand_Left;
     [SerializeField] GameObject hand_Right;

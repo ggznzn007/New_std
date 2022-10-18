@@ -12,6 +12,7 @@ using UnityEngine.XR;
 public class BodyDamaged : MonoBehaviourPun
 {
     public AvartarController AT;
+    
    // public GameObject effectEx;
 
     private void Start()
@@ -21,7 +22,7 @@ public class BodyDamaged : MonoBehaviourPun
     // public PhotonView PV;
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && AT.isAlive && NetworkManager.NM.inGame )
+        if (collision.collider.CompareTag("Bullet") && AT.isAlive && DataManager.DM.inGame )
         {
             if(!AT.isDamaged)
             {
@@ -34,7 +35,7 @@ public class BodyDamaged : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider coll)
     {
-        if (coll.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
+        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
             {

@@ -21,7 +21,7 @@ public class HeadDamaged : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
-        if (collision.collider.CompareTag("Bullet") && AT.isAlive && NetworkManager.NM.inGame)
+        if (collision.collider.CompareTag("Bullet") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
             {

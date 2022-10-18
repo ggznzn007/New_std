@@ -13,15 +13,15 @@ using Random = UnityEngine.Random;
 public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static GunManager gunManager;
-    [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")] [SerializeField] GameObject bullet;
+    [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")][SerializeField] GameObject bullet;
 
-    [Header("ÃÑ±¸ À§Ä¡")] [SerializeField] Transform firePoint;
+    [Header("ÃÑ±¸ À§Ä¡")][SerializeField] Transform firePoint;
 
-    [Header("ÃÑ¾Ë ¼Óµµ")] [SerializeField] float speed;    
+    [Header("ÃÑ¾Ë ¼Óµµ")][SerializeField] float speed;
 
-    [Header("ÃÑ¾Ë ¼ÒÀ¯±Ç")] [SerializeField] bool isBulletMine;
+    [Header("ÃÑ¾Ë ¼ÒÀ¯±Ç")][SerializeField] bool isBulletMine;
 
-    [Header("¾×ÅÍ³Ñ¹ö")] [SerializeField] int actorNumber;
+    [Header("¾×ÅÍ³Ñ¹ö")][SerializeField] int actorNumber;
 
     private RaycastHit hit;                          // ·¹ÀÌÄ³½ºÆ®±¤¼± È÷Æ®
     private Ray ray;                                 // ·¹ÀÌÄ³½ºÆ® ±¤¼±
@@ -32,7 +32,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     private float fireTime = 0;                      // ÃÑ¾Ë µô·¹ÀÌ Å¸ÀÓ 
     private readonly float delayfireTime = 0.15f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
     private readonly float fireDistance = 1000f;     // ÃÑ¾Ë ºñ°Å¸®    
-  
+
     private void Awake()
     {
         gunManager = this;
@@ -49,39 +49,93 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         if (!PV.IsMine) return;
         GetTarget();
-        Reload();        
-        DroptheGun();
+        Reload();
+       /* switch (DataManager.DM.currentMap)
+        {
+            case Map.TUTORIAL_T:
+            case Map.TOY:
+                DroptheGunT();
+                break;
+            case Map.TUTORIAL_W:
+            case Map.WESTERN:
+                DropGunW();
+                break;
+        }*/
+
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC("DestroyGun", RpcTarget.All);
-        }      
+        }
     }
 
-    public void DroptheGun()                                            // ÃÑÀ» ³õÀ¸¸é ÃÑ ÀÚµ¿ ÆÄ±«
+
+    /*public void DroptheGunT()                                            // ÃÑÀ» ³õÀ¸¸é ÃÑ ÀÚµ¿ ÆÄ±«
     {
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))// && !SpawnWeapon_R.rightWeapon.weaponInIt)
+            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        {
+            if (!griped_R)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                }
+            }
+            else if (!griped_L)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                }
+            }
+        }
+
+
+    }*/
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Cube") && (!SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt
+            || !SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt))
+        {
+            PV.RPC("DestroyGun_Delay", RpcTarget.All);
+        }
+    }
+    /*public void DropGunW()
+    {
+        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
+            SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
             if (!griped_R && !griped_L)
             {
                 if (PV.IsMine)
                 {
-                    PV.RPC("DestroyGun_Delay", RpcTarget.AllBuffered);
-                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
-                    SpawnWeapon_R.rightWeapon.weaponInIt = false;
+                    PV.RPC("DestroyGun_Delay", RpcTarget.All);
                 }
-
+            }
+            else if (!griped_L && griped_R)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                }
+            }
+            else if (!griped_R && griped_L)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                }
             }
         }
-
-    }
+    }*/
 
     public void GetTarget()
     {
         ray = new Ray(firePoint.position, firePoint.forward);
         ray.origin = firePoint.position;
         ray.direction = firePoint.forward;
-    }  
+    }
 
     private void OnDrawGizmos()
     {
@@ -95,7 +149,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         //    + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
     }
     public void FireBullet()                                              // ÄÁÆ®·Ñ·¯ Æ®¸®°Å¸¦ ÀÌ¿ëÇÑ ÃÑ¾Ë ¹ß»ç·ÎÁ÷
-    {        
+    {
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
@@ -104,9 +158,9 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.All);   
+            PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
-        }       
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -114,17 +168,17 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);            
+            stream.SendNext(transform.rotation);
         }
         else
         {
-            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());            
+            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
         }
     }
-  
+
     void Reload()                                   // ÃÑ¾Ë ÀçÀåÀü ½Ã°£
     {
-        fireTime += Time.deltaTime;       
+        fireTime += Time.deltaTime;
     }
     public GunManager FindGun()
     {
@@ -152,12 +206,12 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     [PunRPC]
     public void DestroyGun()
     {
-        Destroy(gameObject);        
+        Destroy(gameObject);
     }
     public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);        
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -166,7 +220,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     /// fireTimeÀÌ delayfireTimeÀ» ³Ñ¾î°¡¸é ¹ß»ç ºÒ°¡
     /// ÃÑ¾ËÀ» ¹ß»çÇÏ°í ³ª¸é ½Ã°£À» ´Ù½Ã 0À¸·Î ÃÊ±âÈ­
     /// </summary>
-    
+
     /*public void FireBullet_Red()
     {
         //if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit,fireDistance) && AvartarController.ATC.isAlive)
@@ -230,7 +284,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }*/
 
-   
+
     /* [PunRPC]
      public void TakeDamage(float damage,PhotonMessageInfo info)
      {
