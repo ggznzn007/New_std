@@ -9,41 +9,91 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+
+public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
     PhotonView PV;
-    Rigidbody rb;   
-    public bool isBeingHeld = false;     
+    Rigidbody rb;
+    public GameObject effect;
+    public int bCount;
+    public bool isBeingHeld = false;
+    public bool isExplo;
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-        
+        isExplo = false;
     }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
+        bCount = 0;
+
     }
     private void Update()
-    {        
+    {
+        ThrowBomb();
         if (isBeingHeld)
         {
-            
+            bCount++;
+            isExplo = false;
             rb.isKinematic = true;
             gameObject.layer = 7;
         }
         else
         {
-            
+            isExplo = true;
             rb.isKinematic = false;
             gameObject.layer = 6;
-              
         }
 
     }
 
+    public void ThrowBomb()
+    {
+        if(SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
+           SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        {
+
+            if (!griped_R && !griped_L) // 양손 모두 놓았을 때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_LW.LW.weaponInIt = false;
+                SpawnWeapon_RW.RW.weaponInIt = false;
+            }
+            if (!griped_R && griped_L)              // 오른손만 놨을때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_RW.RW.weaponInIt = false;
+            }
+            if (griped_R && !griped_L)             // 왼손만 놨을때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_LW.LW.weaponInIt = false;
+            }
+        }
+    }
+
+    public IEnumerator Explosion()
+    {
+        if (isExplo && bCount >= 1)
+        {
+            AudioManager.AM.EffectPlay(AudioManager.Effect.BombBeep);
+            yield return new WaitForSeconds(2.35f);
+            var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
+            Destroy(exPlo, 0.5f);
+            yield return new WaitForSeconds(0.1f);
+            PV.RPC("ExploBomb", RpcTarget.All);
+        }
+    }
+
+
+    [PunRPC]
+    public void ExploBomb()
+    {
+        Destroy(gameObject);
+    }
 
     private void TransferOwnership()
     {
@@ -76,7 +126,6 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             return;
         }
 
-
         Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
         PV.TransferOwnership(requestingPlayer);
     }
@@ -88,7 +137,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
     {
-       
+
     }
 
     [PunRPC]
@@ -102,6 +151,5 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     {
         isBeingHeld = false;
     }
-
 
 }
