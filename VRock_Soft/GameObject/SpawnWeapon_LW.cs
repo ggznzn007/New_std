@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
+using Unity.XR.PXR;
 
 public class SpawnWeapon_LW : MonoBehaviourPun
 {
@@ -58,6 +59,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
             if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       // 양손에 아무것도 없을때
                  && AvartarController.ATC.isAlive)
             {
+                PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.LeftController);
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 weaponInIt = true;
                 return;

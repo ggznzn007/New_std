@@ -66,6 +66,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             {
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 weaponInIt = true;
+                SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 return;
             }
 
