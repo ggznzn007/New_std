@@ -52,7 +52,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     public void ThrowBomb()
     {
-        if(SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
+        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
            SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
 
@@ -116,6 +116,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnSelectedExited()
     {
         Debug.Log("³õ¾Ò´Ù");
+        
         PV.RPC("StopGrabbing", RpcTarget.AllBuffered);
     }
 

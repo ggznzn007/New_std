@@ -41,9 +41,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
-    public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
-    public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
+    //public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
+   // public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
     public Transform[] bSpawnPosition;
+    public Transform adminPoint;
 
     private void Awake()
     {
@@ -95,7 +96,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                      //
                         case Team.ADMIN:
                             PN.AutomaticallySyncScene = true;
                             NetworkManager.NM.inGame = false;
-                            spawnPlayer = PN.Instantiate(admin.name,adminPos,adminRot);
+                            spawnPlayer = PN.Instantiate(admin.name,adminPoint.position,adminPoint.rotation);
                             Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                             Info();
 

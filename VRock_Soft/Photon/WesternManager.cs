@@ -39,9 +39,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
-    public Vector3 adminPos = new Vector3(8.28f, 20, 0f);
-    public Quaternion adminRot = new Quaternion(52, -90, 0, 0);
+    //public Vector3 adminPos = new Vector3(8.28f, 20, 0f);
+    //public Quaternion adminRot = new Quaternion(52, -90, 0, 0);
     public Transform[] bSpawnPosition;
+    public Transform adminPoint;
     private void Awake()
     {
         WM = this;
@@ -85,15 +86,15 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-/*#if UNITY_EDITOR_WIN
-            case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name, adminPos, adminRot);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
-                break;
-#endif*/
+            /*#if UNITY_EDITOR_WIN
+                        case Team.ADMIN:
+                            PN.AutomaticallySyncScene = true;
+                            NetworkManager.NM.inGame = false;
+                            spawnPlayer = PN.Instantiate(admin.name,adminPoint.position,adminPoint.rotation);
+                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                            Info();
+                            break;
+            #endif*/
             default:
                 return;
         }
@@ -101,7 +102,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
         {
             if (pressed)
             {

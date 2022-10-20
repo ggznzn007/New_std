@@ -20,9 +20,9 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject redTeam;
     [SerializeField] GameObject blueTeam;
     [SerializeField] GameObject admin;
-
-    public Vector3 adminPos = new Vector3(0,3.5f,5.11f);
-    public Quaternion adminRot = new Quaternion(30,180,0,0);
+    public Transform adminPoint;
+    //public Vector3 adminPos = new Vector3(0,3.5f,5.11f);
+    //public Quaternion adminRot = new Quaternion(30,180,0,0);
 
     private GameObject spawnPlayer;    
     
@@ -85,16 +85,16 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
                 Info();
                 break;
-/*#if UNITY_EDITOR_WIN
-            case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                NetworkManager.NM.inGame = false;
-                //spawnPlayer = admin;
-                spawnPlayer = PN.Instantiate(admin.name, adminPos, adminRot);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
-                break;
-#endif*/
+            /*#if UNITY_EDITOR_WIN
+                        case Team.ADMIN:
+                            PN.AutomaticallySyncScene = true;
+                            NetworkManager.NM.inGame = false;
+                            //spawnPlayer = admin;
+                            spawnPlayer = PN.Instantiate(admin.name,adminPoint.position,adminPoint.rotation);
+                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                            Info();
+                            break;
+            #endif*/
 
             default:
                 return;
