@@ -60,11 +60,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         Reload();
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
         {
-            PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.RightController);
+            PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.RightController);
         }
         if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnL) && triggerBtnL)
         {
-            PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.LeftController);
+            PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.LeftController);
         }
 
         if (!AvartarController.ATC.isAlive && PV.IsMine)

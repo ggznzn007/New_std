@@ -145,7 +145,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         at_hand_Right.SetActive(false);                                      // 아바타 오른손
         hand_Left.SetActive(false);                                          // 왼손 컨트롤러
         hand_Right.SetActive(false);                                         // 오른손 컨트롤러
-        FPS.SetActive(false);                                                // 프레임UI
+        //FPS.SetActive(false);                                                // 프레임UI
                                              // 아이템스폰박스 왼쪽
                                               // 아이템스폰박스 왼쪽
         playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
@@ -176,7 +176,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         at_hand_Right.SetActive(true);
         hand_Left.SetActive(true);
         hand_Right.SetActive(true);
-        FPS.SetActive(true);
+        //FPS.SetActive(true);
         
        
         playerColls[0].enabled = false;
@@ -319,7 +319,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             if (isDamaged) { return; }
             if(PV.IsMine)
             {
-                AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+                AudioManager.AM.PlaySE("Damage");
                 curHP -= pow;
                 HP.value = Mathf.Round(curHP * 10) * 0.1f;
                 HP.maxValue = inItHP;
@@ -344,7 +344,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.HeadShot);
+            AudioManager.AM.PlaySE("Headshot");
         }
     }
     [PunRPC]
@@ -352,7 +352,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            AudioManager.AM.PlaySE("Hit");
         }
     }
 
@@ -363,11 +363,11 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine(PlayerDead());
         if (!PV.IsMine)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerKill);
+            AudioManager.AM.PlaySE("Kill");
         }
         else
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerDead);
+            AudioManager.AM.PlaySE("Dead");
         }       
 
     }
@@ -377,7 +377,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.ReSpawn);
+            AudioManager.AM.PlaySE("Respawn");
         }
         StartCoroutine(ShowRespawnEffect());
 

@@ -60,7 +60,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner      
                 && AvartarController.ATC.isAlive)
             {
-                PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.RightController);
+                //PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.RightController);
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 weaponInIt = true;
                 return;
