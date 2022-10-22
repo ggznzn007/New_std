@@ -56,7 +56,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             transform.position = contact.point;
             Destroy(effect, 0.5f);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
+            AudioManager.AM.PlaySE("Bulletimpact");
             //Destroy(gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
@@ -84,7 +84,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            AudioManager.AM.PlaySE("Hit");
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Debug.Log("플레이어 명중");
            
@@ -105,7 +105,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            AudioManager.AM.PlaySE("Hit");
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }
@@ -122,7 +122,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.EffectPlay(AudioManager.Effect.PlayerHit);
+            AudioManager.AM.PlaySE("Hit");
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }
