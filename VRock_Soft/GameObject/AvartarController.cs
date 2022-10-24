@@ -77,7 +77,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private float delayTime = 1f;
     public bool isDamaged = false;
-
+        
     private void Awake()
     {      
         ATC = this;
@@ -344,7 +344,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine)
         {
-            AudioManager.AM.PlaySE("Headshot");
+            AudioManager.AM.PlaySE("HeadShot");
         }
     }
     [PunRPC]

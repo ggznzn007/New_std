@@ -20,6 +20,8 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform firePoint;
     [SerializeField] int actNumber;
     [SerializeField] float speed;
+    public string bulletImpact;
+    public string hitPlayer;
     void Start()
     {
         BrM=this;
@@ -47,7 +49,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             transform.position = contact.point;
             Destroy(effect, 0.5f);
-            AudioManager.AM.PlaySE("Bulletimpact");
+            AudioManager.AM.PlaySE(bulletImpact);
             //Destroy(gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
           
@@ -66,7 +68,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Debug.Log("플레이어 명중");
 
@@ -87,7 +89,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }
@@ -104,7 +106,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }

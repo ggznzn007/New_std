@@ -22,7 +22,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
     [SerializeField] Transform firePoint;
     [SerializeField] int actNumber;
     [SerializeField] float speed;
-    
+    public string bulletImpact;
+    public string hitPlayer;
     //Transform tr;
     private void Start()
     {
@@ -56,7 +57,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             transform.position = contact.point;
             Destroy(effect, 0.5f);
-            AudioManager.AM.PlaySE("Bulletimpact");
+            //AudioManager.AM.PlaySE("BulletImpact");
+            AudioManager.AM.PlaySE(bulletImpact);
             //Destroy(gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
@@ -84,7 +86,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
+           // AudioManager.AM.PlaySE("Hit");
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Debug.Log("플레이어 명중");
            
@@ -105,7 +108,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }
@@ -122,7 +125,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
-            AudioManager.AM.PlaySE("Hit");
+            AudioManager.AM.PlaySE(hitPlayer);
 
             PV.RPC("DestroyBullet", RpcTarget.All);
         }
