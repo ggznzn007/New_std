@@ -18,7 +18,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public int bCount;
     public bool isBeingHeld = false;
     public bool isExplo;
-
+    public string bombBeep;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -52,34 +52,36 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     public void ThrowBomb()
     {
-        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-           SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
-        {
+        
+            if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
+               SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+            {
 
-            if (!griped_R && !griped_L) // 양손 모두 놓았을 때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_LW.LW.weaponInIt = false;
-                SpawnWeapon_RW.RW.weaponInIt = false;
+                if (!griped_R && !griped_L) // 양손 모두 놓았을 때
+                {
+                    StartCoroutine(Explosion());
+                    SpawnWeapon_LW.LW.weaponInIt = false;
+                    SpawnWeapon_RW.RW.weaponInIt = false;
+                }
+                if (!griped_R && griped_L)              // 오른손만 놨을때
+                {
+                    StartCoroutine(Explosion());
+                    SpawnWeapon_RW.RW.weaponInIt = false;
+                }
+                if (griped_R && !griped_L)             // 왼손만 놨을때
+                {
+                    StartCoroutine(Explosion());
+                    SpawnWeapon_LW.LW.weaponInIt = false;
+                }
             }
-            if (!griped_R && griped_L)              // 오른손만 놨을때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_RW.RW.weaponInIt = false;
-            }
-            if (griped_R && !griped_L)             // 왼손만 놨을때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_LW.LW.weaponInIt = false;
-            }
-        }
     }
 
     public IEnumerator Explosion()
     {
         if (isExplo && bCount >= 1)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.BombBeep);
+            AudioManager.AM.PlaySE(bombBeep);
+            //AudioManager.AM.PlaySE("BombBeep");
             yield return new WaitForSeconds(2.35f);
             var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
             Destroy(exPlo, 0.5f);

@@ -40,20 +40,20 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)
             {
-                admin.SetActive(false);
+                Destroy(admin);
             }
         }
     }
     private void Update()
     {
-       /* if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
-        {
-            if (pressed)
-            {
-                PN.LoadLevel(4);
-            }
-        }*/
-#if UNITY_EDITOR_WIN
+        /* if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
+         {
+             if (pressed)
+             {
+                 PN.LoadLevel(4);
+             }
+         }*/
+#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
         if (PN.InRoom && PN.IsMasterClient)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
@@ -81,15 +81,15 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-            /*#if UNITY_EDITOR_WIN
-                        case Team.ADMIN:
-                            PN.AutomaticallySyncScene = true;
-                            NetworkManager.NM.inGame = false;
-                            spawnPlayer = PN.Instantiate(admin.name,adminPoint.position,adminPoint.rotation);
-                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                            Info();
-                            break;
-            #endif*/
+#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
+            case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                DataManager.DM.inGame = false;
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+                break;
+#endif
             default:
                 return;
         }
