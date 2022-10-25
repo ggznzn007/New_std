@@ -35,6 +35,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private GameObject spawnPlayer;
     private GameObject spawnBomb;
+    private GameObject spawnBomb1;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
@@ -62,7 +63,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
             if (DataManager.DM.currentTeam != Team.ADMIN)
             {
-                admin.SetActive(false);
+                Destroy(admin);
             }
         }
     }
@@ -86,15 +87,15 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-            /*#if UNITY_EDITOR_WIN
-                        case Team.ADMIN:
-                            PN.AutomaticallySyncScene = true;
-                            NetworkManager.NM.inGame = false;
-                            spawnPlayer = PN.Instantiate(admin.name,adminPoint.position,adminPoint.rotation);
-                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                            Info();
-                            break;
-            #endif*/
+#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
+            case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                DataManager.DM.inGame = false;
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+                break;
+#endif
             default:
                 return;
         }
@@ -102,21 +103,30 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+        /*if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
         {
             if (pressed)
             {
-                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-                spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+                for (int i = 0; i < bSpawnPosition.Length; i++)
+                {
+                    spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+                }
             }
-        }
-        
-#if UNITY_EDITOR_WIN
+        }*/
+
+#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }        
         else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0); }
-        else if (Input.GetKeyDown(KeyCode.Space)) { spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0); }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+            spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+            /*for (int i = 0; i < bSpawnPosition.Length; i++)
+            {
+                
+            }*/
+        }
 #endif
     }
     void FixedUpdate()
@@ -183,19 +193,19 @@ public class WesternManager : MonoBehaviourPunCallbacks
     IEnumerator StartTimer()
     {
         //yield return new WaitForSeconds(10);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.GAMESTART);
+        AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.Three);
+        AudioManager.AM.PlaySE("Three");
         countText.text = string.Format("3");
         yield return new WaitForSeconds(1);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.Two);
+        AudioManager.AM.PlaySE("Two");
         countText.text = string.Format("2");
         yield return new WaitForSeconds(1);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.One);
+        AudioManager.AM.PlaySE("One");
         countText.text = string.Format("1");
         yield return new WaitForSeconds(1);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.START);
+        AudioManager.AM.PlaySE("Start");
         countText.text = string.Format("게임 스타트!!!");
         yield return new WaitForSeconds(1);
         count = true;
@@ -209,10 +219,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         timerText.gameObject.SetActive(false);
         countText.gameObject.SetActive(true);
         DataManager.DM.inGame = false;
-        AudioManager.AM.EffectPlay(AudioManager.Effect.GAMEOVER);
+        AudioManager.AM.PlaySE("Gameover");
         countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(1);
-        AudioManager.AM.EffectPlay(AudioManager.Effect.END);
+        AudioManager.AM.PlaySE("GameInfo2");
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
         yield return new WaitForSeconds(4);
         PN.LeaveRoom();

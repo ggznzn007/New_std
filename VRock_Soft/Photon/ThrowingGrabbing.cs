@@ -18,7 +18,8 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public int bCount;
     public bool isBeingHeld = false;
     public bool isExplo;
-
+    private AudioSource audioSource;                 // 총알 발사 소리
+    public string bombBeep;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -55,7 +56,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public void ThrowBomb()
     {
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
 
             if (!griped_R && !griped_L)
@@ -78,11 +79,14 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     public IEnumerator Explosion()
-    {
+    {        
         if (isExplo && bCount >= 1)
         {
-            AudioManager.AM.EffectPlay(AudioManager.Effect.BombBeep);
+           // AudioManager.AM.PlaySE("BombBeep");
+            AudioManager.AM.PlaySE(bombBeep);
             yield return new WaitForSeconds(2.35f);
+            //audioSource.Play();
+           // AudioManager.AM.PlaySE("BombPop");
             var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
             Destroy(exPlo, 0.5f);
             yield return new WaitForSeconds(0.1f);
