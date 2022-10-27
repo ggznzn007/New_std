@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Linq;
+using System.IO;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
@@ -15,6 +17,7 @@ using Antilatency.DeviceNetwork;
 using Antilatency.Alt;
 using Antilatency.SDK;
 using static ObjectPooler;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
 {
    // public static PlayerNetworkSetup NetPlayer;
@@ -22,9 +25,9 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
     public GameObject AvatarHead;
     public GameObject AvatarBody; 
     public GameObject AvatarHand_L; 
-    public GameObject AvatarHand_R; 
-    
+    public GameObject AvatarHand_R;
 
+    
     public void Awake()
     {      
        // NetPlayer = this;
@@ -63,4 +66,6 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
             trans.gameObject.layer = layerNum;
         }
     }   
+
+    
 }

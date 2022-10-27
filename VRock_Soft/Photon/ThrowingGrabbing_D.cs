@@ -33,7 +33,10 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     }
     private void Update()
     {
-        ThrowBomb();
+        if (DataManager.DM.currentTeam != Team.ADMIN)
+        {
+            ThrowBomb();
+        }
         if (isBeingHeld)
         {
             bCount++;

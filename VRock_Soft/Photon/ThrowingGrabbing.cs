@@ -34,7 +34,11 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
     private void Update()
     {
-        ThrowBomb();
+        if(DataManager.DM.currentTeam!=Team.ADMIN)
+        {
+            ThrowBomb();
+        }       
+
         if (isBeingHeld)
         {
             bCount++;
@@ -55,8 +59,9 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     public void ThrowBomb()
     {
+       
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-        SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
 
             if (!griped_R && !griped_L)

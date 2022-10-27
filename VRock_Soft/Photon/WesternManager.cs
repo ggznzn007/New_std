@@ -51,7 +51,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        //StartCoroutine(SpawnDynamite());
+        StartCoroutine(SpawnDynamite());
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -61,10 +61,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 PV.RPC("StartBtnW", RpcTarget.AllViaServer);
             }
-            if (DataManager.DM.currentTeam != Team.ADMIN)
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)
             {
                 Destroy(admin);
-            }
+            }*/
         }
     }
 
@@ -87,13 +87,23 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
+/*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);                
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
+                break;
+#endif*/
+#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+        case Team.ADMIN:
+                PN.AutomaticallySyncScene = true;
+                DataManager.DM.inGame = false;
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);                
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                Info();
+
                 break;
 #endif
             default:
@@ -103,29 +113,35 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        /*if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
-        {
-            if (pressed)
-            {
-                for (int i = 0; i < bSpawnPosition.Length; i++)
+        /*#if UNITY_ANDROID
+                if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
                 {
-                    spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+                    if (pressed)
+                    {
+                        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+                        spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+                    }
                 }
-            }
-        }*/
+        #endif*/
 
-#if UNITY_EDITOR_WIN            // 유니티 에디터에서 재생 시
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }        
+#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
             spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-            /*for (int i = 0; i < bSpawnPosition.Length; i++)
-            {
-                
-            }*/
+        }
+#endif
+#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+            spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);           
         }
 #endif
     }
@@ -156,10 +172,13 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public IEnumerator SpawnDynamite()
     {
-        yield return new WaitForSeconds(3);
+
+        yield return new WaitForSeconds(10);
         spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+        spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
         StartCoroutine(SpawnDynamite());
+
+
     }
 
     [PunRPC]
@@ -182,6 +201,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
+        
         if (limitedTime <= 0)
         {
             count = false;
