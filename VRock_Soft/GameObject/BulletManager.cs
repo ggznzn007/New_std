@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using static ObjectPooler;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservable //MonoBehaviourPun   //MonoBehaviour                                // 총알 스크립트 
@@ -24,6 +25,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
     [SerializeField] float speed;
     public string bulletImpact;
     public string hitPlayer;
+    
     //Transform tr;
     private void Start()
     {
@@ -91,7 +93,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             PV.RPC("DestroyBullet", RpcTarget.All);
             //Debug.Log("플레이어 명중");
            
-
+           
         }
 
 

@@ -75,10 +75,13 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube") && (!SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt
-            || !SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt))
+        if (DataManager.DM.currentTeam != Team.ADMIN)
         {
-            PV.RPC("DestroyGun_Delay", RpcTarget.All);
+            if (collision.collider.CompareTag("Cube") && (!SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt
+            || !SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt))
+            {
+                PV.RPC("DestroyGun_Delay", RpcTarget.All);
+            }
         }
     }
 
