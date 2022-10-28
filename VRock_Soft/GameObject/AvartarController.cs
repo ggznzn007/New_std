@@ -23,6 +23,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴 
     Player player;
+    //PlayerStats stats;
 
     /* public static Action headShot;
      public static Action bodyShot;
@@ -331,7 +332,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
             {
-                if (DataManager.DM.currentTeam == Team.BLUE)
+                if (DataManager.DM.currentTeam == Team.BLUE && DataManager.DM.currentMap == Map.TOY)
                 {
                     if (isDamaged) { return; }
                     AudioManager.AM.PlaySE("Damage");
@@ -341,7 +342,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                     StartCoroutine(DamagedDelay());
                     delayTime = 1f;
                     Debug.Log("남은 HP : " + HP.value.ToString() + "%");
-                    GunShootManager.GSM.photonView.RPC("AddScoreRed", RpcTarget.All, pow);
+                   
                     if (HP.value <= 0)
                     {
                         isAlive = false;
@@ -351,7 +352,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                         Debug.Log("킬 성공");                                        
                     }
                 }
-                if(DataManager.DM.currentTeam == Team.RED)
+                if(DataManager.DM.currentTeam == Team.RED&&DataManager.DM.currentMap==Map.TOY)
                 {
                     if (isDamaged) { return; }
                     AudioManager.AM.PlaySE("Damage");
@@ -361,7 +362,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                     StartCoroutine(DamagedDelay());
                     delayTime = 1f;
                     Debug.Log("남은 HP : " + HP.value.ToString() + "%");
-                    GunShootManager.GSM.photonView.RPC("AddScoreBlue", RpcTarget.All, pow);
+                    
                     if (HP.value <= 0)
                     {
                         isAlive = false;
@@ -400,16 +401,27 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         StartCoroutine(ShowDeadEffect());
         StartCoroutine(PlayerDead());
-        if (!PV.IsMine)
+        if (PV.IsMine)
         {
-            AudioManager.AM.PlaySE("Kill");
-            if (DataManager.DM.currentMap == Map.TOY) { GunShootManager.GSM.kills++; }
-
+            AudioManager.AM.PlaySE("Dead");
+            if (DataManager.DM.currentMap == Map.TOY)
+            {
+               GunShootManager.GSM.deaths++;
+            }            
         }
         else
         {
-            AudioManager.AM.PlaySE("Dead");
-            if (DataManager.DM.currentMap == Map.TOY) { GunShootManager.GSM.deaths++; }
+            AudioManager.AM.PlaySE("Kill");
+            if (DataManager.DM.currentMap == Map.TOY && DataManager.DM.currentTeam == Team.BLUE)
+            {
+                GunShootManager.GSM.kills++;
+                GunShootManager.GSM.photonView.RPC("AddScoreBlue",RpcTarget.All);
+            }
+            else
+            {
+                GunShootManager.GSM.kills++;
+                GunShootManager.GSM.photonView.RPC("AddScoreRed", RpcTarget.All);
+            }
         }
        
 
