@@ -14,6 +14,15 @@ using static ObjectPooler;
 using Unity.VisualScripting;
 using UnityEngine.XR;
 using UnityEngine.LowLevel;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
+
+/*[System.Serializable]
+public class PlayerStats
+{
+    public int kills = 0;
+    public int deaths = 0;
+    public string team;
+}*/
 
 public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable                     // 토이
 {
@@ -55,27 +64,30 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
     public string startGame;
     public string gameover;
     public int kills;
-    public int deaths;
-    public int ranking;
+    public int deaths;    
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
     public TMP_Text blueScore;
     public TMP_Text redScore;   
     public int score_Blue;
     public int score_Red;
-    public RectTransform blueRect;
-    public RectTransform redRect;
+    // public RectTransform blueRect;
+    // public RectTransform redRect;
+    public DataManager DB;
+   // public PlayerStats playerStats;
     private void Awake()
     {
         GSM = this;
-        DataManager.DM.currentMap = Map.TOY;
+        DataManager.DM.currentMap = Map.TOY;       
+        
     }
 
     private void Start()
     {
-        StartCoroutine(SpawnBomb());
+        
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
+            StartCoroutine(SpawnBomb());
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
@@ -173,30 +185,29 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
 #endif
     }
 
-
+    
     public void UpdateStats()
-    {
-        playerProp["rank"] = ranking;
+    {       
         playerProp["kills"] = kills;             // 개인 킬 수
         playerProp["deaths"] = deaths;           // 개인 데스 수
 
         PN.LocalPlayer.CustomProperties = playerProp;
         PN.SetPlayerCustomProperties(playerProp);
+        
         blueScore.text = score_Blue.ToString();   // 블루팀 점수
         redScore.text = score_Red.ToString();     // 레드팀 점수
-
     }
 
     [PunRPC]
-    public void AddScoreBlue(int scorePlus)
+    public void AddScoreBlue()
     {
-        score_Blue += scorePlus;
+        score_Blue++;
     }
 
     [PunRPC]
-    public void AddScoreRed(int scorePlus)
+    public void AddScoreRed()
     {
-        score_Red += scorePlus;
+        score_Red++;
     }
 
     void FixedUpdate()
@@ -220,6 +231,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
+                    
                 }
 
             }
@@ -274,7 +286,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(1);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
