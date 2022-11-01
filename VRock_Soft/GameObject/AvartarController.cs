@@ -59,6 +59,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material[] head_Mats;                                             // 아바타 머리     머티리얼    
     [SerializeField] Material[] body_Mats;                                             // 아바타 몸      
+    [SerializeField] Material[] body_colors;                                             // 아바타 색깔    
     [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
     [SerializeField] Material hand_R;                                                  // 아바타 오른손    
     [SerializeField] Material[] DeadMat_Heads;                                         // 머리 죽음   머티리얼
@@ -83,8 +84,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private float delayTime = 1f;
     public bool isDamaged = false;
-
-
+    public int team;
+    public GameObject quitBtn;
 
     private void Awake()
     {
@@ -96,14 +97,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         isDeadLock = true;
+        team = DataManager.DM.teamInt;
+
     }
 
     void Update()
     {
         if (!PV.IsMine) return;
-
         Nick_HP_Pos();
-
     }
 
     public void Nick_HP_Pos()
@@ -146,7 +147,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public IEnumerator PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
     {
-        yield return null;
+        StartCoroutine(ShowDeadEffect());
+        yield return new WaitForSeconds(0.001f);
         isDeadLock = false;                                                  // 중복죽음방지
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
         HP.gameObject.SetActive(false);                                      // 플레이어 HP
@@ -185,7 +187,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         at_hand_Right.SetActive(true);
         hand_Left.SetActive(true);
         hand_Right.SetActive(true);
-        //FPS.SetActive(true);
+        FPS.SetActive(true);
 
 
         playerColls[0].enabled = false;
@@ -239,6 +241,17 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("RespawnPlayer", RpcTarget.All);
             Debug.Log("레드팀 리스폰");
         }
+
+       /* else if(col.CompareTag("BlueTeam"))
+        {
+            DataManager.DM.currentTeam = Team.BLUE;
+            body_Rend.materials[0] = body_colors[0];          
+        }
+        else if(col.CompareTag("RedTeam"))
+        {
+            DataManager.DM.currentTeam = Team.RED;
+            body_Rend.materials[0] = body_colors[1];           
+        }*/
     }
 
     public void GrenadeDamage()                                              // 크리티컬(헤드샷) 데미지
@@ -332,50 +345,66 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
             {
-                if (DataManager.DM.currentTeam == Team.BLUE && DataManager.DM.currentMap == Map.TOY)
+                if (isDamaged) { return; }
+                AudioManager.AM.PlaySE("Damage");
+                curHP -= pow;
+                HP.value = Mathf.Round(curHP * 10) * 0.1f;
+                HP.maxValue = inItHP;
+                StartCoroutine(DamagedDelay());
+                delayTime = 1f;
+                Debug.Log("남은 HP : " + HP.value.ToString() + "%");
+
+                if (HP.value <= 0)
                 {
-                    if (isDamaged) { return; }
-                    AudioManager.AM.PlaySE("Damage");
-                    curHP -= pow;
-                    HP.value = Mathf.Round(curHP * 10) * 0.1f;
-                    HP.maxValue = inItHP;
-                    StartCoroutine(DamagedDelay());
-                    delayTime = 1f;
-                    Debug.Log("남은 HP : " + HP.value.ToString() + "%");
-                   
-                    if (HP.value <= 0)
+                    isAlive = false;
+                    deadScreen.gameObject.SetActive(true);
+                    if(DataManager.DM.currentMap==Map.TOY)               // 토이
                     {
-                        isAlive = false;
-                        deadScreen.gameObject.SetActive(true);
-                        PV.RPC("DeadPlayer", RpcTarget.All);
-                        // PV.RPC("DeadPlayer", PV.Owner);                    
-                        Debug.Log("킬 성공");                                        
+                        PV.RPC("PlayerKilledT", RpcTarget.All, team);
                     }
-                }
-                if(DataManager.DM.currentTeam == Team.RED&&DataManager.DM.currentMap==Map.TOY)
-                {
-                    if (isDamaged) { return; }
-                    AudioManager.AM.PlaySE("Damage");
-                    curHP -= pow;
-                    HP.value = Mathf.Round(curHP * 10) * 0.1f;
-                    HP.maxValue = inItHP;
-                    StartCoroutine(DamagedDelay());
-                    delayTime = 1f;
-                    Debug.Log("남은 HP : " + HP.value.ToString() + "%");
+                    else  if(DataManager.DM.currentMap==Map.WESTERN)                                               // 웨스턴
+                    {
+                        PV.RPC("PlayerKilledW", RpcTarget.All, team);
+                    }
                     
-                    if (HP.value <= 0)
-                    {
-                        isAlive = false;
-                        deadScreen.gameObject.SetActive(true);
-                        PV.RPC("DeadPlayer", RpcTarget.All);
-                        // PV.RPC("DeadPlayer", PV.Owner);                    
-                        Debug.Log("킬 성공");
-                    }
+                    PV.RPC("DeadPlayer", RpcTarget.All);
+                    // PV.RPC("DeadPlayer", PV.Owner);                    
+                    Debug.Log("킬 성공");
                 }
 
             }
 
 
+        }
+    }
+
+    [PunRPC]
+    public void PlayerKilledT(int team)
+    {
+        if (team == 0)                   // 블루팀이 레드팀을 죽였을 때
+        {
+            GunShootManager.GSM.score_Red++;
+            Debug.Log("블루-->레드 킬");
+        }
+        else                             // 레드팀이 블루팀을 죽였을 때
+        {
+            GunShootManager.GSM.score_Blue++;
+            Debug.Log("레드-->블루 킬");
+        }
+    }
+
+    [PunRPC]
+    public void PlayerKilledW(int team)
+    {
+        if (team == 0)                   // 블루팀이 레드팀을 죽였을 때
+        {
+            WesternManager.WM.score_Red++;
+            Debug.Log("블루-->레드 킬");
+        }
+        else                             // 레드팀이 블루팀을 죽였을 때
+        {
+            WesternManager.WM.score_Blue++;
+            Debug.Log("레드-->블루 킬");
         }
     }
 
@@ -398,33 +427,17 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     [PunRPC]
     public void DeadPlayer()                                                     // 플레이어 죽었을때
-    {
-        StartCoroutine(ShowDeadEffect());
-        StartCoroutine(PlayerDead());
-        if (PV.IsMine)
-        {
-            AudioManager.AM.PlaySE("Dead");
-            if (DataManager.DM.currentMap == Map.TOY)
-            {
-               GunShootManager.GSM.deaths++;
-            }            
-        }
-        else
+    {        
+       StartCoroutine(PlayerDead());
+        if (!PV.IsMine)
         {
             AudioManager.AM.PlaySE("Kill");
-            if (DataManager.DM.currentMap == Map.TOY && DataManager.DM.currentTeam == Team.BLUE)
-            {
-                GunShootManager.GSM.kills++;
-                GunShootManager.GSM.photonView.RPC("AddScoreBlue",RpcTarget.All);
-            }
-            else
-            {
-                GunShootManager.GSM.kills++;
-                GunShootManager.GSM.photonView.RPC("AddScoreRed", RpcTarget.All);
-            }
+           
         }
-       
-
+        else
+        {                 
+            AudioManager.AM.PlaySE("Dead");            
+        }
     }
 
     [PunRPC]
@@ -471,6 +484,11 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
             // isAlive = (bool)stream.ReceiveNext();
         }
+    }
+
+    public void GameQuit()
+    {
+        Application.Quit();
     }
 
     /*IEnumerator Damaged()
