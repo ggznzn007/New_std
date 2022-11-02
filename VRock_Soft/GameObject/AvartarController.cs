@@ -156,7 +156,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         at_hand_Right.SetActive(false);                                      // 아바타 오른손
         hand_Left.SetActive(false);                                          // 왼손 컨트롤러
         hand_Right.SetActive(false);                                         // 오른손 컨트롤러
-                                                                             //FPS.SetActive(false);                                                // 프레임UI
+        FPS.SetActive(false);                                                // 프레임UI
                                                                              // 아이템스폰박스 왼쪽
                                                                              // 아이템스폰박스 왼쪽
         playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더

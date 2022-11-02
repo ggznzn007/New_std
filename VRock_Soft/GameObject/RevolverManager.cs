@@ -32,7 +32,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     private PhotonView PV;                           // Æ÷Åæºä
     private GameObject myBull;                       // ÀÚ±â ÃÑ¾Ë    
     private float fireTime = 0;                      // ÃÑ¾Ë µô·¹ÀÌ Å¸ÀÓ 
-    private readonly float delayfireTime = 0.5f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
+    private readonly float delayfireTime = 0.3f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
     private readonly float fireDistance = 1000f;     // ÃÑ¾Ë ºñ°Å¸®
     private XRController xt;
     private bool triggerBtnR;
@@ -60,16 +60,16 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         Reload();
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
         {
-            PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.RightController);
+            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
         }
         if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnL) && triggerBtnL)
         {
-            PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.LeftController);
+            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.LeftController);
         }
 
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
-            PV.RPC("DestroyGun", RpcTarget.All);
+            PV.RPC("DestroyGun_R", RpcTarget.All);
         }
     }
 
@@ -80,7 +80,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             if (collision.collider.CompareTag("Cube") && (!SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt
             || !SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt))
             {
-                PV.RPC("DestroyGun_Delay", RpcTarget.All);
+                PV.RPC("DestroyRevol_Delay", RpcTarget.All);
             }
         }
     }
@@ -148,13 +148,13 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void DestroyGun_Delay()                  // ÃÑ ÆÄ±« ½Ã°£ µô·¹ÀÌ ¸Þ¼­µå
+    public void DestroyRevol_Delay()                  // ÃÑ ÆÄ±« ½Ã°£ µô·¹ÀÌ ¸Þ¼­µå
     {
         StartCoroutine(DestoryPN_Gun());
     }
 
     [PunRPC]
-    public void DestroyGun()
+    public void DestroyGun_R()
     {
         Destroy(gameObject);
     }

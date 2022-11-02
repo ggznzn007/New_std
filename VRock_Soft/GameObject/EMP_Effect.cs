@@ -26,7 +26,7 @@ public class EMP_Effect : MonoBehaviour
     public IEnumerator CollOnOff()
     {
         coll.enabled = true;
-        yield return new WaitForSeconds(0.005f);
+        yield return new WaitForSeconds(0.004f);
         coll.enabled = false;        
     }
 }

@@ -43,7 +43,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
 
     public GunManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
             if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
             //Debug.Log("¿Ã √—¿∫ ≥ª≤®");

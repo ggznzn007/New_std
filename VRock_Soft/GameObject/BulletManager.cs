@@ -46,7 +46,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             return;
         }      
         // 터지는 이펙트 보여지고
-        if (collision.collider.CompareTag("Cube")&& PV.IsMine) // 일반태그
+        if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet")) && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
