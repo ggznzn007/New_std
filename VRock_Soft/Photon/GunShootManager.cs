@@ -24,18 +24,14 @@ public class PlayerStats
     public string team;
 }*/
 
-public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable                     // 토이
+public class GunShootManager : MonoBehaviourPunCallbacks                                      // 토이
 {
     public static GunShootManager GSM;
 
     [Header("카운트다운 텍스트")]
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간")]
-    [SerializeField] TextMeshPro timerText;
-    /*[Header("게임 시작 텍스트(마스터)")]
-    public TextMeshPro startText;
-    [Header("스타트 버튼(마스터)")]
-    public GameObject startBtn;*/
+    [SerializeField] TextMeshPro timerText;   
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
     [Header("블루팀 프리팹")]
@@ -64,21 +60,24 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
     public string startGame;
     public string gameover;
     public int kills;
-    public int deaths;    
+    //public int deaths;
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
+    public Image bluewinImg;
+    public Image redwinImg;
+    public Image blueloseImg;
+    public Image redloseImg;
+    public Image bluedrawImg;
+    public Image reddrawImg;
     public TMP_Text blueScore;
-    public TMP_Text redScore;   
+    public TMP_Text redScore;
     public int score_Blue;
     public int score_Red;
-    // public RectTransform blueRect;
-    // public RectTransform redRect;
-    public DataManager DB;
-   // public PlayerStats playerStats;
+    
     private void Awake()
     {
         GSM = this;
-        DataManager.DM.currentMap = Map.TOY;       
-        
+        DataManager.DM.currentMap = Map.TOY;
+        SetScore();
     }
 
     private void Start()
@@ -87,14 +86,14 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            StartCoroutine(SpawnBomb());
+            InvokeRepeating(nameof(SpawnBomb), 1, 30);
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
                 PV.RPC("StartBtnT", RpcTarget.AllViaServer);
             }
 
-          /*  if (DataManager.DM.currentTeam != Team.ADMIN)
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
             {
                 Destroy(admin);
             }*/
@@ -103,10 +102,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
 
     public void SpawnPlayer()
     {
-       
+
         switch (DataManager.DM.currentTeam)
         {
-            case Team.RED:                
+            case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
@@ -127,7 +126,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);               
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
 
@@ -151,7 +150,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
 
     private void Update()
     {
-        UpdateStats();
+        SetScore();
+        //UpdateStats();
         /*#if UNITY_ANDROID
                 if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
                 {
@@ -168,8 +168,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-            spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+            SpawnBomb();
         }
 
 #endif
@@ -179,36 +178,26 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-            spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);           
+            SpawnBomb();          
         }
 #endif
     }
 
-    
-    public void UpdateStats()
-    {       
-        playerProp["kills"] = kills;             // 개인 킬 수
-        playerProp["deaths"] = deaths;           // 개인 데스 수
-
-        PN.LocalPlayer.CustomProperties = playerProp;
-        PN.SetPlayerCustomProperties(playerProp);
-        
+    public void SetScore()
+    {
         blueScore.text = score_Blue.ToString();   // 블루팀 점수
         redScore.text = score_Red.ToString();     // 레드팀 점수
     }
-
-    [PunRPC]
-    public void AddScoreBlue()
+    public void UpdateStats()
     {
-        score_Blue++;
+        playerProp["kills"] = kills;             // 개인 킬 수
+       // playerProp["deaths"] = deaths;           // 개인 데스 수
+
+        PN.LocalPlayer.CustomProperties = playerProp;
+        PN.SetPlayerCustomProperties(playerProp);       
     }
 
-    [PunRPC]
-    public void AddScoreRed()
-    {
-        score_Red++;
-    }
+  
 
     void FixedUpdate()
     {
@@ -231,23 +220,27 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
-                    
+
                 }
 
             }
         }
     }
 
-    public IEnumerator SpawnBomb()
+    public void SpawnBomb()
     {
-       
-            yield return new WaitForSecondsRealtime(30);
-            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-            spawnBomb1 = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-            StartCoroutine(SpawnBomb());
-       
-       
+        for (int i = 0; i < bSpawnPosition.Length; i++)
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+        }
     }
+   /* public IEnumerator SpawnBomb()
+    {
+        yield return new WaitForSecondsRealtime(30);
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);        
+        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);        
+        StartCoroutine(SpawnBomb());
+    }*/
 
 
 
@@ -265,6 +258,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         StartCoroutine(LeaveGame());
     }
 
+    [PunRPC]
+    public void Notice()
+    {
+        AudioManager.AM.PlaySE("GameInfo3");
+    }
+
     IEnumerator PlayTimer()
     {
         yield return new WaitForSeconds(1);
@@ -272,7 +271,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         setTime["Time"] = nextTime;
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
-       
+
+        if (limitedTime == 8)
+        {
+            PV.RPC("Notice", RpcTarget.All);
+        }
+
         if (limitedTime <= 0)
         {
             count = false;
@@ -286,7 +290,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -306,6 +310,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         DataManager.DM.inGame = true;
         timerText.gameObject.SetActive(true);
         countText.gameObject.SetActive(false);
+        
     }
 
 
@@ -316,12 +321,48 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
         DataManager.DM.inGame = false;
         AudioManager.AM.PlaySE("Gameover");
         countText.text = string.Format("GAME OVER");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
+        VictoryTeam();
+        yield return new WaitForSeconds(3);
+        AudioManager.AM.PlaySE("GameInfo7");
+        yield return new WaitForSeconds(3);
         AudioManager.AM.PlaySE("GameInfo2");
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(6);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
+    }
+
+    public void VictoryTeam()
+    {
+        if (score_Blue > score_Red)
+        {
+            AudioManager.AM.PlaySE("GameInfo4");
+            countText.text = string.Format("블루팀이 승리하였습니다");
+            blueScore.gameObject.SetActive(false);
+            redScore.gameObject.SetActive(false);
+            bluewinImg.gameObject.SetActive(true);
+            redloseImg.gameObject.SetActive(true);
+            
+        }
+        else if (score_Blue < score_Red)
+        {
+            AudioManager.AM.PlaySE("GameInfo5");
+            countText.text = string.Format("레드팀이 승리하였습니다");
+            blueScore.gameObject.SetActive(false);
+            redScore.gameObject.SetActive(false);
+            blueloseImg.gameObject.SetActive(true);
+            redwinImg.gameObject.SetActive(true);
+        }
+        else if (score_Blue == score_Red)
+        {
+            AudioManager.AM.PlaySE("GameInfo6");
+            countText.text = string.Format("무승부입니다");
+            blueScore.gameObject.SetActive(false);
+            redScore.gameObject.SetActive(false);
+            bluedrawImg.gameObject.SetActive(true);
+            reddrawImg.gameObject.SetActive(true);
+        }
     }
 
     public override void OnLeftRoom()
@@ -373,47 +414,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks //,IPunObservable      
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
+    
+   
 
-    public void QuitGame()
-    {
-        PN.LeaveRoom();
-    }
-
-    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(score_Blue);
-            stream.SendNext(score_Red);
-            stream.SendNext(blueRect.transform.position);
-            stream.SendNext(redRect.transform.position);
-        }
-        else
-        {
-            score_Blue = (int)stream.ReceiveNext();
-            score_Red = (int)stream.ReceiveNext();
-            blueRect.transform.position = (Vector3)stream.ReceiveNext();
-            redRect.transform.position = (Vector3)stream.ReceiveNext();
-        }
-    }*/
-
-    // 팀별 캐릭터생성 if문
-    /*if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.RED)
-       {
-           PN.AutomaticallySyncScene = true;
-           NetworkManager.NM.inGame = true;
-           spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
-           count = true;
-           Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-           Info();
-       }
-       else if (PN.IsConnectedAndReady && DataManager.DM.currentTeam == Team.BLUE)
-       {
-           PN.AutomaticallySyncScene = true;
-           NetworkManager.NM.inGame = true;
-           spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
-           count = true;
-           Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-           Info();
-       }*/
 }

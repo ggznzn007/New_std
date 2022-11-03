@@ -19,6 +19,9 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public bool isBeingHeld = false;
     public bool isExplo;
     public string bombBeep;
+    public string dm_Explo;
+
+    SelectionOutline outline = null;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -29,7 +32,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     {
         rb = GetComponent<Rigidbody>();
         bCount = 0;
-
+        outline = GetComponent<SelectionOutline>();
     }
     private void Update()
     {
@@ -60,18 +63,18 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
                SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
             {
 
-                if (!griped_R && !griped_L) // 양손 모두 놓았을 때
+                if (!griped_R && !griped_L && isExplo && bCount >= 1) // 양손 모두 놓았을 때
                 {
                     StartCoroutine(Explosion());
                     SpawnWeapon_LW.LW.weaponInIt = false;
                     SpawnWeapon_RW.RW.weaponInIt = false;
                 }
-                if (!griped_R && griped_L)              // 오른손만 놨을때
+                if (!griped_R && griped_L && isExplo && bCount >= 1)              // 오른손만 놨을때
                 {
                     StartCoroutine(Explosion());
                     SpawnWeapon_RW.RW.weaponInIt = false;
                 }
-                if (griped_R && !griped_L)             // 왼손만 놨을때
+                if (griped_R && !griped_L && isExplo && bCount >= 1)             // 왼손만 놨을때
                 {
                     StartCoroutine(Explosion());
                     SpawnWeapon_LW.LW.weaponInIt = false;
@@ -81,16 +84,12 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     public IEnumerator Explosion()
     {
-        if (isExplo && bCount >= 1)
-        {
-            AudioManager.AM.PlaySE(bombBeep);
-            //AudioManager.AM.PlaySE("BombBeep");
-            yield return new WaitForSeconds(2.35f);
-            var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
-            Destroy(exPlo, 0.5f);
-            yield return new WaitForSeconds(0.1f);
-            PV.RPC("ExploBomb", RpcTarget.All);
-        }
+        AudioManager.AM.PlaySX("BombBeep");        
+        yield return new WaitForSeconds(2.35f);
+        var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);       
+        Destroy(exPlo, 0.5f);
+        yield return new WaitForSeconds(0.1f);
+        PV.RPC("ExploBomb", RpcTarget.All);
     }
 
 
@@ -104,6 +103,17 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     {
         PV.RequestOwnership();
     }
+
+    public void OnHoverEntered()
+    {
+        outline.Highlight();
+    }
+
+    public void OnHoverExited()
+    {
+        outline.RemoveHighlight();
+    }
+
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");

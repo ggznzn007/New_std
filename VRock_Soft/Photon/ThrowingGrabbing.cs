@@ -19,10 +19,14 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public bool isBeingHeld = false;
     public bool isExplo;
     private AudioSource audioSource;                 // 총알 발사 소리
-    public string bombBeep;
+                                                     // public string bombBeep;
+                                                     //public string emp_Explo;
+
+    SelectionOutline outline = null;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+        
         isExplo = false;
     }
 
@@ -30,14 +34,15 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         rb = GetComponent<Rigidbody>();
         bCount = 0;
+        outline = GetComponent<SelectionOutline>();
 
     }
     private void Update()
     {
-        if(DataManager.DM.currentTeam!=Team.ADMIN)
+        if (DataManager.DM.currentTeam != Team.ADMIN)
         {
             ThrowBomb();
-        }       
+        }
 
         if (isBeingHeld)
         {
@@ -45,12 +50,14 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
             isExplo = false;
             rb.isKinematic = true;
             gameObject.layer = 7;
+            
         }
         else
         {
             isExplo = true;
             rb.isKinematic = false;
             gameObject.layer = 6;
+           
         }
 
     }
@@ -59,24 +66,24 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     public void ThrowBomb()
     {
-       
+
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
 
-            if (!griped_R && !griped_L)
-            {
+            if (!griped_R && !griped_L && isExplo && bCount >= 1)
+            {                
                 StartCoroutine(Explosion());
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
-            if (!griped_R && griped_L)
-            {
+            if (!griped_R && griped_L && isExplo && bCount >= 1)
+            {                
                 StartCoroutine(Explosion());
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
-            if (griped_R && !griped_L)
-            {
+            if (griped_R && !griped_L && isExplo && bCount >= 1)
+            {               
                 StartCoroutine(Explosion());
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
             }
@@ -84,22 +91,20 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     public IEnumerator Explosion()
-    {        
-        if (isExplo && bCount >= 1)
-        {
-           // AudioManager.AM.PlaySE("BombBeep");
-            AudioManager.AM.PlaySE(bombBeep);
-            yield return new WaitForSeconds(2.35f);
-            //audioSource.Play();
-           // AudioManager.AM.PlaySE("BombPop");
-            var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
-            Destroy(exPlo, 0.5f);
-            yield return new WaitForSeconds(0.1f);
-            PV.RPC("ExploBomb", RpcTarget.All);
-        }
+    {
+        AudioManager.AM.PlaySX("BombBeep");
+        yield return new WaitForSeconds(2.35f);
+        var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
+        Destroy(exPlo, 0.5f);
+        yield return new WaitForSeconds(0.1f);
+        PV.RPC("ExploBomb", RpcTarget.All);
     }
 
-
+    /*[PunRPC]
+    public void BombBeep()
+    {
+        AudioManager.AM.PlaySE("BombBeep");
+    }*/
     [PunRPC]
     public void ExploBomb()
     {
@@ -109,6 +114,16 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     private void TransferOwnership()
     {
         PV.RequestOwnership();
+    }
+
+    public void OnHoverEntered()
+    {
+        outline.Highlight();
+    }
+
+    public void OnHoverExited()
+    {
+        outline.RemoveHighlight();
     }
     public void OnSelectedEntered()
     {

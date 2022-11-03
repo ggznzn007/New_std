@@ -11,7 +11,6 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.XR;
-//using static UnityEditor.PlayerSettings;
 
 public class TutorialManager2 : MonoBehaviourPunCallbacks
 {
@@ -22,8 +21,10 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     [SerializeField] GameObject admin;
     public Transform adminPoint;
     private GameObject spawnPlayer;
-    //public Vector3 adminPos = new Vector3(0, 3.5f, 5.11f);
-    //public Quaternion adminRot = new Quaternion(30, 180, 0, 0);
+    public GameObject bomB;
+    private GameObject spawnBomb;
+    public Transform[] bSpawnPosition;
+
     private void Awake()
     {
         TM2 = this;
@@ -37,8 +38,10 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
+            //StartCoroutine(SpawnDynamite());
+            InvokeRepeating(nameof(SpawnDynamite), 1, 15);
             SpawnPlayer();
-          /*  if (DataManager.DM.currentTeam != Team.ADMIN)
+          /*  if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }*/
@@ -51,13 +54,21 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnDynamite();
+            }
         }
 #endif
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
        if (PN.InRoom&&PN.IsMasterClient)
         {
            if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}           
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}     
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnDynamite();
+            }
         }
 #endif
     }
@@ -85,12 +96,12 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);                
+                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
 #endif*/
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE         // 윈도우 프로그램 빌드 시
         case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
@@ -104,6 +115,21 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 return;
         }
     }
+
+    public void SpawnDynamite()
+    {
+        for (int i = 0; i < bSpawnPosition.Length; i++)
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+        }
+    }
+    /*  public IEnumerator SpawnDynamite()
+      {
+          yield return new WaitForSecondsRealtime(15);
+          spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+          spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+          StartCoroutine(SpawnDynamite());
+      }*/
 
     [ContextMenu("포톤 서버 정보")]
     void Info()

@@ -19,14 +19,14 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject redTeam;
     [SerializeField] GameObject blueTeam;
+    [SerializeField] GameObject defaultTeam;
     [SerializeField] GameObject admin;
-    public Transform adminPoint;
-
-    //public Vector3 adminPos = new Vector3(0,3.5f,5.11f);
-    //public Quaternion adminRot = new Quaternion(30,180,0,0);
-
+    public Transform adminPoint;  
     private GameObject spawnPlayer;    
-    
+    public GameObject bomB;
+    private GameObject spawnBomb;
+    public Transform[] bSpawnPosition;
+
     private void Awake()
     {
         TM = this;
@@ -34,15 +34,16 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
+        
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            
+            InvokeRepeating(nameof(SpawnBomb), 1, 15);
             SpawnPlayer();
-            /*if (DataManager.DM.currentTeam != Team.ADMIN)
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }*/
@@ -56,27 +57,35 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         if (PN.InRoom&&PN.IsMasterClient)
         {
            if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}           
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnBomb();
+            }
         }
 #endif
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
        if (PN.InRoom&&PN.IsMasterClient)
         {
            if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}           
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();} 
+             else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnBomb();
+            }
         }
 #endif
     }
 
     public void SpawnPlayer()
-    {
+    {       
         switch (DataManager.DM.currentTeam)
         {
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
 
@@ -84,7 +93,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
@@ -98,7 +107,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 Info();
                 break;
 #endif*/
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE         // 윈도우 프로그램 빌드 시
         case Team.ADMIN:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
@@ -114,12 +123,21 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
     }
 
-   /*public IEnumerator MasterKey()
+    public void SpawnBomb()
     {
-        yield return new WaitForSeconds(5);
-        startBtn.SetActive(true);       
+        for (int i = 0; i < bSpawnPosition.Length; i++)
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+        }
     }
-*/
+    /*public IEnumerator SpawnBomb(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        for (int i = 0; i <bSpawnPosition.Length; i++)
+        {
+            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+        }   
+    }*/
 
     [ContextMenu("포톤 서버 정보")]
     void Info()

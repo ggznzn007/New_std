@@ -56,8 +56,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("페이드인 스크린")]
     [SerializeField] Canvas fadeScreen;
 
-    
-   
+
+
     /*[Header("인게임 판단")]
     public bool inGame;  */
 
@@ -85,20 +85,47 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         NM = this;
         //DontDestroyOnLoad(this);
+
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
+#if UNITY_STANDALONE        // 윈도우 프로그램 빌드 시
+       adminPlayer.SetActive(true);
+       localPlayer.SetActive(false);
+#endif
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
         adminPlayer.SetActive(true);
         localPlayer.SetActive(false);
 #endif*/
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-       adminPlayer.SetActive(true);
-        localPlayer.SetActive(false);
-#endif
     }
 
+    private void Start()
+    {
+        DataManager.DM.startingNum++;
+        if (DataManager.DM.startingNum >= 2)
+        {
+            connectUI.gameObject.SetActive(false);
+#if UNITY_STANDALONE        // 윈도우 프로그램 빌드 시
+       ad_ConnectUI.gameObject.SetActive(false);
+#endif
+/*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+            ad_ConnectUI.gameObject.SetActive(false);
+#endif*/
+        }
+    }
     private void Update()
     {
+#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+      if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
+        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
+        else if (Input.GetKeyDown(KeyCode.T)) { InitTutoT(); }                       // 토이
+        else if (Input.GetKeyDown(KeyCode.W)) { InitTutoW(); }                       // 웨스턴
+        else if (Input.GetKeyDown(KeyCode.Keypad0)) { InitRed(0); }                  //  토이 레드
+        else if (Input.GetKeyDown(KeyCode.Keypad1)) { InitBlue(0); }                 //  토이 블루
+        else if (Input.GetKeyDown(KeyCode.Keypad2)) { InitRed(2); }                  //  웨스턴 레드
+        else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
+        else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
+        else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
+#endif
 #if UNITY_EDITOR           // 유니티 에디터에서 재생 시  
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
         else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
@@ -111,18 +138,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
 #endif
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-      if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
-        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
-        else if (Input.GetKeyDown(KeyCode.T)) { InitTutoT(); }                       // 토이
-        else if (Input.GetKeyDown(KeyCode.W)) { InitTutoW(); }                       // 웨스턴
-        else if (Input.GetKeyDown(KeyCode.Keypad0)) { InitRed(0); }                  //  토이 레드
-        else if (Input.GetKeyDown(KeyCode.Keypad1)) { InitBlue(0); }                 //  토이 블루
-        else if (Input.GetKeyDown(KeyCode.Keypad2)) { InitRed(2); }                  //  웨스턴 레드
-        else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
-        else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
-        else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
-#endif
+
 
     }
 
@@ -136,8 +152,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.SerializationRate = 30;
         string str = nick.text;
         PN.LocalPlayer.NickName = str.ToUpper();
-    }
+        DataManager.DM.nickName = str;
 
+    }
 
     public void StartToServer_Admin()                                                     // 서버연결 메서드
     {
@@ -148,11 +165,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.SendRate = 60;
         PN.SerializationRate = 30;
         PN.LocalPlayer.NickName = adminName;
+        DataManager.DM.nickName = adminName;
     }
 
     public void InitAdmin(int defaultRoomIndex)                                       // 레드팀 선택
     {
         DataManager.DM.currentTeam = Team.ADMIN;
+        DataManager.DM.isSelected = true;
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
@@ -171,6 +190,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
 
+   
     public void InitTutoT()                                                          // 토이 선택
     {
         DataManager.DM.currentMap = Map.TUTORIAL_T;
@@ -184,17 +204,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
 
-
     public void InitRed(int defaultRoomIndex)                                       // 레드팀 선택
     {
         DataManager.DM.currentTeam = Team.RED;
-        
-        
+        DataManager.DM.teamInt = 1;
+        DataManager.DM.isSelected = true;
+
+
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
         Hashtable options = new Hashtable { { "Time", 240 } };
-       // Hashtable teams = new Hashtable { { "Team", team } };
-      
+        // Hashtable teams = new Hashtable { { "Team", team } };
+
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -205,13 +226,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             CustomRoomProperties = options
         };
 
-       // PN.SetPlayerCustomProperties(teams);
+        // PN.SetPlayerCustomProperties(teams);
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
     public void InitBlue(int defaultRoomIndex)                                      // 블루팀 선택
     {
         DataManager.DM.currentTeam = Team.BLUE;
-        
+        DataManager.DM.teamInt = 0;
+        DataManager.DM.isSelected = true;
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
@@ -232,7 +254,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void InitToy(int defaultRoomIndex)
+   /* public void InitToy(int defaultRoomIndex)
     {
         DataManager.DM.currentMap = Map.TOY;
 
@@ -274,57 +296,100 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
 
-    }
-
-    public void QuitApp()
-    {
-        Application.Quit();
-    }
-
+    }*/
+   
     public override void OnConnectedToMaster()                                       // 포톤 서버에 접속되면 호출되는 메서드
     {
+        //mapSelectUI.gameObject.SetActive(true);
         connectUI.gameObject.SetActive(false);
-        mapSelectUI.gameObject.SetActive(true);
+
+        switch (DataManager.DM.startingNum)
+        {
+            case 1:
+            case 3:
+                InitTutoT();
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-        ad_ConnectUI.gameObject.SetActive(false);
-        ad_MapUI.gameObject.SetActive(true);
+                ad_ConnectUI.gameObject.SetActive(false);
+                ad_MapUI.gameObject.SetActive(false);
+                //InitTutoT();
 #endif*/
 #if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-      ad_ConnectUI.gameObject.SetActive(false);
-        ad_MapUI.gameObject.SetActive(true);
+     ad_ConnectUI.gameObject.SetActive(false);
+      ad_MapUI.gameObject.SetActive(false);   
+      InitTutoT();
 #endif
+                break;
+            case 2:
+            case 4:          
+                InitTutoW();
+/*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+                ad_ConnectUI.gameObject.SetActive(false);
+                ad_MapUI.gameObject.SetActive(false);
+                //InitTutoW();
+
+#endif*/
+#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+     ad_ConnectUI.gameObject.SetActive(false);
+      ad_MapUI.gameObject.SetActive(false);    
+      InitTutoW();
+#endif
+                break;
+        }
 
         Debug.Log($"{PN.LocalPlayer.NickName}님이 서버에 접속하였습니다.");
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
     {
-        switch (DataManager.DM.currentMap)
+        // switch (DataManager.DM.currentMap)
+        switch (DataManager.DM.startingNum)
         {
-            case Map.TUTORIAL_T:
+            case 1:
+            case 3:           
                 teamSelectUI_T.gameObject.SetActive(true);
-                mapSelectUI.gameObject.SetActive(false);
+                //mapSelectUI.gameObject.SetActive(false);
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시     
-                ad_MapUI.gameObject.SetActive(false);
+                //ad_MapUI.gameObject.SetActive(false);
                 ad_ToyUI.gameObject.SetActive(true);
 #endif*/
 #if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-      ad_MapUI.gameObject.SetActive(false);
+      //ad_MapUI.gameObject.SetActive(false);
                 ad_ToyUI.gameObject.SetActive(true);
 #endif
+                if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
+                {
+                    InitBlue(0);
+                    teamSelectUI_T.gameObject.SetActive(false);
+                }
+                else if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.RED)
+                {
+                    InitRed(0);
+                    teamSelectUI_T.gameObject.SetActive(false);
+                }              
                 break;
-            case Map.TUTORIAL_W:
-                mapSelectUI.gameObject.SetActive(false);
+            case 2:
+            case 4:           
+                //mapSelectUI.gameObject.SetActive(false);
                 teamSelectUI_W.gameObject.SetActive(true);
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-                ad_WesternUI.gameObject.SetActive(true);
-                ad_MapUI.gameObject.SetActive(false);
+                ad_WesternUI.gameObject.SetActive(false);
+                InitAdmin(2);
+                // ad_MapUI.gameObject.SetActive(false);
 #endif*/
 #if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-                ad_WesternUI.gameObject.SetActive(true);
-                ad_MapUI.gameObject.SetActive(false);
+                ad_WesternUI.gameObject.SetActive(false);
+               // ad_MapUI.gameObject.SetActive(false);
 #endif
-
+                if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
+                {
+                    InitBlue(2);
+                    teamSelectUI_W.gameObject.SetActive(false);
+                }
+                else if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.RED)
+                {
+                    InitRed(2);
+                    teamSelectUI_W.gameObject.SetActive(false);
+                }               
                 break;
             default:
                 return;
@@ -337,11 +402,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
-                teamSelectUI_T.gameObject.SetActive(false);
+                //teamSelectUI_T.gameObject.SetActive(false);
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
                 ad_ToyUI.gameObject.SetActive(false);
 #endif*/
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
                 ad_ToyUI.gameObject.SetActive(false);
 #endif
                 PN.LoadLevel(1); // 튜토리얼T
@@ -354,7 +419,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
                 ad_WesternUI.gameObject.SetActive(false);
 #endif*/
-#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
                 ad_WesternUI.gameObject.SetActive(false);
 #endif
                 PN.LoadLevel(3); // 튜토리얼W
@@ -406,69 +471,4 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // 방 참가인원 업데이트 if문
-    /*if (room.Name.Contains(roomName.Name = "Tutorial"))
-            {
-               Debug.Log("튜토리얼방 인원 : " + room.PlayerCount);
-                    countText_TU.text = room.PlayerCount + " 명";
-            }
-            else if(room.Name.Contains(roomName.Name = "Toy"))
-            {
-                Debug.Log("토이방 인원 : " + room.PlayerCount);
-                    countText_T.text = room.PlayerCount + " 명";
-            }
-            else if (room.Name.Contains(roomName.Name = "Western"))
-            {
-                Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
-                    countText_W.text = room.PlayerCount + " 명";
-            }*/
-
-    // 로딩 맵 if문
-    /* if (DataManager.DM.currentMap == Map.TUTORIAL1)
-       {
-           PN.LoadLevel(1); // 튜토리얼1
-       }
-       else if (DataManager.DM.currentMap == Map.TOY)
-       {
-           PN.LoadLevel(2); // 토이
-       }
-       else if (DataManager.DM.currentMap == Map.WESTERN)
-       {
-           PN.LoadLevel(3); // 웨스턴
-       }*/
-
-    // 에디터 인풋 switch문
-    /* switch(Input.inputString)
-         {
-             case "Return":
-                 { StartToServer_Admin(); }
-                 break;
-             case "Escape":
-                 { Application.Quit(); }
-                 break;
-             case "T":
-                 { InitTutoT(); }
-                 break;
-             case "W":
-                 { InitTutoW(); }
-                 break;
-             case "Keypad0":
-                 { InitRed(0); }
-                 break;
-             case "Keypad1":
-                 { InitBlue(0); }
-                 break;
-             case "Keypad2":
-                 { InitRed(2); }
-                 break;
-             case "Keypad3":
-                 { InitBlue(2); }
-                 break;
-             case "A":
-                 { InitAdmin(0); }
-                 break;
-             case "S":
-                 { InitAdmin(2); }
-                 break;
-         }*/
 }
