@@ -21,64 +21,60 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject blueTeam;
     [SerializeField] GameObject defaultTeam;
     [SerializeField] GameObject admin;
-    public Transform adminPoint;  
-    private GameObject spawnPlayer;    
+    public Transform adminPoint;
+    private GameObject spawnPlayer;
     public GameObject bomB;
-    private GameObject spawnBomb;
     public Transform[] bSpawnPosition;
 
     private void Awake()
     {
         TM = this;
-        
+
     }
     private void Start()
     {
-        
+
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            InvokeRepeating(nameof(SpawnBomb), 1, 15);
+            if (PN.IsMasterClient)
+            {
+                InvokeRepeating(nameof(SpawnBomb), 30, 15);
+            }
             SpawnPlayer();
-           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+
+
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }*/
+            }
+
         }
 
     }
 
     private void Update()
-    {       
-#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-        if (PN.InRoom&&PN.IsMasterClient)
+    {
+        if (PN.InRoom && PN.IsMasterClient)
         {
-           if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();}
-            else if (Input.GetKeyDown(KeyCode.Space))
+            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)  // 윈도우 빌드
             {
-                SpawnBomb();
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
+                else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SpawnBomb();
+                }
             }
-        }
-#endif
-#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
-       if (PN.InRoom&&PN.IsMasterClient)
-        {
-           if (Input.GetKeyDown(KeyCode.Return)|| Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit();} 
-             else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnBomb();
-            }
-        }
-#endif
+        }   
+       
     }
 
     public void SpawnPlayer()
-    {       
+    {
         switch (DataManager.DM.currentTeam)
         {
             case Team.RED:
@@ -96,27 +92,31 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-/*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+            /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+                        case Team.ADMIN:
+                            PN.AutomaticallySyncScene = true;
+                            DataManager.DM.inGame = false;
+                            //spawnPlayer = admin;
+                            spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                            //spawnPlayer.transform.SetParent(adminPoint.transform, false);
+                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                            Info();
+                            break;
+            #endif*/
+            //#if UNITY_STANDALONE         // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                DataManager.DM.inGame = false;
-                //spawnPlayer = admin;
-                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                //spawnPlayer.transform.SetParent(adminPoint.transform, false);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
-                break;
-#endif*/
-#if UNITY_STANDALONE         // 윈도우 프로그램 빌드 시
-        case Team.ADMIN:
-                PN.AutomaticallySyncScene = true;
-                DataManager.DM.inGame = false;
-                spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);                
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                Info();
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                {
+                    PN.AutomaticallySyncScene = true;
+                    DataManager.DM.inGame = false;
+                    spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                    Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                    Info();
+
+                }
 
                 break;
-#endif
+            //#endif
 
             default:
                 return;
@@ -127,7 +127,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-            spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+            PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
     /*public IEnumerator SpawnBomb(float time)
