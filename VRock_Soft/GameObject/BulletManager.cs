@@ -46,7 +46,9 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             return;
         }      
         // 터지는 이펙트 보여지고
-        if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet")) && PV.IsMine) // 일반태그
+        if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet") 
+            || collision.collider.CompareTag("Bomb") || collision.collider.CompareTag("Effect"))
+             && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -74,6 +76,24 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
            // Debug.Log("목표물에 명중");
 
         }
+
+       /* if (collision.collider.CompareTag("Gun") && !PV.IsMine)
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collision.contacts[0];
+
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
+            transform.position = contact.point;
+            Destroy(effect, 0.5f);
+            AudioManager.AM.PlaySE(bulletImpact);
+            //Destroy(gameObject);
+            PV.RPC("DestroyBullet", RpcTarget.All);
+        }*/
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam"))
         {

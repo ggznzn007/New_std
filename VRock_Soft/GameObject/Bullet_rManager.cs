@@ -20,7 +20,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform firePoint;
     [SerializeField] int actNumber;
     [SerializeField] float speed;
-    public string bulletImpact;
+    public string revolverImpact;
     public string hitPlayer;
     void Start()
     {
@@ -36,7 +36,9 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             return;
         }
         // 터지는 이펙트 보여지고
-        if ((collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("Bullet")) && PV.IsMine) // 일반태그
+        if ((collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("Bullet")
+            || collision.collider.CompareTag("Bomb") || collision.collider.CompareTag("Effect"))
+            && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -49,11 +51,29 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             transform.position = contact.point;
             Destroy(effect, 0.5f);
-            AudioManager.AM.PlaySE(bulletImpact);
+            AudioManager.AM.PlaySE(revolverImpact);
             //Destroy(gameObject);
             PV.RPC("DestroyBullet", RpcTarget.All);
           
         }
+
+       /* if(collision.collider.CompareTag("Revolver") && !PV.IsMine)
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collision.contacts[0];
+
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
+            transform.position = contact.point;
+            Destroy(effect, 0.5f);
+            AudioManager.AM.PlaySE(revolverImpact);
+            //Destroy(gameObject);
+            PV.RPC("DestroyBullet", RpcTarget.All);
+        }*/
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam"))
         {
