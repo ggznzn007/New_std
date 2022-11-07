@@ -94,7 +94,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         AudioManager.AM.PlaySX("BombBeep");
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.Instantiate(effect.name, transform.position, transform.rotation);
+        var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
         PV.RPC("ExploBomb", RpcTarget.All);
