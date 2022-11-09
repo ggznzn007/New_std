@@ -76,6 +76,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 피격효과 이미지")]
     [SerializeField] Image damageScreen;
     [SerializeField] Image deadScreen;
+    [SerializeField] Image threeScreen;
 
 
     [Header("플레이어 파티클 효과 묶음")]
@@ -171,7 +172,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(0.001f);
         isDeadLock = false;                                                  // 중복죽음방지
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
-
+        threeScreen.gameObject.SetActive(false);
         at_hand_Left.SetActive(false);                                       // 아바타 왼손
         at_hand_Right.SetActive(false);                                      // 아바타 오른손
         hand_Left.SetActive(false);                                          // 왼손 컨트롤러
@@ -320,6 +321,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         // damageScreen.gameObject.SetActive(false);
     }
 
+   
+
     public IEnumerator ShowDeadEffect()                                       // 죽음 효과 보여주기
     {
         effects[0].SetActive(true);
@@ -373,6 +376,11 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                 StartCoroutine(DamagedDelay());
                 delayTime = 1f;
                 Debug.Log("남은 HP : " + HP.value.ToString() + "%");
+
+                if(HP.value <=30)
+                {
+                    threeScreen.gameObject.SetActive(true);
+                }
 
                 if (HP.value <= 0)
                 {

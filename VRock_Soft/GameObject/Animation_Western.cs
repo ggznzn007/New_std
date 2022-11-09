@@ -5,19 +5,25 @@ using UnityEngine;
 public class Animation_Western : MonoBehaviour
 {
     public Animation anim;
-    public GameObject plane;
-    // Start is called before the first frame update
+    public GameObject fakePlane;
+    public GameObject[] meshes;
+    
+
     void Start()
     {
         anim = GetComponent<Animation>();
         anim.Play();
-        StartCoroutine(FakePlaneHide());
-
+       StartCoroutine(OffObj());        
     }
 
-    IEnumerator FakePlaneHide()
+    IEnumerator OffObj()
     {
         yield return new WaitForSeconds(1.4f);
-        plane.SetActive(false);
+        fakePlane.SetActive(false);
+        gameObject.isStatic = true;
+        for (int i = 0; i < meshes.Length; i++)
+        {
+            meshes[i].isStatic = true;            
+        }        
     }
 }
