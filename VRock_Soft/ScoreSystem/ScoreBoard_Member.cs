@@ -29,8 +29,8 @@ public class ScoreBoard_Member : MonoBehaviourPunCallbacks
     {
         int killsRef = (int)myplayer.CustomProperties["kills"];
         killsText.text = killsRef.ToString();
-        int deathsRef = (int)myplayer.CustomProperties["deaths"];
-        deathsText.text = deathsRef.ToString();
+       /* int deathsRef = (int)myplayer.CustomProperties["deaths"];
+        deathsText.text = deathsRef.ToString();*/
     }
 
 }

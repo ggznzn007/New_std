@@ -28,34 +28,33 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        foreach (Player player in PN.PlayerList.ToArray())
+        //foreach (Player player in PN.PlayerList.ToArray())
+        foreach (Player player in PN.PlayerList)
         {
-            AddMember(player);
-            photonView.RPC("AddMember", RpcTarget.All, player);
+            AddMember(player);            
         }
     }
 
     /* ScoreBoard_Member Listing = Instantiate(listMember, holder_Blue).GetComponent<ScoreBoard_Member>();
      Listing.InitText(player);
      members[player] = Listing;*/
-    [PunRPC]
+  
     void AddMember(Player player)
     {
-        ScoreBoard_Member Listing = Instantiate(listMember).GetComponent<ScoreBoard_Member>();
-        Listing.InitText(player);
-        members[player] = Listing;
+        ScoreBoard_Member Listing = Instantiate(listMember, holder_Blue).GetComponent<ScoreBoard_Member>();      
 
-        if (DataManager.DM.currentTeam == Team.BLUE)
+            //Listing.transform.SetParent(holder_Blue.transform);
+            Listing.InitText(player);
+            members[player] = Listing;
+      /*  if (DataManager.DM.currentTeam == Team.BLUE)
         {            
-            Listing.transform.SetParent(holder_Blue.transform);
         }
         else
         {            
             Listing.transform.SetParent(holder_Red.transform);
-        }
-
-
-
+            Listing.InitText(player);
+            members[player] = Listing;
+        }*/
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
