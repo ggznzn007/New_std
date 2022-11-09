@@ -20,7 +20,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [Header("카운트다운 텍스트")]
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간")]
-    [SerializeField] TextMeshPro timerText;
+    public TextMeshPro timerText;
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
     [Header("블루팀 프리팹")]
@@ -28,7 +28,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [Header("관리자")]
     public GameObject admin;
     [Header("폭탄 프리팹")]
-    public GameObject bomB;
+    public GameObject bomB;    
 
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
@@ -69,23 +69,22 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {
-            //StartCoroutine(SpawnDynamite());
-
+        {            
             SpawnPlayer();
 
             if (PN.IsMasterClient)
             {
                 PV.RPC("StartBtnW", RpcTarget.AllViaServer);
                 InvokeRepeating(nameof(SpawnDynamite), 10, 30);
+               
             }
-            if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }
+            }*/
         }
     }
-
+   
     public void SpawnPlayer()
     {
         switch (DataManager.DM.currentTeam)
@@ -105,29 +104,18 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-            /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-                        case Team.ADMIN:
-                            PN.AutomaticallySyncScene = true;
-                            DataManager.DM.inGame = false;
-                            spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                            Info();
-                            break;
-            #endif*/
-            //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-
                 }
-
                 break;
-            //#endif
+            
             default:
                 return;
         }
@@ -174,10 +162,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
             limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
             float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
-            timerText.text = string.Format("남은시간 {0:00}분 {1:00}초", min, sec);
+            timerText.text = string.Format("{0:00}분 {1:00}초", min, sec);
             if (limitedTime < 60)
             {
-                timerText.text = string.Format("남은시간 {0:0}초", sec);
+                timerText.text = string.Format("{0:0}초", sec);
             }
             if (PN.IsMasterClient)
             {
@@ -192,15 +180,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public void SpawnDynamite()
     {
-
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
             PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
-        }
-        /*if (PN.IsMasterClient)
-        {
-        }*/
-        
+        }       
     }
     /*public IEnumerator SpawnDynamite()
     {

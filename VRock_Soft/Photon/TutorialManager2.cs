@@ -36,23 +36,22 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {
-            //StartCoroutine(SpawnDynamite());
+        {            
             if (PN.IsMasterClient)
             {
                 InvokeRepeating(nameof(SpawnDynamite), 30, 15);
             }
             SpawnPlayer();
 
-            if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
+            /*if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }
+            }*/
         }
     }
     private void Update()
     {       
-        //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+         // 윈도우 프로그램 빌드 시
         if (PN.InRoom && PN.IsMasterClient)
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
@@ -65,7 +64,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 }
             }
         }
-        //#endif
+        
     }
 
     public void SpawnPlayer()
@@ -87,29 +86,19 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-            /*#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-                        case Team.ADMIN:
-                            PN.AutomaticallySyncScene = true;
-                            DataManager.DM.inGame = false;
-                            spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                            Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                            Info();
-                            break;
-            #endif*/
-            //#if UNITY_STANDALONE         // 윈도우 프로그램 빌드 시
+ 
+             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)// || Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-
                 }
-
                 break;
-            //#endif
+            
             default:
                 return;
         }

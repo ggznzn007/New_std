@@ -54,19 +54,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI countText_TW;
 
     [Header("페이드인 스크린")]
-    [SerializeField] Canvas fadeScreen;
-
-    /*[Header("인게임 판단")]
-    public bool inGame;  */
+    [SerializeField] Canvas fadeScreen;  
 
     private readonly string gameVersion = "1.0";
     //private readonly string masterAddress = "125.134.36.239";
     // private readonly string appID = "698049ca-edd8-41f6-9c9b-b8561355930a";
     // private readonly int portNum = 5055;
-    //private readonly int n = 1;
-    //private readonly int maxCount = 100;
-
-    //public Hashtable team = new Hashtable();
+    private readonly int n = 1;
+    private readonly int maxCount = 10;
+   
     [Header("관리자옵션")]
     readonly private string adminName = "관리자";
     [SerializeField] GameObject adminPlayer;
@@ -81,27 +77,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             Destroy(this.gameObject);
         }
-        NM = this;
-        //DontDestroyOnLoad(this);
+        NM = this;       
 
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
-        //#if UNITY_STANDALONE        // 윈도우 프로그램 빌드 시
+         // 윈도우 프로그램 빌드 시
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             adminPlayer.SetActive(true);
             localPlayer.SetActive(false);
         }
-
-        //#endif
-        //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-       /* if (Application.platform == RuntimePlatform.WindowsEditor)
+        // 유니티 에디터에서 재생 시
+     /*   if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             adminPlayer.SetActive(true);
             localPlayer.SetActive(false);
-
         }*/
-        //#endif
     }
 
     private void Start()
@@ -110,18 +101,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (DataManager.DM.startingNum >= 2)
         {
             connectUI.gameObject.SetActive(false);
-            //#if UNITY_STANDALONE        // 윈도우 프로그램 빌드 시
+              // 윈도우 프로그램 빌드 시
             if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 ad_ConnectUI.gameObject.SetActive(false);
             }
-            //#endif
-            //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-            /*if (Application.platform == RuntimePlatform.WindowsEditor)
+
+            // 유니티 에디터에서 재생 시
+           /* if (Application.platform == RuntimePlatform.WindowsEditor)
             {
                 ad_ConnectUI.gameObject.SetActive(false);
             }*/
-            //#endif
         }
     }
     private void Update()
@@ -136,7 +126,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
-        //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+        // 윈도우 프로그램 빌드 시
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
@@ -151,7 +141,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
 
         }
-        //#endif
+       
       
 
     }
@@ -164,10 +154,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
         PN.SendRate = 60;
         PN.SerializationRate = 30;
-        string str = nick.text;
-        PN.LocalPlayer.NickName = str.ToUpper();
-        DataManager.DM.nickName = str;
+        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
 
+        for (int i = 0; i < NickNumber.Length; i++)
+        {
+            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
+            DataManager.DM.nickName= NickNumber[i] + "번 플레이어";
+        }
+        /* string str = nick.text;
+         PN.LocalPlayer.NickName = str.ToUpper();
+         DataManager.DM.nickName = str;*/
     }
 
     public void StartToServer_Admin()                                                     // 서버연결 메서드
@@ -227,8 +223,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 240 } };
-        // Hashtable teams = new Hashtable { { "Team", team } };
+        Hashtable options = new Hashtable { { "Time", 240 } };        
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -239,8 +234,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             EmptyRoomTtl = 236,
             CustomRoomProperties = options
         };
-
-        // PN.SetPlayerCustomProperties(teams);
+        
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
     public void InitBlue(int defaultRoomIndex)                                      // 블루팀 선택
@@ -251,8 +245,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 240 } };
-        //Hashtable teams = new Hashtable { { "Team", team } };
+        Hashtable options = new Hashtable { { "Time", 240 } };       
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -263,7 +256,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             EmptyRoomTtl = 236,
             CustomRoomProperties = options
         };
-        //PN.SetPlayerCustomProperties(teams);
+        
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
 
@@ -322,44 +315,35 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case 1:
             case 3:
                 InitTutoT();
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
-                {
-                    ad_ConnectUI.gameObject.SetActive(false);
-                    ad_MapUI.gameObject.SetActive(false);
-                }*/
-                //InitTutoT();
-                //#endif
-                //#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
-                {
-                    ad_ConnectUI.gameObject.SetActive(false);
-                    ad_MapUI.gameObject.SetActive(false);
-                }
-                //InitTutoT();
-                //#endif
-                break;
-            case 2:
-            case 4:
-                InitTutoW();
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+                // 유니티 에디터에서 재생 시
                /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }*/
-                //InitTutoW();
+                }                */
 
-                //#endif
-                //#if UNITY_STANDALONE_WIN          // 윈도우 프로그램 빌드 시
+                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
-
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }
-                //InitTutoW();
-                //#endif
+                }                
+                break;
+            case 2:
+            case 4:
+                InitTutoW();
+                // 유니티 에디터에서 재생 시
+            /*    if (Application.platform == RuntimePlatform.WindowsEditor)
+                {
+                    ad_ConnectUI.gameObject.SetActive(false);
+                    ad_MapUI.gameObject.SetActive(false);
+                }               */
+                 // 윈도우 프로그램 빌드 시
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                {
+                    ad_ConnectUI.gameObject.SetActive(false);
+                    ad_MapUI.gameObject.SetActive(false);
+                }              
                 break;
         }
 
@@ -367,28 +351,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnJoinedLobby()                                             // 로비에 들어갔을 때 호출되는 메서드
-    {
-        // switch (DataManager.DM.currentMap)
+    {        
         switch (DataManager.DM.startingNum)
         {
             case 1:
             case 3:
                 teamSelectUI_T.gameObject.SetActive(true);
                 //mapSelectUI.gameObject.SetActive(false);
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시     
                 //ad_MapUI.gameObject.SetActive(false);
+                // 유니티 에디터에서 재생 시     
                /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ToyUI.gameObject.SetActive(true);
                 }*/
-                //#endif
-                //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
-                //ad_MapUI.gameObject.SetActive(false);
+              
+                 // 윈도우 프로그램 빌드 시                
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ToyUI.gameObject.SetActive(true);
                 }
-                //#endif
+               
                 if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
                 {
                     InitBlue(0);
@@ -404,24 +386,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case 4:
                 //mapSelectUI.gameObject.SetActive(false);
                 teamSelectUI_W.gameObject.SetActive(true);
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+                // 유니티 에디터에서 재생 시
                /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
                     InitAdmin(2);
-
                 }*/
-                // ad_MapUI.gameObject.SetActive(false);
-                //#endif
-                //#if UNITY_STANDALONE        // 윈도우 프로그램 빌드 시
+                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
                     InitAdmin(2);
 
                 }
-                // ad_MapUI.gameObject.SetActive(false);
-                //#endif
+               
                 if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
                 {
                     InitBlue(2);
@@ -445,19 +423,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case Map.TUTORIAL_T:
                 //teamSelectUI_T.gameObject.SetActive(false);
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
+                // 유니티 에디터에서 재생 시
                /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ToyUI.gameObject.SetActive(false);
-
-                }*/
-                //#endif
-                //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+                }     */         
+                // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ToyUI.gameObject.SetActive(false);
-                }
-                //#endif
+                }               
                 PN.LoadLevel(1); // 튜토리얼T
                 break;
             case Map.TOY:
@@ -465,18 +440,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case Map.TUTORIAL_W:
                 teamSelectUI_W.gameObject.SetActive(false);
-                //#if UNITY_EDITOR          // 유니티 에디터에서 재생 시
-                /*if (Application.platform == RuntimePlatform.WindowsEditor)
+                // 유니티 에디터에서 재생 시
+               /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
                 }*/
-                //#endif
-                //#if UNITY_STANDALONE          // 윈도우 프로그램 빌드 시
+                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
-                }
-                //#endif
+                }               
                 PN.LoadLevel(3); // 튜토리얼W
                 break;
             case Map.WESTERN:
@@ -491,16 +464,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (roomList.Count == 0)                                 // 방에 아무도 없을 때
         {
-            countText_TT.text = 0 + " 명";
-            //countText_T.text = 0 + " 명";
-            countText_TW.text = 0 + " 명";
-            // countText_W.text = 0 + " 명";
+            countText_TT.text = 0 + " 명";            
+            countText_TW.text = 0 + " 명";           
         }
 
         foreach (RoomInfo room in roomList)
         {
-            Debug.Log(room.Name);
-            // DefaultRoom roomName = new DefaultRoom();            
+            Debug.Log(room.Name);                   
             string roomString = room.Name.ToString();
             switch (roomString)
             {
