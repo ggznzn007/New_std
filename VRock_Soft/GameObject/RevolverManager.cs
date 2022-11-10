@@ -158,6 +158,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     {
         Destroy(gameObject);
     }
+
     public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1f);

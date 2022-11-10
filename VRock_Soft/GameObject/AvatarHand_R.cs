@@ -11,7 +11,7 @@ using PN = Photon.Pun.PN;
 public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 손 관리하는 스크립트
 {
     public InputDevice targetDevice;
-    public Renderer[] avatarRightHand;
+    public Renderer avatarRightHand;
     //public PhotonView PV;
 
     void Start()
@@ -21,7 +21,7 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
-        avatarRightHand = GetComponentsInChildren<Renderer>();
+        avatarRightHand = GetComponentInChildren<Renderer>();
 
         if (devices.Count > 0)
         {
@@ -53,13 +53,11 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
     {
         if (isGrip)
         {
-            avatarRightHand[0].forceRenderingOff = true;
-            avatarRightHand[1].forceRenderingOff = true;
+            avatarRightHand.forceRenderingOff = true;            
         }
         else
         {
-            avatarRightHand[0].forceRenderingOff = false;
-            avatarRightHand[1].forceRenderingOff = false;
+            avatarRightHand.forceRenderingOff = false;            
         }
     }
 

@@ -12,7 +12,7 @@ using PN = Photon.Pun.PN;
 public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
 {
     public InputDevice targetDevice;
-    public Renderer[] avatarLeftHand;
+    public Renderer avatarLeftHand;
     //public PhotonView PV;
 
     void Start()
@@ -22,7 +22,7 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
         InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
-        avatarLeftHand = GetComponentsInChildren<Renderer>();
+        avatarLeftHand = GetComponentInChildren<Renderer>();
 
         if (devices.Count > 0)
         {
@@ -54,13 +54,11 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (isGrip)
         {
-            avatarLeftHand[0].forceRenderingOff = true;
-            avatarLeftHand[1].forceRenderingOff = true;
+            avatarLeftHand.forceRenderingOff = true;            
         }
         else
         {
-            avatarLeftHand[0].forceRenderingOff = false;
-            avatarLeftHand[1].forceRenderingOff = false;
+            avatarLeftHand.forceRenderingOff = false; 
         }
     }
 

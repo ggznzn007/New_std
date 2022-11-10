@@ -57,12 +57,12 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 && AvartarController.ATC.isAlive)
             {
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-                weaponInIt = true;    
+                weaponInIt = true;
                 return;
             }
 
-           else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
+            else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                 weaponInIt = true;
@@ -81,7 +81,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
         {
-            if (griped_R2&&griped_L2 && !weaponInIt&& photonView.IsMine && photonView.AmOwner
+            if (griped_R2 && griped_L2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
             {
                 weaponInIt = true;

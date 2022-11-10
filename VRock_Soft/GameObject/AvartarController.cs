@@ -50,20 +50,21 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("플레이어 렌더러 묶음")]
     [SerializeField] MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
-    [SerializeField] MeshRenderer body_Rend;                                           // 아바타 몸         
-    [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
-    [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-    [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-    [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+    [SerializeField] MeshRenderer body_Rend;                                           // 아바타 몸          
+    [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸         
+   // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
+   // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
+   // [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
+   // [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
-    [SerializeField] Material[] head_Mats;                                             // 아바타 머리     머티리얼    
-    [SerializeField] Material[] body_Mats;                                             // 아바타 몸      
-    [SerializeField] Material[] body_colors;                                             // 아바타 색깔    
-    [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
-    [SerializeField] Material hand_R;                                                  // 아바타 오른손    
-    [SerializeField] Material[] DeadMat_Heads;                                         // 머리 죽음   머티리얼
-    [SerializeField] Material[] DeadMat_Bodys;                                         // 몸   죽음   머티리얼
+    [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
+    [SerializeField] Material body_Mat;                                             // 아바타 몸          
+    [SerializeField] Material body_Mat_B;                                             // 웨스턴 아바타 몸        
+   // [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
+   // [SerializeField] Material hand_R;                                                  // 아바타 오른손    
+    [SerializeField] Material DeadMat_Head;                                         // 머리 죽음   머티리얼
+    [SerializeField] Material DeadMat_Body;                                         // 몸   죽음   머티리얼
     [SerializeField] Material DeadMat_Hand;                                            // 손   죽음   머티리얼
 
     [Header("플레이어 콜라이더")]
@@ -85,8 +86,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     private float delayTime = 1f;
     public bool isDamaged = false;
-    public int team;
-    public GameObject quitBtn;
+    public int team;   
     private int showCount = 0;
 
     private void Awake()
@@ -192,12 +192,22 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         HP.value = 0;
         HP.maxValue = inItHP;
 
-        head_Rend.materials = DeadMat_Heads;                                 // 아바타 머리 머티리얼
-        body_Rend.materials = DeadMat_Bodys;                                 // 아바타 몸통 머티리얼
-        glove_L_Rend.material = DeadMat_Hand;                                // 아바타 왼손 장갑 머티리얼
-        glove_R_Rend.material = DeadMat_Hand;                                // 아바타 오른손 장갑 머티리얼
-        hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-        hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+        if (DataManager.DM.currentMap == Map.TOY)
+        {
+            head_Rend.material = DeadMat_Head;                                 // 아바타 머리 머티리얼
+            body_Rend.material = DeadMat_Body;                                 // 아바타 몸통 머티리얼
+        }
+           
+        if(DataManager.DM.currentMap==Map.WESTERN)
+        {
+            head_Rend.material = DeadMat_Head;                                 // 아바타 머리 머티리얼
+            body_Rend.material = DeadMat_Body;                                 // 아바타 몸통 머티리얼
+            body_Rend_belt.material = DeadMat_Body;
+        }
+        //glove_L_Rend.material = DeadMat_Hand;                                // 아바타 왼손 장갑 머티리얼
+      //  glove_R_Rend.material = DeadMat_Hand;                                // 아바타 오른손 장갑 머티리얼
+       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+       // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
     }
 
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
@@ -217,12 +227,22 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         playerColls[3].enabled = true;
         playerColls[4].enabled = true;
 
-        head_Rend.materials = head_Mats;
-        body_Rend.materials = body_Mats;
-        glove_L_Rend.material = glove_R;
-        glove_R_Rend.material = glove_R;
-        hand_L_Rend.material = hand_R;
-        hand_R_Rend.material = hand_R;
+        if(DataManager.DM.currentMap==Map.TOY)
+        {
+            head_Rend.material = head_Mat;
+            body_Rend.material = body_Mat;
+        }
+       
+        if (DataManager.DM.currentMap == Map.WESTERN)
+        {
+            head_Rend.material = head_Mat;
+            body_Rend.material = body_Mat;
+            body_Rend_belt.material = body_Mat_B;
+        }
+        // glove_L_Rend.material = glove_R;
+        // glove_R_Rend.material = glove_R;
+        //  hand_L_Rend.material = hand_R;
+        //  hand_R_Rend.material = hand_R;
 
         effects[2].SetActive(true);                   // 실드 효과 On
         yield return new WaitForSeconds(4.5f);           // 4초간격
@@ -513,11 +533,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             // isAlive = (bool)stream.ReceiveNext();
         }
     }
-
-    public void GameQuit()
-    {
-        Application.Quit();
-    }
+     
 
     /*IEnumerator Damaged()
     {
