@@ -28,7 +28,9 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [Header("°ü¸®ÀÚ")]
     public GameObject admin;
     [Header("ÆøÅº ÇÁ¸®ÆÕ")]
-    public GameObject bomB;    
+    public GameObject bomB;
+    [Header("NPC ÇÁ¸®ÆÕ")]
+    public GameObject npc;
 
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
@@ -75,7 +77,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
             if (PN.IsMasterClient)
             {
                 PV.RPC("StartBtnW", RpcTarget.AllViaServer);
-                InvokeRepeating(nameof(SpawnDynamite), 10, 30);
+                PN.Instantiate(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
+                //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
                
             }
            /* if (DataManager.DM.currentTeam != Team.ADMIN)      // °ü¸®ÀÚ ºôµå½Ã ÇÊ¿äÇÑ ÄÚµå
@@ -180,10 +183,12 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public void SpawnDynamite()
     {
-        for (int i = 0; i < bSpawnPosition.Length; i++)
-        {
-            PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
-        }       
+        PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+        PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+        /* for (int i = 0; i < bSpawnPosition.Length; i++)
+         {
+             PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+         }        */
     }
     /*public IEnumerator SpawnDynamite()
     {
