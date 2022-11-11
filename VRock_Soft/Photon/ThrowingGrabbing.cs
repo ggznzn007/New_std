@@ -15,7 +15,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     PhotonView PV;
     Rigidbody rb;
     public GameObject effect;
-    public int bCount;
+    public int bCount;   
     public bool isBeingHeld = false;
     public bool isExplo;
     private AudioSource audioSource;                 // 총알 발사 소리
@@ -27,7 +27,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         PV = GetComponent<PhotonView>();
         
-        isExplo = false;
+        isExplo = false;        
     }
 
     private void Start()
@@ -46,18 +46,20 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
         if (isBeingHeld)
         {
-            bCount++;
+            bCount++;            
             isExplo = false;
             rb.isKinematic = true;
             gameObject.layer = 7;
-            
+           PV.OwnershipTransfer = OwnershipOption.Fixed;
+
         }
         else
         {
+            bCount = 0;
             isExplo = true;
             rb.isKinematic = false;
             gameObject.layer = 6;
-           
+           PV.OwnershipTransfer = OwnershipOption.Takeover;
         }
 
     }
