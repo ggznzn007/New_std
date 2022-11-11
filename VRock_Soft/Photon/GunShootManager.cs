@@ -40,7 +40,9 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public GameObject admin;
     [Header("폭탄 프리팹")]
     public GameObject bomB;
-    
+    [Header("NPC 프리팹")]
+    public GameObject npc;
+
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
@@ -48,7 +50,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     PhotonView PV;
     //public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
     // public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
-    public Transform[] bSpawnPosition;
+    public Transform bSpawnPosBlue;
+    public Transform bSpawnPosRed;
     public Transform adminPoint;
     public string GameInfo1;
     public string GameInfo2;
@@ -89,7 +92,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             if (PN.IsMasterClient)
             {
                 PV.RPC("StartBtnT", RpcTarget.AllViaServer);
-                InvokeRepeating(nameof(SpawnBomb), 10, 30);               
+                PN.Instantiate(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);
+                //InvokeRepeating(nameof(SpawnBomb), 10, 30);               
             }
 
             /*if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
@@ -152,7 +156,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    SpawnBomb();
+                    Emp_Red();
+                    Emp_Blue();
                 }
             }
         }
@@ -205,22 +210,22 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         Timer();
     }
 
-    public void SpawnBomb()
+    /*public void SpawnBomb()
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
             PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
+    }*/
+    public void Emp_Red()
+    {
+        PN.Instantiate(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
     }
-    /* public IEnumerator SpawnBomb()
-     {
-         yield return new WaitForSecondsRealtime(30);
-         spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);        
-         spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);        
-         StartCoroutine(SpawnBomb());
-     }*/
 
-
+     public void Emp_Blue()
+    {
+        PN.Instantiate(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
+    }
 
     [PunRPC]
     public void StartBtnT()
@@ -268,7 +273,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(7);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -365,10 +370,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             print("현재 방 인원 수: " + PN.CurrentRoom.PlayerCount);
             print("현재 방 MAX인원: " + PN.CurrentRoom.MaxPlayers);
 
-            string playerStr = "방에 있는 플레이어 목록";
+            string playerStr = "방에 있는 플레이어 목록 \n";
             for (int i = 0; i < PN.PlayerList.Length; i++)
             {
-                playerStr += PN.PlayerList[i].NickName + ",";
+                playerStr += PN.PlayerList[i].NickName + ", ";
                 print(playerStr);
             }
 

@@ -154,13 +154,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.AutomaticallySyncScene = true;                                           // 자동으로 씬 동기화
         PN.SendRate = 60;
         PN.SerializationRate = 30;
-        int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
+        /*int[] NickNumber = Utils.RandomNumbers(maxCount, n);                        // 겹치지 않는 난수 생성
 
         for (int i = 0; i < NickNumber.Length; i++)
         {
-            PN.LocalPlayer.NickName = NickNumber[i] + "번 플레이어";
-            DataManager.DM.nickName= NickNumber[i] + "번 플레이어";
-        }
+            PN.LocalPlayer.NickName = "플레이어 "+ NickNumber[i];
+            DataManager.DM.nickName= "플레이어 " + NickNumber[i];
+        }*/
         /* string str = nick.text;
          PN.LocalPlayer.NickName = str.ToUpper();
          DataManager.DM.nickName = str;*/

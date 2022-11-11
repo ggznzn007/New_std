@@ -33,13 +33,15 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             
             rb.isKinematic = true;
             gameObject.layer = 7;
+            PV.OwnershipTransfer = OwnershipOption.Fixed;
         }
         else
         {
             
             rb.isKinematic = false;
             gameObject.layer = 6;
-              
+            PV.OwnershipTransfer = OwnershipOption.Takeover;
+
         }
 
     }
