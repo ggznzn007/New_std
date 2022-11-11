@@ -46,47 +46,49 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
             isExplo = false;
             rb.isKinematic = true;
             gameObject.layer = 7;
+            PV.OwnershipTransfer = OwnershipOption.Fixed;
         }
         else
         {
             isExplo = true;
             rb.isKinematic = false;
             gameObject.layer = 6;
+            PV.OwnershipTransfer = OwnershipOption.Takeover;
         }
 
     }
 
     public void ThrowBomb()
     {
-        
-            if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-               SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
-            {
 
-                if (!griped_R && !griped_L && isExplo && bCount >= 1) // 양손 모두 놓았을 때
-                {
-                    StartCoroutine(Explosion());
-                    SpawnWeapon_LW.LW.weaponInIt = false;
-                    SpawnWeapon_RW.RW.weaponInIt = false;
-                }
-                if (!griped_R && griped_L && isExplo && bCount >= 1)              // 오른손만 놨을때
-                {
-                    StartCoroutine(Explosion());
-                    SpawnWeapon_RW.RW.weaponInIt = false;
-                }
-                if (griped_R && !griped_L && isExplo && bCount >= 1)             // 왼손만 놨을때
-                {
-                    StartCoroutine(Explosion());
-                    SpawnWeapon_LW.LW.weaponInIt = false;
-                }
+        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
+           SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        {
+
+            if (!griped_R && !griped_L && isExplo && bCount >= 1) // 양손 모두 놓았을 때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_LW.LW.weaponInIt = false;
+                SpawnWeapon_RW.RW.weaponInIt = false;
             }
+            if (!griped_R && griped_L && isExplo && bCount >= 1)              // 오른손만 놨을때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_RW.RW.weaponInIt = false;
+            }
+            if (griped_R && !griped_L && isExplo && bCount >= 1)             // 왼손만 놨을때
+            {
+                StartCoroutine(Explosion());
+                SpawnWeapon_LW.LW.weaponInIt = false;
+            }
+        }
     }
 
     public IEnumerator Explosion()
     {
-        AudioManager.AM.PlaySX("BombBeep");        
+        AudioManager.AM.PlaySX("BombBeep");
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);       
+        var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
         PV.RPC("ExploBomb", RpcTarget.All);
@@ -131,7 +133,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-        
+
         PV.RPC("StopGrabbing", RpcTarget.AllBuffered);
     }
 
