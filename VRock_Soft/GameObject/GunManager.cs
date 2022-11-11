@@ -50,6 +50,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (!PV.IsMine) return;
         GetTarget();
         Reload();
+       // OwnerTransferGun();
        /* switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
@@ -65,6 +66,19 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC("DestroyGun", RpcTarget.All);
+        }
+
+    }
+
+    public void OwnerTransferGun()  // ÃÑÀ» Àâ°íÀÖÀ¸¸é »©¾ÑÁö ¸øÇÏ°Ô
+    {
+        if (SpawnWeapon_L.leftWeapon.weaponInIt || SpawnWeapon_R.rightWeapon.weaponInIt)
+        {
+            PV.OwnershipTransfer = OwnershipOption.Fixed;
+        }
+        else
+        {
+            PV.OwnershipTransfer = OwnershipOption.Request;
         }
     }
 

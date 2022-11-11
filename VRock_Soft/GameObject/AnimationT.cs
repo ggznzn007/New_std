@@ -12,29 +12,33 @@ using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.XR;
 using Unity.XR.PXR;
-
-public class AnimationW : MonoBehaviourPunCallbacks
+public class AnimationT : MonoBehaviourPunCallbacks
 {
     public AudioSource aniAudio;
     public AudioClip aniClip;
-    //public Animation anim;
-    void SpawnDynamite()
+    public void Emp_Blue()
     {
-        if (PN.IsMasterClient)
+        if(PN.IsMasterClient)
         {
-            WesternManager.WM.SpawnDynamite();
+            GunShootManager.GSM.Emp_Blue();
         }
     }
 
-    void RunAudio()
+    public void Emp_Red()
     {
-        aniAudio.PlayOneShot(aniClip);        
+        if (PN.IsMasterClient)
+        {
+            GunShootManager.GSM.Emp_Red();
+        }
     }
 
     private void Start()
     {
-       aniAudio = GetComponent<AudioSource>();
-        //anim = GetComponent<Animation>();
+        aniAudio = GetComponent<AudioSource>();        
     }
 
+    public void MoveAudio()
+    {
+        aniAudio.PlayOneShot(aniClip);
+    }
 }

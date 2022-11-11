@@ -58,6 +58,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (!PV.IsMine) return;
         GetTarget();
         Reload();
+       // OwnerTransferRev();
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
         {
             PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
@@ -70,6 +71,20 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC("DestroyGun_R", RpcTarget.All);
+        }
+
+        
+    }
+
+    public void OwnerTransferRev()
+    {        
+        if (SpawnWeapon_LW.LW.weaponInIt || SpawnWeapon_RW.RW.weaponInIt)
+        {
+            PV.OwnershipTransfer = OwnershipOption.Fixed;
+        }
+        else
+        {
+            PV.OwnershipTransfer = OwnershipOption.Request;
         }
     }
 
@@ -107,7 +122,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             muzzleFlash.Play();
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
-            myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+            myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);            
             PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
         }
