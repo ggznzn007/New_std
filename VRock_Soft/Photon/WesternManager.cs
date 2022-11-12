@@ -238,7 +238,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(7);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -342,10 +342,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
             print("현재 방 인원 수: " + PN.CurrentRoom.PlayerCount);
             print("현재 방 MAX인원: " + PN.CurrentRoom.MaxPlayers);
 
-            string playerStr = "방에 있는 플레이어 목록";
+            string playerStr = "방에 있는 플레이어 목록 \n";
             for (int i = 0; i < PN.PlayerList.Length; i++)
             {
-                playerStr += PN.PlayerList[i].NickName + ",";
+                playerStr += PN.PlayerList[i].NickName + ", ";
                 print(playerStr);
             }
 

@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     private GameObject spawnPlayer;
     public GameObject bomB;
     public Transform[] bSpawnPosition;
+    
 
     private void Awake()
     {
@@ -43,12 +44,51 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             {
                 InvokeRepeating(nameof(SpawnBomb), 30, 15);
             }
-            SpawnPlayer();
 
-          /*  if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            switch (PN.CurrentRoom.PlayerCount)
             {
-                Destroy(admin);
-            }*/
+                case 1:
+                    PN.LocalPlayer.NickName = "플레이어 1";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                case 2:
+                    PN.LocalPlayer.NickName = "플레이어 2";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                case 3:
+                    PN.LocalPlayer.NickName = "플레이어 3";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                case 4:
+                    PN.LocalPlayer.NickName = "플레이어 4";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                case 5:
+                    PN.LocalPlayer.NickName = "플레이어 5";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                case 6:
+                    PN.LocalPlayer.NickName = "플레이어 6";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+                default:
+                    PN.LocalPlayer.NickName = "마스터 플레이어";
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    SpawnPlayer();
+                    break;
+            }
+
+
+            /*  if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+              {
+                  Destroy(admin);
+              }*/
         }
     }
 
@@ -132,7 +172,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             print("현재 방 인원 수 : " + PN.CurrentRoom.PlayerCount + "명");
             print("현재 방 MAX인원 : " + PN.CurrentRoom.MaxPlayers + "명");
 
-            string playerStr = "방에 있는 플레이어 이름 ";
+            string playerStr = "방에 있는 플레이어 이름 \n";
             for (int i = 0; i < PN.PlayerList.Length; i++)
             {
                 playerStr += PN.PlayerList[i].NickName + ", \n\t";

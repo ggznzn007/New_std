@@ -128,7 +128,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             print("현재 방 인원 수 : " + PN.CurrentRoom.PlayerCount + "명");
             print("현재 방 MAX인원 : " + PN.CurrentRoom.MaxPlayers + "명");
 
-            string playerStr = "방에 있는 플레이어 이름 ";
+            string playerStr = "방에 있는 플레이어 이름 \n";
             for (int i = 0; i < PN.PlayerList.Length; i++)
             {
                 playerStr += PN.PlayerList[i].NickName + ", \n\t";
