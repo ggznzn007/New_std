@@ -9,7 +9,7 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallbacks
 {
     PhotonView PV;
     Rigidbody rb;   
@@ -17,58 +17,52 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
-        
+        PV = GetComponent<PhotonView>();        
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-       
+        rb = GetComponent<Rigidbody>();       
     }
-    private void Update()
+    private void FixedUpdate()
     {        
         if (isBeingHeld)
-        {
-            
+        {            
             rb.isKinematic = true;
-            gameObject.layer = 7;
-            PV.OwnershipTransfer = OwnershipOption.Fixed;
+            gameObject.layer = 7;           
         }
         else
-        {
-            
+        {            
             rb.isKinematic = false;
-            gameObject.layer = 6;
-            PV.OwnershipTransfer = OwnershipOption.Takeover;
-
+            gameObject.layer = 6;   
         }
-
     }
 
 
-    private void TransferOwnership()
-    {
-        PV.RequestOwnership();
-    }
+
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC("StartGrabbing", RpcTarget.AllBuffered);
+        PV.RPC("StartGrabbing", RpcTarget.All);
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
         }
-        else
+       /* else
         {
             TransferOwnership();
-        }
+        }*/
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-        PV.RPC("StopGrabbing", RpcTarget.AllBuffered);
+        PV.RPC("StopGrabbing", RpcTarget.All);
+    }
+
+   /* private void TransferOwnership()
+    {
+        PV.RequestOwnership();
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -77,8 +71,6 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
         {
             return;
         }
-
-
         Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
         PV.TransferOwnership(requestingPlayer);
     }
@@ -90,20 +82,20 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
     {
-       
-    }
+
+    }*/
 
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
+        isBeingHeld = true;       
     }
 
     [PunRPC]
     public void StopGrabbing()
     {
-        isBeingHeld = false;
+        isBeingHeld = false;       
     }
 
-
+   
 }

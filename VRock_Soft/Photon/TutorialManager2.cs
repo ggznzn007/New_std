@@ -39,11 +39,11 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         {            
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnDynamite), 30, 15);
+                InvokeRepeating(nameof(SpawnDynamite), 20, 15);
             }
             SpawnPlayer();
 
-            /*if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
+          /*  if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }*/

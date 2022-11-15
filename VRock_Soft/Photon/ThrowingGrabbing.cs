@@ -21,12 +21,14 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     private AudioSource audioSource;                 // 총알 발사 소리
                                                      // public string bombBeep;
                                                      //public string emp_Explo;
+    private XRRayInteractor interactor;
 
     SelectionOutline outline = null;
     private void Awake()
     {
+        PN.AddCallbackTarget(this);
         PV = GetComponent<PhotonView>();
-        
+        interactor = FindObjectOfType<XRRayInteractor>();
         isExplo = false;        
     }
 
@@ -37,8 +39,13 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         outline = GetComponent<SelectionOutline>();
 
     }
-    private void Update()
+
+    private void OnDestroy()
     {
+        PN.RemoveCallbackTarget(this);
+    }
+    private void Update()
+    {        
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
             ThrowBomb();
@@ -49,17 +56,14 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
             bCount++;            
             isExplo = false;
             rb.isKinematic = true;
-            gameObject.layer = 7;
-           PV.OwnershipTransfer = OwnershipOption.Fixed;
-
+            gameObject.layer = 7;                  
+            Debug.Log("소유권 고정");
         }
         else
-        {
-            bCount = 0;
+        {            
             isExplo = true;
             rb.isKinematic = false;
-            gameObject.layer = 6;
-           PV.OwnershipTransfer = OwnershipOption.Takeover;
+            gameObject.layer = 6;            
         }
 
     }
@@ -99,14 +103,9 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
-        PV.RPC("ExploBomb", RpcTarget.All);
+        PV.RPC(nameof(ExploBomb), RpcTarget.All);
     }
-
-    /*[PunRPC]
-    public void BombBeep()
-    {
-        AudioManager.AM.PlaySE("BombBeep");
-    }*/
+      
     [PunRPC]
     public void ExploBomb()
     {
@@ -130,36 +129,33 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC("StartGrabbing", RpcTarget.AllBuffered);
+        PV.RPC(nameof(StartGrabbing), RpcTarget.All);        
         if (PV.Owner == PN.LocalPlayer)
         {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
+            Debug.Log("이미 소유권이 나에게 있습니다.");            
         }
         else
         {
-            TransferOwnership();
+            TransferOwnership();            
         }
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-        PV.RPC("StopGrabbing", RpcTarget.AllBuffered);
+        PV.RPC(nameof(StopGrabbing), RpcTarget.All);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if (targetView != PV)
-        {
-            return;
-        }
-
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-        PV.TransferOwnership(requestingPlayer);
+        if (targetView != PV)return;  // 오브젝트가 생성되었을때 누구나 소유권가져갈수 있고 누군가 소유권을 가져가면 소유권고정
+        //Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+       // PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
+        if (targetView != PV) return;
         Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
@@ -171,7 +167,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
+        isBeingHeld = true;       
     }
 
     [PunRPC]

@@ -42,38 +42,38 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         {
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnBomb), 30, 15);
+                InvokeRepeating(nameof(SpawnBomb), 20, 15);
             }
 
             switch (PN.CurrentRoom.PlayerCount)
             {
                 case 1:
-                    PN.LocalPlayer.NickName = "플레이어 1";
+                    PN.LocalPlayer.NickName = "마스터";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 2:
-                    PN.LocalPlayer.NickName = "플레이어 2";
+                    PN.LocalPlayer.NickName = "플레이어 1";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 3:
-                    PN.LocalPlayer.NickName = "플레이어 3";
+                    PN.LocalPlayer.NickName = "플레이어 2";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 4:
-                    PN.LocalPlayer.NickName = "플레이어 4";
+                    PN.LocalPlayer.NickName = "플레이어 3";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 5:
-                    PN.LocalPlayer.NickName = "플레이어 5";
+                    PN.LocalPlayer.NickName = "플레이어 4";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 6:
-                    PN.LocalPlayer.NickName = "플레이어 6";
+                    PN.LocalPlayer.NickName = "플레이어 5";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
@@ -84,11 +84,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                     break;
             }
 
-
-            /*  if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
-              {
-                  Destroy(admin);
-              }*/
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            {
+                Destroy(admin);
+            }*/
         }
     }
 

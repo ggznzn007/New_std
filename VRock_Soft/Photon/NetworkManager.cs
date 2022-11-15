@@ -88,7 +88,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             localPlayer.SetActive(false);
         }
         // 유니티 에디터에서 재생 시
-     /*   if (Application.platform == RuntimePlatform.WindowsEditor)
+       /* if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             adminPlayer.SetActive(true);
             localPlayer.SetActive(false);

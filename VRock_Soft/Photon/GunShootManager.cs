@@ -71,8 +71,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public Image reddrawImg;
     public TMP_Text blueScore;
     public TMP_Text redScore;
-    public int score_Blue;
-    public int score_Red;
+    public int score_BlueKill;
+    public int score_RedKill;
 
     private void Awake()
     {
@@ -91,12 +91,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
-                PV.RPC("StartBtnT", RpcTarget.AllViaServer);
+                PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);
                 PN.Instantiate(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);
                 //InvokeRepeating(nameof(SpawnBomb), 10, 30);               
             }
 
-            /*if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
             {
                 Destroy(admin);
             }*/
@@ -165,8 +165,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     public void SetScore()
     {
-        blueScore.text = score_Blue.ToString();   // 블루팀 점수
-        redScore.text = score_Red.ToString();     // 레드팀 점수
+        blueScore.text = score_BlueKill.ToString();   // 블루팀 점수
+        redScore.text = score_RedKill.ToString();     // 레드팀 점수
     }
     public void UpdateStats()
     {
@@ -257,14 +257,14 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
         if (limitedTime == 8)
         {
-            PV.RPC("Notice", RpcTarget.All);
+            PV.RPC(nameof(Notice), RpcTarget.AllViaServer);
         }
 
         if (limitedTime <= 0)
         {
             count = false;
             limitedTime = 0;
-            PV.RPC("EndGameT", RpcTarget.All);
+            PV.RPC(nameof(EndGameT), RpcTarget.AllViaServer);
             Debug.Log("타임오버");
         }
     }
@@ -318,7 +318,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     public void VictoryTeam()
     {
-        if (score_Blue > score_Red)
+        if (score_BlueKill > score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo4");
             countText.text = string.Format("블루팀이 승리하였습니다");
@@ -328,7 +328,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             redloseImg.gameObject.SetActive(true);
 
         }
-        else if (score_Blue < score_Red)
+        else if (score_BlueKill < score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo5");
             countText.text = string.Format("레드팀이 승리하였습니다");
@@ -337,7 +337,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             blueloseImg.gameObject.SetActive(true);
             redwinImg.gameObject.SetActive(true);
         }
-        else if (score_Blue == score_Red)
+        else if (score_BlueKill == score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo6");
             countText.text = string.Format("무승부입니다");

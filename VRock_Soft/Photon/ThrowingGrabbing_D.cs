@@ -36,6 +36,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     }
     private void Update()
     {
+        
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
             ThrowBomb();
@@ -45,15 +46,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
             bCount++;
             isExplo = false;
             rb.isKinematic = true;
-            gameObject.layer = 7;
-            PV.OwnershipTransfer = OwnershipOption.Fixed;
+            gameObject.layer = 7;            
         }
         else
-        {
+        {            
             isExplo = true;
             rb.isKinematic = false;
-            gameObject.layer = 6;
-            PV.OwnershipTransfer = OwnershipOption.Takeover;
+            gameObject.layer = 6;           
         }
 
     }
@@ -91,7 +90,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
-        PV.RPC("ExploBomb", RpcTarget.All);
+        PV.RPC(nameof(ExploBomb), RpcTarget.All);
     }
 
 
@@ -119,14 +118,15 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC("StartGrabbing", RpcTarget.AllBuffered);
+        PV.RPC(nameof(StartGrabbing), RpcTarget.All);
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
+            TransferOwnership();
         }
         else
         {
-            TransferOwnership();
+            return;
         }
     }
 
@@ -134,22 +134,19 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     {
         Debug.Log("놓았다");
 
-        PV.RPC("StopGrabbing", RpcTarget.AllBuffered);
+        PV.RPC(nameof(StopGrabbing), RpcTarget.All);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if (targetView != PV)
-        {
-            return;
-        }
-
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-        PV.TransferOwnership(requestingPlayer);
+        if (targetView != PV) return;
+        /*Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);*/
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
+        if (targetView != PV) return;
         Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
@@ -161,13 +158,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
+        isBeingHeld = true;        
     }
 
     [PunRPC]
     public void StopGrabbing()
     {
-        isBeingHeld = false;
+        isBeingHeld = false;       
     }
 
 }
