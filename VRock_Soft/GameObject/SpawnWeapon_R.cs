@@ -40,15 +40,16 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     public GunManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
             if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            //Debug.Log("이 총은 내꺼");
+            Debug.Log("이 총은 내꺼");
         }
         return null;
     }
     private void OnTriggerStay(Collider coll)
     {
+        if(coll == null) return;
         if (coll.CompareTag("ItemBox") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
@@ -56,7 +57,8 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+                //FindGun();
                 weaponInIt = true;
                 return;
             }
@@ -64,7 +66,8 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                  && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+                //FindGun();
                 weaponInIt = true;
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 return;
@@ -96,21 +99,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             }
         }
     }
-    /* [PunRPC]
-     public void SpawnGun(int actNumber)
-     {
-
-         //GameObject myGun = Instantiate(gunPrefab);  // 포톤 멀티플레이 할 때 생성
-         GameObject myGun = Instantiate(gunPrefab);//, attachPoint.position, attachPoint.rotation);  // 포톤
-         myGun.GetComponent<GunManager>().actorNumber = actNumber;
-         myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정        
-         weaponInIt = true;                                                                                           //myGun.transform.parent = this.transform;
-
-         // myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
-         Debug.Log("포톤서버 건 생성");
-
-     }*/
-
+    
     /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
      {
          if (stream.IsWriting)

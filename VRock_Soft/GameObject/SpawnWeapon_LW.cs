@@ -41,26 +41,27 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         DataManager.DM.grabBomb = false;
     }
 
-    public GunManager FindGun()
+    public RevolverManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Revolver"))
         {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            //Debug.Log("이 총은 내꺼");
+            if (gun.GetPhotonView().IsMine) return gun.GetComponent<RevolverManager>();
+            Debug.Log("이 총은 내꺼");
         }
         return null;
     }
     private void OnTriggerStay(Collider coll)
     {
+        if (coll == null) return;
         if (coll.CompareTag("ItemBox")
             && DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L)
             && SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
             if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       // 양손에 아무것도 없을때
                  && AvartarController.ATC.isAlive)
-            {
-                //PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.LeftController);
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
+            {                
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+                //FindGun();
                 weaponInIt = true;
                 return;
             }

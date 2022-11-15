@@ -42,17 +42,18 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         DataManager.DM.grabBomb = false;
     }
 
-    public GunManager FindGun()
+    public RevolverManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Revolver"))
         {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            //Debug.Log("ÀÌ ÃÑÀº ³»²¨");
+            if (gun.GetPhotonView().IsMine) return gun.GetComponent<RevolverManager>();
+            Debug.Log("ÀÌ ÃÑÀº ³»²¨");
         }
         return null;
     }
     private void OnTriggerStay(Collider coll)
     {
+        if (coll == null) return;
         if (coll.CompareTag("ItemBox")
             && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)
             && SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
@@ -60,8 +61,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner      
                 && AvartarController.ATC.isAlive)
             {
-                //PXR_Input.SetControllerVibration(1, 10, PXR_Input.Controller.RightController);
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // Æ÷Åæ¼­¹ö ¿ÀºêÁ§Æ® »ý¼º                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+                //FindGun();
                 weaponInIt = true;
                 return;
             }
@@ -94,4 +95,6 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             }
         }
     }
+
+    
 }

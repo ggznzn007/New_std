@@ -17,8 +17,8 @@ public class AdminMove : MonoBehaviour
 
     void Update()
     {
-        getScore();
-        timerTxt();
+        GetScore();
+        TimerTxt();
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
        Vector3 dirXY = Vector3.right * h+Vector3.up *v;
@@ -26,22 +26,22 @@ public class AdminMove : MonoBehaviour
         transform.position += dirXY * moveSpeed*Time.deltaTime;
     }
 
-    public void getScore()
+    public void GetScore()
     {
         if(DataManager.DM.currentMap==Map.TOY)
         {
-            blueScore.text = GunShootManager.GSM.score_Blue.ToString();   // ºí·çÆÀ Á¡¼ö
-            redScore.text = GunShootManager.GSM.score_Red.ToString();     // ·¹µåÆÀ Á¡¼ö
+            blueScore.text = GunShootManager.GSM.score_BlueKill.ToString();   // ºí·çÆÀ Á¡¼ö
+            redScore.text = GunShootManager.GSM.score_RedKill.ToString();     // ·¹µåÆÀ Á¡¼ö
         }
         else if(DataManager.DM.currentMap==Map.WESTERN)
         {
-            blueScore.text = WesternManager.WM.score_Blue.ToString();
-            redScore.text = WesternManager.WM.score_Red.ToString();
+            blueScore.text = WesternManager.WM.score_BlueKill.ToString();
+            redScore.text = WesternManager.WM.score_RedKill.ToString();
         }
         
     }
 
-    public void timerTxt()
+    public void TimerTxt()
     {
         if(DataManager.DM.currentMap==Map.TOY)
         {

@@ -34,9 +34,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     private float fireTime = 0;                      // 총알 딜레이 타임 
     private readonly float delayfireTime = 0.3f;    // 총알 딜레이 제한시간
     private readonly float fireDistance = 1000f;     // 총알 비거리
-    private XRController xt;
+    //private XRController xt;
     private bool triggerBtnR;
     private bool triggerBtnL;
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
 
     private void Awake()
     {
@@ -49,55 +51,68 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출 
         actorNumber = PV.OwnerActorNr;
-        xt = (XRController)GameObject.FindObjectOfType(typeof(XRController));
+        //xt = (XRController)GameObject.FindObjectOfType(typeof(XRController));
 
     }
 
     private void FixedUpdate()
     {
-        if (!PV.IsMine) return;
-        GetTarget();
-        Reload();
-       // OwnerTransferRev();
-        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
+        if (!PV.IsMine)
         {
-            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                ,Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
         }
-        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnL) && triggerBtnL)
-        {
-            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.LeftController);
-        }
+        // if (this.gameObject == null) return;
+        GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
+        Reload();          // 총을 재장전하는 시간 메서드       
+        WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
+        ActivateHaptic();
+    }
 
+    public void WhenDead()
+    {
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
-            PV.RPC("DestroyGun_R", RpcTarget.All);
-        }
-
-        
-    }
-
-    public void OwnerTransferRev()
-    {        
-        if (SpawnWeapon_LW.LW.weaponInIt || SpawnWeapon_RW.RW.weaponInIt)
-        {
-            PV.OwnershipTransfer = OwnershipOption.Fixed;
-        }
-        else
-        {
-            PV.OwnershipTransfer = OwnershipOption.Request;
+            PV.RPC(nameof(DestroyRevol), RpcTarget.All);
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (DataManager.DM.currentTeam != Team.ADMIN)
+        if (collision.collider == null) return;
+        if (collision.collider.CompareTag("Cube"))
         {
-            if (collision.collider.CompareTag("Cube") && (!SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt
-            || !SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt))
+            try
             {
-                PV.RPC("DestroyRevol_Delay", RpcTarget.All);
+                if (!SpawnWeapon_RW.RW.weaponInIt && !SpawnWeapon_LW.LW.weaponInIt)
+                {
+                    PV.RPC(nameof(DestroyRevol), RpcTarget.All);
+                    Debug.Log("양손 놓고 총이 정상적으로 파괴됨");
+                }
+                if (!SpawnWeapon_RW.RW.weaponInIt || SpawnWeapon_LW.LW.weaponInIt)
+                {
+                    PV.RPC(nameof(DestroyRevol), RpcTarget.All);
+                    Debug.Log("왼쪽총이 정상적으로 파괴됨");
+                }
+                if (SpawnWeapon_RW.RW.weaponInIt || !SpawnWeapon_LW.LW.weaponInIt)
+                {
+                    PV.RPC(nameof(DestroyRevol), RpcTarget.All);
+                    Debug.Log("오른쪽총이 정상적으로 파괴됨");
+                }
+
             }
+            finally
+            {
+                PV.RPC(nameof(DestroyRevol), RpcTarget.All);
+            }
+
         }
+
+        /* else
+         {
+             Debug.Log("총이 파괴되지 않았음");
+         }*/
+
     }
 
     public void GetTarget()
@@ -117,13 +132,13 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
-            ActivateHaptic();
+            //ActivateHaptic();
             audioSource.Play();
             muzzleFlash.Play();
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
-            myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);            
-            PV.RPC("PunFire", RpcTarget.All);
+            myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+            PV.RPC("PunFire", RpcTarget.AllViaServer);
             fireTime = 0;
         }
     }
@@ -131,9 +146,16 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     void ActivateHaptic()
     {    // 앞에 수는 진동의 진폭
          // 뒤에 수는 진동의 강도
-        xt.SendHapticImpulse(0.2f, 0.3f);
-        
-       
+         // xt.SendHapticImpulse(0.2f, 0.3f); //오큘러스
+
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
+        {
+            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
+        }
+        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnL) && triggerBtnL)
+        {
+            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.LeftController);
+        }
 
     }
 
@@ -146,7 +168,8 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
 
@@ -162,21 +185,21 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         muzzleFlash.Play();
     }
 
-    [PunRPC]
-    public void DestroyRevol_Delay()                  // 총 파괴 시간 딜레이 메서드
-    {
-        StartCoroutine(DestoryPN_Gun());
-    }
+    /* [PunRPC]
+     public void DestroyRevol_Delay()                  // 총 파괴 시간 딜레이 메서드
+     {
+         StartCoroutine(Destroy_Revol());
+     }*/
 
     [PunRPC]
-    public void DestroyGun_R()
+    public void DestroyRevol()
     {
         Destroy(gameObject);
     }
 
-    public IEnumerator DestoryPN_Gun()
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
-    }
+    /* public IEnumerator Destroy_Revol()
+     {
+         yield return new WaitForSeconds(1.3f);
+         Destroy(gameObject);
+     }*/
 }

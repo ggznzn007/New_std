@@ -40,15 +40,16 @@ public class SpawnWeapon_L : MonoBehaviourPun
 
     public GunManager FindGun()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
+        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
         {
             if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            //Debug.Log("ÀÌ ÃÑÀº ³»²¨");
+            Debug.Log("ÀÌ ÃÑÀº ³»²¨");
         }
         return null;
     }
     private void OnTriggerStay(Collider coll)
     {
+        if (coll == null) return;
         if (coll.CompareTag("ItemBox") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) &&
             SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
@@ -56,17 +57,19 @@ public class SpawnWeapon_L : MonoBehaviourPun
             if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // Æ÷Åæ¼­¹ö ¿ÀºêÁ§Æ® »ý¼º                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  
+                //FindGun();
                 weaponInIt = true;
                 return;
             }
 
-            else if(griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
+            else if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // Æ÷Åæ¼­¹ö ¿ÀºêÁ§Æ® »ý¼º                    
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  
+                //FindGun();
                 weaponInIt = true;
-                SpawnWeapon_R.rightWeapon.weaponInIt=false;
+                SpawnWeapon_R.rightWeapon.weaponInIt = false;
                 return;
             }
 
@@ -78,10 +81,10 @@ public class SpawnWeapon_L : MonoBehaviourPun
         }
 
         if (coll.CompareTag("Bomb") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2)   &&
+            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2) &&
             SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2))
         {
-            if (griped_L2&& griped_R2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
+            if (griped_L2 && griped_R2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
                && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
             {
                 weaponInIt = true;

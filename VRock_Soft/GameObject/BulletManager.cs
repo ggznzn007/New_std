@@ -32,7 +32,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         BM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-         Destroy(this.gameObject, 1f);
+        Destroy(this.gameObject, 1f);
         
         //OP.PoolDestroy(gameObject);
         // StartCoroutine(DestroyDelay());
@@ -64,7 +64,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //AudioManager.AM.PlaySE("BulletImpact");
             AudioManager.AM.PlaySE(bulletImpact);
             //Destroy(gameObject);
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
@@ -79,7 +79,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         if(collision.collider.CompareTag("Bomb"))
         {
             rb.Sleep();
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
 
     
@@ -99,7 +99,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
            // AudioManager.AM.PlaySE("Hit");
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
             //Debug.Log("플레이어 명중");
            
            
@@ -121,7 +121,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
         if (collision.collider.CompareTag("Body"))
         {
@@ -138,23 +138,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
     }
 
-    /*[PunRPC]
-    public void StartBtn2()
-    {
-       GunShootManager.GSM.StartBtnT();
-       GunShootManager.GSM.startBtn.SetActive(false);
-    }*/
-
-   /* [PunRPC]
-    public void StartBtn3()
-    {
-        WesternManager.WM.StartBtnW();
-        WesternManager.WM.startBtn.SetActive(false);
-    }*/
+       
 
     [PunRPC]
    public void BulletDir(float speed, int actorNumber)//,int addSpeed)

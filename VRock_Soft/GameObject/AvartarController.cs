@@ -107,8 +107,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine) return;
         Nick_HP_Pos();
-        Show_Frame();
-        UnShow_Frame();
+        //Show_Frame();
+       // UnShow_Frame();
     }
 
     public void Show_Frame()
@@ -300,7 +300,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
-            PV.RPC("Damaged", RpcTarget.All, grenadePower);
+            PV.RPC(nameof(Damaged), RpcTarget.AllViaServer, grenadePower);
             //PV.RPC("Damaged", PV.Owner,grenadePower);
         }
     }
@@ -310,9 +310,9 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (isDeadLock)
         {
             //PV.RPC("Damaged", PV.Owner, attackPowerH);   
-            PV.RPC("Damaged", RpcTarget.All, attackPowerH);
+            PV.RPC(nameof(Damaged), RpcTarget.AllViaServer, attackPowerH);
             // PV.RPC("HeadShot", PV.Owner);
-            PV.RPC("HeadShot", RpcTarget.All);
+            PV.RPC(nameof(HeadShot), RpcTarget.AllViaServer);
         }
     }
     public void NormalDamage()                                                // 일반 데미지
@@ -321,14 +321,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (isDeadLock)
         {
             //PV.RPC("Damaged", PV.Owner, attackPower);
-            PV.RPC("Damaged", RpcTarget.All, attackPower);
+            PV.RPC(nameof(Damaged), RpcTarget.AllViaServer, attackPower);
             //PV.RPC("BodyShot", PV.Owner);
-            PV.RPC("BodyShot", RpcTarget.All);
+            PV.RPC(nameof(BodyShot), RpcTarget.AllViaServer);
         }
     }
     public void Respawn()                                                     // 리스폰 메서드
     {
-        PV.RPC("RespawnPlayer", RpcTarget.All);
+        PV.RPC(nameof(RespawnPlayer), RpcTarget.AllViaServer);
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
@@ -408,14 +408,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                     deadScreen.gameObject.SetActive(true);
                     if (DataManager.DM.currentMap == Map.TOY)               // 토이
                     {
-                        PV.RPC("PlayerKilledT", RpcTarget.All, team);
+                        PV.RPC(nameof(PlayerDeadT), RpcTarget.AllViaServer, team);
                     }
                     else if (DataManager.DM.currentMap == Map.WESTERN)                                               // 웨스턴
                     {
-                        PV.RPC("PlayerKilledW", RpcTarget.All, team);
+                        PV.RPC(nameof(PlayerDeadW), RpcTarget.AllViaServer, team);
                     }
 
-                    PV.RPC("DeadPlayer", RpcTarget.All);
+                    PV.RPC(nameof(DeadPlayer), RpcTarget.AllViaServer);
                     // PV.RPC("DeadPlayer", PV.Owner);                    
                     Debug.Log("킬 성공");
                 }
@@ -427,32 +427,32 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void PlayerKilledT(int team)
+    public void PlayerDeadT(int team)
     {
-        if (team == 0)                   // 블루팀이 레드팀을 죽였을 때
+        if (team == 0)                    // 레드팀이 블루팀을 죽였을 때
         {
-            GunShootManager.GSM.score_Red++;
-            Debug.Log("블루-->레드 킬");
+            GunShootManager.GSM.score_RedKill++;
+            Debug.Log("레드에게 블루가 죽었음");
         }
-        else                             // 레드팀이 블루팀을 죽였을 때
+        else                              // 블루팀이 레드팀을 죽였을 때
         {
-            GunShootManager.GSM.score_Blue++;
-            Debug.Log("레드-->블루 킬");
+            GunShootManager.GSM.score_BlueKill++;
+            Debug.Log("블루에게 레드가 죽었음");
         }
     }
 
     [PunRPC]
-    public void PlayerKilledW(int team)
+    public void PlayerDeadW(int team)
     {
-        if (team == 0)                   // 블루팀이 레드팀을 죽였을 때
+        if (team == 0)                   // 레드팀이 블루팀을 죽였을 때
         {
-            WesternManager.WM.score_Red++;
-            Debug.Log("블루-->레드 킬");
+            WesternManager.WM.score_RedKill++;
+            Debug.Log("레드에게 블루가 죽었음");
         }
-        else                             // 레드팀이 블루팀을 죽였을 때
+        else                             // 블루팀이 레드팀을 죽였을 때
         {
-            WesternManager.WM.score_Blue++;
-            Debug.Log("레드-->블루 킬");
+            WesternManager.WM.score_BlueKill++;
+            Debug.Log("블루에게 레드가 죽었음");
         }
     }
 
@@ -509,59 +509,17 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(Nickname.transform.position);
             stream.SendNext(Nickname.transform.forward);
-            stream.SendNext(Nickname.text);
-            // stream.SendNext(HP.transform.rotation);
-            //stream.SendNext(HP.transform.position);
-            //stream.SendNext(HP.transform.forward);
-            stream.SendNext(HP.value);
-            //stream.SendNext(HP.maxValue);
-            // stream.SendNext(Nickname.gameObject.transform.rotation);
-
-            // stream.SendNext(isAlive);
+            stream.SendNext(Nickname.text);            
+            stream.SendNext(HP.value);            
         }
         else
         {
             Nickname.transform.position = (Vector3)stream.ReceiveNext();
             Nickname.transform.forward = (Vector3)stream.ReceiveNext();
-            Nickname.text = (string)stream.ReceiveNext();
-            //HP.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
-            //HP.transform.position = (Vector3)stream.ReceiveNext();
-            // HP.transform.forward = (Vector3)stream.ReceiveNext();
-            HP.value = (float)stream.ReceiveNext();
-            // HP.maxValue = (int)stream.ReceiveNext();
-
-            // isAlive = (bool)stream.ReceiveNext();
+            Nickname.text = (string)stream.ReceiveNext();            
+            HP.value = (float)stream.ReceiveNext();            
         }
     }
      
-
-    /*IEnumerator Damaged()
-    {
-        // SetPlayerInVisible(false);
-
-        Controll_R.modelPrefab = deathHand_R.transform;
-        Controll_L.modelPrefab = deathHand_L.transform;
-        gunPrefab.SetActive(false);
-        deathHead.SetActive(true);
-        deathBody.SetActive(true);
-        deathHand_L.SetActive(true);
-        deathHand_R.SetActive(true);
-
-        yield return new WaitForSeconds(5f);
-        Controll_R.gameObject.SetActive(true);
-        Controll_L.modelPrefab = Hand_L.transform;
-        deathHead.SetActive(false);
-        deathBody.SetActive(false);
-        deathHand_L.SetActive(false);
-        deathHand_R.SetActive(false);
-        Hand_R.SetActive(true);
-        Hand_L.SetActive(true);
-        //  SetPlayerVisible(true);
-        // SetPlayerInVisible(true);
-        HP.gameObject.SetActive(true);
-        Nickname.gameObject.SetActive(true);
-        HP.fillAmount = 1f;
-        gunPrefab.SetActive(true);
-
-    }*/
+       
 }

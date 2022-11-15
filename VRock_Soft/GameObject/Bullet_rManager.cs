@@ -53,7 +53,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             Destroy(effect, 0.5f);
             AudioManager.AM.PlaySE(revolverImpact);
             //Destroy(gameObject);
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
           
         }
 
@@ -89,7 +89,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             Destroy(effect, 0.5f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
             //Debug.Log("플레이어 명중");
 
 
@@ -111,7 +111,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
         if (collision.collider.CompareTag("Body"))
         {
@@ -128,7 +128,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
-            PV.RPC("DestroyBullet", RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
 
        /* if (collision.collider.CompareTag("Finish"))
