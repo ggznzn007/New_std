@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks//, IPunObservable
 {
     PhotonView PV;
     Rigidbody rb;
@@ -20,12 +20,15 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public bool isExplo;
     public string bombBeep;
     public string dm_Explo;
+    //private Vector3 remotePos;
+    //private Quaternion remoteRot;
 
     SelectionOutline outline = null;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
         isExplo = false;
+        gameObject.layer = 6;
     }
 
     private void Start()
@@ -35,27 +38,39 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         outline = GetComponent<SelectionOutline>();
     }
     private void Update()
-    {
-        
+    {        
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
             ThrowBomb();
         }
+        //ObjPunLocation_Dm();
+
         if (isBeingHeld)
         {
             bCount++;
             isExplo = false;
             rb.isKinematic = true;
-            gameObject.layer = 7;            
+            gameObject.layer = 7;
+            //DataManager.DM.grabBomb = true;
         }
         else
         {            
             isExplo = true;
             rb.isKinematic = false;
-            gameObject.layer = 6;           
+            gameObject.layer = 6;
+            //DataManager.DM.grabBomb = false;
         }
 
     }
+
+   /* public void ObjPunLocation_Dm()
+    {
+        if (!PV.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }
+    }*/
 
     public void ThrowBomb()
     {
@@ -85,9 +100,10 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     public IEnumerator Explosion()
     {
-        AudioManager.AM.PlaySX("BombBeep");
+        AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
+        var exPlo = Instantiate(effect, transform.position, Quaternion.identity);
+        AudioManager.AM.PlaySE(dm_Explo);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
         PV.RPC(nameof(ExploBomb), RpcTarget.All);
@@ -122,11 +138,11 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
-            TransferOwnership();
+            
         }
         else
         {
-            return;
+            TransferOwnership();
         }
     }
 
@@ -140,13 +156,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
         if (targetView != PV) return;
-        /*Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-        PV.TransferOwnership(requestingPlayer);*/
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        if (targetView != PV) return;
+        
         Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
@@ -158,7 +174,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;        
+        isBeingHeld = true;       
     }
 
     [PunRPC]
@@ -167,4 +183,17 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         isBeingHeld = false;       
     }
 
+ /*   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+        }
+    }*/
 }

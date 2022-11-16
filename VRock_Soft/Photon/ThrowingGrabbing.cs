@@ -10,26 +10,29 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks//, IPunObservable
 {
     PhotonView PV;
     Rigidbody rb;
     public GameObject effect;
-    public int bCount;   
+    public int bCount;
     public bool isBeingHeld = false;
     public bool isExplo;
     private AudioSource audioSource;                 // 총알 발사 소리
-                                                     // public string bombBeep;
-                                                     //public string emp_Explo;
+    public string bombBeep;
+    public string emp_Explo;
+    //private Vector3 remotePos;
+    //private Quaternion remoteRot;
     private XRRayInteractor interactor;
-
     SelectionOutline outline = null;
+    private bool isGrabable;
     private void Awake()
     {
-        PN.AddCallbackTarget(this);
         PV = GetComponent<PhotonView>();
         interactor = FindObjectOfType<XRRayInteractor>();
-        isExplo = false;        
+        isExplo = false;
+        gameObject.layer = 6;
+        isGrabable = true;
     }
 
     private void Start()
@@ -40,34 +43,39 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     }
 
-    private void OnDestroy()
+    private void FixedUpdate()
     {
-        PN.RemoveCallbackTarget(this);
-    }
-    private void Update()
-    {        
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
             ThrowBomb();
         }
-
+        // ObjPunLocation();
         if (isBeingHeld)
         {
-            bCount++;            
+            bCount++;
             isExplo = false;
             rb.isKinematic = true;
-            gameObject.layer = 7;                  
-            Debug.Log("소유권 고정");
+            gameObject.layer = 7;
+           // DataManager.DM.grabBomb = true;
         }
+
         else
-        {            
+        {
             isExplo = true;
             rb.isKinematic = false;
-            gameObject.layer = 6;            
+            gameObject.layer = 6;
+            //DataManager.DM.grabBomb = false;
         }
-
     }
 
+    /*public void ObjPunLocation()
+    {
+        if (!PV.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }
+    }*/
 
 
     public void ThrowBomb()
@@ -78,18 +86,18 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         {
 
             if (!griped_R && !griped_L && isExplo && bCount >= 1)
-            {                
+            {
                 StartCoroutine(Explosion());
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
             if (!griped_R && griped_L && isExplo && bCount >= 1)
-            {                
+            {
                 StartCoroutine(Explosion());
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
             if (griped_R && !griped_L && isExplo && bCount >= 1)
-            {               
+            {
                 StartCoroutine(Explosion());
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
             }
@@ -98,14 +106,18 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     public IEnumerator Explosion()
     {
-        AudioManager.AM.PlaySX("BombBeep");
+        AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.Instantiate(effect.name, transform.position, Quaternion.identity);
+        var exPlo = Instantiate(effect, transform.position, Quaternion.identity);
+        AudioManager.AM.PlaySE(emp_Explo);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
-        PV.RPC(nameof(ExploBomb), RpcTarget.All);
+        PV.RPC(nameof(ExploBomb), RpcTarget.AllViaServer);
     }
-      
+    
+
+    
+
     [PunRPC]
     public void ExploBomb()
     {
@@ -118,44 +130,45 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     public void OnHoverEntered()
-    {
+    {        
         outline.Highlight();
     }
 
     public void OnHoverExited()
     {
+        
         outline.RemoveHighlight();
     }
     public void OnSelectedEntered()
-    {
+    {        
         Debug.Log("잡았다");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.All);        
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+        
         if (PV.Owner == PN.LocalPlayer)
-        {
+        {            
             Debug.Log("이미 소유권이 나에게 있습니다.");            
         }
         else
         {
-            TransferOwnership();            
+            TransferOwnership();
         }
     }
 
     public void OnSelectedExited()
-    {
+    {        
         Debug.Log("놓았다");
-        PV.RPC(nameof(StopGrabbing), RpcTarget.All);
+        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if (targetView != PV)return;  // 오브젝트가 생성되었을때 누구나 소유권가져갈수 있고 누군가 소유권을 가져가면 소유권고정
-        //Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-       // PV.TransferOwnership(requestingPlayer);
+        if (targetView != PV) { return; }
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        if (targetView != PV) return;
         Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
@@ -167,7 +180,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;       
+        isBeingHeld = true;
     }
 
     [PunRPC]
@@ -176,5 +189,17 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         isBeingHeld = false;
     }
 
-
+    /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+      {
+          if (stream.IsWriting)
+          {
+              stream.SendNext(transform.position);
+              stream.SendNext(transform.rotation);
+          }
+          else
+          {
+              remotePos = (Vector3)stream.ReceiveNext();
+              remoteRot = (Quaternion)stream.ReceiveNext();
+          }
+      }*/
 }

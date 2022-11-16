@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     private GameObject spawnPlayer;
     public GameObject bomB;
     public Transform[] bSpawnPosition;
+    private GameObject bomBs;
     
 
     private void Awake()
@@ -150,7 +151,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-            PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
     /*public IEnumerator SpawnBomb(float time)
