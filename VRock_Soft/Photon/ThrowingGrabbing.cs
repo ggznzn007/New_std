@@ -112,7 +112,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         AudioManager.AM.PlaySE(emp_Explo);
         Destroy(exPlo, 0.5f);
         yield return new WaitForSeconds(0.1f);
-        PV.RPC(nameof(ExploBomb), RpcTarget.AllViaServer);
+        PV.RPC(nameof(ExploBomb), RpcTarget.All);
     }
     
 
@@ -142,7 +142,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public void OnSelectedEntered()
     {        
         Debug.Log("잡았다");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);
         
         if (PV.Owner == PN.LocalPlayer)
         {            
@@ -157,7 +157,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public void OnSelectedExited()
     {        
         Debug.Log("놓았다");
-        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -178,13 +178,13 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     [PunRPC]
-    public void StartGrabbing()
+    public void Grab_EMP()
     {
         isBeingHeld = true;
     }
 
     [PunRPC]
-    public void StopGrabbing()
+    public void Put_EMP()
     {
         isBeingHeld = false;
     }

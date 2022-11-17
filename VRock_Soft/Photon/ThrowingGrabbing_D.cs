@@ -50,15 +50,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
             bCount++;
             isExplo = false;
             rb.isKinematic = true;
-            gameObject.layer = 7;
-            //DataManager.DM.grabBomb = true;
+            gameObject.layer = 7;            
         }
         else
         {            
             isExplo = true;
             rb.isKinematic = false;
-            gameObject.layer = 6;
-            //DataManager.DM.grabBomb = false;
+            gameObject.layer = 6;            
         }
 
     }
@@ -134,11 +132,10 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.All);
+        PV.RPC(nameof(Grab_DM), RpcTarget.AllBuffered);
         if (PV.Owner == PN.LocalPlayer)
         {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
-            
+            Debug.Log("이미 소유권이 나에게 있습니다.");            
         }
         else
         {
@@ -150,7 +147,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     {
         Debug.Log("놓았다");
 
-        PV.RPC(nameof(StopGrabbing), RpcTarget.All);
+        PV.RPC(nameof(Put_DM), RpcTarget.AllBuffered);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -172,13 +169,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     }
 
     [PunRPC]
-    public void StartGrabbing()
+    public void Grab_DM()
     {
         isBeingHeld = true;       
     }
 
     [PunRPC]
-    public void StopGrabbing()
+    public void Put_DM()
     {
         isBeingHeld = false;       
     }

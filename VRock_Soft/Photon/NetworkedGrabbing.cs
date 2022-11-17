@@ -11,59 +11,66 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallbacks
 {
+    public static NetworkedGrabbing NG;
     PhotonView PV;
     Rigidbody rb;
     public bool isBeingHeld = false;
+    //public XRGrabInteractable interactable;
 
     private void Awake()
     {
+        NG = this;
         PV = GetComponent<PhotonView>();
+       // interactable = GetComponent<XRGrabInteractable>();
     }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-    private void Update()
-    {
-        if (isBeingHeld)
+
+   
+    private void FixedUpdate()
+    {       
+        if (isBeingHeld) // 손에 잡혀있음
         {
             rb.isKinematic = true;
-            gameObject.layer = 7;
+            this.gameObject.layer = 7;
+           // interactable.enabled = false;
         }
         else
-        {
+        {            
             rb.isKinematic = false;
-            gameObject.layer = 6;
-        }
+            this.gameObject.layer = 6;
+         //   interactable.enabled = true;
+        }       
+
     }
-
-
 
     public void OnSelectedEntered()
     {
-        Debug.Log("잡았다");
+        Debug.Log("잡았다\n레이어 = Inhand");        
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
-        /*if (PV.Owner == PN.LocalPlayer)
-        {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
-        }
-        else
-        {
-            TransferOwnership();
-        }*/
+        /* if (PV.Owner == PN.LocalPlayer)
+         {
+             Debug.Log("이미 소유권이 나에게 있습니다.");
+         }
+         else
+         {
+             TransferOwnership();
+         }*/
     }
 
     public void OnSelectedExited()
     {
-        Debug.Log("놓았다");
+        Debug.Log("놓았다\n레이어 = Interactable");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
-    private void TransferOwnership()
+   /* private void TransferOwnership()
     {
         PV.RequestOwnership();
-    }
+    }*/
 
     /*public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
@@ -88,15 +95,13 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
-        
+        isBeingHeld = true;       
     }
 
     [PunRPC]
     public void StopGrabbing()
     {
-        isBeingHeld = false;
-        
+        isBeingHeld = false;        
     }
 
 

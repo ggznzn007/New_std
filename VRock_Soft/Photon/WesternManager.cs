@@ -183,8 +183,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public void SpawnDynamite()
     {
-        PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-        PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+       // PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+       // PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+        PN.InstantiateRoomObject(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+        PN.InstantiateRoomObject(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
         /* for (int i = 0; i < bSpawnPosition.Length; i++)
          {
              PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);

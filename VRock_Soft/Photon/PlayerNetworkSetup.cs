@@ -26,16 +26,17 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
     public GameObject AvatarBody; 
     public GameObject AvatarHand_L; 
     public GameObject AvatarHand_R;
-
-   // private PhotonView PV;
+    
+    //private PhotonView PV;
     public void Awake()
     {      
        // NetPlayer = this;
+       
     }
 
     private void Start()
     {       
-       // PV = GetComponent<PhotonView>();
+       //PV = GetComponent<PhotonView>();
         if (photonView.IsMine)                                 // 로컬 플레이어 
         {
             LocalXRRigGameObject.SetActive(true);
@@ -56,7 +57,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
     }
     private void Update()
     {
-        if (!photonView.IsMine) return;      
+        if (!photonView.IsMine) return;           
     }
 
     void SetLayerRecursively(GameObject go, int layerNum)

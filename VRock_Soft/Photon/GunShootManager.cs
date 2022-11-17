@@ -222,13 +222,15 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public void Emp_Red()
     {
         //PN.Instantiate(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
-      bombRed =  PN.InstantiateRoomObject(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
+       bombRed =  PN.InstantiateRoomObject(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
+       
     }
 
      public void Emp_Blue()
     {
         //PN.Instantiate(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
       bombBlue =  PN.InstantiateRoomObject(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
+      
     }
 
     [PunRPC]
