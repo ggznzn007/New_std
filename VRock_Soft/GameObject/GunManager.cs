@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
+public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static GunManager gunManager;
     [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")][SerializeField] GameObject bullet;
@@ -49,11 +49,11 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
     private void FixedUpdate()
     {
-        if(!PV.IsMine)
+       /* if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position,remotePos,20*Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation,remoteRot,20*Time.deltaTime));
-        }
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }*/
         GetTarget();
         Reload();
         WhenDead();
@@ -63,7 +63,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
-            PV.RPC(nameof(DestroyGun), RpcTarget.All);
+            PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
         }
     }
 
@@ -71,29 +71,29 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.collider == null) return;
+        if (collision.collider == null) return;
         if (collision.collider.CompareTag("Cube"))
         {
             try
             {
                 if (!SpawnWeapon_R.rightWeapon.weaponInIt && !SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
                     Debug.Log("¾ç¼Õ ³õ°í ÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
                 if (!SpawnWeapon_R.rightWeapon.weaponInIt || SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
                     Debug.Log("¿ÞÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
                 if (SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
                     Debug.Log("¿À¸¥ÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
 
             }
-            
+
             finally
             {
                 Destroy(gameObject);
@@ -140,7 +140,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+ /*   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -152,7 +152,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }
+    }*/
 
     void Reload()                                   // ÃÑ¾Ë ÀçÀåÀü ½Ã°£
     {

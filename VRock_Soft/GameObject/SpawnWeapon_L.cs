@@ -57,16 +57,18 @@ public class SpawnWeapon_L : MonoBehaviourPun
             if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  
+                if (myGun != null) { return; }
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
                 //FindGun();
                 weaponInIt = true;
                 return;
             }
 
-            else if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
+           else if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  
+                if (myGun != null) { return; }
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
                 //FindGun();
                 weaponInIt = true;
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;

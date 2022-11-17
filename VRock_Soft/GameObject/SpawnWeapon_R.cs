@@ -19,10 +19,10 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
     public InputDevice targetDevice;
     public bool weaponInIt = false;
     private GameObject myGun;
-
+    
     private void Awake()
     {
-        rightWeapon = this;
+        rightWeapon = this;        
     }
     private void Start()
     {
@@ -30,13 +30,13 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
-
+        
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
         }
         DataManager.DM.grabBomb = false;
-    }
+    }   
 
     public GunManager FindGun()
     {
@@ -57,17 +57,17 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
             if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
-                //FindGun();
+                if (myGun != null) { return; }
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
                 weaponInIt = true;
                 return;
             }
 
-            else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+           else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                  && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
-                //FindGun();
+                if (myGun != null) { return; }
+                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
                 weaponInIt = true;
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 return;

@@ -40,7 +40,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] int attackPower = 15;
     [SerializeField] int attackPowerH = 30;
     [SerializeField] int grenadePower = 40;
-    [SerializeField] GameObject myGun;
+    //[SerializeField] GameObject myGun;
     [SerializeField] GameObject hand_Left;
     [SerializeField] GameObject hand_Right;
     [SerializeField] GameObject at_hand_Left;
@@ -107,8 +107,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine) return;
         Nick_HP_Pos();
-        //Show_Frame();
-       // UnShow_Frame();
+        Show_Frame();
+        UnShow_Frame();
     }
 
     public void Show_Frame()

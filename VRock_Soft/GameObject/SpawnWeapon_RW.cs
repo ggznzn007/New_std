@@ -61,6 +61,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner      
                 && AvartarController.ATC.isAlive)
             {
+                if (myGun != null) { return; }
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
                 //FindGun();
                 weaponInIt = true;

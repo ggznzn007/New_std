@@ -60,7 +60,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             transform.position = contact.point;
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //AudioManager.AM.PlaySE("BulletImpact");
             AudioManager.AM.PlaySE(bulletImpact);
             //Destroy(gameObject);
@@ -95,7 +95,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
            // AudioManager.AM.PlaySE("Hit");
@@ -117,7 +117,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
@@ -134,7 +134,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 

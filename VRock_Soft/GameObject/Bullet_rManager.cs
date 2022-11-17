@@ -50,7 +50,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             transform.position = contact.point;
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(revolverImpact);
             //Destroy(gameObject);
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
@@ -86,7 +86,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
@@ -107,7 +107,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 
@@ -124,7 +124,7 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.5f);
+            Destroy(effect, 0.3f);
             //Destroy(gameObject);
             AudioManager.AM.PlaySE(hitPlayer);
 

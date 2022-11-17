@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class RevolverManager : MonoBehaviourPun, IPunObservable
+public class RevolverManager : MonoBehaviourPun//, IPunObservable
 {
     public static RevolverManager RM;
 
@@ -57,11 +57,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
 
     private void FixedUpdate()
     {
-        if (!PV.IsMine)
+        /*if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
                 ,Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
-        }
+        }*/
         // if (this.gameObject == null) return;
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
@@ -159,7 +159,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
 
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -171,7 +171,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }
+    }*/
 
     void Reload()                                   // 총알 재장전 시간
     {
