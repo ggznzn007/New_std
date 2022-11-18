@@ -85,7 +85,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     private void Start()
     {
-
+        PN.UseRpcMonoBehaviourCache = true;
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -147,8 +147,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     }
 
     private void Update()
-    {
-        SetScore();
+    {       
         if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
@@ -163,6 +162,13 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 }
             }
         }
+    }
+
+    void FixedUpdate()
+    {
+        SetScore();
+        Timer();
+        PV.RefreshRpcMonoBehaviourCache();
     }
 
     public void SetScore()
@@ -207,10 +213,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         }
     }
 
-    void FixedUpdate()
-    {
-        Timer();
-    }
+   
 
     /*public void SpawnBomb()
     {

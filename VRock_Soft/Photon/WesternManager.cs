@@ -126,7 +126,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        SetScore();         
+                 
         if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
@@ -142,6 +142,12 @@ public class WesternManager : MonoBehaviourPunCallbacks
         }
      
     }
+    void FixedUpdate()
+    {
+        SetScore();
+        TimerW();
+        PV.RefreshRpcMonoBehaviourCache();
+    }
 
     public void SetScore()
     {
@@ -156,9 +162,9 @@ public class WesternManager : MonoBehaviourPunCallbacks
         PN.LocalPlayer.CustomProperties = playerProp;
         PN.SetPlayerCustomProperties(playerProp);
     }
-    void FixedUpdate()
-    {
 
+    public void TimerW()
+    {
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
@@ -180,6 +186,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
         }
     }
+  
 
     public void SpawnDynamite()
     {
