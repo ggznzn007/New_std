@@ -2,127 +2,95 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Sound
+{
+    public string name;
+    //public float volume;   
+    public AudioClip clip;
+}
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager AM;
+   
+    [Header("배경음 소스파일")]
+    [SerializeField] Sound[] bgm;
+
+    [Header("효과음 소스파일")]
+    [SerializeField] Sound[] soundE;
+
+    [Header("폭탄음 소스파일")]
+    [SerializeField] Sound[] soundX;
 
     [Header("배경음 스피커")]
-    public AudioSource bgmPlayer;
-
-    [Header("배경음 오디오소스")]
-    public AudioClip[] bgm;
-
+    [SerializeField] AudioSource bgmSpeaker;    
 
     [Header("효과음 스피커")]
-    public AudioSource[] effectPlayer;
+    [SerializeField] AudioSource[] seSpeaker;
 
-    [Header("효과음 오디오소스")]
-    public AudioClip[] effectClip;
-
-    public enum Effect
-    {
-        PlayerDamaged,
-        PlayerDead,
-        ReSpawn,
-        PlayerKill,
-        BulletImpact,
-        GAMESTART,
-        START,
-        Three,
-        Two,
-        One,
-        GAMEOVER,
-        END,
-        PlayerHit,
-        HeadShot
-    };
-
-    int effectCursor;
+    [Header("폭탄음 스피커")]
+    [SerializeField] AudioSource[] bombSpeaker;
 
     private void Awake()
     {
-        AM = this;
+        AM = this;        
     }
 
-    public void EffectPlay(Effect type)
+    private void Start()
     {
-        switch (type)
+        PlayeRandomBGM();
+    }
+  
+    public void PlaySE(string soundName)
+    {
+        for (int i = 0; i < soundE.Length; i++)
         {
-            case Effect.PlayerDamaged:
-                effectPlayer[effectCursor].clip = effectClip[0];
-                break;
-            case Effect.PlayerDead:
-                effectPlayer[effectCursor].clip = effectClip[1];
-                break;
-            case Effect.ReSpawn:
-                effectPlayer[effectCursor].clip = effectClip[2];
-                break;
-            case Effect.PlayerKill:
-                effectPlayer[effectCursor].clip = effectClip[3];
-                break;
-            case Effect.BulletImpact:
-                effectPlayer[effectCursor].clip = effectClip[4];
-                break;
-            case Effect.GAMESTART:
-                effectPlayer[effectCursor].clip = effectClip[5];
-                break;
-            case Effect.START:
-                effectPlayer[effectCursor].clip = effectClip[6];
-                break;
-            case Effect.Three:
-                effectPlayer[effectCursor].clip = effectClip[7];
-                break;
-            case Effect.Two:
-                effectPlayer[effectCursor].clip = effectClip[8];
-                break;
-            case Effect.One:
-                effectPlayer[effectCursor].clip = effectClip[9];
-                break;
-            case Effect.GAMEOVER:
-                effectPlayer[effectCursor].clip = effectClip[10];
-                break;
-            case Effect.END:
-                effectPlayer[effectCursor].clip = effectClip[11];
-                break;
-            case Effect.PlayerHit:
-                effectPlayer[effectCursor].clip = effectClip[12];
-                break;
-            case Effect.HeadShot:
-                effectPlayer[effectCursor].clip = effectClip[13];
-                break;
+            if (soundName == soundE[i].name)
+            {
+                for (int j = 0; j < seSpeaker.Length; j++)
+                {
+                    if (!seSpeaker[j].isPlaying)
+                    {
+                        seSpeaker[j].clip = soundE[i].clip;
+                        seSpeaker[j].PlayOneShot(seSpeaker[j].clip);
+                        return;
+                    }
+                }
+                Debug.Log("모든 효과음스피커가 사용중입니다.");
+                return;
+            }
         }
-
-        effectPlayer[effectCursor].Play();
-        effectCursor = (effectCursor + 1) % effectPlayer.Length;
+        Debug.Log("등록된 효과음이 없습니다.");        
     }
-
-    private void Update()
+    public void PlaySX(string soundName)
     {
-        if (!bgmPlayer.isPlaying)
+        for (int i = 0; i < soundX.Length; i++)
         {
-            RandomPlay();
+            if (soundName == soundX[i].name)
+            {
+                for (int j = 0; j < bombSpeaker.Length; j++)
+                {
+                    if (!bombSpeaker[j].isPlaying)
+                    {
+                        bombSpeaker[j].clip = soundX[i].clip;
+                        bombSpeaker[j].PlayOneShot(bombSpeaker[j].clip);
+                        return;
+                    }
+                }
+                Debug.Log("모든 효과음스피커가 사용중입니다.");
+                return;
+            }
         }
-
-        /* if(gunBgmPlayer.isPlaying)
-         {
-             RandomPlayStop();
-         }*/
+        Debug.Log("등록된 효과음이 없습니다.");
     }
 
-    public void RandomPlay()
+    public void PlayeRandomBGM()
     {
-        bgmPlayer.clip = bgm[Random.Range(0, bgm.Length)];
-        bgmPlayer.Play();
+        int rand = Random.Range(0,bgm.Length);
+        bgmSpeaker.clip = bgm[rand].clip;
+        bgmSpeaker.Play();
     }
-    /* public void RandomPlayStop()
-     {
-        // bgmPlayer.clip = bgm[Random.Range(0, bgm.Length)];
-         bgmPlayer.Stop();
-     }
-
-     public void NormalPlay()
-     {
-         gunBgmPlayer.clip = gunBgm;
-         gunBgmPlayer.Play();
-     }*/
+   
+    
 }
