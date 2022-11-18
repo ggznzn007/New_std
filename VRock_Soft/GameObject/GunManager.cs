@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
+public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
 {
     public static GunManager gunManager;
     [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")][SerializeField] GameObject bullet;
@@ -45,25 +45,27 @@ public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ 
         actorNumber = PV.OwnerActorNr;
+        PN.UseRpcMonoBehaviourCache = true;
     }
 
     private void FixedUpdate()
     {
-       /* if (!PV.IsMine)
+        if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
-        }*/
+        }
         GetTarget();
         Reload();
         WhenDead();
+        PV.RefreshRpcMonoBehaviourCache();
     }
 
     public void WhenDead()
     {
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
-            PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
+            PV.RPC(nameof(DestroyGun), RpcTarget.All);
         }
     }
 
@@ -71,24 +73,24 @@ public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider == null) return;
+        //if (collision.collider == null) return;
         if (collision.collider.CompareTag("Cube"))
         {
             try
             {
                 if (!SpawnWeapon_R.rightWeapon.weaponInIt && !SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
                     Debug.Log("¾ç¼Õ ³õ°í ÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
                 if (!SpawnWeapon_R.rightWeapon.weaponInIt || SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
                     Debug.Log("¿ÞÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
                 if (SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.AllViaServer);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
                     Debug.Log("¿À¸¥ÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
 
@@ -96,7 +98,7 @@ public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½
 
             finally
             {
-                Destroy(gameObject);
+                PV.RPC(nameof(DestroyGun), RpcTarget.All);
             }
         }
         /*else
@@ -135,12 +137,12 @@ public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.AllViaServer);
+            PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
         }
     }
 
- /*   public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -152,7 +154,7 @@ public class GunManager : MonoBehaviourPun//, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }*/
+    }
 
     void Reload()                                   // ÃÑ¾Ë ÀçÀåÀü ½Ã°£
     {

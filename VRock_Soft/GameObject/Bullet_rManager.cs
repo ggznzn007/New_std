@@ -28,6 +28,12 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         Destroy(this.gameObject, 1f);
+        PN.UseRpcMonoBehaviourCache=true;
+    }
+
+    private void Update()
+    {
+        PV.RefreshRpcMonoBehaviourCache();
     }
     private void OnCollisionEnter(Collision collision)
     {

@@ -14,6 +14,8 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
     public InputDevice targetDevice;
     public Renderer avatarLeftHand;
     //public PhotonView PV;
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
 
     void Start()
     {
@@ -32,25 +34,30 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
+       // if (!photonView.IsMine) return;
+        if (!photonView.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }
         if (photonView.IsMine)
         {
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
             {
                 if (griped)
                 {
-                    photonView.RPC("RPC_IfGriped_HideHand_L", RpcTarget.All, true);
+                    photonView.RPC(nameof(HideHand_L), RpcTarget.All, true);
                 }
                 else
                 {
-                    photonView.RPC("RPC_IfGriped_HideHand_L", RpcTarget.All, false);
+                    photonView.RPC(nameof(HideHand_L), RpcTarget.All, false);
                 }
             }
         }
     }
 
     [PunRPC]
-    public void RPC_IfGriped_HideHand_L(bool isGrip)
+    public void HideHand_L(bool isGrip)
     {
         if (isGrip)
         {
@@ -72,8 +79,10 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+            // transform.position = (Vector3)stream.ReceiveNext();
+            //transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 }

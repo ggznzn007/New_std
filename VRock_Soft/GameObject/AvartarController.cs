@@ -100,12 +100,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         isDeadLock = true;
         team = DataManager.DM.teamInt;
-
+        PN.UseRpcMonoBehaviourCache = true;
     }
 
     void Update()
     {
         if (!PV.IsMine) return;
+        PV.RefreshRpcMonoBehaviourCache();
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();

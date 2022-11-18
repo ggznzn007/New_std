@@ -33,12 +33,17 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         Destroy(this.gameObject, 1f);
-        
+        PN.UseRpcMonoBehaviourCache = true;
         //OP.PoolDestroy(gameObject);
         // StartCoroutine(DestroyDelay());
     }
-   
-   
+
+    private void Update()
+    {
+        PV.RefreshRpcMonoBehaviourCache();        
+    }
+
+
     private void OnCollisionEnter(Collision collision)
     {              
         if(!AvartarController.ATC.isAlive)
@@ -60,10 +65,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             transform.position = contact.point;
-            Destroy(effect, 0.3f);
-            //AudioManager.AM.PlaySE("BulletImpact");
-            AudioManager.AM.PlaySE(bulletImpact);
-            //Destroy(gameObject);
+            Destroy(effect, 0.3f);            
+            AudioManager.AM.PlaySE(bulletImpact);            
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
@@ -71,18 +74,30 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // ShowEffect(collision); // 이펙트 메서드 
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
-            //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐 
+            //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐            
+        }
+        if(collision.collider.CompareTag("Gun")&&!PV.IsMine)
+        {
+            // 충돌지점의 정보를 추출
+            ContactPoint contact = collision.contacts[0];
 
-           // Debug.Log("목표물에 명중");
+            // 법선 벡타가 이루는 회전각도 추출
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+
+            // 충돌 지점에 이펙트 생성           
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+
+            transform.position = contact.point;
+            Destroy(effect, 0.3f);
+            AudioManager.AM.PlaySE(bulletImpact);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
 
         if(collision.collider.CompareTag("Bomb"))
         {
             rb.Sleep();
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-        }
-
-    
+        }    
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam"))
         {
@@ -95,16 +110,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.3f);
-            //Destroy(gameObject);
-            AudioManager.AM.PlaySE(hitPlayer);
-           // AudioManager.AM.PlaySE("Hit");
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-            //Debug.Log("플레이어 명중");
-           
-           
+            Destroy(effect, 0.3f);            
+            AudioManager.AM.PlaySE(hitPlayer);           
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);  
         }
-
 
         if (collision.collider.CompareTag("Head"))
         {
@@ -117,12 +126,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.3f);
-            //Destroy(gameObject);
+            Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);
-
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
+
         if (collision.collider.CompareTag("Body"))
         {
             // 충돌지점의 정보를 추출
@@ -134,10 +142,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.3f);
-            //Destroy(gameObject);
+            Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);
-
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
     }
@@ -148,8 +154,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
    public void BulletDir(float speed, int actorNumber)//,int addSpeed)
     {
         this.speed = speed;
-        actNumber = actorNumber;
-       // this.addSpeed = addSpeed;
+        actNumber = actorNumber;       
     }
 
     [PunRPC]
@@ -157,10 +162,6 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
     {
         Destroy(gameObject);      
     }
-
-
-
-
 
     /* private void OnEnable()  //풀링할때 
       {

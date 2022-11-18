@@ -13,7 +13,8 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
     public InputDevice targetDevice;
     public Renderer avatarRightHand;
     //public PhotonView PV;
-
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
     void Start()
     {
         //PV = GetComponent<PhotonView>();
@@ -31,25 +32,30 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
+        // if (!photonView.IsMine) return;
+        if (!photonView.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }
         if (photonView.IsMine)
         {               
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
             {
                 if (griped)
                 {
-                    photonView.RPC("RPC_IfGriped_HideHand_R", RpcTarget.All, true);
+                    photonView.RPC(nameof(HideHand_R), RpcTarget.All, true);
                 }
                 else
                 {
-                    photonView.RPC("RPC_IfGriped_HideHand_R", RpcTarget.All, false);
+                    photonView.RPC(nameof(HideHand_R), RpcTarget.All, false);
                 }
             }         
         }
     }
 
     [PunRPC]
-    public void RPC_IfGriped_HideHand_R(bool isGrip)
+    public void HideHand_R(bool isGrip)
     {
         if (isGrip)
         {
@@ -72,8 +78,10 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
         }
         else 
         {
-           transform.position=(Vector3)stream.ReceiveNext();
-           transform.rotation=(Quaternion)stream.ReceiveNext();
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+            //transform.position=(Vector3)stream.ReceiveNext();
+           //transform.rotation=(Quaternion)stream.ReceiveNext();
         }
     }
 

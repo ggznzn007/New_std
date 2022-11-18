@@ -49,7 +49,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
     }
     private void OnTriggerStay(Collider coll)
     {
-        if (coll == null) return;
+        //if (coll == null) return;
         if (coll.CompareTag("ItemBox") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) &&
             SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class RevolverManager : MonoBehaviourPun//, IPunObservable
+public class RevolverManager : MonoBehaviourPun, IPunObservable
 {
     public static RevolverManager RM;
 
@@ -52,21 +52,22 @@ public class RevolverManager : MonoBehaviourPun//, IPunObservable
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출 
         actorNumber = PV.OwnerActorNr;
         //xt = (XRController)GameObject.FindObjectOfType(typeof(XRController));
-
+        PN.UseRpcMonoBehaviourCache = true;
     }
 
     private void FixedUpdate()
     {
-        /*if (!PV.IsMine)
+        if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
-                ,Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
-        }*/
+                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+        }
         // if (this.gameObject == null) return;
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
         WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
         ActivateHaptic();
+        PV.RefreshRpcMonoBehaviourCache();
     }
 
     public void WhenDead()
@@ -79,7 +80,7 @@ public class RevolverManager : MonoBehaviourPun//, IPunObservable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider == null) return;
+        //if (collision.collider == null) return;
         if (collision.collider.CompareTag("Cube"))
         {
             try
@@ -107,11 +108,6 @@ public class RevolverManager : MonoBehaviourPun//, IPunObservable
             }
 
         }
-
-        /* else
-         {
-             Debug.Log("총이 파괴되지 않았음");
-         }*/
 
     }
 
@@ -159,7 +155,7 @@ public class RevolverManager : MonoBehaviourPun//, IPunObservable
 
     }
 
-    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
@@ -171,7 +167,7 @@ public class RevolverManager : MonoBehaviourPun//, IPunObservable
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }*/
+    }
 
     void Reload()                                   // 총알 재장전 시간
     {
