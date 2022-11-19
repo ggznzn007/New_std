@@ -15,7 +15,6 @@ public class FadeScreenLocal : MonoBehaviour
     private Image image; // 페이드 바탕이미지
     private FadeState fadeState;
 
-
     private void Awake()
     {
         //FadeSingleton();
