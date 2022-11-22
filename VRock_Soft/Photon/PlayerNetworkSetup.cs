@@ -18,25 +18,16 @@ using Antilatency.Alt;
 using Antilatency.SDK;
 using static ObjectPooler;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
-{
-   // public static PlayerNetworkSetup NetPlayer;
+public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
+{   
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
     public GameObject AvatarBody; 
     public GameObject AvatarHand_L; 
-    public GameObject AvatarHand_R;
-    
-    //private PhotonView PV;
-    public void Awake()
-    {      
-       // NetPlayer = this;
-       
-    }
+    public GameObject AvatarHand_R;        
 
     private void Start()
-    {       
-       //PV = GetComponent<PhotonView>();
+    {        
         if (photonView.IsMine)                                 // 로컬 플레이어 
         {
             LocalXRRigGameObject.SetActive(true);
@@ -45,7 +36,6 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
             SetLayerRecursively(go: AvatarHand_L, 10);
             SetLayerRecursively(go: AvatarHand_R, 10);
         }
-
         else                                                   // 리모트 플레이어
         {
             LocalXRRigGameObject.SetActive(false);
@@ -68,6 +58,4 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks//, IPunObservable
             trans.gameObject.layer = layerNum;
         }
     }   
-
-    
 }

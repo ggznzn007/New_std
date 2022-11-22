@@ -29,16 +29,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public GameObject admin;
     [Header("폭탄 프리팹")]
     public GameObject bomB;
-    [Header("NPC 프리팹")]
+    [Header("NPC 프리팹")]                                      // 폭탄을 생성해주는 NPC => 카우보이
     public GameObject npc;
 
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
-    PhotonView PV;
-    //public Vector3 adminPos = new Vector3(8.28f, 20, 0f);
-    //public Quaternion adminRot = new Quaternion(52, -90, 0, 0);
+    PhotonView PV;    
     public Transform[] bSpawnPosition;
     public Transform adminPoint;
     public string GameInfo1;
@@ -48,8 +46,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public string three;
     public string startGame;
     public string gameover;
-    public int kills;
-    //public int deaths;
+    public int kills;    
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
     public Image bluewinImg;
     public Image redwinImg;
@@ -65,10 +62,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         WM = this;
         DataManager.DM.currentMap = Map.WESTERN;
+        SetScore();
     }
     void Start()
     {
-
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {            
@@ -125,8 +122,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
 
     private void Update()
-    {
-                 
+    {                 
         if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
@@ -139,8 +135,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                     SpawnDynamite();
                 }
             }
-        }
-     
+        }     
     }
     void FixedUpdate()
     {
@@ -158,7 +153,6 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         playerProp["kills"] = kills;             // 개인 킬 수
                                                  // playerProp["deaths"] = deaths;           // 개인 데스 수
-
         PN.LocalPlayer.CustomProperties = playerProp;
         PN.SetPlayerCustomProperties(playerProp);
     }
@@ -189,24 +183,11 @@ public class WesternManager : MonoBehaviourPunCallbacks
   
 
     public void SpawnDynamite()
-    {
-       // PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-       // PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+    {       
         PN.InstantiateRoomObject(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-        PN.InstantiateRoomObject(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-        /* for (int i = 0; i < bSpawnPosition.Length; i++)
-         {
-             PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
-         }        */
+        PN.InstantiateRoomObject(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);      
     }
-    /*public IEnumerator SpawnDynamite()
-    {
-        yield return new WaitForSecondsRealtime(30);
-        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-        spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-        StartCoroutine(SpawnDynamite());
-    }*/
-
+    
     [PunRPC]
     public void StartBtnW()
     {
@@ -224,6 +205,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         AudioManager.AM.PlaySE("GameInfo3");
     }
+
     public IEnumerator PlayTimer()
     {
         yield return new WaitForSeconds(1);
@@ -245,6 +227,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             Debug.Log("타임오버");
         }
     }
+
     IEnumerator StartTimer()
     {
         yield return new WaitForSeconds(7);
@@ -325,9 +308,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (PN.IsMasterClient)
         {
             PN.DestroyAll();
+            PN.RemoveBufferedRPCs();
         }
-
-
         PN.Destroy(spawnPlayer);
         Application.Quit();
        
@@ -368,7 +350,6 @@ public class WesternManager : MonoBehaviourPunCallbacks
         }
     }
 
-
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"{newPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
@@ -378,5 +359,4 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
-
 }

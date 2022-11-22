@@ -16,18 +16,17 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
 {
     public static TutorialManager2 TM2;
 
-    [SerializeField] GameObject redTeam;
-    [SerializeField] GameObject blueTeam;
-    [SerializeField] GameObject admin;
-    public Transform adminPoint;
-    private GameObject spawnPlayer;
-    public GameObject bomB;
-    public Transform[] bSpawnPosition;
+    [SerializeField] GameObject redTeam;                // 레드팀 프리팹
+    [SerializeField] GameObject blueTeam;               // 블루팀 프리팹
+    [SerializeField] GameObject admin;                  // 관리자 프리팹
+    public Transform adminPoint;                        // 관리자 생성위치
+    private GameObject spawnPlayer;                     // 생성되는 플레이어
+    public GameObject bomB;                             // 생성되는 폭탄
+    public Transform[] bSpawnPosition;                  // 폭탄 생성위치
 
     private void Awake()
     {
         TM2 = this;
-
     }
     private void Start()
     {
@@ -39,7 +38,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         {            
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnDynamite), 20, 15);
+                InvokeRepeating(nameof(SpawnDynamite), 20, 15);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
             }
             SpawnPlayer();
 
@@ -56,15 +55,14 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.IsMessageQueueRunning = false; PN.LoadLevel(4); }
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SpawnDynamite();
                 }
             }
-        }
-        
+        }        
     }
 
     public void SpawnPlayer()
@@ -111,14 +109,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
-    /*  public IEnumerator SpawnDynamite()
-      {
-          yield return new WaitForSecondsRealtime(15);
-          spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-          spawnBomb = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-          StartCoroutine(SpawnDynamite());
-      }*/
-
+   
     [ContextMenu("포톤 서버 정보")]
     void Info()
     {
@@ -149,6 +140,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         if (PN.IsMasterClient)
         {
             PN.DestroyAll();
+            PN.RemoveBufferedRPCs();
         }
 
         PN.Destroy(spawnPlayer);
@@ -165,5 +157,4 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
-
 }

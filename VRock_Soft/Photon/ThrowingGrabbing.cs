@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
-    PhotonView PV;
+    public PhotonView PV;
     Rigidbody rb;
     public GameObject effect;
     public int bCount;
@@ -34,21 +34,22 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         rb = GetComponent<Rigidbody>();
         bCount = 0;
         outline = GetComponent<SelectionOutline>();
-        PN.UseRpcMonoBehaviourCache = true;
+        //PN.UseRpcMonoBehaviourCache = true;
     }
 
     private void Update()
     {
-        PV.RefreshRpcMonoBehaviourCache();
+        //PV.RefreshRpcMonoBehaviourCache();
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {           
-            ThrowBomb();
+            ThrowBomb();            
         }       
         if (isBeingHeld)
         {
             bCount++;
             isExplo = false;
             rb.isKinematic = true;
+            
             gameObject.layer = 7;          
         }
 
@@ -56,10 +57,12 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         {
             isExplo = true;
             rb.isKinematic = false;
+            //rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             gameObject.layer = 6;            
         }
-    }    
+    }
 
+    
     public void ThrowBomb()
     {
         if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
@@ -68,38 +71,42 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
             if (!griped_R && !griped_L && isExplo && bCount >= 1)
             {
-                StartCoroutine(Explosion());
+                if (PV.IsMine)
+                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);                
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
             if (!griped_R && griped_L && isExplo && bCount >= 1)
             {
-                StartCoroutine(Explosion());
+                if (PV.IsMine)
+                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);
                 SpawnWeapon_R.rightWeapon.weaponInIt = false;
             }
             if (griped_R && !griped_L && isExplo && bCount >= 1)
             {
-                StartCoroutine(Explosion());
+                if (PV.IsMine)
+                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
             }
         }
     }
+
     
     public IEnumerator Explosion()
     {
         AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.InstantiateRoomObject(effect.name, transform.position, Quaternion.identity);
         AudioManager.AM.PlaySE(emp_Explo);        
-        yield return new WaitForSeconds(0.1f);               
-        PN.Destroy(exPlo);
-        PV.RPC(nameof(ExploBomb), RpcTarget.AllViaServer);      
-    } 
+        PN.InstantiateRoomObject(effect.name, transform.position, Quaternion.identity);       
+        Destroy(gameObject);
+        //yield return new WaitForSeconds(0.1f);               
+        //PN.Destroy(exPlo);
+    }
 
     [PunRPC]
     public void ExploBomb()
-    {        
-        Destroy(gameObject);
+    {
+        StartCoroutine(Explosion());        
     }
 
     private void TransferOwnership()

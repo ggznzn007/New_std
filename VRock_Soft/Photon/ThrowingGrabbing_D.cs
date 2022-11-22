@@ -9,6 +9,7 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
+using Unity.XR.PXR;
 
 public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
@@ -20,7 +21,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public bool isExplo;
     public string bombBeep;
     public string dm_Explo;
-    SelectionOutline outline = null;
+    SelectionOutline outline = null;    
 
     private void Awake()
     {
@@ -33,14 +34,15 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         rb = GetComponent<Rigidbody>();
         bCount = 0;
         outline = GetComponent<SelectionOutline>();
-        PN.UseRpcMonoBehaviourCache = true;
+       // PN.UseRpcMonoBehaviourCache = true;
     }
     private void Update()
     {
-        PV.RefreshRpcMonoBehaviourCache();
+       // PV.RefreshRpcMonoBehaviourCache();
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
-            ThrowBomb();
+            //ThrowBomb();
+            PV.RPC(nameof(ThrowDM), RpcTarget.AllBufferedViaServer);
         }       
         if (isBeingHeld)
         {
@@ -58,7 +60,8 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     }
 
-    public void ThrowBomb()
+    [PunRPC]
+    public void ThrowDM()
     {
 
         if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
@@ -92,7 +95,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         AudioManager.AM.PlaySE(dm_Explo);
         yield return new WaitForSeconds(0.1f);
         PN.Destroy(exPlo);
-        PV.RPC(nameof(ExploBomb), RpcTarget.AllViaServer);
+        PV.RPC(nameof(ExploBomb), RpcTarget.AllBufferedViaServer);
     }
 
     [PunRPC]
@@ -127,7 +130,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         else
         {
             TransferOwnership();
-        }
+        }       
     }
 
     public void OnSelectedExited()
@@ -165,6 +168,6 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void Put_DM()
     {
         isBeingHeld = false;
-    }
+    }      
 
 }

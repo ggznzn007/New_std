@@ -60,8 +60,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     //private readonly string masterAddress = "125.134.36.239";
     // private readonly string appID = "698049ca-edd8-41f6-9c9b-b8561355930a";
     // private readonly int portNum = 5055;
-    private readonly int n = 1;
-    private readonly int maxCount = 10;
+    //private readonly int n = 1;
+    //private readonly int maxCount = 10;
    
     [Header("관리자옵션")]
     readonly private string adminName = "관리자";
@@ -139,11 +139,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
             else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
             else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
-
         }
-       
-      
-
     }
 
     public void StartToServer()                                                     // 서버연결 메서드
@@ -175,7 +171,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.SendRate = 60;
         PN.SerializationRate = 30;
         PN.LocalPlayer.NickName = adminName;
-        DataManager.DM.nickName = adminName;
+        //DataManager.DM.nickName = adminName;
     }
 
     public void InitAdmin(int defaultRoomIndex)                                       // 레드팀 선택
@@ -213,13 +209,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PN.JoinLobby();
     }
 
-
     public void InitRed(int defaultRoomIndex)                                       // 레드팀 선택
     {
         DataManager.DM.currentTeam = Team.RED;
         DataManager.DM.teamInt = 1;
         DataManager.DM.isSelected = true;
-
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
@@ -346,7 +340,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 }              
                 break;
         }
-
         Debug.Log($"{PN.LocalPlayer.NickName}님이 서버에 접속하였습니다.");
     }
 
@@ -432,10 +425,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ToyUI.gameObject.SetActive(false);
-                }               
+                }
+               
                 PN.LoadLevel(1); // 튜토리얼T
                 break;
             case Map.TOY:
+               
                 PN.LoadLevel(2); // 토이
                 break;
             case Map.TUTORIAL_W:
@@ -449,10 +444,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
-                }               
+                }
+               
                 PN.LoadLevel(3); // 튜토리얼W
                 break;
             case Map.WESTERN:
+              
                 PN.LoadLevel(4); // 웨스턴
                 break;
             default:

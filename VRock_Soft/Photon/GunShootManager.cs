@@ -30,7 +30,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     [Header("카운트다운 텍스트")]
     [SerializeField] TextMeshPro countText;
-    [Header("게임 제한시간")]
+    [Header("게임 제한시간 텍스트")]
     public TextMeshPro timerText;
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
@@ -40,19 +40,17 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public GameObject admin;
     [Header("폭탄 프리팹")]
     public GameObject bomB;
-    [Header("NPC 프리팹")]
+    [Header("NPC 프리팹")]                                            // 폭탄을 생성해주는 NPC => 크레인
     public GameObject npc;
 
-    private GameObject spawnPlayer;
-    [SerializeField] bool count = false;
-    [SerializeField] int limitedTime;
-    Hashtable setTime = new Hashtable();
-    PhotonView PV;
-    //public Vector3 adminPos = new Vector3(-10.72f, 15, 0.55f);
-    // public Quaternion adminRot = new Quaternion(40, 90, 0, 0);
-    public Transform bSpawnPosBlue;
-    public Transform bSpawnPosRed;
-    public Transform adminPoint;
+    private GameObject spawnPlayer;                                  // 생성되는 플레이어
+    [SerializeField] bool count = false;                             // 타이머 카운트 스위치
+    [SerializeField] int limitedTime;                                // 게임제한시간
+    Hashtable setTime = new Hashtable();                             // 세팅시간
+    PhotonView PV;    
+    public Transform bSpawnPosBlue;                                  // 블루팀 진영의 폭탄 생성위치
+    public Transform bSpawnPosRed;                                   // 레드팀 진영의 폭탄 생성위치
+    public Transform adminPoint;                                     // 관리자 생성 위치
     public string GameInfo1;
     public string GameInfo2;
     public string one;
@@ -60,8 +58,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public string three;
     public string startGame;
     public string gameover;
-    public int kills;
-    //public int deaths;
+    public int kills;    
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
     public Image bluewinImg;
     public Image redwinImg;
@@ -85,17 +82,15 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     private void Start()
     {
-        PN.UseRpcMonoBehaviourCache = true;
+        //PN.UseRpcMonoBehaviourCache = true;
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
                 PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);
-                PN.Instantiate(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);
-                //InvokeRepeating(nameof(SpawnBomb), 10, 30);               
+                PN.InstantiateRoomObject(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);                             
             }
 
            /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
@@ -108,7 +103,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
  
     public void SpawnPlayer()
     {
-
         switch (DataManager.DM.currentTeam)
         {
             case Team.RED:
@@ -168,7 +162,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         SetScore();
         Timer();
-        PV.RefreshRpcMonoBehaviourCache();
+       // PV.RefreshRpcMonoBehaviourCache();
     }
 
     public void SetScore()
@@ -178,8 +172,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     }
     public void UpdateStats()
     {
-        playerProp["kills"] = kills;             // 개인 킬 수
-                                                 // playerProp["deaths"] = deaths;           // 개인 데스 수
+        playerProp["kills"] = kills;             // 개인 킬 수                                                
 
         PN.LocalPlayer.CustomProperties = playerProp;
         PN.SetPlayerCustomProperties(playerProp);
@@ -189,7 +182,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         if (PN.InRoom && PN.IsConnectedAndReady)
         {
-
             limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
             limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
@@ -201,47 +193,31 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             }
             if (PN.IsMasterClient)
             {
-
                 if (count)
                 {
                     count = false;
                     StartCoroutine(PlayTimer());
-
                 }
-
             }
         }
     }
 
-   
-
-    /*public void SpawnBomb()
-    {
-        for (int i = 0; i < bSpawnPosition.Length; i++)
-        {
-            PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
-        }
-    }*/
     public void Emp_Red()
     {
         //PN.Instantiate(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
-       bombRed =  PN.InstantiateRoomObject(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
-       
+       bombRed =  PN.InstantiateRoomObject(bomB.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);       
     }
 
      public void Emp_Blue()
     {
         //PN.Instantiate(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
-      bombBlue =  PN.InstantiateRoomObject(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
-      
+      bombBlue =  PN.InstantiateRoomObject(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);      
     }
 
     [PunRPC]
     public void StartBtnT()
     {
-        StartCoroutine(StartTimer());
-        //startBtn.SetActive(false);
-        //  startText.gameObject.SetActive(false);
+        StartCoroutine(StartTimer());       
     }
 
     [PunRPC]
@@ -264,7 +240,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
 
-        if (limitedTime == 8)
+        if (limitedTime == 8)                                 // 게임 끝나기 8초전에 알림
         {
             PV.RPC(nameof(Notice), RpcTarget.AllViaServer);
         }
@@ -277,8 +253,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             Debug.Log("타임오버");
         }
     }
-
-
 
     public IEnumerator StartTimer()
     {
@@ -302,9 +276,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         DataManager.DM.inGame = true;
         timerText.gameObject.SetActive(true);
         countText.gameObject.SetActive(false);
-
     }
-
 
     public IEnumerator LeaveGame()
     {
@@ -361,13 +333,11 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         if (PN.IsMasterClient)
         {
-            PN.DestroyAll();
+            PN.DestroyAll();  
+            PN.RemoveBufferedRPCs();
         }
-
-
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
-
     }
 
     [ContextMenu("포톤 서버 정보")]
@@ -385,7 +355,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 playerStr += PN.PlayerList[i].NickName + ", ";
                 print(playerStr);
             }
-
         }
         else
         {
@@ -396,7 +365,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         }
     }
 
-
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"{newPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
@@ -406,7 +374,4 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
-
-
-
 }

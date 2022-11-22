@@ -9,18 +9,20 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallbacks
 {
     public static NetworkedGrabbing NG;
     PhotonView PV;
     Rigidbody rb;
     public bool isBeingHeld = false;
+    public bool isGrip;
     
     private void Awake()
     {
         NG = this;
         PV = GetComponent<PhotonView>();        
         PN.UseRpcMonoBehaviourCache = true;
+        isGrip = true;
     }
 
     private void Start()
@@ -33,11 +35,13 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     {       
         if (isBeingHeld)               // 총의 입장에서 손에 잡혀있음
         {
+            isGrip = true ;
             rb.isKinematic = true;
             this.gameObject.layer = 7;           
         }
         else
-        {            
+        {      
+            isGrip = false;
             rb.isKinematic = false;
             this.gameObject.layer = 6;         
         }       
@@ -46,24 +50,24 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다\n레이어 = Inhand");        
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+        PV.RPC(nameof(StartGrabbing), RpcTarget.All);
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
         }
-        else
+        /*else
         {
             TransferOwnership();
-        }
+        }*/
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("놓았다\n레이어 = Interactable");
-        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
+        PV.RPC(nameof(StopGrabbing), RpcTarget.All);
     }
 
-    private void TransferOwnership()
+   /* private void TransferOwnership()
     {
         PV.RequestOwnership();
     }
@@ -87,6 +91,30 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     {
 
     }
+*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Cube"))
+        {
+            try
+            {
+                if(!isBeingHeld&&!isGrip)
+                {
+                    if(PV.IsMine)
+                    {
+                        PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    }
+                }
+            }
+            finally
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                }
+            }
+        }
+    }
 
     [PunRPC]
     public void StartGrabbing()
@@ -98,5 +126,11 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void StopGrabbing()
     {
         isBeingHeld = false;        
+    }
+
+    [PunRPC]
+    public void DestroyGun()
+    {
+       Destroy(PV.gameObject);
     }
 }
