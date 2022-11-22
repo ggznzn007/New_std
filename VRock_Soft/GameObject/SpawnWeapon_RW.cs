@@ -52,8 +52,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         return null;
     }
     private void OnTriggerStay(Collider coll)
-    {
-       // if (coll == null) return;
+    {       
         if (coll.CompareTag("ItemBox")
             && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)
             && SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
@@ -74,10 +73,6 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                 return;
             }
         }
-
-
-
-
 
         if (coll.CompareTag("Bomb") &&
             DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))

@@ -32,15 +32,15 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         BM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(this.gameObject, 1f);
-        PN.UseRpcMonoBehaviourCache = true;
+        //Destroy(this.gameObject, 1f);
+        //PN.UseRpcMonoBehaviourCache = true;
         //OP.PoolDestroy(gameObject);
         // StartCoroutine(DestroyDelay());
     }
 
     private void Update()
     {
-        PV.RefreshRpcMonoBehaviourCache();        
+        //PV.RefreshRpcMonoBehaviourCache();        
     }
 
 
@@ -52,7 +52,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         }      
         // 터지는 이펙트 보여지고
         if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet") 
-             || collision.collider.CompareTag("Effect"))
+             || collision.collider.CompareTag("Effect")|| collision.collider.CompareTag("Gun")
+             || collision.collider.CompareTag("Bomb"))
              && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
@@ -66,8 +67,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             transform.position = contact.point;
             Destroy(effect, 0.3f);            
-            AudioManager.AM.PlaySE(bulletImpact);            
+            AudioManager.AM.PlaySE(bulletImpact);   
+            
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+            
+            
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
@@ -75,31 +79,9 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐            
-        }
-        if(collision.collider.CompareTag("Gun")&&!PV.IsMine)
-        {
-            // 충돌지점의 정보를 추출
-            ContactPoint contact = collision.contacts[0];
+        }             
 
-            // 법선 벡타가 이루는 회전각도 추출
-            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-
-            // 충돌 지점에 이펙트 생성           
-            var effect = Instantiate(exploreEffect, contact.point, rot);
-
-            transform.position = contact.point;
-            Destroy(effect, 0.3f);
-            AudioManager.AM.PlaySE(bulletImpact);
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-        }
-
-        if(collision.collider.CompareTag("Bomb"))
-        {
-            rb.Sleep();
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-        }    
-
-        if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam"))
+        if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam")&&PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -112,10 +94,11 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);           
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);  
+            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+            
         }
 
-        if (collision.collider.CompareTag("Head"))
+        if (collision.collider.CompareTag("Head") && PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -129,9 +112,10 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+            
         }
 
-        if (collision.collider.CompareTag("Body"))
+        if (collision.collider.CompareTag("Body") && PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -142,8 +126,9 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             // 충돌 지점에 이펙트 생성           
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
-            Destroy(effect, 0.3f);            
+            Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(hitPlayer);
+
             PV.RPC(nameof(DestroyBullet), RpcTarget.All);
         }
     }

@@ -24,6 +24,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
     {
         rightWeapon = this;        
     }
+
     private void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
@@ -47,6 +48,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
         }
         return null;
     }
+
     private void OnTriggerStay(Collider coll)
     {
         //if(coll == null) return;
@@ -63,7 +65,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                 return;
             }
 
-           else if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+            if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                  && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
                 if (myGun != null) { return; }

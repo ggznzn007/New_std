@@ -14,20 +14,16 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 {
     public static GunManager gunManager;
     [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")][SerializeField] GameObject bullet;
-
     [Header("ÃÑ±¸ À§Ä¡")][SerializeField] Transform firePoint;
-
     [Header("ÃÑ¾Ë ¼Óµµ")][SerializeField] float speed;
-
     [Header("ÃÑ¾Ë ¼ÒÀ¯±Ç")][SerializeField] bool isBulletMine;
-
     [Header("¾×ÅÍ³Ñ¹ö")][SerializeField] int actorNumber;
+    public PhotonView PV;                           // Æ÷Åæºä
 
     private RaycastHit hit;                          // ·¹ÀÌÄ³½ºÆ®±¤¼± È÷Æ®
     private Ray ray;                                 // ·¹ÀÌÄ³½ºÆ® ±¤¼±
     private ParticleSystem muzzleFlash;              // ÃÑ±¸ ÀÌÆåÆ®                                           
     private AudioSource audioSource;                 // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
-    private PhotonView PV;                           // Æ÷Åæºä
     private GameObject myBull;                       // ÀÚ±â ÃÑ¾Ë    
     private float fireTime = 0;                      // ÃÑ¾Ë µô·¹ÀÌ Å¸ÀÓ 
     private readonly float delayfireTime = 0.15f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
@@ -57,29 +53,26 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
         GetTarget();
         Reload();
-        WhenDead();
+        //WhenDead();
         PV.RefreshRpcMonoBehaviourCache();
     }
 
-    public void WhenDead()
+    /*public void WhenDead()
     {
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
             PV.RPC(nameof(DestroyGun), RpcTarget.All);
         }
-    }
+    }*/
 
-
-
-    private void OnCollisionStay(Collision collision)
-    {
-        //if (collision.collider == null) return;
+    /*private void OnCollisionEnter(Collision collision)
+    {        
         if (collision.collider.CompareTag("Cube"))
         {
             try
             {
                 if (!SpawnWeapon_R.rightWeapon.weaponInIt && !SpawnWeapon_L.leftWeapon.weaponInIt)
-                {
+                {                       
                     PV.RPC(nameof(DestroyGun), RpcTarget.All);
                     Debug.Log("¾ç¼Õ ³õ°í ÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
@@ -98,15 +91,15 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
             finally
             {
-                PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
             }
         }
-        /*else
+        *//*else
         {
             Debug.Log("ÃÑÀÌ ÆÄ±«µÇÁö ¾Ê¾ÒÀ½");
-        }*/
+        }*//*
 
-    }
+    }*/
 
 
     public void GetTarget()
@@ -132,13 +125,13 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
-            audioSource.Play();
-            muzzleFlash.Play();
+            PV.RPC("PunFire", RpcTarget.All);
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
+            /*audioSource.Play();
+            muzzleFlash.Play();*/
         }
     }
 
@@ -176,18 +169,12 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         audioSource.Play();
         muzzleFlash.Play();
     }
-
-    /*[PunRPC]
-    public void DestroyGun_Delay()                  // ÃÑ ÆÄ±« ½Ã°£ µô·¹ÀÌ ¸Þ¼­µå
-    {
-        StartCoroutine(DestoryPN_Gun());
-    }*/
-
-    [PunRPC]
+  
+ /*  [PunRPC]
     public void DestroyGun()
     {
-        Destroy(gameObject);
-    }
+       PN.Destroy(PV.gameObject);
+    }*/
  /*   public IEnumerator DestoryPN_Gun()
     {
         yield return new WaitForSeconds(1f);

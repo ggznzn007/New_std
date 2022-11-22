@@ -26,6 +26,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     {
         LW = this;
     }
+
     private void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
@@ -50,9 +51,9 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         }
         return null;
     }
+
     private void OnTriggerStay(Collider coll)
-    {
-        //if (coll == null) return;
+    {        
         if (coll.CompareTag("ItemBox")
             && DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L)
             && SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
@@ -72,7 +73,6 @@ public class SpawnWeapon_LW : MonoBehaviourPun
                 return;
             }
         }
-
 
         if (coll.CompareTag("Bomb") &&
             DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))

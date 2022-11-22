@@ -13,21 +13,16 @@ using Random = UnityEngine.Random;
 public class EMP_Effect : MonoBehaviour
 {
     public CapsuleCollider coll;
-    [System.Obsolete]
-    private IEnumerator Start()
+    
+    private void Start()
     {
         StartCoroutine(CollOnOff());
-        yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
-        Destroy(gameObject);
+       
     }
     private void Awake()
     {
         coll = GetComponent<CapsuleCollider>();        
-    }
-    /*private void Start()
-    {
-        StartCoroutine(CollOnOff());
-    }*/
+    }  
 
     public IEnumerator CollOnOff()
     {
@@ -35,4 +30,11 @@ public class EMP_Effect : MonoBehaviour
         yield return new WaitForSeconds(0.004f);
         coll.enabled = false;        
     }
+
+    /*[System.Obsolete]
+    public IEnumerator DestroyEX()
+    {
+        yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
+        Destroy(gameObject);
+    }*/
 }

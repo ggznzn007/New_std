@@ -14,15 +14,10 @@ using Random = UnityEngine.Random;
 public class RevolverManager : MonoBehaviourPun, IPunObservable
 {
     public static RevolverManager RM;
-
     [Header("총알 프리팹")][SerializeField] GameObject bullet;
-
     [Header("총구 위치")][SerializeField] Transform firePoint;
-
     [Header("총알 속도")][SerializeField] float speed;
-
     [Header("총알 소유권")][SerializeField] bool isBulletMine;
-
     [Header("액터넘버")][SerializeField] int actorNumber;
 
     private RaycastHit hit;                          // 레이캐스트광선 히트
@@ -33,8 +28,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     private GameObject myBull;                       // 자기 총알    
     private float fireTime = 0;                      // 총알 딜레이 타임 
     private readonly float delayfireTime = 0.3f;    // 총알 딜레이 제한시간
-    private readonly float fireDistance = 1000f;     // 총알 비거리
-    //private XRController xt;
+    private readonly float fireDistance = 1000f;     // 총알 비거리   
     private bool triggerBtnR;
     private bool triggerBtnL;
     private Vector3 remotePos;
@@ -44,14 +38,13 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     {
         RM = this;
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출 
-        actorNumber = PV.OwnerActorNr;
-        //xt = (XRController)GameObject.FindObjectOfType(typeof(XRController));
+        actorNumber = PV.OwnerActorNr;        
         PN.UseRpcMonoBehaviourCache = true;
     }
 
@@ -62,15 +55,15 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
         }
-        // if (this.gameObject == null) return;
+       
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
-        WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
+        //WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
         ActivateHaptic();
         PV.RefreshRpcMonoBehaviourCache();
     }
 
-    public void WhenDead()
+   /* public void WhenDead()
     {
         if (!AvartarController.ATC.isAlive && PV.IsMine)
         {
@@ -79,8 +72,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     }
 
     private void OnCollisionStay(Collision collision)
-    {
-        //if (collision.collider == null) return;
+    {        
         if (collision.collider.CompareTag("Cube"))
         {
             try
@@ -106,10 +98,8 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             {
                 PV.RPC(nameof(DestroyRevol), RpcTarget.All);
             }
-
         }
-
-    }
+    }*/
 
     public void GetTarget()
     {
@@ -134,7 +124,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.AllViaServer);
+            PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
         }
     }
@@ -152,7 +142,6 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         {
             PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.LeftController);
         }
-
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -180,22 +169,10 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         audioSource.Play();
         muzzleFlash.Play();
     }
-
-    /* [PunRPC]
-     public void DestroyRevol_Delay()                  // 총 파괴 시간 딜레이 메서드
-     {
-         StartCoroutine(Destroy_Revol());
-     }*/
-
-    [PunRPC]
+   
+  /*  [PunRPC]
     public void DestroyRevol()
     {
         Destroy(gameObject);
-    }
-
-    /* public IEnumerator Destroy_Revol()
-     {
-         yield return new WaitForSeconds(1.3f);
-         Destroy(gameObject);
-     }*/
+    }*/
 }
