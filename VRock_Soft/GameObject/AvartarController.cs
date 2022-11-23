@@ -271,7 +271,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
-            PV.RPC(nameof(Damaged), RpcTarget.All, grenadePower);            
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);            
         }
     }
     public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
@@ -279,8 +279,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {            
-            PV.RPC(nameof(Damaged), RpcTarget.All, attackPowerH);            
-            PV.RPC(nameof(HeadShot), RpcTarget.All);
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);            
+            PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         }
     }
     public void NormalDamage()                                                // 일반 데미지
@@ -288,13 +288,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {            
-            PV.RPC(nameof(Damaged), RpcTarget.All, attackPower);            
-            PV.RPC(nameof(BodyShot), RpcTarget.All);
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPower);            
+            PV.RPC(nameof(BodyShot), RpcTarget.AllBuffered);
         }
     }
     public void Respawn()                                                     // 리스폰 메서드
     {
-        PV.RPC(nameof(RespawnPlayer), RpcTarget.All);
+        PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
@@ -376,7 +376,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                         PV.RPC(nameof(PlayerDeadW), RpcTarget.AllViaServer, team);
                     }
 
-                    PV.RPC(nameof(DeadPlayer), RpcTarget.All);                                      
+                    PV.RPC(nameof(DeadPlayer), RpcTarget.AllBuffered);                                      
                     Debug.Log("킬 성공");
                 }
             }

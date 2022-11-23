@@ -27,14 +27,10 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
         BrM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(this.gameObject, 1f);
-        PN.UseRpcMonoBehaviourCache = true;
+        Destroy(gameObject, 1.5f);
+      
     }
-
-    private void Update()
-    {
-        PV.RefreshRpcMonoBehaviourCache();
-    }
+  
     private void OnCollisionEnter(Collision collision)
     {
         if (!AvartarController.ATC.isAlive)
@@ -43,8 +39,8 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
         }
         
         if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet")
-            || collision.collider.CompareTag("Effect") || collision.collider.CompareTag("Revolver"))
-            && PV.IsMine) // 일반태그
+            || collision.collider.CompareTag("Effect") || collision.collider.CompareTag("Revolver")
+            || collision.collider.CompareTag("Bomb")) && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -58,17 +54,10 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
             transform.position = contact.point;
             Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(revolverImpact);            
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
+        }        
 
-        }
-
-        if (collision.collider.CompareTag("Bomb"))
-        {
-            rb.Sleep();
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-        }
-
-        if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam"))
+        if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam") && PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -81,11 +70,11 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(hitPlayer);
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);            
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);            
         }
 
 
-        if (collision.collider.CompareTag("Head"))
+        if (collision.collider.CompareTag("Head") && PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -98,9 +87,9 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.3f);           
             AudioManager.AM.PlaySE(hitPlayer);
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
         }
-        if (collision.collider.CompareTag("Body"))
+        if (collision.collider.CompareTag("Body") && PV.IsMine)
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -113,8 +102,13 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
 
             Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-        }       
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
+        }   
+
+        else
+        {
+            Destroy(gameObject, 1);
+        }
     }
 
 
@@ -126,9 +120,6 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void DestroyBullet()
-    {
-        Destroy(gameObject);
-    }
+    public void DestroyBullet()=> Destroy(gameObject);   
 
 }

@@ -32,7 +32,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         BM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        //Destroy(this.gameObject, 1f);
+        Destroy(gameObject, 1.5f);
         //PN.UseRpcMonoBehaviourCache = true;
         //OP.PoolDestroy(gameObject);
         // StartCoroutine(DestroyDelay());
@@ -53,8 +53,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         // 터지는 이펙트 보여지고
         if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet") 
              || collision.collider.CompareTag("Effect")|| collision.collider.CompareTag("Gun")
-             || collision.collider.CompareTag("Bomb"))
-             && PV.IsMine) // 일반태그
+             || collision.collider.CompareTag("Bomb")) && PV.IsMine) // 일반태그
         {
             // 충돌지점의 정보를 추출
             ContactPoint contact = collision.contacts[0];
@@ -67,11 +66,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             transform.position = contact.point;
             Destroy(effect, 0.3f);            
-            AudioManager.AM.PlaySE(bulletImpact);   
-            
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-            
-            
+            AudioManager.AM.PlaySE(bulletImpact);    
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
             //Enqueue(); // 큐 방식 총알 풀링 => 사용한 총알을 다시 큐에 넣기
             //OP.PoolDestroy(this.gameObject);
             // BulletPool.BulletPooling.ReturnBullet(); // 기존 풀링
@@ -93,9 +89,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.3f);            
-            AudioManager.AM.PlaySE(hitPlayer);           
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-            
+            AudioManager.AM.PlaySE(hitPlayer);            
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
         }
 
         if (collision.collider.CompareTag("Head") && PV.IsMine)
@@ -111,8 +106,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
 
             Destroy(effect, 0.3f);            
             AudioManager.AM.PlaySE(hitPlayer);
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
-            
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);            
         }
 
         if (collision.collider.CompareTag("Body") && PV.IsMine)
@@ -127,9 +121,13 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             var effect = Instantiate(exploreEffect, contact.point, rot);
 
             Destroy(effect, 0.3f);
-            AudioManager.AM.PlaySE(hitPlayer);
+            AudioManager.AM.PlaySE(hitPlayer);            
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
+        }
 
-            PV.RPC(nameof(DestroyBullet), RpcTarget.All);
+        else
+        {
+            Destroy(gameObject, 1);
         }
     }
 
@@ -143,11 +141,8 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
     }
 
     [PunRPC]
-    public void DestroyBullet()
-    {
-        Destroy(gameObject);      
-    }
-
+    public void DestroyBullet()=> Destroy(gameObject);
+    
     /* private void OnEnable()  //풀링할때 
       {
           // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);

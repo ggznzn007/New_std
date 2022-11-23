@@ -40,21 +40,18 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ 
-        actorNumber = PV.OwnerActorNr;
-        PN.UseRpcMonoBehaviourCache = true;
+        actorNumber = PV.OwnerActorNr;       
     }
 
     private void FixedUpdate()
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
         }
         GetTarget();
-        Reload();
-        //WhenDead();
-        PV.RefreshRpcMonoBehaviourCache();
+        Reload();       
     }
 
     /*public void WhenDead()
@@ -125,7 +122,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
-            PV.RPC("PunFire", RpcTarget.All);
+            PV.RPC(nameof(Fire_G), RpcTarget.All);
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// Áú·®Àû¿ë ¿¬¼ÓÀûÀÎ ÈûÀ» °¡ÇÔ
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
@@ -164,7 +161,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     }
 
     [PunRPC]
-    public void PunFire()
+    public void Fire_G()
     {
         audioSource.Play();
         muzzleFlash.Play();

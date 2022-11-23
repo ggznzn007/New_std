@@ -13,13 +13,13 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
 {
     public InputDevice targetDevice;
     public Renderer avatarLeftHand;
-    //public PhotonView PV;
+    public PhotonView PV;
     private Vector3 remotePos;
     private Quaternion remoteRot;
 
     void Start()
     {
-        //PV = GetComponent<PhotonView>();
+        PV = GetComponent<PhotonView>();
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
@@ -35,22 +35,22 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
     private void FixedUpdate()
     {
        // if (!photonView.IsMine) return;
-        if (!photonView.IsMine)
+        if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
         }
-        if (photonView.IsMine)
+        if (PV.IsMine)
         {
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
             {
                 if (griped)
                 {
-                    photonView.RPC(nameof(HideHand_L), RpcTarget.All, true);
+                    photonView.RPC(nameof(HideHand_L), RpcTarget.AllBuffered, true);
                 }
                 else
                 {
-                    photonView.RPC(nameof(HideHand_L), RpcTarget.All, false);
+                    photonView.RPC(nameof(HideHand_L), RpcTarget.AllBuffered, false);
                 }
             }
         }

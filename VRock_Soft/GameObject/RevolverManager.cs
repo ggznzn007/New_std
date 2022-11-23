@@ -45,22 +45,22 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출 
         actorNumber = PV.OwnerActorNr;        
-        PN.UseRpcMonoBehaviourCache = true;
+        //PN.UseRpcMonoBehaviourCache = true;
     }
 
     private void FixedUpdate()
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
         }
        
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
         //WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
         ActivateHaptic();
-        PV.RefreshRpcMonoBehaviourCache();
+        //PV.RefreshRpcMonoBehaviourCache();
     }
 
    /* public void WhenDead()
@@ -118,13 +118,13 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
+            PV.RPC(nameof(Fire_R), RpcTarget.All);
             //ActivateHaptic();
-            audioSource.Play();
-            muzzleFlash.Play();
+           /* audioSource.Play();
+            muzzleFlash.Play();*/
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
-            PV.RPC("PunFire", RpcTarget.All);
             fireTime = 0;
         }
     }
@@ -164,7 +164,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void PunFire()
+    public void Fire_R()
     {
         audioSource.Play();
         muzzleFlash.Play();
