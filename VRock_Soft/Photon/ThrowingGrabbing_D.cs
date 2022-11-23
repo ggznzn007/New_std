@@ -21,7 +21,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public bool isExplo;
     public string bombBeep;
     public string dm_Explo;
-    SelectionOutline outline = null;    
+    SelectionOutline outline = null;
 
     private void Awake()
     {
@@ -34,16 +34,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         rb = GetComponent<Rigidbody>();
         bCount = 0;
         outline = GetComponent<SelectionOutline>();
-       // PN.UseRpcMonoBehaviourCache = true;
     }
     private void Update()
     {
-       // PV.RefreshRpcMonoBehaviourCache();
         if (DataManager.DM.currentTeam != Team.ADMIN)
         {
-            //ThrowBomb();
-            PV.RPC(nameof(ThrowDM), RpcTarget.AllBufferedViaServer);
-        }       
+            ThrowDM();
+        }
         if (isBeingHeld)
         {
             bCount++;
@@ -57,66 +54,41 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
             rb.isKinematic = false;
             gameObject.layer = 6;
         }
-
     }
 
-    [PunRPC]
     public void ThrowDM()
     {
-
-        if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-           SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        if (!isBeingHeld && isExplo && bCount >= 1)
         {
-
-            if (!griped_R && !griped_L && isExplo && bCount >= 1) // 양손 모두 놓았을 때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_LW.LW.weaponInIt = false;
-                SpawnWeapon_RW.RW.weaponInIt = false;
-            }
-            if (!griped_R && griped_L && isExplo && bCount >= 1)              // 오른손만 놨을때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_RW.RW.weaponInIt = false;
-            }
-            if (griped_R && !griped_L && isExplo && bCount >= 1)             // 왼손만 놨을때
-            {
-                StartCoroutine(Explosion());
-                SpawnWeapon_LW.LW.weaponInIt = false;
-            }
-        }
+            StartCoroutine(ExploDM());
+        }       
     }
 
-    public IEnumerator Explosion()
+    public IEnumerator ExploDM()
     {
         AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        var exPlo = PN.InstantiateRoomObject(effect.name, transform.position, Quaternion.identity);
+        yield return StartCoroutine(DmEX());
+        Destroy(PV.gameObject);
+    }
+
+    public IEnumerator DmEX()
+    {
         AudioManager.AM.PlaySE(dm_Explo);
-        yield return new WaitForSeconds(0.1f);
-        PN.Destroy(exPlo);
-        PV.RPC(nameof(ExploBomb), RpcTarget.AllBufferedViaServer);
+        PN.Instantiate(effect.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.001f);
     }
 
     [PunRPC]
-    public void ExploBomb()
+    public void Grab_DM()
     {
-        Destroy(gameObject);
+        isBeingHeld = true;
     }
 
-    private void TransferOwnership()
+    [PunRPC]
+    public void Put_DM()
     {
-        PV.RequestOwnership();
-    }
-
-    public void OnHoverEntered()
-    {
-        outline.Highlight();
-    }
-
-    public void OnHoverExited()
-    {
-        outline.RemoveHighlight();
+        isBeingHeld = false;
     }
 
     public void OnSelectedEntered()
@@ -130,13 +102,12 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         else
         {
             TransferOwnership();
-        }       
+        }
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-
         PV.RPC(nameof(Put_DM), RpcTarget.AllBuffered);
     }
 
@@ -158,16 +129,18 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     }
 
-    [PunRPC]
-    public void Grab_DM()
+    private void TransferOwnership()
     {
-        isBeingHeld = true;
+        PV.RequestOwnership();
     }
 
-    [PunRPC]
-    public void Put_DM()
+    public void OnHoverEntered()
     {
-        isBeingHeld = false;
-    }      
+        outline.Highlight();
+    }
 
+    public void OnHoverExited()
+    {
+        outline.RemoveHighlight();
+    }
 }

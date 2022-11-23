@@ -38,7 +38,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         {            
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnDynamite), 20, 15);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
+                InvokeRepeating(nameof(SpawnDynamite), 5, 25);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
             }
             SpawnPlayer();
 
@@ -106,7 +106,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-            PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+            PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
    

@@ -20,12 +20,12 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public bool isExplo;
     private AudioSource audioSource;                 // 총알 발사 소리
     public string bombBeep;
-    public string emp_Explo;   
+    public string emp_Explo;
     SelectionOutline outline = null;
-    
+
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();        
+        PV = GetComponent<PhotonView>();
         isExplo = false;                    // 처음 폭탄에 생성되었을 때 폭발을 막음  
     }
 
@@ -34,103 +34,81 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         rb = GetComponent<Rigidbody>();
         bCount = 0;
         outline = GetComponent<SelectionOutline>();
-        //PN.UseRpcMonoBehaviourCache = true;
     }
 
     private void Update()
     {
-        //PV.RefreshRpcMonoBehaviourCache();
         if (DataManager.DM.currentTeam != Team.ADMIN)
-        {           
-            ThrowBomb();            
-        }       
+        {
+            ThrowBomb();
+        }
         if (isBeingHeld)
         {
             bCount++;
             isExplo = false;
             rb.isKinematic = true;
-            
-            gameObject.layer = 7;          
+            gameObject.layer = 7;
         }
 
         else
         {
             isExplo = true;
             rb.isKinematic = false;
-            //rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-            gameObject.layer = 6;            
+            gameObject.layer = 6;
         }
     }
 
-    
     public void ThrowBomb()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        if (!isBeingHeld && isExplo && bCount >= 1)
         {
-
-            if (!griped_R && !griped_L && isExplo && bCount >= 1)
-            {
-                if (PV.IsMine)
-                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);                
-                SpawnWeapon_L.leftWeapon.weaponInIt = false;
-                SpawnWeapon_R.rightWeapon.weaponInIt = false;
-            }
-            if (!griped_R && griped_L && isExplo && bCount >= 1)
-            {
-                if (PV.IsMine)
-                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);
-                SpawnWeapon_R.rightWeapon.weaponInIt = false;
-            }
-            if (griped_R && !griped_L && isExplo && bCount >= 1)
-            {
-                if (PV.IsMine)
-                    PV.RPC(nameof(ExploBomb), RpcTarget.AllBuffered);
-                SpawnWeapon_L.leftWeapon.weaponInIt = false;
-            }
-        }
+            StartCoroutine(ExploEMP());
+        }        
     }
 
-    
-    public IEnumerator Explosion()
+    public IEnumerator ExploEMP()
     {
         AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        AudioManager.AM.PlaySE(emp_Explo);        
-        PN.InstantiateRoomObject(effect.name, transform.position, Quaternion.identity);       
-        Destroy(gameObject);
-        //yield return new WaitForSeconds(0.1f);               
-        //PN.Destroy(exPlo);
+        yield return StartCoroutine(EmpEX());
+        Destroy(PV.gameObject);
     }
 
-    [PunRPC]
+    public IEnumerator EmpEX()
+    {
+        AudioManager.AM.PlaySE(emp_Explo);
+        PN.Instantiate(effect.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.001f);
+    }
+
+    /*[PunRPC]
     public void ExploBomb()
     {
         StartCoroutine(Explosion());        
-    }
-
-    private void TransferOwnership()
+    }*/
+    /* [PunRPC]
+     public void DestroyEMP()
+     {
+         Destroy(PV.gameObject);
+     }*/
+    [PunRPC]
+    public void Grab_EMP()
     {
-        PV.RequestOwnership();
+        isBeingHeld = true;
     }
 
-    public void OnHoverEntered()
-    {        
-        outline.Highlight();
-    }
-
-    public void OnHoverExited()
+    [PunRPC]
+    public void Put_EMP()
     {
-        
-        outline.RemoveHighlight();
+        isBeingHeld = false;
     }
     public void OnSelectedEntered()
-    {        
+    {
         Debug.Log("잡았다");
-        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);        
+        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);
         if (PV.Owner == PN.LocalPlayer)
-        {            
-            Debug.Log("이미 소유권이 나에게 있습니다.");            
+        {
+            Debug.Log("이미 소유권이 나에게 있습니다.");
         }
         else
         {
@@ -139,7 +117,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     public void OnSelectedExited()
-    {        
+    {
         Debug.Log("놓았다");
         PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
     }
@@ -161,15 +139,20 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     }
 
-    [PunRPC]
-    public void Grab_EMP()
+    private void TransferOwnership()
     {
-        isBeingHeld = true;
+        PV.RequestOwnership();
     }
 
-    [PunRPC]
-    public void Put_EMP()
+    public void OnHoverEntered()
     {
-        isBeingHeld = false;
-    }   
+        outline.Highlight();
+    }
+
+    public void OnHoverExited()
+    {
+        outline.RemoveHighlight();
+    }
+
+
 }

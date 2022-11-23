@@ -42,7 +42,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         {
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnBomb), 20, 20);             // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
+                InvokeRepeating(nameof(SpawnBomb), 10, 25);            
             }
 
             switch (PN.CurrentRoom.PlayerCount)
@@ -149,7 +149,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-           bomBs = PN.Instantiate(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
     

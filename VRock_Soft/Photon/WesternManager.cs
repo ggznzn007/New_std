@@ -74,7 +74,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             if (PN.IsMasterClient)
             {
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);
-                PN.Instantiate(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
+                PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
                 //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
                
             }

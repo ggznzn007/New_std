@@ -161,8 +161,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     void FixedUpdate()
     {
         SetScore();
-        Timer();
-       // PV.RefreshRpcMonoBehaviourCache();
+        Timer();       
     }
 
     public void SetScore()
