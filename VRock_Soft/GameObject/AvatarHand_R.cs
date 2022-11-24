@@ -11,10 +11,11 @@ using PN = Photon.Pun.PN;
 public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 손 관리하는 스크립트
 {
     public InputDevice targetDevice;
-    public Renderer avatarRightHand;
+    public MeshRenderer avatarRightHand;
     public PhotonView PV;
     private Vector3 remotePos;
     private Quaternion remoteRot;
+
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -22,50 +23,60 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
-        avatarRightHand = GetComponentInChildren<Renderer>();
+        avatarRightHand = GetComponentInChildren<MeshRenderer>();
 
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
-        }        
+        }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // if (!photonView.IsMine) return;
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 20 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 20 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
         }
-        if (PV.IsMine)
-        {               
-            if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+
+
+        if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        {
+            if(PV.IsMine)
             {
                 if (griped)
                 {
-                    photonView.RPC(nameof(HideHand_R), RpcTarget.AllBuffered, true);
+                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
                 }
                 else
                 {
-                    photonView.RPC(nameof(HideHand_R), RpcTarget.AllBuffered, false);
+                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
                 }
-            }         
+            }
+            
         }
+
     }
 
     [PunRPC]
-    public void HideHand_R(bool isGrip)
+    public void HandHide_R(bool grip)
     {
-        if (isGrip)
+        if (grip)
         {
-            avatarRightHand.forceRenderingOff = true;            
+            avatarRightHand.forceRenderingOff = grip;
         }
         else
         {
-            avatarRightHand.forceRenderingOff = false;            
+            avatarRightHand.forceRenderingOff = grip;
         }
     }
+
+    /*[PunRPC]
+    public void HandBye(bool grip)
+    {
+        avatarRightHand.forceRenderingOff = grip;
+    }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -73,15 +84,14 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation); 
-
+            stream.SendNext(transform.rotation);
+            stream.SendNext(avatarRightHand.forceRenderingOff);
         }
-        else 
+        else
         {
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
-            //transform.position=(Vector3)stream.ReceiveNext();
-           //transform.rotation=(Quaternion)stream.ReceiveNext();
+            avatarRightHand.forceRenderingOff = (bool)stream.ReceiveNext();
         }
     }
 

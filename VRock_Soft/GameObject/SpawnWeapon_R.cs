@@ -18,7 +18,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
     public bool weaponInIt = false;
-    private GameObject myGun;
+    private GameObject myGun;    
     
     private void Awake()
     {
@@ -30,8 +30,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
-        
+        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);               
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
@@ -48,7 +47,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         }
         return null;
     }
-
+    
     private void OnTriggerStay(Collider coll)
     {
         //if(coll == null) return;
@@ -61,7 +60,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             {
                 if (myGun != null) { return; }
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;
+                weaponInIt = true;                
                 return;
             }
 
@@ -70,13 +69,13 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             {
                 if (myGun != null) { return; }
                 myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;
+                weaponInIt = true;                
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 return;
             }
 
             else
-            {
+            {                
                 weaponInIt = false;
                 return;
             }
@@ -101,20 +100,20 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             }
         }
     }
-    
-    /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-     {
-         if (stream.IsWriting)
-         {
-             stream.SendNext(transform.position);
-             stream.SendNext(transform.rotation);
-         }
-         else
-         {
-             attachPoint.position = (Vector3)stream.ReceiveNext();
-             attachPoint.rotation = (Quaternion)stream.ReceiveNext();
-         }
-     }*/
+
+  /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+        }
+    }*/
 
     /* myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                         weaponInIt = true;
