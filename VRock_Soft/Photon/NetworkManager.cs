@@ -32,8 +32,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("서버 접속창")]
     [SerializeField] RectTransform connectUI;
 
-    [Header("유저 닉네임")]
-    public TMP_InputField nick;
+    //[Header("유저 닉네임")]
+    //public TMP_InputField nick;
 
     [Header("로컬플레이어")]
     [SerializeField] GameObject localPlayer;

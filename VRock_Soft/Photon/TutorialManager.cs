@@ -29,7 +29,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        TM = this;
+        TM = this;        
     }
 
     private void Start()
@@ -92,12 +92,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
 
     private void Update()
-    {
+    {        
         if (PN.InRoom && PN.IsMasterClient)
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)  // 윈도우 빌드
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {  PN.LoadLevel(2); }
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {  PN.LoadLevel(2);  }
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -112,18 +112,20 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         switch (DataManager.DM.currentTeam)
         {
             case Team.RED:
-                PN.AutomaticallySyncScene = true;
+                PN.AutomaticallySyncScene = true;                
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                StartCoroutine(DeleteBullet());
                 Info();
                 break;
 
             case Team.BLUE:
-                PN.AutomaticallySyncScene = true;
+                PN.AutomaticallySyncScene = true;                
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
+                StartCoroutine(DeleteBullet());
                 Info();
                 break;
            
@@ -131,7 +133,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
-                    PN.AutomaticallySyncScene = true;
+                    PN.AutomaticallySyncScene = true;                    
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
@@ -145,6 +147,11 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
     }
 
+    IEnumerator DeleteBullet()
+    {
+        yield return new WaitForSeconds(0.3f);
+        foreach (GameObject bull in GameObject.FindGameObjectsWithTag("Bullet")) bull.GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
+    }
     public void SpawnBomb()
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
