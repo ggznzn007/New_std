@@ -33,7 +33,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     {       
         if (isBeingHeld)               // 총의 입장에서 손에 잡혀있음
         {
-            isGrip = true ;
+            isGrip = true;
             rb.isKinematic = true;
             this.gameObject.layer = 7;           
         }
