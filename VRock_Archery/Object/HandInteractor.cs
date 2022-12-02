@@ -13,6 +13,11 @@ public class HandInteractor : XRDirectInteractor
         }
     }
 
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        base.OnHoverEntered(args);
+    }
+
     public void ForceInteract(SelectEnterEventArgs interactable)
     {
         OnSelectEntered(interactable);
