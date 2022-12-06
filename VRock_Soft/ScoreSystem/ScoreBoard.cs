@@ -23,9 +23,6 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
     //public List<PlayerStats> playerList;
     Dictionary<Player, ScoreBoard_Member> members = new Dictionary<Player, ScoreBoard_Member>();
 
-  
-
-
     private void Start()
     {
         //foreach (Player player in PN.PlayerList.ToArray())
