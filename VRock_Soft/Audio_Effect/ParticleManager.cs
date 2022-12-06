@@ -12,10 +12,5 @@ public class ParticleManager : MonoBehaviour
         particle = GetComponent<ParticleSystem>();
         gameEffects = new ParticleSystem.Particle[particle.main.maxParticles];
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
