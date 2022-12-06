@@ -48,6 +48,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public string gameover;
     public int kills;    
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
+    public Image gameOverImage;
     public Image bluewinImg;
     public Image redwinImg;
     public Image blueloseImg;
@@ -165,10 +166,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
             limitedTime = limitedTime < 0 ? 0 : limitedTime;
             float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
             float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
-            timerText.text = string.Format("{0:00}분 {1:00}초", min, sec);
+            timerText.text = string.Format("{0:00} : {1:00}", min, sec);
             if (limitedTime < 60)
             {
-                timerText.text = string.Format("{0:0}초", sec);
+                timerText.text = string.Format("{0:0}", sec);
             }
             if (PN.IsMasterClient)
             {
@@ -254,16 +255,18 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public IEnumerator LeaveGame()
     {
-        timerText.gameObject.SetActive(false);
-        countText.gameObject.SetActive(true);
+        timerText.gameObject.SetActive(false);        
         DataManager.DM.inGame = false;
         AudioManager.AM.PlaySE("Gameover");
-        countText.text = string.Format("GAME OVER");
+        gameOverImage.gameObject.SetActive(true);
+        //countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(2);
         VictoryTeam();
         yield return new WaitForSeconds(3);
         AudioManager.AM.PlaySE("GameInfo7");
+        gameOverImage.gameObject.SetActive(false);
         yield return new WaitForSeconds(3);
+        countText.gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo8");
         countText.text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");
         yield return new WaitForSeconds(5);
@@ -276,7 +279,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (score_BlueKill > score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo4");
-            countText.text = string.Format("블루팀이 승리하였습니다");
+            //countText.text = string.Format("블루팀이 승리하였습니다");
             blueScore.gameObject.SetActive(false);
             redScore.gameObject.SetActive(false);
             bluewinImg.gameObject.SetActive(true);
@@ -286,7 +289,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         else if (score_BlueKill < score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo5");
-            countText.text = string.Format("레드팀이 승리하였습니다");
+            //countText.text = string.Format("레드팀이 승리하였습니다");
             blueScore.gameObject.SetActive(false);
             redScore.gameObject.SetActive(false);
             blueloseImg.gameObject.SetActive(true);
@@ -295,7 +298,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         else if (score_BlueKill == score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo6");
-            countText.text = string.Format("무승부입니다");
+           // countText.text = string.Format("무승부입니다");
             blueScore.gameObject.SetActive(false);
             redScore.gameObject.SetActive(false);
             bluedrawImg.gameObject.SetActive(true);
