@@ -42,7 +42,7 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public bool isSelected;   // 팀을 선택했는지 여부
 
-    public bool inGame;       // 게임 중인지 여부
+    public bool inGame;       // 게임 중인지 여부    
 
     public bool grabBomb;     // 폭탄을 집었는지 여부
 
@@ -50,14 +50,11 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public string nickName;
 
-    public int teamInt;       // 팀 숫자
+    public int teamInt;       // 팀 숫자 0=블루팀, 1=레드팀
     private void Awake()
     {
         if (DM == null) DM = this;
         else if (DM != null) return;
         DontDestroyOnLoad(gameObject);
     }
-
-  
-    
 }
