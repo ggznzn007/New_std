@@ -38,8 +38,9 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         {
             DeviceL = devices[0];
         }
-        DataManager.DM.grabGun = false;
-        DataManager.DM.grabBomb = false;
+        weaponInIt = false;
+        // DataManager.DM.grabGun = false;
+        //  DataManager.DM.grabBomb = false;
     }
 
     public RevolverManager FindGun()
@@ -55,14 +56,31 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     private void OnTriggerStay(Collider coll)
     {        
         if (coll.CompareTag("ItemBox")
-            && DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L)
-            && SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
+            && DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+            //&& SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
-            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       // 양손에 아무것도 없을때
+            if (photonView.IsMine)// &&photonView.AmOwner)
+            {
+                if(griped_L&&!weaponInIt&& AvartarController.ATC.isAlive)
+                {
+                    if (weaponInIt) { return; }//if (myGun != null) { return; }
+                    RevolverManager revolver = SpawnGun(attachPoint);
+                    myGun = revolver.gameObject;
+                    weaponInIt = true;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    return;
+                }
+            }
+            /*if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       
                  && AvartarController.ATC.isAlive)
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);               
+                if (weaponInIt) { return; }//if (myGun != null) { return; }
+                var revolver = SpawnGun(attachPoint);
+                myGun = revolver.gameObject;                               
                 weaponInIt = true;
                 return;
             }
@@ -71,24 +89,43 @@ public class SpawnWeapon_LW : MonoBehaviourPun
             {
                 weaponInIt = false;
                 return;
-            }
+            }*/
         }
 
         if (coll.CompareTag("Bomb") &&
-            DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))
+            DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))            
         {
-            if (griped_L3 && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
+            if(photonView.IsMine)// &&photonView.AmOwner)
             {
+                if(griped_L3&&!weaponInIt&& AvartarController.ATC.isAlive)
+                {
+                    if (weaponInIt) { return; }
+                    weaponInIt = true;
+                }
+                else
+                {
+                    weaponInIt = false;
+                }
+            }
+            /*if (griped_L3 && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive)// && !DataManager.DM.grabBomb)
+            {
+                if (weaponInIt) { return; }
                 weaponInIt = true;
-                DataManager.DM.grabBomb = true;
+                //DataManager.DM.grabBomb = true;
             }
 
             else
             {
                 weaponInIt = false;
-                DataManager.DM.grabBomb = false;
-            }
+                //DataManager.DM.grabBomb = false;
+            }*/
         }
+    }
+
+    private RevolverManager SpawnGun(Transform attachPoint)
+    {
+        myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+        return myGun.GetComponent<RevolverManager>();
     }
 }

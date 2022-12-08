@@ -17,7 +17,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
-    public bool weaponInIt = false;
+    public bool weaponInIt;
     private GameObject myGun;    
     
     private void Awake()
@@ -36,6 +36,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             targetDevice = devices[0];
         }
         DataManager.DM.grabBomb = false;
+        weaponInIt = false;
     }   
 
     public GunManager FindGun()
@@ -49,17 +50,45 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     }
     
     private void OnTriggerStay(Collider coll)
-    {
-        //if(coll == null) return;
+    {        
         if (coll.CompareTag("ItemBox") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
-            if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+            if(photonView.IsMine)
+            {
+                if(griped_R&&!griped_L&&!weaponInIt&& AvartarController.ATC.isAlive)
+                {
+                    if (weaponInIt) { return; }//if (myGun != null) { return; }
+                    var gun = SpawnGun(attachPoint);
+                    myGun = gun.gameObject;
+                    // myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
+                    weaponInIt = true;
+                    return;
+                }
+                if(griped_R && !griped_L && !weaponInIt && AvartarController.ATC.isAlive&& DataManager.DM.grabBomb)
+                {
+                    if (weaponInIt) { return; }//if (myGun != null) { return; }
+                    var gun = SpawnGun(attachPoint);
+                    myGun = gun.gameObject;
+                    //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
+                    weaponInIt = true;
+                    SpawnWeapon_L.leftWeapon.weaponInIt = false;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    return;
+                }
+            }
+            /*if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
+                if (weaponInIt) { return; }//if (myGun != null) { return; }
+                var gun = SpawnGun(attachPoint);
+                myGun = gun.gameObject;
+               // myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
                 weaponInIt = true;                
                 return;
             }
@@ -67,8 +96,10 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                  && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
+                if (weaponInIt) { return; }//if (myGun != null) { return; }
+                var gun = SpawnGun(attachPoint);
+                myGun = gun.gameObject;
+                //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
                 weaponInIt = true;                
                 SpawnWeapon_L.leftWeapon.weaponInIt = false;
                 return;
@@ -78,16 +109,33 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
             {                
                 weaponInIt = false;
                 return;
-            }
+            }*/
         }
 
         if (coll.CompareTag("Bomb") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2) &&
             SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
         {
-            if (griped_R2 && griped_L2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
+            if(photonView.IsMine)
+            {
+                if(griped_R2 && griped_L2 && !weaponInIt && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
+                {
+                    if (weaponInIt) { return; }
+                    weaponInIt = true;
+                    DataManager.DM.grabBomb = true;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    DataManager.DM.grabBomb = false;
+                    return;
+                }
+            }
+          /*  if (griped_R2 && griped_L2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
             {
+                if (weaponInIt) { return; }
                 weaponInIt = true;
                 DataManager.DM.grabBomb = true;
                 return;
@@ -97,23 +145,29 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 weaponInIt = false;
                 DataManager.DM.grabBomb = false;
                 return;
-            }
+            }*/
         }
     }
 
-  /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private GunManager SpawnGun(Transform attachPoint)
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
-        }
-    }*/
+        myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+        return myGun.GetComponent<GunManager>();
+    }
+
+    /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+      {
+          if (stream.IsWriting)
+          {
+              stream.SendNext(transform.position);
+              stream.SendNext(transform.rotation);
+          }
+          else
+          {
+              remotePos = (Vector3)stream.ReceiveNext();
+              remoteRot = (Quaternion)stream.ReceiveNext();
+          }
+      }*/
 
     /* myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
                         weaponInIt = true;
