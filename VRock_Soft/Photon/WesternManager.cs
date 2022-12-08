@@ -79,7 +79,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
                
             }
-          /*  if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
+            /*if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }*/

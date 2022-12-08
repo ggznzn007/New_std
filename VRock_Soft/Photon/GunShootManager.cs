@@ -126,7 +126,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
           
             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)// || Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;

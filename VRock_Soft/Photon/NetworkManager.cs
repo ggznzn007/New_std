@@ -108,7 +108,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
 
             // 유니티 에디터에서 재생 시
-           /* if (Application.platform == RuntimePlatform.WindowsEditor)
+         /*   if (Application.platform == RuntimePlatform.WindowsEditor)
             {
                 ad_ConnectUI.gameObject.SetActive(false);
             }*/
@@ -314,9 +314,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }                */
+                }*/
 
-                 // 윈도우 프로그램 빌드 시
+                // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
@@ -327,12 +327,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case 4:
                 InitTutoW();
                 // 유니티 에디터에서 재생 시
-            /*    if (Application.platform == RuntimePlatform.WindowsEditor)
+               /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }               */
-                 // 윈도우 프로그램 빌드 시
+                }*/
+                // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
@@ -357,8 +357,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 {
                     ad_ToyUI.gameObject.SetActive(true);
                 }*/
-              
-                 // 윈도우 프로그램 빌드 시                
+
+                // 윈도우 프로그램 빌드 시                
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ToyUI.gameObject.SetActive(true);
@@ -385,7 +385,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_WesternUI.gameObject.SetActive(false);
                     InitAdmin(2);
                 }*/
-                 // 윈도우 프로그램 빌드 시
+                // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
@@ -417,10 +417,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case Map.TUTORIAL_T:
                 //teamSelectUI_T.gameObject.SetActive(false);
                 // 유니티 에디터에서 재생 시
-               /* if (Application.platform == RuntimePlatform.WindowsEditor)
+              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ToyUI.gameObject.SetActive(false);
-                }     */         
+                }*/
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -436,11 +436,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case Map.TUTORIAL_W:
                 teamSelectUI_W.gameObject.SetActive(false);
                 // 유니티 에디터에서 재생 시
-               /* if (Application.platform == RuntimePlatform.WindowsEditor)
+              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
                 }*/
-                 // 윈도우 프로그램 빌드 시
+                // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);

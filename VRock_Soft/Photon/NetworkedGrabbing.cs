@@ -16,33 +16,33 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     Rigidbody rb;
     public bool isBeingHeld = false;
     public bool isGrip;
-    
+
     private void Awake()
     {
         NG = this;
-        PV = GetComponent<PhotonView>(); 
+        PV = GetComponent<PhotonView>();
         isGrip = true;
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();        
+        rb = GetComponent<Rigidbody>();
     }
-   
+
     private void FixedUpdate()
-    {       
+    {
         if (isBeingHeld)               // 총의 입장에서 손에 잡혀있음
         {
             isGrip = true;
             rb.isKinematic = true;
-            this.gameObject.layer = 7;           
+            this.gameObject.layer = 7;
         }
         else
-        {      
+        {
             isGrip = false;
             rb.isKinematic = false;
-            this.gameObject.layer = 6;         
-        }       
+            this.gameObject.layer = 6;
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -50,28 +50,36 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
         {
             try
             {
-                if (!isBeingHeld && !isGrip)
+                if (PV.IsMine)
                 {
-                    if (PV.IsMine)
+                    if (!isBeingHeld && !isGrip)
                     {
-                        PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
+                        PhotonView target = collision.gameObject.GetComponent<PhotonView>();
+                        if(target)
+                        {
+                            target.GetComponent<PhotonView>().RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
+                        }                       
+                        
+                        //PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
                     }
                 }
             }
             finally
             {
-                if (PV.IsMine)
+                PhotonView target = collision.gameObject.GetComponent<PhotonView>();
+                if (target)
                 {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
+                    target.GetComponent<PhotonView>().RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
                 }
+
             }
         }
-    }
+    }   
 
     [PunRPC]
     public void DestroyGun()
     {
-        Destroy(PV.gameObject);
+        PN.Destroy(gameObject);
     }
 
     [PunRPC]
@@ -89,15 +97,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다\n레이어 = Inhand");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
-       /* if (PV.Owner == PN.LocalPlayer)
-        {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
-        }
-        else
-        {
-            TransferOwnership();
-        }*/
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);      
     }
 
     public void OnSelectedExited()
@@ -106,32 +106,32 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
-/*    private void TransferOwnership()
-    {
-        PV.RequestOwnership();
-    }
-
-    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
-    {
-        if (targetView != PV)
+    /*    private void TransferOwnership()
         {
-            return;
+            PV.RequestOwnership();
         }
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-        PV.TransferOwnership(requestingPlayer);
-    }
 
-    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
-    {
-        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
-    }
+        public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+        {
+            if (targetView != PV)
+            {
+                return;
+            }
+            Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+            PV.TransferOwnership(requestingPlayer);
+        }
 
-    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
-    {
+        public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+        {
+            Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+        }
 
-    }
-*/
-    
+        public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+        {
+
+        }
+    */
+
 
 
 }
