@@ -11,7 +11,7 @@ using PN = Photon.Pun.PN;
 
 public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public InputDevice targetDevice;
+    //public InputDevice targetDevice;
     public MeshRenderer avatarLeftHand;
     public PhotonView PV;
     private Vector3 remotePos;
@@ -20,59 +20,93 @@ public class AvatarHand_L : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        List<InputDevice> devices = new List<InputDevice>();
-        InputDeviceCharacteristics leftControllerCharacteristics =
-            InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
+        /*  List<InputDevice> devices = new List<InputDevice>();
+          InputDeviceCharacteristics leftControllerCharacteristics =
+              InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
+          InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);*/
         avatarLeftHand = GetComponentInChildren<MeshRenderer>();
-
-        if (devices.Count > 0)
-        {
-            targetDevice = devices[0];
-        }
+        /*
+                if (devices.Count > 0)
+                {
+                    targetDevice = devices[0];
+                }*/
     }
 
     private void Update()
     {
-        if (!PV.IsMine)
+       /* if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
-        }
-        if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        }*/
+
+        if (PV.IsMine)
         {
-            if (PV.IsMine)
+            if (DataManager.DM.currentMap == Map.TUTORIAL_T || DataManager.DM.currentMap == Map.TOY)
             {
-                if (griped)
+                if (SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
                 {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
-                }
-                else
-                {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
+                    if (griped)
+                    {
+                        PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, true);
+                    }
+                    else
+                    {
+                        PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, false);
+                    }
                 }
             }
+
+            if (DataManager.DM.currentMap == Map.TUTORIAL_W || DataManager.DM.currentMap == Map.WESTERN)
+            {
+                if (SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped2))
+                {
+                    if (griped2)
+                    {
+                        PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, true);
+                    }
+                    else
+                    {
+                        PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, false);
+                    }
+                }
+            }
+
         }
+        /* if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+         {
+             if (PV.IsMine)
+             {
+                 if (griped)
+                 {
+                     PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, true);
+                 }
+                 else
+                 {
+                     PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, false);
+                 }
+             }
+         }*/
     }
 
     [PunRPC]
     public void HandHide_L(bool grip)
     {
-        if(grip)
+        if (grip)
         {
-            avatarLeftHand.forceRenderingOff = grip;
+            avatarLeftHand.forceRenderingOff = true;
         }
         else
         {
-            avatarLeftHand.forceRenderingOff = grip;
-        }        
+            avatarLeftHand.forceRenderingOff = false;
+        }
     }
 
-   /* [PunRPC]
-    public void HandBye(bool grip)
-    {
-        avatarLeftHand.forceRenderingOff = grip;
-    }*/
+    /* [PunRPC]
+     public void HandBye(bool grip)
+     {
+         avatarLeftHand.forceRenderingOff = grip;
+     }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
