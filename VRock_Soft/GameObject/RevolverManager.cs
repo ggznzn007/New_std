@@ -32,7 +32,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     private bool triggerBtnR;
     private bool triggerBtnL;
     private Vector3 remotePos;
-    private Quaternion remoteRot;   
+    private Quaternion remoteRot;
 
     private void Awake()
     {
@@ -44,8 +44,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         PV = GetComponent<PhotonView>();
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // 하위 컴포넌트 추출 
-        actorNumber = PV.OwnerActorNr;        
-        //PN.UseRpcMonoBehaviourCache = true;
+        actorNumber = PV.OwnerActorNr;     
     }
 
     private void FixedUpdate()
@@ -59,8 +58,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
         //WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
-        //ActivateHaptic();
-        //PV.RefreshRpcMonoBehaviourCache();
+        ActivateHaptic();        
     }
 
    /* public void WhenDead()
@@ -119,9 +117,9 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         {
             if (fireTime < delayfireTime) { return; }
             PV.RPC(nameof(Fire_R), RpcTarget.All);
-            
-            /* audioSource.Play();
-             muzzleFlash.Play();*/
+            //ActivateHaptic();
+           /* audioSource.Play();
+            muzzleFlash.Play();*/
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
@@ -129,11 +127,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         }
     }
 
-    public void ActivateHaptic()
+    void ActivateHaptic()
     {    // 앞에 수는 진동의 진폭
          // 뒤에 수는 진동의 강도
          // xt.SendHapticImpulse(0.2f, 0.3f); //오큘러스
-        
+
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
         {
             PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
@@ -169,5 +167,10 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         audioSource.Play();
         muzzleFlash.Play();
     }
-
+   
+  /*  [PunRPC]
+    public void DestroyRevol()
+    {
+        Destroy(gameObject);
+    }*/
 }

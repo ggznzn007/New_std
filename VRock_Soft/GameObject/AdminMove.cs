@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using UnityEngine.UI;
+using PN = Photon.Pun.PN;
+using TMPro;
 
-public class AdminMove : MonoBehaviour
+
+public class AdminMove : MonoBehaviourPun
 {
     private float moveSpeed = 5f;
     public TMP_Text blueScore;

@@ -37,7 +37,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         {
             DeviceR = devicesR[0];
         }
-        weaponInIt = false;
+
        // DataManager.DM.grabGun = false;
        // DataManager.DM.grabBomb = false;
     }
@@ -57,43 +57,31 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
             //&& SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
         {
-            if(photonView.IsMine)//&photonView.AmOwner)
+            if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner      
+                && AvartarController.ATC.isAlive)
             {
-                if(griped_R && !weaponInIt && AvartarController.ATC.isAlive)
-                {
-                    if (weaponInIt) { return; }// if (myGun != null) { return; }
-                    RevolverManager revolver = SpawnGun(attachPoint);
-                    myGun = revolver.gameObject;
-                    weaponInIt = true;
-                    return;
-                }
-                else
-                {
-                    weaponInIt = false;
-                    return;
-                }
-            }            
+                if (weaponInIt) { return; }// if (myGun != null) { return; }
+                RevolverManager revolver = SpawnGun(attachPoint);
+                AudioManager.AM.PlaySE("GrabRevo");
+                myGun = revolver.gameObject;
+                //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
+                weaponInIt = true;
+                return;
+            }
+
+            else
+            {
+                weaponInIt = false;
+                return;
+            }
         }
 
         if (coll.CompareTag("Bomb") &&
             DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
         {
-            if(photonView.IsMine)//&&photonView.AmOwner)
-            {
-                if(griped_R3&&!weaponInIt&& AvartarController.ATC.isAlive)
-                {
-                    if (weaponInIt) { return; }
-                    weaponInIt = true;
-                }
-                else
-                {
-                    weaponInIt = false;
-                }
-            }
-            /*if (griped_R3 && photonView.IsMine && photonView.AmOwner
+            if (griped_R3 && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive )//&& !DataManager.DM.grabBomb)
             {
-                if (weaponInIt) { return; }
                 weaponInIt = true;
                 //DataManager.DM.grabBomb = true;
             }
@@ -101,8 +89,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
             else
             {
                 weaponInIt = false;
-               // DataManager.DM.grabBomb = false;
-            }*/
+                //DataManager.DM.grabBomb = false;
+            }
         }
     }
 

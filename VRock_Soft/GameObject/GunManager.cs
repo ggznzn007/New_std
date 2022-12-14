@@ -38,18 +38,17 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     private void Start()
     {
         PV = GetComponent<PhotonView>();
-        
         audioSource = GetComponent<AudioSource>();
         muzzleFlash = firePoint.GetComponentInChildren<ParticleSystem>();  // ÇÏÀ§ ÄÄÆ÷³ÍÆ® ÃßÃâ 
         actorNumber = PV.OwnerActorNr;       
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 100 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 100 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
         }
         GetTarget();
         Reload();       
@@ -63,45 +62,41 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         }
     }*/
 
-    public void OnCollisionEnter(Collision collision)
-    {
+    /*private void OnCollisionEnter(Collision collision)
+    {        
         if (collision.collider.CompareTag("Cube"))
         {
-            if(PV.IsMine)
+            try
             {
-                try
+                if (!SpawnWeapon_R.rightWeapon.weaponInIt && !SpawnWeapon_L.leftWeapon.weaponInIt)
+                {                       
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    Debug.Log("¾ç¼Õ ³õ°í ÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
+                }
+                if (!SpawnWeapon_R.rightWeapon.weaponInIt || SpawnWeapon_L.leftWeapon.weaponInIt)
                 {
-                    if (!SpawnWeapon_R.rightWeapon.weaponInIt && !SpawnWeapon_L.leftWeapon.weaponInIt)
-                    {
-                        PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);                       
-                        Debug.Log("¾ç¼Õ ³õ°í ÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
-                    }
-                    if (!SpawnWeapon_R.rightWeapon.weaponInIt || SpawnWeapon_L.leftWeapon.weaponInIt)
-                    {
-                        PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);                        
-                        Debug.Log("¿ÞÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
-                    }
-                    if (SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt)
-                    {
-                        PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);                        
-                        Debug.Log("¿À¸¥ÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
-                    }
-
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    Debug.Log("¿ÞÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
+                }
+                if (SpawnWeapon_R.rightWeapon.weaponInIt || !SpawnWeapon_L.leftWeapon.weaponInIt)
+                {
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+                    Debug.Log("¿À¸¥ÂÊÃÑÀÌ Á¤»óÀûÀ¸·Î ÆÄ±«µÊ");
                 }
 
-                finally
-                {
-                    PV.RPC(nameof(DestroyGun), RpcTarget.All);                    
-                }
             }
-            
+
+            finally
+            {
+                    PV.RPC(nameof(DestroyGun), RpcTarget.All);
+            }
         }
-        else
+        *//*else
         {
             Debug.Log("ÃÑÀÌ ÆÄ±«µÇÁö ¾Ê¾ÒÀ½");
-        }
+        }*//*
 
-    }
+    }*/
 
 
     public void GetTarget()
@@ -171,18 +166,17 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         audioSource.Play();
         muzzleFlash.Play();
     }
-
-    [PunRPC]
+  
+ /*  [PunRPC]
     public void DestroyGun()
     {
-        Destroy(PV.gameObject);
-    }
-
-    /*   public IEnumerator DestoryPN_Gun()
-       {
-           yield return new WaitForSeconds(1f);
-           Destroy(gameObject);
-       }*/
+       PN.Destroy(PV.gameObject);
+    }*/
+ /*   public IEnumerator DestoryPN_Gun()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }*/
 
     /// <summary>
     /// ÃÑ¾Ë µô·¹ÀÌ ·ÎÁ÷
@@ -190,6 +184,6 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     /// fireTimeÀÌ delayfireTimeÀ» ³Ñ¾î°¡¸é ¹ß»ç ºÒ°¡
     /// ÃÑ¾ËÀ» ¹ß»çÇÏ°í ³ª¸é ½Ã°£À» ´Ù½Ã 0À¸·Î ÃÊ±âÈ­
     /// </summary>
-
+        
 }
 

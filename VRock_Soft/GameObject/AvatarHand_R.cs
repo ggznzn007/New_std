@@ -8,9 +8,9 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 손 관리하는 스크립트
+public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하는 스크립트
 {
-    //public InputDevice targetDevice;
+    public InputDevice targetDevice;
     public MeshRenderer avatarRightHand;
     public PhotonView PV;
     private Vector3 remotePos;
@@ -19,78 +19,43 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        /*List<InputDevice> devices = new List<InputDevice>();
+        List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);*/
+        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
         avatarRightHand = GetComponentInChildren<MeshRenderer>();
 
-        /*if (devices.Count > 0)
+        if (devices.Count > 0)
         {
             targetDevice = devices[0];
-        }*/
+        }
     }
 
     private void Update()
     {
         // if (!photonView.IsMine) return;
-       /* if (!PV.IsMine)
+        if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
-        }*/
-
-
-        if (PV.IsMine)
-        {
-            if (DataManager.DM.currentMap == Map.TUTORIAL_T || DataManager.DM.currentMap == Map.TOY)
-            {
-                if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
-                {
-                    if (griped)
-                    {
-                        PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, true);
-                    }
-                    else
-                    {
-                        PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, false);
-                    }
-                }
-            }
-
-            if (DataManager.DM.currentMap == Map.TUTORIAL_W || DataManager.DM.currentMap == Map.WESTERN)
-            {
-                if (SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped2))
-                {
-                    if (griped2)
-                    {
-                        PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, true);
-                    }
-                    else
-                    {
-                        PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, false);
-                    }
-                }
-            }
-
         }
 
 
-        /*   if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
-           {
-               if(PV.IsMine)
-               {
-                   if (griped)
-                   {
-                       PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, true);
-                   }
-                   else
-                   {
-                       PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, false);
-                   }
-               }
-
-           }*/
+        if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
+        {
+            if(PV.IsMine)
+            {
+                if (griped)
+                {
+                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
+                }
+                else
+                {
+                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
+                }
+            }
+            
+        }
 
     }
 
@@ -99,11 +64,11 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
     {
         if (grip)
         {
-            avatarRightHand.forceRenderingOff = true;
+            avatarRightHand.forceRenderingOff = grip;
         }
         else
         {
-            avatarRightHand.forceRenderingOff = false;
+            avatarRightHand.forceRenderingOff = grip;
         }
     }
 
@@ -119,12 +84,14 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // 아바타 
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);            
+            stream.SendNext(transform.rotation);
+           // stream.SendNext(avatarRightHand.forceRenderingOff);
         }
         else
         {
             remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();            
+            remoteRot = (Quaternion)stream.ReceiveNext();
+           // avatarRightHand.forceRenderingOff = (bool)stream.ReceiveNext();
         }
     }
 

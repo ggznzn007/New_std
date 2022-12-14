@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
-public class Bullet_rManager : MonoBehaviourPunCallbacks
+public class Bullet_rManager : MonoBehaviourPun
 {
     public static Bullet_rManager BrM;
     [SerializeField] PhotonView PV;

@@ -19,7 +19,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
+public class AvartarController : MonoBehaviourPun, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴
                                                                           
@@ -414,7 +414,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void HeadShot()
+    public void HeadShot() // 머리를 맞았을 때 머리를 맞춘 플레이어를 기준으로 효과음 들림
     {
         if (!PV.IsMine)
         {
@@ -423,7 +423,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void BodyShot()
+    public void BodyShot() // 몸을 맞았을 때 몸을 맞춘 플레이어를 기준으로 효과음 들림
     {
         if (!PV.IsMine)
         {
@@ -441,7 +441,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            AudioManager.AM.PlaySE("Dead");
+            AudioManager.AM.PlaySE("Dead");            
         }
     }
 
@@ -451,6 +451,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             AudioManager.AM.PlaySE("Respawn");
+            AudioManager.AM.PlaySE("Shield");  
         }
         StartCoroutine(ShowRespawnEffect());
 

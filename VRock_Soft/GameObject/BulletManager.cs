@@ -14,7 +14,7 @@ using static ObjectPooler;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 
-public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservable //MonoBehaviourPun   //MonoBehaviour                                // 총알 스크립트 
+public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //MonoBehaviourPun   //MonoBehaviour                                // 총알 스크립트 
 {
     public static BulletManager BM;
     [SerializeField] PhotonView PV;
@@ -75,7 +75,18 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐            
-        }             
+        }     
+        
+        /*if(collision.collider.CompareTag("Gun")&&!PV.IsMine)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);        
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+            transform.position = contact.point;
+            Destroy(effect, 0.3f);
+            AudioManager.AM.PlaySE(bulletImpact);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
+        }*/
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam")&&PV.IsMine)
         {
