@@ -48,6 +48,8 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public bool grabGun;      // 총을 집었는지 여부
 
+    public bool grabShield;
+
     public string nickName;
 
     public int teamInt;       // 팀 숫자 0=블루팀, 1=레드팀
