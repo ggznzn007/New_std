@@ -36,8 +36,8 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
         // if (!photonView.IsMine) return;
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
         }
 
 
@@ -47,11 +47,11 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
             {
                 if (griped)
                 {
-                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
+                    PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, griped);
                 }
                 else
                 {
-                    PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
+                    PV.RPC(nameof(HandHide_R), RpcTarget.AllBuffered, griped);
                 }
             }
             
