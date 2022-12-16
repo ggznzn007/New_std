@@ -19,7 +19,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice DeviceR;
-    public bool weaponInIt = false;
+    public bool weaponInIt;
     private GameObject myGun;
 
     private void Awake()
@@ -37,9 +37,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         {
             DeviceR = devicesR[0];
         }
-
-       // DataManager.DM.grabGun = false;
-       // DataManager.DM.grabBomb = false;
+        weaponInIt = false;
     }
 
     public RevolverManager FindGun()
@@ -52,44 +50,36 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         return null;
     }
     private void OnTriggerStay(Collider coll)
-    {       
-        if (coll.CompareTag("ItemBox")
-            && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
-            //&& SpawnWeapon_LW.LW.DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
+    {
+        if (coll.CompareTag("ItemBox") && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
-            if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner      
+            if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
             {
-                if (weaponInIt) { return; }// if (myGun != null) { return; }
+                if (weaponInIt) { return; }
                 RevolverManager revolver = SpawnGun(attachPoint);
-                AudioManager.AM.PlaySE("GrabRevo");
                 myGun = revolver.gameObject;
-                //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
                 weaponInIt = true;
+                AudioManager.AM.PlaySE("GrabRevo");
                 return;
             }
-
             else
             {
                 weaponInIt = false;
                 return;
             }
         }
-
-        if (coll.CompareTag("Bomb") &&
-            DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
+        if (coll.CompareTag("Bomb") && DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R1))
         {
-            if (griped_R3 && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive )//&& !DataManager.DM.grabBomb)
+            if (griped_R1 && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)
             {
                 weaponInIt = true;
-                //DataManager.DM.grabBomb = true;
+                return;
             }
-
             else
             {
                 weaponInIt = false;
-                //DataManager.DM.grabBomb = false;
+                return;
             }
         }
     }
