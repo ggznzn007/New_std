@@ -17,7 +17,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
-    public bool weaponInIt = false;
+    public bool weaponInIt;    
     private GameObject myGun;
 
     private void Awake()
@@ -36,7 +36,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
         {
             targetDevice = devices[0];
         }
-        DataManager.DM.grabBomb = false;
+        weaponInIt = false;       
     }
 
     public GunManager FindGun()
@@ -49,58 +49,36 @@ public class SpawnWeapon_L : MonoBehaviourPun
         return null;
     }
     private void OnTriggerStay(Collider coll)
-    {        
-        if (coll.CompareTag("ItemBox") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) &&
-            SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
-        {
-            if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive)
+    {
+        if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        {      
+            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                 && AvartarController.ATC.isAlive && !DataManager.DM.grabGun)
             {
-                if (weaponInIt) { return; }//if (myGun != null) { return; }
+                if (weaponInIt && DataManager.DM.grabGun) { return; }                
                 GunManager gun = SpawnGun(attachPoint);
+                myGun = gun.gameObject;                               
+                weaponInIt = true;                                
                 AudioManager.AM.PlaySE("GrabGun");
-                myGun = gun.gameObject;
-                //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;
                 return;
-            }
-
-            if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
-            {
-                if (weaponInIt) { return; }//if (myGun != null) { return; }
-                GunManager gun = SpawnGun(attachPoint);
-                AudioManager.AM.PlaySE("GrabGun");
-                myGun = gun.gameObject;
-                //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;
-                SpawnWeapon_R.rightWeapon.weaponInIt = false;
-                return;
-            }
-
+            }       
             else
             {
-                weaponInIt = false;
+                weaponInIt = false;                
                 return;
             }
         }
 
-        if (coll.CompareTag("Bomb") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2) &&
-            SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2))
+        if (coll.CompareTag("Bomb") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L1))
         {
-            if (griped_L2 && griped_R2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
-               && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
+            if (griped_L1 && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)
             {
                 weaponInIt = true;
-                DataManager.DM.grabBomb = true;
                 return;
             }
             else
             {
                 weaponInIt = false;
-                DataManager.DM.grabBomb = false;
                 return;
             }
         }
