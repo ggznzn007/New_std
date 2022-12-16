@@ -19,15 +19,15 @@ using Antilatency.SDK;
 using static ObjectPooler;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
-{   
+{
     public GameObject LocalXRRigGameObject;
     public GameObject AvatarHead;
-    public GameObject AvatarBody; 
-    public GameObject AvatarHand_L; 
-    public GameObject AvatarHand_R;        
+    public GameObject AvatarBody;
+    public GameObject AvatarHand_L;
+    public GameObject AvatarHand_R;
 
     private void Start()
-    {        
+    {
         if (photonView.IsMine)                                 // 로컬 플레이어 
         {
             LocalXRRigGameObject.SetActive(true);
@@ -47,7 +47,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        if (!photonView.IsMine) return;           
+        if (!photonView.IsMine) return;
     }
 
     void SetLayerRecursively(GameObject go, int layerNum)
@@ -57,5 +57,5 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         {
             trans.gameObject.layer = layerNum;
         }
-    }   
+    }
 }
