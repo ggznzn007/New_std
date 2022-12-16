@@ -32,6 +32,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간 텍스트")]
     public TextMeshPro timerText;
+    public TextMeshPro resultText;
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
     [Header("블루팀 프리팹")]
@@ -64,9 +65,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     public Image bluewinImg;
     public Image redwinImg;
     public Image blueloseImg;
-    public Image redloseImg;
-    public Image bluedrawImg;
-    public Image reddrawImg;
+    public Image redloseImg;    
+    public Image drawImg;
     public TMP_Text blueScore;
     public TMP_Text redScore;
     public int score_BlueKill;
@@ -87,17 +87,16 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            SpawnPlayer();
             if (PN.IsMasterClient)
             {
                 PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);
                 PN.InstantiateRoomObject(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);                             
-            }
-
-           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
+            }          
+            SpawnPlayer();
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }*/
+            }
         }
     }
 
@@ -123,16 +122,22 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 Info();
 
                 break;
-          
+
             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)// || Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
+                    //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                    Info();
+                    Info();                
+                }
+                else
+                {
+                    return;
                 }
                 break;
             
@@ -145,7 +150,17 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {       
         if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
         {
-            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+
+                   if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
+                else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
+                else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Emp_Red();
+                    Emp_Blue();
+                }
+
+            if(Application.platform==RuntimePlatform.WindowsPlayer)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
                 else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
@@ -156,6 +171,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                     Emp_Blue();
                 }
             }
+            
         }
     }
 
@@ -232,6 +248,11 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         AudioManager.AM.PlaySE("GameInfo3");
     }
 
+    [PunRPC]
+    public void Notice1min()
+    {
+        AudioManager.AM.PlaySE("GameInfo9");
+    }
     IEnumerator PlayTimer()
     {
         yield return new WaitForSeconds(1);
@@ -240,7 +261,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PN.CurrentRoom.SetCustomProperties(setTime);
         count = true;
 
-        if (limitedTime == 8)                                 // 게임 끝나기 8초전에 알림
+        if(limitedTime==60)
+        {
+            PV.RPC(nameof(Notice1min), RpcTarget.AllViaServer);   // 게임 끝나기 60초전 알림
+        }
+
+        if (limitedTime == 8)                                 // 게임 끝나기 8초전 알림
         {
             PV.RPC(nameof(Notice), RpcTarget.AllViaServer);
         }
@@ -279,8 +305,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     }
 
     public IEnumerator LeaveGame()
-    {
-        timerText.gameObject.SetActive(false);        
+    {       
+        timerText.gameObject.SetActive(false);
+        resultText.gameObject.SetActive(true);
+        //resultText.text = string.Format("RESULT");
         DataManager.DM.inGame = false;
         AudioManager.AM.PlaySE("Gameover");
         gameOverImage.gameObject.SetActive(true);
@@ -294,6 +322,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         countText.gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo2");
         countText.text = string.Format("3초 뒤에 로비로 이동합니다");
+        //resultText.gameObject.SetActive(false);
         yield return new WaitForSeconds(6);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
@@ -325,9 +354,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             AudioManager.AM.PlaySE("GameInfo6");
             //countText.text = string.Format("무승부입니다");
             blueScore.gameObject.SetActive(false);
-            redScore.gameObject.SetActive(false);
-            bluedrawImg.gameObject.SetActive(true);
-            reddrawImg.gameObject.SetActive(true);
+            redScore.gameObject.SetActive(false);           
+            drawImg.gameObject.SetActive(true);
         }
     }
 
