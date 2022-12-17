@@ -68,12 +68,29 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
 
     public IEnumerator ExploEMP()
     {
+        //yield return new WaitForSeconds(2.35f);
+        yield return StartCoroutine(Beep());
+        yield return StartCoroutine(EmpEX());    
+        if(PN.IsMasterClient)
+        {
+            Destroy(PV.gameObject);
+        }
+        else
+        {
+            TransferOwnership();
+            Destroy(PV.gameObject);
+        }      
+    }
+
+    [PunRPC]
+    public void TransferMaster()
+    {
+        PN.Destroy(PV.gameObject);
+    }
+    public IEnumerator Beep()
+    {
         AudioManager.AM.PlaySX(bombBeep);
         yield return new WaitForSeconds(2.35f);
-        yield return StartCoroutine(EmpEX());
-        PN.Destroy(gameObject);
-        //Destroy(gameObject);
-       // PV.RPC(nameof(DestroyBomb), RpcTarget.AllBuffered);
     }
 
     public IEnumerator EmpEX()
@@ -88,12 +105,11 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         StartCoroutine(Explosion());        
     }*/
-   /* [PunRPC]
-    public void DestroyBomb()
-    {
-        Destroy(PV.gameObject);
-    }*/
-
+    /* [PunRPC]
+     public void DestroyEMP()
+     {
+         Destroy(PV.gameObject);
+     }*/
     [PunRPC]
     public void Grab_EMP()
     {
