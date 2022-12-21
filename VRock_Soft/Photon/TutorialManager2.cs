@@ -36,34 +36,26 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {
+        {            
             if (PN.IsMasterClient)
             {
                 InvokeRepeating(nameof(SpawnDynamite), 10, 30);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
             }
             SpawnPlayer();
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+
+            if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }
         }
     }
     private void Update()
-    {
-        // 윈도우 프로그램 빌드 시
+    {       
+         // 윈도우 프로그램 빌드 시
         if (PN.InRoom && PN.IsMasterClient)
         {
-
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
             {
-                SpawnDynamite();
-            }
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-
-
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
                 else if (Input.GetKeyDown(KeyCode.Space))
@@ -71,7 +63,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                     SpawnDynamite();
                 }
             }
-        }
+        }        
     }
 
     public void SpawnPlayer()
@@ -93,24 +85,19 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-
-            // 윈도우 프로그램 빌드 시
+ 
+             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                    //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
                 }
-                else
-                {
-                    return;
-                }
                 break;
-
+            
             default:
                 return;
         }
@@ -120,10 +107,10 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-            bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
-
+   
     [ContextMenu("포톤 서버 정보")]
     void Info()
     {

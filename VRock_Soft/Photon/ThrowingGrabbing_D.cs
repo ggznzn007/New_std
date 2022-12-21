@@ -68,7 +68,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     {        
         yield return StartCoroutine(BeepD());
         yield return StartCoroutine(DmEX());
-        Destroy(PV.gameObject);
+        PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
     }
     public IEnumerator BeepD()
     {
@@ -80,6 +80,12 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         AudioManager.AM.PlaySE(dm_Explo);
         PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.001f);
+    }
+
+    [PunRPC]
+    public void DestroyEMP()
+    {
+        Destroy(PV.gameObject);
     }
 
     [PunRPC]

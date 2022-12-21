@@ -37,7 +37,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
     Hashtable setTime = new Hashtable();
-    PhotonView PV;
+    PhotonView PV;    
     public Transform[] bSpawnPosition;
     public Transform adminPoint;
     public string GameInfo1;
@@ -47,14 +47,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public string three;
     public string startGame;
     public string gameover;
-    public int kills;
+    public int kills;    
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
     public Image gameOverImage;
     public Image bluewinImg;
     public Image redwinImg;
     public Image blueloseImg;
     public Image redloseImg;
-    public Image drawImg;
+    public Image drawImg;    
     public TMP_Text blueScore;
     public TMP_Text redScore;
     public int score_BlueKill;
@@ -71,23 +71,23 @@ public class WesternManager : MonoBehaviourPunCallbacks
     {
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {
+        {            
+            SpawnPlayer();
+
             if (PN.IsMasterClient)
             {
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);
                 PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
                 //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
-
+               
             }
-
-            SpawnPlayer();
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
             }
         }
     }
-
+   
     public void SpawnPlayer()
     {
         switch (DataManager.DM.currentTeam)
@@ -107,43 +107,29 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
-            // 윈도우 프로그램 빌드 시
+             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                    //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
                 }
-                else
-                {
-                    return;
-                }
                 break;
-
-
+            
             default:
                 return;
         }
     }
 
     private void Update()
-    {
+    {                 
         if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
-            else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
             {
-                SpawnDynamite();
-            }
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
                 else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
@@ -152,12 +138,12 @@ public class WesternManager : MonoBehaviourPunCallbacks
                     SpawnDynamite();
                 }
             }
-        }
+        }     
     }
     void FixedUpdate()
     {
         SetScore();
-        TimerW();
+        TimerW();        
     }
 
     public void SetScore()
@@ -196,18 +182,18 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
+  
 
     public void SpawnDynamite()
     {
-        bombBlue = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-        bombRed = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
-        /* bombBlue = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
-         bombRed  = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);*/
+       bombBlue = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+       bombRed  = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+      /* bombBlue = PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+       bombRed  = PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);*/
         /*PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
         PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0); */
     }
-
+    
     [PunRPC]
     public void StartBtnW()
     {
@@ -285,11 +271,11 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     public IEnumerator LeaveGame()
     {
-        timerText.gameObject.SetActive(false);
+        timerText.gameObject.SetActive(false);  
         resultText.gameObject.SetActive(true);
         DataManager.DM.inGame = false;
         AudioManager.AM.PlaySE("Gameover");
-        gameOverImage.gameObject.SetActive(true);
+        gameOverImage.gameObject.SetActive(true);        
         //countText.text = string.Format("GAME OVER");
         yield return new WaitForSeconds(2);
         VictoryTeam();
@@ -300,7 +286,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText.gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo8");
         countText.text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");
-        // resultText.gameObject.SetActive(false);
+       // resultText.gameObject.SetActive(false);
         yield return new WaitForSeconds(5);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
@@ -330,10 +316,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         else if (score_BlueKill == score_RedKill)
         {
             AudioManager.AM.PlaySE("GameInfo6");
-            // countText.text = string.Format("무승부입니다");
+           // countText.text = string.Format("무승부입니다");
             blueScore.gameObject.SetActive(false);
             redScore.gameObject.SetActive(false);
-            drawImg.gameObject.SetActive(true);
+            drawImg.gameObject.SetActive(true);            
         }
     }
 
@@ -346,7 +332,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         }
         PN.Destroy(spawnPlayer);
         Application.Quit();
-
+       
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             Application.Quit();
@@ -355,7 +341,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 PN.DestroyAll();
             }
             PN.Destroy(spawnPlayer);
-        }
+        }    
     }
 
     [ContextMenu("포톤 서버 정보")]

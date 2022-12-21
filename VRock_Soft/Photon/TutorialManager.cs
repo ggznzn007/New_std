@@ -1,17 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
-using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-using Random = UnityEngine.Random;
-using TMPro;
 using UnityEngine.SceneManagement;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-using static ObjectPooler;
-using UnityEngine.XR;
 
 public class TutorialManager : MonoBehaviourPunCallbacks
 {
@@ -24,13 +15,14 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     public Transform adminPoint;                        // 관리자 생성위치
     private GameObject spawnPlayer;                     // 생성되는 플레이어
     public GameObject bomB;                             // 폭탄 프리팹
+    public GameObject shield;                             // 폭탄 프리팹
     public Transform[] bSpawnPosition;                  // 폭탄 생성위치
     private GameObject bomBs;                           // 생성되는 폭탄
+    private GameObject shieldCap;
 
     private void Awake()
     {
         TM = this;
-
     }
 
     private void Start()
@@ -40,7 +32,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {            
+        {
             switch (PN.CurrentRoom.PlayerCount)
             {
                 case 1:
@@ -80,43 +72,22 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                     break;
 
             }
-
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            //SpawnPlayer();
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드 
             {
                 Destroy(admin);
             }
+
             if (PN.IsMasterClient)
             {
                 InvokeRepeating(nameof(SpawnBomb), 10, 30);
+                SpawnShield();
             }
 
         }
     }
 
-    private void Update()
-    {
-        if (PN.InRoom && PN.IsMasterClient)
-        {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnBomb();
-            }
 
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
-                else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    SpawnBomb();
-                }
-            }
-
-        }
-    }
 
     public void SpawnPlayer()
     {
@@ -127,7 +98,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                StartCoroutine(DeleteBullet());
+                //StartCoroutine(DeleteBullet());
                 Info();
                 break;
 
@@ -136,18 +107,17 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 DataManager.DM.inGame = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                StartCoroutine(DeleteBullet());
+                //StartCoroutine(DeleteBullet());
                 Info();
                 break;
 
             // 윈도우 프로그램 빌드 시            
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
-                    //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
                 }
@@ -163,16 +133,48 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator DeleteBullet()
+    private void Update()
+    {
+        if (PN.InRoom && PN.IsMasterClient)
+        {
+            /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnBomb();
+            }*/
+
+            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+            {
+
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
+                else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SpawnBomb();
+                }
+            }
+
+        }
+    }
+    /*IEnumerator DeleteBullet()
     {
         yield return new WaitForSeconds(0.3f);
         foreach (GameObject bull in GameObject.FindGameObjectsWithTag("Bullet")) bull.GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
-    }
+    }*/
     public void SpawnBomb()
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-            bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);           
+        }
+    }
+
+    public void SpawnShield()
+    {
+        for (int i = 0; i < bSpawnPosition.Length; i++)
+        {
+            shieldCap = PN.InstantiateRoomObject(shield.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
 
@@ -203,14 +205,14 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        if (PN.IsMasterClient)
-        {
-            PN.DestroyAll();
-            //PN.RemoveBufferedRPCs();
-        }
+        /* if (PN.IsMasterClient)
+         {
+             PN.DestroyAll();
+             PN.RemoveBufferedRPCs();
+         }
 
-        PN.Destroy(spawnPlayer);
-        SceneManager.LoadScene(0);
+         PN.Destroy(spawnPlayer);
+         SceneManager.LoadScene(0);*/
         //PN.LoadLevel(0);
     }
 
