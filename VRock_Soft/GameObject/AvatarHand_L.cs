@@ -45,11 +45,11 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
             {
                 if (griped)
                 {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, griped);
+                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
                 }
                 else
                 {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, griped);
+                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
                 }
             }
         }

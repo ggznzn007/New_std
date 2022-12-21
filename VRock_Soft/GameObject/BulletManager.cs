@@ -75,18 +75,18 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
             //StartCoroutine(ExploreEffect(collision));  // 이펙트 코루틴         
             //StartCoroutine(DeactiveBullet()); // 총알 비활성화 코루틴
             //Destroy(collision.gameObject); // 총알 맞은 오브젝트가 사라짐            
-        }     
-        
-        /*if(collision.collider.CompareTag("Gun")&&!PV.IsMine)
+        }
+
+        if (collision.collider.CompareTag("Shield") && PV.IsMine)
         {
             ContactPoint contact = collision.contacts[0];
-            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);        
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
             var effect = Instantiate(exploreEffect, contact.point, rot);
             transform.position = contact.point;
             Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(bulletImpact);
             PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
-        }*/
+        }
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam")&&PV.IsMine)
         {

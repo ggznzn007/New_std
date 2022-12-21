@@ -90,13 +90,13 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     {
         isDeadLock = true;
         team = DataManager.DM.teamInt;
-        PN.UseRpcMonoBehaviourCache = true;
+        //PN.UseRpcMonoBehaviourCache = true;
     }
 
     void Update()
     {
         if (!PV.IsMine) return;
-        PV.RefreshRpcMonoBehaviourCache();
+        //PV.RefreshRpcMonoBehaviourCache();
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();
