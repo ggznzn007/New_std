@@ -54,13 +54,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         Reload();       
     }
 
-    /*public void WhenDead()
-    {
-        if (!AvartarController.ATC.isAlive && PV.IsMine)
-        {
-            PV.RPC(nameof(DestroyGun), RpcTarget.All);
-        }
-    }*/
+   
 
     /*private void OnCollisionEnter(Collision collision)
     {        

@@ -18,8 +18,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
     public bool weaponInIt;    
-    private GameObject myGun;
-    
+    private GameObject myGun;    
+
     private void Awake()
     {
         leftWeapon = this;
@@ -36,9 +36,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
         {
             targetDevice = devices[0];
         }
-        DataManager.DM.grabBomb = false;
-        weaponInIt= false;
-        
+        //DataManager.DM.grabBomb = false;
+        weaponInIt= false;        
     }
 
     public GunManager FindGun()
@@ -56,11 +55,11 @@ public class SpawnWeapon_L : MonoBehaviourPun
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
             if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && !DataManager.DM.grabGun)
+                && AvartarController.ATC.isAlive && !DataManager.DM.grabGun&&DataManager.DM.myGun==null)
             {
-                if (weaponInIt && DataManager.DM.grabGun) { return; }               
+                if (weaponInIt && DataManager.DM.grabGun && DataManager.DM.myGun != null) { return; }               
                 GunManager gun = SpawnGun(attachPoint);
-                myGun = gun.gameObject;
+                DataManager.DM.myGun = gun.gameObject;
                 weaponInIt = true;
                 AudioManager.AM.PlaySE("GrabGun");                
                 return;
@@ -68,12 +67,12 @@ public class SpawnWeapon_L : MonoBehaviourPun
 
             else
             {
-                weaponInIt = false;                
+                weaponInIt = false;
                 return;
             }
         }
 
-        if (coll.CompareTag("Bomb") &&
+       /* if (coll.CompareTag("Bomb") &&
             targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
         {
             if (griped_L2 && photonView.IsMine && photonView.AmOwner && AvartarController.ATC.isAlive)
@@ -86,7 +85,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 weaponInIt = false;
                 return;
             }
-        }
+        }*/
        
     }
 

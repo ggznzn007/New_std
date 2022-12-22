@@ -100,7 +100,33 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();
+        //ShowCollL();
+        //ShowCollR();
     }
+
+   /*public void ShowCollL()
+    {
+        if(SpawnWeapon_L.leftWeapon.weaponInIt)
+        {           
+            playerColls[4].gameObject.SetActive(false);
+        }
+        else
+        {            
+            playerColls[4].gameObject.SetActive(true);
+        }
+    }
+
+    public void ShowCollR()
+    {
+        if (SpawnWeapon_R.rightWeapon.weaponInIt)
+        {
+            playerColls[3].gameObject.SetActive(false);            
+        }
+        else
+        {
+            playerColls[3].gameObject.SetActive(true);            
+        }
+    }*/
 
     public void Show_Frame()
     {

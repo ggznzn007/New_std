@@ -25,6 +25,7 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
     [SerializeField] float speed;
     public string bulletImpact;
     public string hitPlayer;
+    public string shieldHit;
     
     //Transform tr;
     private void Start()
@@ -84,7 +85,7 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
             var effect = Instantiate(exploreEffect, contact.point, rot);
             transform.position = contact.point;
             Destroy(effect, 0.3f);
-            AudioManager.AM.PlaySE(bulletImpact);
+            AudioManager.AM.PlaySE(shieldHit);
             PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
         }
 

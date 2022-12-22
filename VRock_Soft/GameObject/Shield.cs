@@ -14,12 +14,8 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
     public PhotonView PV;
     Rigidbody rb;
-    public bool isBeingHeld = false;
-    public Transform left_Grab;
-    public Transform right_Grab;
-    public XRGrabInteractable XRG;    
-    public bool isGrab;
-    //  SelectionOutline outline = null;
+    public bool isBeingHeld = false;   
+    //SelectionOutline outline = null;
 
     private void Awake()
     {
@@ -29,9 +25,7 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        XRG=GetComponent<XRGrabInteractable>();        
-        // outline = GetComponent<SelectionOutline>();
-        isGrab= false;
+        //outline= GetComponent<SelectionOutline>();
     }
 
     private void Update()
@@ -48,21 +42,7 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         }
 
     }
-
-    private void OnTriggerStay(Collider coll)
-    {
-        if(coll.CompareTag("RightHand")&&!isGrab&&PV.IsMine)
-        {
-            XRG.attachTransform = right_Grab;            
-        }
-
-        if (coll.CompareTag("LeftHand")&&!isGrab && PV.IsMine)
-        {
-            XRG.attachTransform = left_Grab;            
-        }        
-    }
-
-
+   
     [PunRPC]
     public void Grab_EMP()
     {
@@ -78,8 +58,7 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     {
         Debug.Log("잡았다");
         PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);
-        isGrab= true;
-        //spColl.enabled = false;
+        
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
@@ -93,9 +72,7 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
-        isGrab= false;
-        //spColl.enabled = true;
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);       
     }
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
@@ -119,13 +96,13 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         PV.RequestOwnership();
     }
 
-    /* public void OnHoverEntered()
-     {
-         outline.Highlight();
-     }
+ /*   public void OnHoverEntered()
+    {
+        outline.Highlight();
+    }
 
-     public void OnHoverExited()
-     {
-         outline.RemoveHighlight();
-     }*/
+    public void OnHoverExited()
+    {
+        outline.RemoveHighlight();
+    }*/
 }
