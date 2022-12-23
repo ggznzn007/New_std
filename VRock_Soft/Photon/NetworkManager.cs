@@ -88,11 +88,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             localPlayer.SetActive(false);
         }
         // 유니티 에디터에서 재생 시
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+       /* if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             adminPlayer.SetActive(true);
             localPlayer.SetActive(false);
-        }
+        }*/
     }
 
     private void Start()
@@ -108,10 +108,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
 
             // 유니티 에디터에서 재생 시
-            if (Application.platform == RuntimePlatform.WindowsEditor)
+          /*  if (Application.platform == RuntimePlatform.WindowsEditor)
             {
                 ad_ConnectUI.gameObject.SetActive(false);
-            }
+            }*/
         }
     }
     private void Update()
@@ -316,11 +316,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_MapUI.gameObject.SetActive(false);
                 }
                 // 유니티 에디터에서 재생 시
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+               /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }
+                }*/
 
                 break;
             case 2:
@@ -333,11 +333,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_MapUI.gameObject.SetActive(false);
                 }
                 // 유니티 에디터에서 재생 시
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+               /* if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
-                }
+                }*/
                 break;
         }
         Debug.Log($"{PN.LocalPlayer.NickName}님이 서버에 접속하였습니다.");
@@ -359,10 +359,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     teamSelectUI_T.gameObject.SetActive(false);
                 }
                 // 유니티 에디터에서 재생 시     
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+                /*if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ToyUI.gameObject.SetActive(true);
-                }
+                }*/
 
 
                 if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
@@ -387,11 +387,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     teamSelectUI_W.gameObject.SetActive(false);                    
                 }
                 // 유니티 에디터에서 재생 시
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
                     InitAdmin(2);
-                }
+                }*/
 
                 if (DataManager.DM.isSelected && DataManager.DM.currentTeam == Team.BLUE)
                 {
@@ -423,10 +423,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_ToyUI.gameObject.SetActive(false);                    
                 }
                 // 유니티 에디터에서 재생 시
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_ToyUI.gameObject.SetActive(false);
-                }
+                }*/
 
                 break;
             case Map.TOY:               
@@ -440,10 +440,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_WesternUI.gameObject.SetActive(false);                   
                 }
                 // 유니티 에디터에서 재생 시
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+              /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
-                }
+                }*/
 
                 PN.LoadLevel(3); // 튜토리얼W
                 break;

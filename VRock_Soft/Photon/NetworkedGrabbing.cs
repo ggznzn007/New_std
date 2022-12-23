@@ -46,7 +46,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("Shie"))
+        if (collision.collider.CompareTag("Cube"))
         {
             try
             {
@@ -77,21 +77,19 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
-        DataManager.DM.grabGun = true;
+        isBeingHeld = true;        
     }
 
     [PunRPC]
     public void StopGrabbing()
     {
-        isBeingHeld = false;
-        DataManager.DM.grabGun = false;
+        isBeingHeld = false;        
     }
 
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다\n레이어 = Inhand");
-        
+        DataManager.DM.grabGun = true;        
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
        /* if (PV.Owner == PN.LocalPlayer)
         {
@@ -106,7 +104,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     public void OnSelectedExited()
     {
         Debug.Log("놓았다\n레이어 = Interactable");
-        
+        DataManager.DM.grabGun = false;             
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
