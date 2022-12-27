@@ -113,18 +113,14 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
             // 윈도우 프로그램 빌드 시            
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-                }
-                else
-                {
-                    return;
-                }
+                }               
                 break;
 
 
@@ -135,16 +131,16 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (PN.InRoom && PN.IsMasterClient)
-        {
-            /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 SpawnBomb();
-            }*/
+            }
+        /*if (PN.InRoom && PN.IsMasterClient)
+        {
 
-            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
 
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
@@ -155,7 +151,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 }
             }
 
-        }
+        }*/
     }
     /*IEnumerator DeleteBullet()
     {
@@ -205,14 +201,14 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        /* if (PN.IsMasterClient)
-         {
-             PN.DestroyAll();
-             PN.RemoveBufferedRPCs();
-         }
+        if (PN.IsMasterClient)
+        {
+            PN.DestroyAll();
+            PN.RemoveBufferedRPCs();
+        }
 
-         PN.Destroy(spawnPlayer);
-         SceneManager.LoadScene(0);*/
+        PN.Destroy(spawnPlayer);
+        SceneManager.LoadScene(0);
         //PN.LoadLevel(0);
     }
 

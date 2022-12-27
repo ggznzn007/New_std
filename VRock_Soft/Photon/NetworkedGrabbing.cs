@@ -88,8 +88,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
 
     public void OnSelectedEntered()
     {
-        Debug.Log("잡았다\n레이어 = Inhand");
-        DataManager.DM.grabGun = true;        
+        Debug.Log("잡았다\n레이어 = Inhand");              
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
        /* if (PV.Owner == PN.LocalPlayer)
         {
@@ -103,8 +102,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
 
     public void OnSelectedExited()
     {
-        Debug.Log("놓았다\n레이어 = Interactable");
-        DataManager.DM.grabGun = false;             
+        Debug.Log("놓았다\n레이어 = Interactable");                    
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 

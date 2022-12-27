@@ -107,9 +107,11 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
+
+
              // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
@@ -126,9 +128,16 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {                 
-        if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
+            else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnDynamite();
+            }
+        /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
         {
-            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
                 else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
@@ -138,7 +147,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                     SpawnDynamite();
                 }
             }
-        }     
+        }     */
     }
     void FixedUpdate()
     {

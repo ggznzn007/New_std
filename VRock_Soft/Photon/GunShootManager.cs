@@ -115,20 +115,15 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
             // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
-
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-                }
-                else
-                {
-                    return;
-                }
+                }               
                 break;
 
             default:
@@ -138,19 +133,19 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     private void Update()
     {
-        if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
-        {
-
-           /* if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
             else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 Emp_Red();
                 Emp_Blue();
-            }*/
+            }
+        /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
+        {
 
-            if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
                 else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
@@ -162,7 +157,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 }
             }
 
-        }
+        }*/
     }
 
     void FixedUpdate()

@@ -52,9 +52,16 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     private void Update()
     {       
          // 윈도우 프로그램 빌드 시
-        if (PN.InRoom && PN.IsMasterClient)
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
+            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpawnDynamite();
+            }
+       /* if (PN.InRoom && PN.IsMasterClient)
         {
-            if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
+
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
@@ -63,7 +70,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                     SpawnDynamite();
                 }
             }
-        }        
+        }        */
     }
 
     public void SpawnPlayer()
@@ -88,7 +95,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
  
              // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer|| Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;

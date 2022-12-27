@@ -114,6 +114,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         Debug.Log("잡았다");
         PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);
+        outline.RemoveHighlight();
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");

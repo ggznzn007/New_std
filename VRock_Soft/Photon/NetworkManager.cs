@@ -81,6 +81,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
+
          // 윈도우 프로그램 빌드 시
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
@@ -127,7 +128,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
         // 윈도우 프로그램 빌드 시
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        /*if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
@@ -139,7 +140,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
             else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
             else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
-        }
+        }*/
     }
 
     public void StartToServer()                                                     // 서버연결 메서드
@@ -312,6 +313,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    InitTutoT();
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
                 }
@@ -329,6 +331,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    InitTutoW();
                     ad_ConnectUI.gameObject.SetActive(false);
                     ad_MapUI.gameObject.SetActive(false);
                 }
@@ -384,7 +387,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_WesternUI.gameObject.SetActive(false);
-                    teamSelectUI_W.gameObject.SetActive(false);                    
+                    teamSelectUI_W.gameObject.SetActive(false);
+                    InitAdmin(2);
                 }
                 // 유니티 에디터에서 재생 시
               /*  if (Application.platform == RuntimePlatform.WindowsEditor)
