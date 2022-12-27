@@ -18,21 +18,22 @@ using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
 using UnityEngine.SocialPlatforms.Impl;
+using Unity.XR.PXR;
 
 public class AvartarController : MonoBehaviourPun, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴
-                                                                          
+
     [Header("플레이어 정보")]
     [SerializeField] TextMeshPro Nickname;                            // 플레이어 닉네임
     [SerializeField] PhotonView PV;                                   // 포톤뷰
     public Slider HP;                                                 // 플레이어 HP
     [SerializeField] int curHP = 100;
-    [SerializeField] int inItHP = 100;    
+    [SerializeField] int inItHP = 100;
     [SerializeField] int actNumber = 0;
     [SerializeField] int attackPower = 15;
     [SerializeField] int attackPowerH = 30;
-    [SerializeField] int grenadePower = 40;    
+    [SerializeField] int grenadePower = 40;
     [SerializeField] GameObject hand_Left;
     [SerializeField] GameObject hand_Right;
     [SerializeField] GameObject at_hand_Left;
@@ -44,17 +45,17 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
     [SerializeField] MeshRenderer body_Rend;                                           // 아바타 몸          
     [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸         
-   // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
-   // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-   // [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-   // [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+                                                                                            // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
+                                                                                            // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
+                                                                                            // [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
+                                                                                            // [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
     [SerializeField] Material body_Mat;                                             // 아바타 몸          
     [SerializeField] Material body_Mat_B;                                             // 웨스턴 아바타 몸        
-   // [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
-   // [SerializeField] Material hand_R;                                                  // 아바타 오른손    
+                                                                                      // [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
+                                                                                      // [SerializeField] Material hand_R;                                                  // 아바타 오른손    
     [SerializeField] Material DeadMat_Head;                                         // 머리 죽음   머티리얼
     [SerializeField] Material DeadMat_Body;                                         // 몸   죽음   머티리얼
     [SerializeField] Material DeadMat_Hand;                                            // 손   죽음   머티리얼
@@ -76,7 +77,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
 
     private float delayTime = 1f;
     public bool isDamaged = false;
-    public int team;   
+    public int team;
     //private int showCount = 0;
 
     private void Awake()
@@ -100,49 +101,37 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();
-        //ShowCollL();
-        //ShowCollR();
-    }
-
-   /*public void ShowCollL()
-    {
-        if(SpawnWeapon_L.leftWeapon.weaponInIt)
-        {           
-            playerColls[4].gameObject.SetActive(false);
-        }
-        else
-        {            
-            playerColls[4].gameObject.SetActive(true);
-        }
-    }
-
-    public void ShowCollR()
-    {
-        if (SpawnWeapon_R.rightWeapon.weaponInIt)
+       /* switch (DataManager.DM.currentMap)
         {
-            playerColls[3].gameObject.SetActive(false);            
-        }
-        else
-        {
-            playerColls[3].gameObject.SetActive(true);            
-        }
-    }*/
+            case Map.TUTORIAL_T:
+            case Map.TOY:
+                
+                break;
+            case Map.TUTORIAL_W:
+            case Map.WESTERN:
+                ShoW_Frame_W();
+                UnShow_Frame();
+                break;
+        }       */
+    }    
 
     public void Show_Frame()
-    {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+    {       
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
         {
-            if (pressed) { FPS.SetActive(true); }
-        }
+            if(pressed) { FPS.SetActive(true); }
+        }       
     }
 
     public void UnShow_Frame()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
         {
             if (pressed) { FPS.SetActive(false); }
         }
     }
+
+   
 
     public void Nick_HP_Pos()
     {
@@ -158,7 +147,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         // 플레이어 HP & 닉네임 초기화
         Nickname.text = PV.IsMine ? PN.NickName : PV.Owner.NickName;         // 플레이어 포톤뷰가 자신이면 닉네임을 아니면 오너 닉네임
         Nickname.color = PV.IsMine ? Color.white : Color.red;                // 플레이어 포톤뷰가 자신이면 흰색 아니면 빨간색
-        actNumber = PV.Owner.ActorNumber;              
+        actNumber = PV.Owner.ActorNumber;
         isAlive = true;                                                      // 플레이어 죽음 초기화
         curHP = inItHP;                                                      // 플레이어 HP 초기화
         HP.value = inItHP;
@@ -207,27 +196,27 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             head_Rend.material = DeadMat_Head;                                 // 아바타 머리 머티리얼
             body_Rend.material = DeadMat_Body;                                 // 아바타 몸통 머티리얼
         }
-           
-        if(DataManager.DM.currentMap==Map.WESTERN)
+
+        if (DataManager.DM.currentMap == Map.WESTERN)
         {
             head_Rend.material = DeadMat_Head;                                 // 아바타 머리 머티리얼
             body_Rend.material = DeadMat_Body;                                 // 아바타 몸통 머티리얼
             body_Rend_belt.material = DeadMat_Body;
         }
         //glove_L_Rend.material = DeadMat_Hand;                                // 아바타 왼손 장갑 머티리얼
-      //  glove_R_Rend.material = DeadMat_Hand;                                // 아바타 오른손 장갑 머티리얼
-       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-       // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+        //  glove_R_Rend.material = DeadMat_Hand;                                // 아바타 오른손 장갑 머티리얼
+        // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+        // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
     }
 
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
-    {        
+    {
         deadScreen.gameObject.SetActive(false);
         Nickname.gameObject.SetActive(true);
         at_hand_Left.SetActive(true);
         at_hand_Right.SetActive(true);
         hand_Left.SetActive(true);
-        hand_Right.SetActive(true);       
+        hand_Right.SetActive(true);
 
         playerColls[0].enabled = false;
         playerColls[1].enabled = true;
@@ -235,12 +224,12 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         playerColls[3].enabled = true;
         playerColls[4].enabled = true;
 
-        if(DataManager.DM.currentMap==Map.TOY)
+        if (DataManager.DM.currentMap == Map.TOY)
         {
             head_Rend.material = head_Mat;
             body_Rend.material = body_Mat;
         }
-       
+
         if (DataManager.DM.currentMap == Map.WESTERN)
         {
             head_Rend.material = head_Mat;
@@ -297,15 +286,15 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
-            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);            
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);
         }
     }
     public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
     {
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
-        {            
-            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);            
+        {
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);
             PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         }
     }
@@ -313,8 +302,8 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     {
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
-        {            
-            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPower);            
+        {
+            PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPower);
             PV.RPC(nameof(BodyShot), RpcTarget.AllBuffered);
         }
     }
@@ -324,10 +313,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     }
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
-    {        
+    {
         damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
         yield return new WaitForSeconds(0.3f);
-        damageScreen.color = Color.clear;       
+        damageScreen.color = Color.clear;
     }
 
     public IEnumerator ShowDeadEffect()                                       // 죽음 효과 보여주기
@@ -384,7 +373,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
                 delayTime = 1f;
                 Debug.Log("남은 HP : " + HP.value.ToString() + "%");
 
-                if(HP.value <=30)
+                if (HP.value <= 30)
                 {
                     threeScreen.gameObject.SetActive(true);
                 }
@@ -402,7 +391,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
                         PV.RPC(nameof(PlayerDeadW), RpcTarget.AllViaServer, team);
                     }
 
-                    PV.RPC(nameof(DeadPlayer), RpcTarget.AllBuffered);                                      
+                    PV.RPC(nameof(DeadPlayer), RpcTarget.AllBuffered);
                     Debug.Log("킬 성공");
                 }
             }
@@ -467,7 +456,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            AudioManager.AM.PlaySE("Dead");            
+            AudioManager.AM.PlaySE("Dead");
         }
     }
 
@@ -477,7 +466,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         if (PV.IsMine)
         {
             AudioManager.AM.PlaySE("Respawn");
-            AudioManager.AM.PlaySE("Shield");  
+            AudioManager.AM.PlaySE("Shield");
         }
         StartCoroutine(ShowRespawnEffect());
 
@@ -490,17 +479,17 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(Nickname.transform.position);
             stream.SendNext(Nickname.transform.forward);
-            stream.SendNext(Nickname.text);            
-            stream.SendNext(HP.value);            
+            stream.SendNext(Nickname.text);
+            stream.SendNext(HP.value);
         }
         else
         {
             Nickname.transform.position = (Vector3)stream.ReceiveNext();
             Nickname.transform.forward = (Vector3)stream.ReceiveNext();
-            Nickname.text = (string)stream.ReceiveNext();            
-            HP.value = (float)stream.ReceiveNext();            
+            Nickname.text = (string)stream.ReceiveNext();
+            HP.value = (float)stream.ReceiveNext();
         }
     }
-     
-       
+
+
 }

@@ -60,16 +60,8 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         //WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
         ActivateHaptic();        
     }
-
-   /* public void WhenDead()
-    {
-        if (!AvartarController.ATC.isAlive && PV.IsMine)
-        {
-            PV.RPC(nameof(DestroyRevol), RpcTarget.All);
-        }
-    }
-
-    private void OnCollisionStay(Collision collision)
+       
+   /* private void OnCollisionStay(Collision collision)
     {        
         if (collision.collider.CompareTag("Cube"))
         {
@@ -116,8 +108,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
-            PV.RPC(nameof(Fire_R), RpcTarget.All);
-            //ActivateHaptic();
+            PV.RPC(nameof(Fire_R), RpcTarget.All);            
            /* audioSource.Play();
             muzzleFlash.Play();*/
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
@@ -134,11 +125,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
 
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR) && triggerBtnR)
         {
-            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.RightController);
+            PXR_Input.SetControllerVibration(0.25f, 2, PXR_Input.Controller.RightController);
         }
         if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnL) && triggerBtnL)
         {
-            PXR_Input.SetControllerVibration(0.25f, 5, PXR_Input.Controller.LeftController);
+            PXR_Input.SetControllerVibration(0.25f, 2, PXR_Input.Controller.LeftController);
         }
     }
 

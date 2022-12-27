@@ -59,10 +59,11 @@ public class SpawnWeapon_LW : MonoBehaviourPun
             //&& SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
         {
             if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       
-                 && AvartarController.ATC.isAlive)
+                 && AvartarController.ATC.isAlive&&myGun==null)
             {
                 if (weaponInIt) { return; }//if (myGun != null) { return; }
-                RevolverManager revolver = SpawnGun(attachPoint);
+                if (myGun != null) { return; }
+                RevolverManager revolver = SpawnGun();
                 AudioManager.AM.PlaySE("GrabRevo");
                 myGun = revolver.gameObject;
                 //myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);               
@@ -78,26 +79,30 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         }
 
         if (coll.CompareTag("Bomb") &&
-            DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))            
+            DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))
         {
             if (griped_L3 && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive )//&& !DataManager.DM.grabBomb)
+                && AvartarController.ATC.isAlive)
             {
-                weaponInIt = true;
-                //DataManager.DM.grabBomb = true;
+                weaponInIt = true;                
             }
 
             else
             {
-                weaponInIt = false;
-                //DataManager.DM.grabBomb = false;
+                weaponInIt = false;                
             }
         }
     }
 
-    private RevolverManager SpawnGun(Transform attachPoint)
+    private RevolverManager SpawnGun()
     {
         myGun= PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
         return myGun.GetComponent<RevolverManager>();
     }
+
+  /*  private RevolverManager SpawnGun(Transform attachPoint)
+    {
+        myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
+        return myGun.GetComponent<RevolverManager>();
+    }*/
 }

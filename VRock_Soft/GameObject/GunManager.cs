@@ -26,7 +26,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     private AudioSource audioSource;                 // ÃÑ¾Ë ¹ß»ç ¼Ò¸®
     private GameObject myBull;                       // ÀÚ±â ÃÑ¾Ë    
     private float fireTime = 0;                      // ÃÑ¾Ë µô·¹ÀÌ Å¸ÀÓ 
-    private readonly float delayfireTime = 0.15f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
+    private readonly float delayfireTime = 0.3f;    // ÃÑ¾Ë µô·¹ÀÌ Á¦ÇÑ½Ã°£
     private readonly float fireDistance = 1000f;     // ÃÑ¾Ë ºñ°Å¸®
     private Vector3 remotePos;
     private Quaternion remoteRot;
