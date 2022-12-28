@@ -16,6 +16,8 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     Rigidbody rb;
     public bool isBeingHeld = false;   
     SelectionOutline outline = null;
+    public BoxCollider bColl;
+    public MeshCollider mColl;
 
     private void Awake()
     {
@@ -26,6 +28,10 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     {
         rb = GetComponent<Rigidbody>();
         outline= GetComponent<SelectionOutline>();
+        mColl= GetComponent<MeshCollider>();
+        bColl= GetComponent<BoxCollider>();
+        mColl.enabled= false;
+        bColl.enabled= true;
     }
 
     private void Update()
@@ -34,11 +40,15 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         {
             rb.isKinematic = true;
             gameObject.layer = 7;
+            bColl.enabled = false;
+            mColl.enabled = true;           
         }
         else
         {
             rb.isKinematic = false;
             gameObject.layer = 6;
+            bColl.enabled = true;
+            mColl.enabled = false;            
         }
 
     }
@@ -47,17 +57,19 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public void Grab_EMP()
     {
         isBeingHeld = true;
+       
     }
 
     [PunRPC]
     public void Put_EMP()
     {
         isBeingHeld = false;
+       
     }
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);
+        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);        
         outline.RemoveHighlight();
         if (PV.Owner == PN.LocalPlayer)
         {
@@ -72,9 +84,9 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public void OnSelectedExited()
     {
         Debug.Log("놓았다");
-        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
-        outline.RemoveHighlight();
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);         
     }
+
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
         if (targetView != PV) { return; }
