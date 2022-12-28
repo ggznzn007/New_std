@@ -208,7 +208,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
 
         PN.Destroy(spawnPlayer);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0);        
         //PN.LoadLevel(0);
     }
 
