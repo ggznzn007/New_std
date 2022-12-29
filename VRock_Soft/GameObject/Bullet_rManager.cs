@@ -22,6 +22,8 @@ public class Bullet_rManager : MonoBehaviourPun
     [SerializeField] float speed;
     public string revolverImpact;
     public string hitPlayer;
+    public string shieldHit;
+
     void Start()
     {
         BrM = this;
@@ -55,7 +57,18 @@ public class Bullet_rManager : MonoBehaviourPun
             Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(revolverImpact);            
             PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
-        }        
+        }
+
+        if (collision.collider.CompareTag("Shield") && PV.IsMine)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
+            var effect = Instantiate(exploreEffect, contact.point, rot);
+            transform.position = contact.point;
+            Destroy(effect, 0.3f);
+            AudioManager.AM.PlaySE(shieldHit);
+            PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
+        }
 
         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam") && PV.IsMine)
         {

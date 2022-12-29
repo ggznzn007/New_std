@@ -28,8 +28,7 @@ public class BodyDamaged : MonoBehaviourPun
             {
                 AT.NormalDamage();
                 Debug.Log("¹Ùµð¼¦!");
-            }
-            
+            }                    
         }
     }
 

@@ -19,6 +19,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
 using UnityEngine.SocialPlatforms.Impl;
 using Unity.XR.PXR;
+using static Pico.Platform.Message;
 
 public class AvartarController : MonoBehaviourPun, IPunObservable
 {
@@ -47,15 +48,15 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸         
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-                                                                                            // [SerializeField] SkinnedMeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-                                                                                            // [SerializeField] SkinnedMeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+    //[SerializeField] MeshRenderer hand_L_Rend;                                  // 아바타 왼손   
+    //[SerializeField] MeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
     [SerializeField] Material body_Mat;                                             // 아바타 몸          
     [SerializeField] Material body_Mat_B;                                             // 웨스턴 아바타 몸        
+    //[SerializeField] Material hand_R;                                                  // 아바타 오른손    
                                                                                       // [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
-                                                                                      // [SerializeField] Material hand_R;                                                  // 아바타 오른손    
     [SerializeField] Material DeadMat_Head;                                         // 머리 죽음   머티리얼
     [SerializeField] Material DeadMat_Body;                                         // 몸   죽음   머티리얼
     [SerializeField] Material DeadMat_Hand;                                            // 손   죽음   머티리얼
@@ -76,7 +77,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] bool isDeadLock;
 
     private float delayTime = 1f;
-    public bool isDamaged = false;
+    public bool isDamaged = false;    
     public int team;
     //private int showCount = 0;
 
@@ -89,7 +90,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
 
     void Start()
     {
-        isDeadLock = true;
+        isDeadLock = true;        
         team = DataManager.DM.teamInt;
         //PN.UseRpcMonoBehaviourCache = true;
     }
@@ -101,26 +102,26 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();
-       /* switch (DataManager.DM.currentMap)
-        {
-            case Map.TUTORIAL_T:
-            case Map.TOY:
-                
-                break;
-            case Map.TUTORIAL_W:
-            case Map.WESTERN:
-                ShoW_Frame_W();
-                UnShow_Frame();
-                break;
-        }       */
-    }    
+        /* switch (DataManager.DM.currentMap)
+         {
+             case Map.TUTORIAL_T:
+             case Map.TOY:
+
+                 break;
+             case Map.TUTORIAL_W:
+             case Map.WESTERN:
+                 ShoW_Frame_W();
+                 UnShow_Frame();
+                 break;
+         }       */
+    }
 
     public void Show_Frame()
-    {       
+    {
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
         {
-            if(pressed) { FPS.SetActive(true); }
-        }       
+            if (pressed) { FPS.SetActive(true); }
+        }
     }
 
     public void UnShow_Frame()
@@ -131,7 +132,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         }
     }
 
-   
+
 
     public void Nick_HP_Pos()
     {
@@ -169,27 +170,29 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     }
 
     public IEnumerator PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
-    {
+    {        
         StartCoroutine(ShowDeadEffect());
         yield return new WaitForSeconds(0.001f);
-        isDeadLock = false;                                                  // 중복죽음방지
+        isDeadLock = false;                                                  // 중복죽음방지        
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
         threeScreen.gameObject.SetActive(false);
         at_hand_Left.SetActive(false);                                       // 아바타 왼손
         at_hand_Right.SetActive(false);                                      // 아바타 오른손
         hand_Left.SetActive(false);                                          // 왼손 컨트롤러
         hand_Right.SetActive(false);                                         // 오른손 컨트롤러
-                                                                             // 
+        
         playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
         playerColls[1].enabled = false;                                      // 머리 콜라이더
         playerColls[2].enabled = false;                                      // 몸통 콜라이더
         playerColls[3].enabled = false;                                      // 아이템스폰박스 오른쪽
-        playerColls[4].enabled = false;                                      // 아이템스폰박스 오른쪽
+        playerColls[4].enabled = false;                                      // 아이템스폰박스 오른쪽        
 
         curHP = 0;
         HP.gameObject.SetActive(false);                                      // 플레이어 HP
         HP.value = 0;
         HP.maxValue = inItHP;
+       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+       // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
@@ -201,12 +204,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         {
             head_Rend.material = DeadMat_Head;                                 // 아바타 머리 머티리얼
             body_Rend.material = DeadMat_Body;                                 // 아바타 몸통 머티리얼
-            body_Rend_belt.material = DeadMat_Body;
+            body_Rend_belt.material = DeadMat_Body;            
         }
         //glove_L_Rend.material = DeadMat_Hand;                                // 아바타 왼손 장갑 머티리얼
         //  glove_R_Rend.material = DeadMat_Hand;                                // 아바타 오른손 장갑 머티리얼
-        // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-        // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
     }
 
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
@@ -222,7 +223,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         playerColls[1].enabled = true;
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
-        playerColls[4].enabled = true;
+        playerColls[4].enabled = true;       
+
+       // hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
+        //hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
@@ -234,7 +238,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         {
             head_Rend.material = head_Mat;
             body_Rend.material = body_Mat;
-            body_Rend_belt.material = body_Mat_B;
+            body_Rend_belt.material = body_Mat_B;            
         }
         // glove_L_Rend.material = glove_R;
         // glove_R_Rend.material = glove_R;
@@ -268,16 +272,22 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
 
     private void OnTriggerEnter(Collider col)                                 // 리스폰 태그 시 메서드
     {
-        if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam == Team.BLUE)
+        if (col.CompareTag("RespawnBlue"))
         {
-            PV.RPC("RespawnPlayer", RpcTarget.All);
-            Debug.Log("블루팀 리스폰");
+            if(!isAlive && DataManager.DM.currentTeam == Team.BLUE)
+            {
+                PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);                
+                Debug.Log("블루팀 리스폰");
+            }           
         }
 
-        if (col.CompareTag("RespawnRed") && !isAlive && DataManager.DM.currentTeam == Team.RED)
+         if (col.CompareTag("RespawnRed"))
         {
-            PV.RPC("RespawnPlayer", RpcTarget.All);
-            Debug.Log("레드팀 리스폰");
+            if(!isAlive && DataManager.DM.currentTeam == Team.RED)
+            {
+                PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);                
+                Debug.Log("레드팀 리스폰");
+            }         
         }
     }
 

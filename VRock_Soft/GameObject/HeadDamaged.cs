@@ -27,8 +27,7 @@ public class HeadDamaged : MonoBehaviourPun
             {
                 AT.CriticalDamage();                
                 Debug.Log("Çìµå¼¦!!!");
-            }
-
+            }            
         }
     }
 
