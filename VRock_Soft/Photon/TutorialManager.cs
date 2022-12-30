@@ -15,7 +15,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     public Transform adminPoint;                        // 包府磊 积己困摹
     private GameObject spawnPlayer;                     // 积己登绰 敲饭捞绢
     public GameObject bomB;                             // 气藕 橇府普
-    public GameObject shield;                             // 气藕 橇府普
+    public GameObject shield;                             // 规菩 橇府普
     public Transform[] bSpawnPosition;                  // 气藕 积己困摹
     private GameObject bomBs;                           // 积己登绰 气藕
     private GameObject shieldCap;
