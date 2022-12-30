@@ -31,12 +31,12 @@ public class AvatarInputConverter : MonoBehaviour
         //XRHead.position = headPositionOffset;
 
         //Head and Body synch
-        MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position + headPositionOffset, 0.5f);
+        MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position + headPositionOffset, 1f);
        // MainAvatarTransform.position = Vector3.Lerp(MainAvatarTransform.position, XRHead.position+headPositionOffset, 2f);
-        AvatarHead.rotation = Quaternion.Lerp(AvatarHead.rotation, XRHead.rotation, 0.5f);
+        AvatarHead.rotation = Quaternion.Lerp(AvatarHead.rotation, XRHead.rotation, 1f);
         //AvatarHead.rotation = Quaternion.Lerp(AvatarHead.rotation, XRHead.rotation,2f);
-        AvatarBody.rotation = Quaternion.Lerp(AvatarBody.rotation, Quaternion.Euler(new Vector3(0, AvatarHead.rotation.eulerAngles.y, 0)), 0.05f);
-       // AvatarBody.rotation = Quaternion.Lerp(AvatarBody.rotation, Quaternion.Euler(new Vector3(0, AvatarHead.rotation.eulerAngles.y, 0)), 2f);
+        AvatarBody.rotation = Quaternion.Lerp(AvatarBody.rotation, Quaternion.Euler(new Vector3(0, AvatarHead.rotation.eulerAngles.y, 0)), 1f);
+       // AvatarBody.rotation = Quaternion.Lerp(AvatarBody.rotation, Quaternion.Euler(new Vector3(0, AvatarHead.rotation.eulerAngles.y, 0)),0.05f);
 
         //Hands synch  // 수정된 코드
        AvatarHand_Right.SetPositionAndRotation(Vector3.Lerp(AvatarHand_Right.position, XRHand_Right.position,1f),
