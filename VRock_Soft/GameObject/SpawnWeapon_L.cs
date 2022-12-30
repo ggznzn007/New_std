@@ -64,8 +64,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt) { return; }
-                    if (myGun != null) { return; }
+                    if (weaponInIt&& myGun != null) { return; }
+                   // if (myGun != null) { return; }
                     GunManager gun = SpawnGun();
                     myGun = gun.gameObject;
                     weaponInIt = true;
@@ -119,6 +119,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
 
     }
 
+    
     private GunManager SpawnGun()
     {
         myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
