@@ -46,12 +46,25 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         }
     }    
    
-    public void Explode()
+    public IEnumerator Explode()
     {
-        AudioManager.AM.PlaySX(emp_Explo);
+        PV.RPC(nameof(BeepSound), RpcTarget.AllBuffered);
+        yield return new WaitForSecondsRealtime(2.35f);
+        PV.RPC(nameof(ExploSound), RpcTarget.AllBuffered);
         PN.Instantiate(effect.name, transform.position, Quaternion.identity);
         PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
-    }  
+    }
+
+    [PunRPC]
+    public void BeepSound()
+    {
+        AudioManager.AM.PlaySB(bombBeep);
+    }
+    [PunRPC]
+    public void ExploSound()
+    {
+        AudioManager.AM.PlaySX(emp_Explo);
+    }
 
     [PunRPC]
     public void DestroyEMP()
@@ -85,9 +98,9 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     }
 
     public void OnSelectedExited()
-    {
-        AudioManager.AM.PlaySB(bombBeep);        
-        Invoke(nameof(Explode), 2.35f);       
+    {        
+        StartCoroutine(Explode());
+        //Invoke(nameof(Explode), 2.35f);       
         PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
         Debug.Log("³õ¾Ò´Ù");        
     }
