@@ -10,77 +10,48 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using Unity.XR.PXR;
+using Unity.VisualScripting;
 
 public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
     PhotonView PV;
     Rigidbody rb;
-    public GameObject effect;
-    public int bCount;
-    public bool isBeingHeld = false;
-    public bool isExplo;
+    public GameObject effect;   
+    public bool isBeingHeld = false;    
     public string bombBeep;
     public string dm_Explo;
     SelectionOutline outline = null;
 
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
-        isExplo = false;
+        PV = GetComponent<PhotonView>();      
     }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        bCount = 0;
+        rb = GetComponent<Rigidbody>();       
         outline = GetComponent<SelectionOutline>();
     }
     private void Update()
-    {
-        if (DataManager.DM.currentTeam != Team.ADMIN)
-        {
-            ThrowDM();
-        }
+    {      
         if (isBeingHeld)
-        {
-            bCount++;
-            isExplo = false;
+        {            
             rb.isKinematic = true;
             gameObject.layer = 7;
         }
         else
-        {
-            isExplo = true;
+        {            
             rb.isKinematic = false;
             gameObject.layer = 6;
         }
     }
 
-    public void ThrowDM()
+    public void Explode_D()
     {
-        if (!isBeingHeld && isExplo && bCount >= 1)
-        {
-            StartCoroutine(ExploDM());
-        }       
-    }
-
-    public IEnumerator ExploDM()
-    {        
-        yield return StartCoroutine(BeepD());
-        yield return StartCoroutine(DmEX());
-        PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
-    }
-    public IEnumerator BeepD()
-    {
-        AudioManager.AM.PlaySX(bombBeep);
-        yield return new WaitForSeconds(2.35f);
-    }
-    public IEnumerator DmEX()
-    {
-        AudioManager.AM.PlaySE(dm_Explo);
+        AudioManager.AM.PlaySX(dm_Explo);
         PN.Instantiate(effect.name, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(0.001f);
-    }
+        PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
+    }    
 
     [PunRPC]
     public void DestroyEMP()
@@ -103,8 +74,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
-        PV.RPC(nameof(Grab_DM), RpcTarget.AllBuffered);
-        outline.RemoveHighlight();
+        PV.RPC(nameof(Grab_DM), RpcTarget.AllBuffered);        
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
@@ -117,8 +87,10 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     public void OnSelectedExited()
     {
-        Debug.Log("놓았다");
+        AudioManager.AM.PlaySB(bombBeep);
+        Invoke(nameof(Explode_D), 2.35f);
         PV.RPC(nameof(Put_DM), RpcTarget.AllBuffered);
+        Debug.Log("놓았다");
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
