@@ -10,28 +10,34 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
 
-public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
+    public static Shield SD;
     public PhotonView PV;
     Rigidbody rb;
     public bool isBeingHeld = false;   
-    SelectionOutline outline = null;
-    public BoxCollider bColl;
-    public MeshCollider mColl;
-
-    private void Awake()
-    {
-        PV = GetComponent<PhotonView>();
-    }
+   // SelectionOutline outline = null;    
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        outline= GetComponent<SelectionOutline>();
-        mColl= GetComponent<MeshCollider>();
-        bColl= GetComponent<BoxCollider>();
-        mColl.enabled= false;
-        bColl.enabled= true;
+        SD= this;
+        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();          
+    }
+
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        base.OnSelectEntered(args);
+        PV.RequestOwnership();
+        Debug.Log("잡았다");
+        PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);        
+    }
+
+    protected override void OnSelectExited(SelectExitEventArgs args)
+    {
+        base.OnSelectExited(args);
+        Debug.Log("놓았다");       
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);        
     }
 
     private void Update()
@@ -40,37 +46,30 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         {
             rb.isKinematic = true;
             gameObject.layer = 7;
-            bColl.enabled = false;
-            mColl.enabled = true;           
         }
         else
         {
             rb.isKinematic = false;
-            gameObject.layer = 6;
-            bColl.enabled = true;
-            mColl.enabled = false;            
+            gameObject.layer = 12;
         }
 
     }
-   
+
     [PunRPC]
     public void Grab_EMP()
     {
         isBeingHeld = true;
-       
     }
 
     [PunRPC]
     public void Put_EMP()
     {
         isBeingHeld = false;
-       
     }
-    public void OnSelectedEntered()
+  /*  public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
         PV.RPC(nameof(Grab_EMP), RpcTarget.AllBuffered);        
-        outline.RemoveHighlight();
         if (PV.Owner == PN.LocalPlayer)
         {
             Debug.Log("이미 소유권이 나에게 있습니다.");
@@ -83,8 +82,8 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     public void OnSelectedExited()
     {
-        Debug.Log("놓았다");
-        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);         
+        Debug.Log("놓았다");        
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -104,12 +103,12 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         throw new NotImplementedException();
     }
 
-    private void TransferOwnership()
+    public void TransferOwnership()
     {
         PV.RequestOwnership();
-    }
+    }*/
 
-    public void OnHoverEntered()
+   /* public void OnHoverEntered()
     {
         outline.Highlight();
     }
@@ -117,5 +116,5 @@ public class Shield : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public void OnHoverExited()
     {
         outline.RemoveHighlight();
-    }
+    }*/
 }
