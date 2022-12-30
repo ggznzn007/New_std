@@ -32,7 +32,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public GameObject bomB;
     [Header("NPC 프리팹")]                                      // 폭탄을 생성해주는 NPC => 카우보이
     public GameObject npc;
-
+    public GameObject shield;                             // 방패 프리팹
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
@@ -61,6 +61,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public int score_RedKill;
     private GameObject bombRed;
     private GameObject bombBlue;
+    private GameObject barrels_Blue;
+    private GameObject barrels_Red;
     private void Awake()
     {
         WM = this;
@@ -78,8 +80,9 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);
                 PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
+                SpawnShield();
                 //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
-               
+
             }
             if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
             {
@@ -202,7 +205,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
         /*PN.Instantiate(bomB.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
         PN.Instantiate(bomB.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0); */
     }
-    
+
+   public void SpawnShield()
+    {
+        barrels_Blue = PN.InstantiateRoomObject(shield.name, bSpawnPosition[0].position, bSpawnPosition[0].rotation, 0);
+        barrels_Red = PN.InstantiateRoomObject(shield.name, bSpawnPosition[1].position, bSpawnPosition[1].rotation, 0);
+    }
+
+
     [PunRPC]
     public void StartBtnW()
     {
