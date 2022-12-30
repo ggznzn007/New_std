@@ -44,15 +44,17 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public bool inGame;       // 게임 중인지 여부    
 
-    public bool grabBomb;     // 폭탄을 집었는지 여부
+    //public bool grabBomb;     // 폭탄을 집었는지 여부
 
-    public bool grabGun;      // 총을 집었는지 여부
+    //public bool grabGun;      // 총을 집었는지 여부
+
+    //public bool grabShield;      // 방패를 집었는지 여부
 
     public string nickName;
 
     public int teamInt;       // 팀 숫자 0=블루팀, 1=레드팀
 
-    public GameObject myGun = null;
+    //public GameObject myGun = null;
     private void Awake()
     {
         if (DM == null) DM = this;
