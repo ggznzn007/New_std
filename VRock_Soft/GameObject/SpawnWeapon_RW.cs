@@ -60,8 +60,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt) { return; }
-                    if (myGun != null) { return; }
+                    if (weaponInIt&& myGun != null) { return; }
+                   // if (myGun != null) { return; }
                     RevolverManager revolver = SpawnGun();
                     AudioManager.AM.PlaySE("GrabRevo");
                     myGun = revolver.gameObject;                                    
