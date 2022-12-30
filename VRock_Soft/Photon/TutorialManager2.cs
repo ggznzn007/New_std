@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.XR;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TutorialManager2 : MonoBehaviourPunCallbacks
 {
@@ -19,12 +20,13 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     [SerializeField] GameObject redTeam;                // 레드팀 프리팹
     [SerializeField] GameObject blueTeam;               // 블루팀 프리팹
     [SerializeField] GameObject admin;                  // 관리자 프리팹
+    public GameObject shield;                             // 방패 프리팹
     public Transform adminPoint;                        // 관리자 생성위치
     private GameObject spawnPlayer;                     // 생성되는 플레이어
     public GameObject bomB;                             // 생성되는 폭탄
     public Transform[] bSpawnPosition;                  // 폭탄 생성위치
     private GameObject bomBs;
-
+    private GameObject shieldCap;
     private void Awake()
     {
         TM2 = this;
@@ -40,6 +42,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             if (PN.IsMasterClient)
             {
                 InvokeRepeating(nameof(SpawnDynamite), 10, 30);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
+                SpawnShield();
             }
             SpawnPlayer();
 
@@ -117,7 +120,15 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
            bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
-   
+
+    public void SpawnShield()
+    {
+        for (int i = 0; i < bSpawnPosition.Length; i++)
+        {
+            shieldCap = PN.InstantiateRoomObject(shield.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+        }
+    }
+
     [ContextMenu("포톤 서버 정보")]
     void Info()
     {
