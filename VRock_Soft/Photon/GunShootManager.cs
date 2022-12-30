@@ -315,7 +315,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         yield return new WaitForSeconds(3);
         countText.gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo2");
-        countText.text = string.Format("3초 뒤에 로비로 이동합니다");
+        countText.text = string.Format("3초 뒤에 다음 스테이지로 이동합니다");
         yield return new WaitForSeconds(6);
         PN.LeaveRoom();        
         StopCoroutine(LeaveGame());
