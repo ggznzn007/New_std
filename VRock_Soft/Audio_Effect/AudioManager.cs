@@ -6,8 +6,8 @@ using UnityEngine;
 public class Sound
 {
     public string name;
-    //public float volume;   
     public AudioClip clip;
+    //public float volume;   
 }
 
 public class AudioManager : MonoBehaviour
@@ -15,30 +15,32 @@ public class AudioManager : MonoBehaviour
     public static AudioManager AM;
    
     [Header("배경음 소스파일")]
-    [SerializeField] Sound[] bgm;
+    [SerializeField] Sound[] bgm = null;
 
     [Header("효과음 소스파일")]
-    [SerializeField] Sound[] soundE;
+    [SerializeField] Sound[] soundE = null;
 
     [Header("폭탄음 소스파일")]
-    [SerializeField] Sound[] soundX;
+    [SerializeField] Sound[] soundX = null;
+
+    [Header("예비음 소스파일")]
+    [SerializeField] Sound[] soundB = null;
 
     [Header("배경음 스피커")]
-    [SerializeField] AudioSource bgmSpeaker;    
+    [SerializeField] AudioSource bgmSpeaker = null;    
 
     [Header("효과음 스피커")]
-    [SerializeField] AudioSource[] seSpeaker;
+    [SerializeField] AudioSource[] seSpeaker = null;
 
     [Header("폭탄음 스피커")]
-    [SerializeField] AudioSource[] bombSpeaker;
+    [SerializeField] AudioSource[] bombSpeaker = null;
 
-    private void Awake()
-    {
-        AM = this;        
-    }
+    [Header("예비음 스피커")]
+    [SerializeField] AudioSource[] beepSpeaker = null;
 
     private void Start()
     {
+        AM = this;
         PlayeRandomBGM();
     }
   
@@ -53,6 +55,7 @@ public class AudioManager : MonoBehaviour
                     if (!seSpeaker[j].isPlaying)
                     {
                         seSpeaker[j].clip = soundE[i].clip;
+                        //seSpeaker[j].Play();
                         seSpeaker[j].PlayOneShot(seSpeaker[j].clip);
                         return;
                     }
@@ -74,15 +77,39 @@ public class AudioManager : MonoBehaviour
                     if (!bombSpeaker[j].isPlaying)
                     {
                         bombSpeaker[j].clip = soundX[i].clip;
+                        //bombSpeaker[j].Play();
                         bombSpeaker[j].PlayOneShot(bombSpeaker[j].clip);
                         return;
                     }
                 }
-                Debug.Log("모든 효과음스피커가 사용중입니다.");
+                Debug.Log("모든 폭탄음스피커가 사용중입니다.");
                 return;
             }
         }
-        Debug.Log("등록된 효과음이 없습니다.");
+        Debug.Log("등록된 폭탄음이 없습니다.");
+    }
+
+    public void PlaySB(string soundName)
+    {
+        for (int i = 0; i < soundB.Length; i++)
+        {
+            if (soundName == soundB[i].name)
+            {
+                for (int j = 0; j < beepSpeaker.Length; j++)
+                {
+                    if (!beepSpeaker[j].isPlaying)
+                    {                        
+                        beepSpeaker[j].clip = soundB[i].clip;
+                        //beepSpeaker[j].Play();
+                        beepSpeaker[j].PlayOneShot(beepSpeaker[j].clip);
+                        return;
+                    }
+                }
+                Debug.Log("모든 예비음스피커가 사용중입니다.");
+                return;
+            }
+        }
+        Debug.Log("등록된 예비음이 없습니다.");
     }
 
     public void PlayeRandomBGM()
