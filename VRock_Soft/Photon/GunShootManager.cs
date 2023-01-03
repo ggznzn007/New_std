@@ -79,8 +79,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             {
                 PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);
                 PN.InstantiateRoomObject(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);
-                Shield_Blue();
-                Shield_Red();
+                Invoke(nameof(Shield_Blue), 2);
+                Invoke(nameof(Shield_Red), 2);
+                //Shield_Blue();
+                //Shield_Red();
             }
             SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
@@ -123,7 +125,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                     //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-                }               
+                }
                 break;
 
             default:
@@ -133,14 +135,15 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     private void Update()
     {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
-            else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Emp_Red();
-                Emp_Blue();
-            }
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
+        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Emp_Red();
+            Emp_Blue();
+        }
+
         /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
         {
 
@@ -205,12 +208,20 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     public void Shield_Red()
     {
-        shieldCap_Red = PN.InstantiateRoomObject(shield.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
+        if (shieldCap_Red == null)
+        {
+            if (shieldCap_Red != null) return;
+            shieldCap_Red = PN.InstantiateRoomObject(shield.name, bSpawnPosRed.position, bSpawnPosRed.rotation, 0);
+        }
     }
 
     public void Shield_Blue()
     {
-        shieldCap_Blue = PN.InstantiateRoomObject(shield.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
+        if (shieldCap_Blue == null)
+        {
+            if (shieldCap_Blue != null) return;
+            shieldCap_Blue = PN.InstantiateRoomObject(shield.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
+        }
     }
 
 
@@ -317,7 +328,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         AudioManager.AM.PlaySE("GameInfo2");
         countText.text = string.Format("3초 뒤에 다음 스테이지로 이동합니다");
         yield return new WaitForSeconds(6);
-        PN.LeaveRoom();        
+        PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }
 
@@ -358,6 +369,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         }
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
+
     }
 
     [ContextMenu("포톤 서버 정보")]
