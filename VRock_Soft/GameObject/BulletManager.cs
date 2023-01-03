@@ -33,7 +33,7 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
         BM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 1.5f);
+        PV.RPC(nameof(DestroyDelay), RpcTarget.AllBuffered);
         //PN.UseRpcMonoBehaviourCache = true;
         //OP.PoolDestroy(gameObject);
         // StartCoroutine(DestroyDelay());
@@ -135,18 +135,13 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
             Destroy(effect, 0.3f);
             AudioManager.AM.PlaySE(hitPlayer);            
             PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
-        }
-
-        else
-        {
-            Destroy(gameObject, 1);
-        }
+        }     
     }
 
        
 
     [PunRPC]
-   public void BulletDir(float speed, int actorNumber)//,int addSpeed)
+    public void BulletDir(float speed, int actorNumber)//,int addSpeed)
     {
         this.speed = speed;
         actNumber = actorNumber;       
@@ -154,94 +149,9 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
 
     [PunRPC]
     public void DestroyBullet()=> Destroy(gameObject);
-    
-    /* private void OnEnable()  //풀링할때 
-      {
-          // rb.AddRelativeForce(GunManager.gunManager.firePoint.forward * speed);
-          rb.AddForce(transform.forward * speed);
 
-      }
-
-      private void OnBecameInvisible()
-      {
-          //Enqueue();
-          // OP.PoolDestroy(this.gameObject);
-
-          //Destroy(gameObject);
-          //PN.Destroy(photonView);
-          if (GetComponent<PhotonView>().IsMine)
-          {
-              PN.Destroy(gameObject);
-          }
-          else
-          {
-              Destroy(this.gameObject);
-          }
-      }
-
-      private void OnDisable()
-      {
-          //tr.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-          rb.Sleep();
-      }*/
-
-    /*if (collsion.collider.CompareTag("Toy"))   // 토이 튜토리얼 갈릭 태그
-       {           
-           // 충돌지점의 정보를 추출
-           ContactPoint contact = collsion.contacts[0];
-
-           // 법선 벡타가 이루는 회전각도 추출
-           Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-
-
-           // 충돌 지점에 이펙트 생성           
-           var effect = Instantiate(exploreEffect, contact.point, rot);
-           AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
-           Destroy(effect, 0.5f);
-           Destroy(collsion.collider.gameObject);
-           PV.RPC("DestroyBullet", RpcTarget.All);
-
-           if (PN.IsMasterClient)
-           {
-               PN.LoadLevel(2);
-           }
-
-       }      
-
-       if (collsion.collider.CompareTag("West"))  // 웨스트 튜토리얼 갈릭 태그
-       {
-           // 충돌지점의 정보를 추출
-           ContactPoint contact = collsion.contacts[0];
-           // 법선 벡타가 이루는 회전각도 추출
-           Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-           // 충돌 지점에 이펙트 생성           
-           var effect = Instantiate(exploreEffect, contact.point, rot);
-           AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
-           Destroy(effect, 0.5f);
-           PV.RPC("DestroyBullet", RpcTarget.All);
-           Destroy(collsion.collider.gameObject);
-           // PN.LeaveRoom();
-           if (PN.IsMasterClient)
-           {
-               PN.LoadLevel(4);
-           }
-       }
-
-       if (collsion.collider.CompareTag("Next")) 
-       {
-           // 충돌지점의 정보를 추출
-           ContactPoint contact = collsion.contacts[0];
-           // 법선 벡타가 이루는 회전각도 추출
-           Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);
-           // 충돌 지점에 이펙트 생성           
-           var effect = Instantiate(exploreEffect, contact.point, rot);
-           AudioManager.AM.EffectPlay(AudioManager.Effect.BulletImpact);
-           Destroy(effect, 0.5f);
-           Destroy(collsion.collider);
-           PV.RPC("DestroyBullet", RpcTarget.All);
-           PN.LeaveRoom();
-
-       }
-*/
+    [PunRPC]
+    public void DestroyDelay() => Destroy(gameObject, 0.5f);
+          
 }
 
