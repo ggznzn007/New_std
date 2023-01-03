@@ -35,9 +35,9 @@ public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnersh
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        base.OnSelectExited(args);
-        Debug.Log("놓았다");       
-        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);        
+        base.OnSelectExited(args);        
+        Debug.Log("놓았다");        
+        PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);       
     }
 
     private void Update()
@@ -66,6 +66,18 @@ public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnersh
     {
         isBeingHeld = false;
     }
+
+  /*  public IEnumerator DelayDes()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void DestroyEMP()
+    {
+        Destroy(PV.gameObject);
+    }*/
   /*  public void OnSelectedEntered()
     {
         Debug.Log("잡았다");
