@@ -35,8 +35,8 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] int attackPower = 15;
     [SerializeField] int attackPowerH = 30;
     [SerializeField] int grenadePower = 40;
-    [SerializeField] GameObject hand_Left;
-    [SerializeField] GameObject hand_Right;
+    [SerializeField] XRDirectInteractor hand_Left;
+    [SerializeField] XRDirectInteractor hand_Right;
     [SerializeField] GameObject at_hand_Left;
     [SerializeField] GameObject at_hand_Right;
     [SerializeField] GameObject FPS;
@@ -48,14 +48,14 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸         
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-    //[SerializeField] MeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-    //[SerializeField] MeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+    [SerializeField] MeshRenderer hand_L_Rend;                                  // 아바타 왼손   
+    [SerializeField] MeshRenderer hand_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
     [SerializeField] Material body_Mat;                                             // 아바타 몸          
     [SerializeField] Material body_Mat_B;                                             // 웨스턴 아바타 몸        
-    //[SerializeField] Material hand_R;                                                  // 아바타 오른손    
+    [SerializeField] Material hand_R;                                                  // 아바타 오른손    
                                                                                       // [SerializeField] Material glove_R;                                                 // 아바타 오른손 장갑 
     [SerializeField] Material DeadMat_Head;                                         // 머리 죽음   머티리얼
     [SerializeField] Material DeadMat_Body;                                         // 몸   죽음   머티리얼
@@ -98,22 +98,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     void Update()
     {
         if (!PV.IsMine) return;
-        //PV.RefreshRpcMonoBehaviourCache();
         Nick_HP_Pos();
         Show_Frame();
-        UnShow_Frame();
-        /* switch (DataManager.DM.currentMap)
-         {
-             case Map.TUTORIAL_T:
-             case Map.TOY:
-
-                 break;
-             case Map.TUTORIAL_W:
-             case Map.WESTERN:
-                 ShoW_Frame_W();
-                 UnShow_Frame();
-                 break;
-         }       */
+        UnShow_Frame();       
+        //PV.RefreshRpcMonoBehaviourCache();
     }
 
     public void Show_Frame()
@@ -139,7 +127,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         // HP.transform.SetPositionAndRotation(myCam.transform.position + new Vector3(0, 0.5f, 0), myCam.transform.rotation);
         // HP.transform.position = myCam.transform.position + new Vector3(0, 0.42f, 0);
         //Nickname.transform.SetPositionAndRotation(myCam.transform.position + new Vector3(0, 0.6f, 0), myCam.transform.rotation);
-        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.54f, 0);
+        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.55f, 0);
         // HP.transform.forward = -myCam.transform.forward;
         Nickname.transform.forward = -myCam.transform.forward;
     }
@@ -152,7 +140,8 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         isAlive = true;                                                      // 플레이어 죽음 초기화
         curHP = inItHP;                                                      // 플레이어 HP 초기화
         HP.value = inItHP;
-        HP.maxValue = inItHP;                                                  // 실제로 보여지는 HP양 초기화       
+        HP.maxValue = inItHP;                                                  // 실제로 보여지는 HP양 초기화      
+       
         GetNickNameByActorNumber(actNumber);
     }
 
@@ -169,18 +158,24 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         return "Ghost";
     }
 
+    public IEnumerator CantCtrlHand()               // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+    {
+        hand_Left.interactionLayers = 0;            // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
+        hand_Right.interactionLayers = 0;        
+        yield return new WaitForSeconds(1f);        
+        hand_Left.interactionLayers = 6|12;
+        hand_Right.interactionLayers = 6|12;
+    }
+
     public IEnumerator PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
     {        
-        StartCoroutine(ShowDeadEffect());
+        StartCoroutine(ShowDeadEffect());       
         yield return new WaitForSeconds(0.001f);
         isDeadLock = false;                                                  // 중복죽음방지        
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
-        threeScreen.gameObject.SetActive(false);
-        at_hand_Left.SetActive(false);                                       // 아바타 왼손
-        at_hand_Right.SetActive(false);                                      // 아바타 오른손
-        hand_Left.SetActive(false);                                          // 왼손 컨트롤러
-        hand_Right.SetActive(false);                                         // 오른손 컨트롤러
-        
+        threeScreen.gameObject.SetActive(false);       
+        StartCoroutine(CantCtrlHand());                                      // 방패 소유권을 리셋하기위한 메서드
+
         playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
         playerColls[1].enabled = false;                                      // 머리 콜라이더
         playerColls[2].enabled = false;                                      // 몸통 콜라이더
@@ -191,8 +186,9 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         HP.gameObject.SetActive(false);                                      // 플레이어 HP
         HP.value = 0;
         HP.maxValue = inItHP;
-       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-       // hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+
+        hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+        hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
@@ -213,11 +209,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
     {
         deadScreen.gameObject.SetActive(false);
-        Nickname.gameObject.SetActive(true);
-        at_hand_Left.SetActive(true);
-        at_hand_Right.SetActive(true);
-        hand_Left.SetActive(true);
-        hand_Right.SetActive(true);
+        Nickname.gameObject.SetActive(true);       
 
         playerColls[0].enabled = false;
         playerColls[1].enabled = true;
@@ -225,8 +217,8 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         playerColls[3].enabled = true;
         playerColls[4].enabled = true;       
 
-       // hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
-        //hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
+        hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
+        hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
