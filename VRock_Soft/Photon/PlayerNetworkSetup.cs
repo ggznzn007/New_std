@@ -33,8 +33,8 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             LocalXRRigGameObject.SetActive(true);
             SetLayerRecursively(go: AvatarHead, 8);
             SetLayerRecursively(go: AvatarBody, 9);
-            SetLayerRecursively(go: AvatarHand_L, 10);
-            SetLayerRecursively(go: AvatarHand_R, 10);
+            SetLayerRecursively(go: AvatarHand_L, 0);
+            SetLayerRecursively(go: AvatarHand_R, 0);
         }
         else                                                   // 리모트 플레이어
         {
