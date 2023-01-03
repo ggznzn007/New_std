@@ -29,7 +29,7 @@ public class Bullet_rManager : MonoBehaviourPun
         BrM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 1.5f);
+       // Destroy(gameObject, 1.5f);
       
     }
   
@@ -118,10 +118,10 @@ public class Bullet_rManager : MonoBehaviourPun
             PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
         }   
 
-        else
+     /*   else
         {
             Destroy(gameObject, 1);
-        }
+        }*/
     }
 
 
@@ -133,6 +133,8 @@ public class Bullet_rManager : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void DestroyBullet()=> Destroy(gameObject);   
+    public void DestroyBullet()=> Destroy(gameObject);
 
+    [PunRPC]
+    public void DestroyDelay() => Destroy(gameObject, 0.5f);
 }
