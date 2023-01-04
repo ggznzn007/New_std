@@ -1,23 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
-using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using TMPro;
 
 
-public class AdminMove : MonoBehaviourPunCallbacks
+public class AdminMove : MonoBehaviourPun
 {
     private float moveSpeed = 5f;
     public TMP_Text blueScore;
-    public TMP_Text redScore;
-    public TMP_Text playerCount;
-    public TMP_Text playerName;
+    public TMP_Text redScore;   
     public TMP_Text timerText;
 
     private void Start()
@@ -72,16 +64,5 @@ public class AdminMove : MonoBehaviourPunCallbacks
         Screen.SetResolution(setWidth, setHeight, false); // 창모드
        // Screen.SetResolution(setWidth, setHeight, true); // 풀스크린모드
     }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        //playerName.text = ($"{newPlayer.NickName}");
-        playerCount.text = ($"게임 현재인원 : {PN.CurrentRoom.PlayerCount}");
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        //playerName.text = ($"{otherPlayer.NickName}");
-        playerCount.text = ($"게임 현재인원 : {PN.CurrentRoom.PlayerCount}");
-    }
+    
 }
