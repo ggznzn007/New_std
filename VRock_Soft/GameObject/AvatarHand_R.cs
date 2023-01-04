@@ -14,7 +14,7 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
     public MeshRenderer avatarRightHand;
     public PhotonView PV;
     private Vector3 remotePos;
-    private Quaternion remoteRot;
+    private Quaternion remoteRot;    
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
         if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
+                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));           
         }
 
 
@@ -84,14 +84,12 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-           // stream.SendNext(avatarRightHand.forceRenderingOff);
+            stream.SendNext(transform.rotation);           
         }
         else
         {
             remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
-           // avatarRightHand.forceRenderingOff = (bool)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();           
         }
     }
 
