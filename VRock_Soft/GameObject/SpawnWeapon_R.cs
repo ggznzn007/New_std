@@ -10,6 +10,8 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
+using Unity.XR.PXR;
+
 public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 생성하는 스크립트
 {
     public static SpawnWeapon_R rightWeapon;
@@ -17,13 +19,12 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
-    public bool weaponInIt= false;
-    public bool shieldInIt= false;
-    private GameObject myGun;    
+    public bool weaponInIt = false;    
+    private GameObject myGun;
     
     private void Awake()
     {
-        rightWeapon = this;        
+        rightWeapon = this;
     }
 
     private void Start()
@@ -31,14 +32,14 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);               
+        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
         }
         //DataManager.DM.grabBomb = false;
-        
-    }   
+
+    } 
 
     public GunManager FindGun()
     {
@@ -49,7 +50,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         }
         return null;
     }
-    
+
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox"))
@@ -59,7 +60,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt&& myGun != null) { return; }
+                    if (weaponInIt || myGun != null) { return; }
                     //if (myGun != null) { return; }
                     GunManager gun = SpawnGun();
                     myGun = gun.gameObject;
@@ -80,7 +81,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
         {
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2))
             {
-                if (griped_R2&& photonView.IsMine && photonView.AmOwner
+                if (griped_R2 && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive)
                 {
                     weaponInIt = true;
@@ -115,7 +116,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 
 
     }
 
-   
+
     private GunManager SpawnGun()
     {
         myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
