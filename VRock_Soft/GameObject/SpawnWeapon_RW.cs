@@ -21,6 +21,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     public InputDevice DeviceR;
     public bool weaponInIt = false;
     private GameObject myGun;
+   // public BoxCollider itemBox;
 
     private void Awake()
     {
@@ -42,6 +43,24 @@ public class SpawnWeapon_RW : MonoBehaviourPun
        // DataManager.DM.grabBomb = false;
     }
 
+    private void Update()
+    {
+        //ItemBoxable();
+    }
+
+  /*  public void ItemBoxable()
+    {
+        if (myGun == null)
+        {
+            if (myGun != null) { return; }
+            itemBox.enabled = true;
+        }
+        else
+        {
+            itemBox.enabled = false;
+        }
+    }*/
+
     public RevolverManager FindGun()
     {
         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Revolver"))
@@ -60,7 +79,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt&& myGun != null) { return; }
+                    if (weaponInIt||myGun != null) { return; }
                    // if (myGun != null) { return; }
                     RevolverManager revolver = SpawnGun();
                     AudioManager.AM.PlaySE("GrabRevo");
