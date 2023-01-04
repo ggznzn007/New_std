@@ -100,8 +100,22 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         if (!PV.IsMine) return;
         Nick_HP_Pos();
         Show_Frame();
-        UnShow_Frame();       
+        UnShow_Frame();
+        GameOverInteract();
         //PV.RefreshRpcMonoBehaviourCache();
+    }
+
+    public void GameOverInteract()
+    {
+        if(DataManager.DM.gameOver)
+        {
+            hand_Left.interactionLayers = 0;                                     
+            hand_Right.interactionLayers = 0;
+            for (int i = 3; i < playerColls.Count; i++)
+            {
+                playerColls[i].enabled = false;
+            }
+        }       
     }
 
     public void Show_Frame()
@@ -141,7 +155,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         curHP = inItHP;                                                      // 플레이어 HP 초기화
         HP.value = inItHP;
         HP.maxValue = inItHP;                                                  // 실제로 보여지는 HP양 초기화      
-       
+        
         GetNickNameByActorNumber(actNumber);
     }
 
@@ -156,16 +170,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             }
         }
         return "Ghost";
-    }
-
-    public IEnumerator CantCtrlHand()               // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
-    {
-        hand_Left.interactionLayers = 0;            // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
-        hand_Right.interactionLayers = 0;        
-        yield return new WaitForSeconds(1f);        
-        hand_Left.interactionLayers = 6|12;
-        hand_Right.interactionLayers = 6|12;
-    }
+    }   
 
     public IEnumerator PlayerDead()  ///////////////////////////////////////////죽음 메서드//////////////////////////////////////////////////////////////////
     {        
@@ -173,8 +178,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         yield return new WaitForSeconds(0.001f);
         isDeadLock = false;                                                  // 중복죽음방지        
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
-        threeScreen.gameObject.SetActive(false);       
-        StartCoroutine(CantCtrlHand());                                      // 방패 소유권을 리셋하기위한 메서드
+        threeScreen.gameObject.SetActive(false);      
+      
+        hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+        hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
 
         playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
         playerColls[1].enabled = false;                                      // 머리 콜라이더
@@ -215,7 +222,11 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         playerColls[1].enabled = true;
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
-        playerColls[4].enabled = true;       
+        playerColls[4].enabled = true;
+
+        hand_Left.interactionLayers = 6 | 12;                          // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+        hand_Right.interactionLayers = 6 | 12;                         // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
+
 
         hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
         hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
@@ -238,7 +249,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         //  hand_R_Rend.material = hand_R;
 
         effects[2].SetActive(true);                   // 실드 효과 On
-        yield return new WaitForSeconds(4.5f);           // 4초간격
+        yield return new WaitForSeconds(3.5f);           // 4초간격
         effects[2].SetActive(false);                  // 실드 효과 Off        
         curHP = inItHP;
         HP.value = inItHP;
