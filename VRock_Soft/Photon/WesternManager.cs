@@ -80,7 +80,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);
                 PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
-                SpawnShield();
+                Invoke(nameof(SpawnShield), 2);
+                //SpawnShield();
                 //InvokeRepeating(nameof(SpawnDynamite), 10, 30);
 
             }
@@ -98,6 +99,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -106,6 +108,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -118,6 +121,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
+                    DataManager.DM.gameOver = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
@@ -293,6 +297,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         timerText.gameObject.SetActive(false);  
         resultText.gameObject.SetActive(true);
         DataManager.DM.inGame = false;
+        DataManager.DM.gameOver = true;
         AudioManager.AM.PlaySE("Gameover");
         gameOverImage.gameObject.SetActive(true);        
         //countText.text = string.Format("GAME OVER");
