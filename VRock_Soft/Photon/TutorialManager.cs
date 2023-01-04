@@ -37,7 +37,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             {
                 case 1:
                     PN.LocalPlayer.NickName = "마스터";
-                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;                    
                     SpawnPlayer();
                     break;
                 case 2:
@@ -96,6 +96,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 //StartCoroutine(DeleteBullet());
@@ -105,6 +106,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 //StartCoroutine(DeleteBullet());
@@ -117,6 +119,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
+                    DataManager.DM.gameOver = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
