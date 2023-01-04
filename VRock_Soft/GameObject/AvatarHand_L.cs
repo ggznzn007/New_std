@@ -14,9 +14,9 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
     public InputDevice targetDevice;
     public MeshRenderer avatarLeftHand;
     public PhotonView PV;
-    private Vector3 remotePos;
+    private Vector3 remotePos;    
     private Quaternion remoteRot;
-
+    
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -39,6 +39,7 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
         }
+
         if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
             if (PV.IsMine)
@@ -79,13 +80,12 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-
+            stream.SendNext(transform.rotation);            
         }
         else
         {
             remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();           
         }
     }
     /*[PunRPC]
