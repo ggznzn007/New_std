@@ -100,6 +100,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             case Team.RED:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -109,6 +110,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             case Team.BLUE:
                 PN.AutomaticallySyncScene = true;
                 DataManager.DM.inGame = false;
+                DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
@@ -121,6 +123,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 {
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
+                    DataManager.DM.gameOver = false;
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     //spawnPlayer = admin;
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
@@ -316,11 +319,12 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         timerText.gameObject.SetActive(false);
         resultText.gameObject.SetActive(true);
         DataManager.DM.inGame = false;
+        DataManager.DM.gameOver = true;
         AudioManager.AM.PlaySE("Gameover");
         gameOverImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(2);
         VictoryTeam();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3);        
         AudioManager.AM.PlaySE("GameInfo7");
         gameOverImage.gameObject.SetActive(false);
         yield return new WaitForSeconds(3);
