@@ -21,12 +21,12 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     {
         NG = this;
         PV = GetComponent<PhotonView>(); 
-        isGrip = true;
     }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();        
+        isGrip = true;
     }
    
     private void FixedUpdate()
