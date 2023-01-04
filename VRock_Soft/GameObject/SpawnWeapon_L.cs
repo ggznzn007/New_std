@@ -19,11 +19,9 @@ public class SpawnWeapon_L : MonoBehaviourPun
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
-    public bool weaponInIt=false;   
-        
-    private GameObject myGun;
-    private GameObject myShield;
-
+    public bool weaponInIt=false;           
+    private GameObject myGun;   
+  
     private void Awake()
     {
         leftWeapon = this;
@@ -43,8 +41,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
         //DataManager.DM.grabBomb = false;
         
     }
-
-    
+   
 
     public GunManager FindGun()
     {
@@ -64,7 +61,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt&& myGun != null) { return; }
+                    if (weaponInIt || myGun != null) { return; }
                    // if (myGun != null) { return; }
                     GunManager gun = SpawnGun();
                     myGun = gun.gameObject;
