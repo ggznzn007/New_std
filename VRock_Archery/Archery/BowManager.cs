@@ -17,7 +17,8 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     private Quaternion remoteRot;
     public List<Collider> bowColls;
     public bool isBeingHeld = false;
-
+    public bool isGrip;
+    Rigidbody rb;
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
 
@@ -36,11 +37,13 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     private void Awake()
     {
         BowM = this;
+        PV = GetComponent<PhotonView>();
     }
     
     void Start()
     {
-        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+        isGrip = true;        
     }
 
     
@@ -48,9 +51,20 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
-        }        
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
+        }
+
+        if (isBeingHeld)               
+        {
+            isGrip = true;
+            rb.isKinematic = true;            
+        }
+        else
+        {
+            isGrip = false;
+            rb.isKinematic = false;           
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -59,11 +73,12 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         {
             try
             {
-                if (!isBeingHeld)
+                if (!isBeingHeld && !isGrip)
                 {
                     if (PV.IsMine)
                     {
                         PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                        Debug.Log("활이 파괴되었습니다.");
                     }
                 }
             }
@@ -78,10 +93,8 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void DestroyBow()
-    {
-        Destroy(PV.gameObject);
-    }
+    public void DestroyBow()=> Destroy(PV.gameObject);
+
 
     [PunRPC]
     public void StartGrabbing()
@@ -97,21 +110,13 @@ public class BowManager : MonoBehaviourPun, IPunObservable
 
     public void OnSelectedEntered()
     {
-        Debug.Log("잡았다\n레이어 = Inhand");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
-        /* if (PV.Owner == PN.LocalPlayer)
-         {
-             Debug.Log("이미 소유권이 나에게 있습니다.");
-         }
-         else
-         {
-             TransferOwnership();
-         }*/
+        Debug.Log("활을 잡았습니다.");
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);       
     }
 
     public void OnSelectedExited()
     {
-        Debug.Log("놓았다\n레이어 = Interactable");
+        Debug.Log("활을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 }
