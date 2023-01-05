@@ -15,6 +15,9 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     public PhotonView PV;                           // 포톤뷰
     private Vector3 remotePos;
     private Quaternion remoteRot;
+    public bool isBeingHeld = false;
+    Rigidbody rb;
+    public bool isGrip;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -34,11 +37,14 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     private void Awake()
     {
         ArrowM = this;
+        isGrip = true;
     }
 
     void Start()
     {
         PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+        isGrip = true;
     }
 
 
@@ -46,44 +52,96 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
+        }
+
+        if (isBeingHeld)
+        {
+            isGrip = true;
+           // rb.isKinematic = true;
+        }
+        else
+        {
+            isGrip = false;
+            // rb.isKinematic = false;
         }
     }
 
-   /* private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!AvartarController.ATC.isAlive)
+        if (collision.collider.CompareTag("Cube"))
         {
-            return;
+            if (!isBeingHeld && !isGrip)
+            {
+                if (PV.IsMine)
+                {
+                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+                    
+                }
+            }         
         }
-       
-        if (collision.collider.CompareTag("Cube")&& PV.IsMine) // 일반태그
-        {
-            PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-        }
-
-        if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam") && PV.IsMine)
-        {
-            PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-        }
-
-        if (collision.collider.CompareTag("Head") && PV.IsMine)
-        {
-            PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-        }
-
-        if (collision.collider.CompareTag("Body") && PV.IsMine)
-        {
-            PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-        }
-
-        else
-        {
-            Destroy(gameObject, 1);
-        }
-    }*/
+    }
 
     [PunRPC]
-    public void DestroyArrow() => Destroy(gameObject,2);
+    public void StartGrabbing()
+    {
+        isBeingHeld = true;
+    }
+
+    [PunRPC]
+    public void StopGrabbing()
+    {
+        isBeingHeld = false;       
+    }
+
+    public void OnSelectedEntered()
+    {
+        Debug.Log("화살을 잡았습니다.");
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+        PV.RequestOwnership();
+    }
+
+    public void OnSelectedExited()
+    {
+        Debug.Log("화살을 놓았습니다.");
+        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
+       
+    }
+
+    /* private void OnCollisionEnter(Collision collision)
+     {
+         if (!AvartarController.ATC.isAlive)
+         {
+             return;
+         }
+
+         if (collision.collider.CompareTag("Cube") && PV.IsMine) // 일반태그
+         {
+             PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+         }
+
+         if (collision.collider.CompareTag("BlueTeam") || collision.collider.CompareTag("RedTeam") && !PV.IsMine)
+         {
+             PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+         }
+
+         if (collision.collider.CompareTag("Head") && !PV.IsMine)
+         {
+             PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+         }
+
+         if (collision.collider.CompareTag("Body") && !PV.IsMine)
+         {
+             PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+         }
+
+     }*/
+
+    [PunRPC]
+    public void DestroyArrow()
+    {
+        Destroy(gameObject, 0.2f);
+        Debug.Log("화살이 딜레이파괴되었습니다.");
+    }
 }
