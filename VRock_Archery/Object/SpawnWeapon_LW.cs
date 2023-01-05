@@ -15,13 +15,16 @@ using Unity.XR.PXR;
 public class SpawnWeapon_LW : MonoBehaviourPun
 {
     public static SpawnWeapon_LW LW;
-    [SerializeField] GameObject gun;
+    [SerializeField] GameObject bow;
+    [SerializeField] GameObject arrow;
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice DeviceL;
     public bool weaponInIt = false;
-    private GameObject myGun;
-   // public XRController myController;
+    public bool arrowInIt = false;
+    public GameObject myBow;
+    public GameObject myArrow;
+    // public XRController myController;
 
     private void Awake()
     {
@@ -30,66 +33,111 @@ public class SpawnWeapon_LW : MonoBehaviourPun
 
     private void Start()
     {
-        List<InputDevice> devices = new List<InputDevice>();
+        List<InputDevice> devicesL = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
+        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devicesL);
 
-        if (devices.Count > 0)
+        if (devicesL.Count > 0)
         {
-            DeviceL = devices[0];
+            DeviceL = devicesL[0];
         }
-        DataManager.DM.grabGun = false;
-        DataManager.DM.grabBomb = false;
+        //DataManager.DM.grabGun = false;
+        //DataManager.DM.grabBomb = false;
     }
 
-    public RevolverManager FindGun()
+   /* private void Update()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Revolver"))
+        if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
         {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<RevolverManager>();
-            Debug.Log("이 총은 내꺼");
+            if (griped_L)
+            {
+                weaponInIt = true;
+            }
+            else if (!griped_L)
+            {
+                weaponInIt = false;
+            }
         }
-        return null;
+
+    }*/
+    private void OnTriggerStay(Collider coll)
+    {
+        if (coll.CompareTag("ItemBox"))
+        {
+            if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+            {
+                if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive && myBow == null&&myArrow==null)
+                {
+                    if (weaponInIt || myBow != null||myArrow!=null) { return; }//if (myBow != null) { return; }
+                    Debug.Log("활이 정상적으로 생성됨.");
+                    Bow bow = CreateBow();
+                    myBow = bow.gameObject;
+                    weaponInIt = true;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    return;
+                }
+            }
+        }
+
+        if (coll.CompareTag("ArrowBox"))
+        {
+            if (DeviceL.TryGetFeatureValue(CommonUsages.triggerButton, out bool griped_L2))
+            {
+                if (griped_L2 && !weaponInIt && myBow == null && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive && myArrow == null)
+                {
+                    if (weaponInIt || myArrow != null || DataManager.DM.grabArrow) { return; }
+                    Debug.Log("화살이 정상적으로 생성됨.");
+                    Arrow arrow = CreateArrow();
+                    myArrow = arrow.gameObject;
+                    weaponInIt = true;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    return;
+                }
+            }
+        }
+
+
+      /*  if (coll.CompareTag("String"))
+        {
+            if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))
+            {
+                if (griped_L3 && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive)
+                {                   
+                    weaponInIt = true;
+                    return;
+                }
+                else
+                {
+                    weaponInIt = false;
+                    return;
+                }
+            }
+        }*/
+    }
+     
+
+    private Arrow CreateArrow()
+    {
+        // Create arrow, and get arrow component
+        myArrow = PN.Instantiate(arrow.name, attachPoint.position, attachPoint.rotation);
+        return myArrow.GetComponent<Arrow>();
     }
 
-    private void OnTriggerStay(Collider coll)
-    {        
-        if (coll.CompareTag("ItemBox")
-            && DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L)
-            && SpawnWeapon_RW.RW.DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
-        {
-            if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner       // 양손에 아무것도 없을때
-                 && AvartarController.ATC.isAlive)
-            {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);               
-                weaponInIt = true;
-                return;
-            }
-
-            else
-            {
-                weaponInIt = false;
-                return;
-            }
-        }
-
-        if (coll.CompareTag("Bomb") &&
-            DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))
-        {
-            if (griped_L3 && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
-            {
-                weaponInIt = true;
-                DataManager.DM.grabBomb = true;
-            }
-
-            else
-            {
-                weaponInIt = false;
-                DataManager.DM.grabBomb = false;
-            }
-        }
+    private Bow CreateBow()
+    {
+        myBow = PN.Instantiate(bow.name, attachPoint.position, attachPoint.rotation);
+        return myBow.GetComponent<Bow>();
     }
 }
