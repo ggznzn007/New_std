@@ -45,6 +45,7 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         isGrip = true;
+        
     }
 
 
@@ -76,11 +77,10 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (PV.IsMine)
                 {
-                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-                    
+                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);                    
                 }
             }         
-        }
+        }       
     }
 
     [PunRPC]
@@ -92,21 +92,19 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void StopGrabbing()
     {
-        isBeingHeld = false;       
+        isBeingHeld = false;        
     }
 
     public void OnSelectedEntered()
     {
         Debug.Log("화살을 잡았습니다.");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
-        PV.RequestOwnership();
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);        
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("화살을 놓았습니다.");
-        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
-       
+        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);       
     }
 
     /* private void OnCollisionEnter(Collision collision)
@@ -141,7 +139,7 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void DestroyArrow()
     {
-        Destroy(gameObject, 0.2f);
+        Destroy(gameObject, 0.15f);
         Debug.Log("화살이 딜레이파괴되었습니다.");
-    }
+    }  
 }
