@@ -87,12 +87,12 @@ public class SpawnWeapon_LW : MonoBehaviourPun
 
         if (coll.CompareTag("ArrowBox"))
         {
-            if (DeviceL.TryGetFeatureValue(CommonUsages.triggerButton, out bool griped_L2))
+            if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
             {
                 if (griped_L2 && !weaponInIt && myBow == null && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && myArrow == null)
+                && AvartarController.ATC.isAlive && !DataManager.DM.grabArrow)
                 {
-                    if (weaponInIt || myArrow != null || DataManager.DM.grabArrow) { return; }
+                    if (weaponInIt  || DataManager.DM.grabArrow) { return; }
                     Debug.Log("화살이 정상적으로 생성됨.");
                     Arrow arrow = CreateArrow();
                     myArrow = arrow.gameObject;
