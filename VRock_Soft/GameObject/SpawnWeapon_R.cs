@@ -53,14 +53,14 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
 
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox"))
+        if (coll.CompareTag("ItemBox_R"))
         {
             if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
             {
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt || myGun != null) { return; }
+                    if (weaponInIt) { return; }
                     //if (myGun != null) { return; }
                     GunManager gun = SpawnGun();
                     myGun = gun.gameObject;
