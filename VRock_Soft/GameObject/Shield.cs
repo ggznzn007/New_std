@@ -40,17 +40,25 @@ public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnersh
         PV.RPC(nameof(Put_EMP), RpcTarget.AllBuffered);       
     }
 
+    public void OnCollisionStay(Collision collision)
+    {
+        if(collision.collider.CompareTag("FloorBox"))
+        {
+            transform.position = new Vector3(0,1.2f,0);
+        }
+    }
+
     private void Update()
     {
         if (isBeingHeld)
         {
             rb.isKinematic = true;
-            gameObject.layer = 7;
+            //gameObject.layer = 7;
         }
         else
         {
             rb.isKinematic = false;
-            gameObject.layer = 12;
+            //gameObject.layer = 12;
         }
 
     }
