@@ -108,12 +108,11 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
             if (fireTime < delayfireTime) { return; }
-            PV.RPC(nameof(Fire_R), RpcTarget.All);            
-           /* audioSource.Play();
-            muzzleFlash.Play();*/
+            PV.RPC(nameof(Fire_EX), RpcTarget.All);   
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+            myBull.GetComponent<Bullet_rManager>().actNumber = actorNumber;
             fireTime = 0;
         }
     }
@@ -153,7 +152,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void Fire_R()
+    public void Fire_EX()
     {
         audioSource.Play();
         muzzleFlash.Play();
