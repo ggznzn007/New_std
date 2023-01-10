@@ -115,16 +115,27 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // 총을 관리하는 스�
     {
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
         {
-            if (fireTime < delayfireTime) { return; }
-            PV.RPC(nameof(Fire_G), RpcTarget.All);
+            if (fireTime < delayfireTime) { return; }            
+            PV.RPC(nameof(Fire_EX), RpcTarget.All);
             myBull = PN.Instantiate(bullet.name, ray.origin, Quaternion.identity);
             myBull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
             myBull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+            myBull.GetComponent<BulletManager>().actNumber = actorNumber;
             fireTime = 0;
             /*audioSource.Play();
             muzzleFlash.Play();*/
         }
     }
+
+   /* [PunRPC]
+    public void Fire()
+    {        
+        GameObject bull;
+
+        bull = Instantiate(bullet,ray.origin,Quaternion.identity);
+        bull.GetComponent<Rigidbody>().AddRelativeForce(ray.direction * speed, ForceMode.Force);// 질량적용 연속적인 힘을 가함
+        bull.GetComponent<PhotonView>().RPC("BulletDir", RpcTarget.Others, speed, PV.Owner.ActorNumber);
+    }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -155,7 +166,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // 총을 관리하는 스�
     }
 
     [PunRPC]
-    public void Fire_G()
+    public void Fire_EX()
     {
         audioSource.Play();
         muzzleFlash.Play();
