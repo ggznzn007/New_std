@@ -11,12 +11,12 @@ using PN = Photon.Pun.PN;
 
 public class AvatarHand_L : MonoBehaviourPun, IPunObservable
 {
-    public InputDevice targetDevice;
+    public InputDevice targetDevice;    
     public MeshRenderer avatarLeftHand;
     public PhotonView PV;
-    private Vector3 remotePos;    
+    private Vector3 remotePos;
     private Quaternion remoteRot;
-    
+
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -59,33 +59,33 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void HandHide_L(bool grip)
     {
-        if(grip)
+        if (grip)
         {
             avatarLeftHand.forceRenderingOff = grip;
         }
         else
         {
             avatarLeftHand.forceRenderingOff = grip;
-        }        
+        }
     }
 
-   /* [PunRPC]
-    public void HandBye(bool grip)
-    {
-        avatarLeftHand.forceRenderingOff = grip;
-    }*/
+    /* [PunRPC]
+     public void HandBye(bool grip)
+     {
+         avatarLeftHand.forceRenderingOff = grip;
+     }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);            
+            stream.SendNext(transform.rotation);
         }
         else
         {
             remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();           
+            remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
     /*[PunRPC]
