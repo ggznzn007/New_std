@@ -72,14 +72,14 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     }
     private void OnTriggerStay(Collider coll)
     {       
-        if (coll.CompareTag("ItemBox"))
+        if (coll.CompareTag("ItemBox_R"))
         {
             if(DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
             {
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && myGun == null)
                 {
-                    if (weaponInIt||myGun != null) { return; }
+                    if (weaponInIt) { return; }
                    // if (myGun != null) { return; }
                     RevolverManager revolver = SpawnGun();
                     AudioManager.AM.PlaySE("GrabRevo");
