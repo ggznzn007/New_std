@@ -43,7 +43,7 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
 
         if (targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
         {
-            if(PV.IsMine)
+            if (PV.IsMine)
             {
                 if (griped)
                 {
@@ -54,7 +54,7 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
                     PV.RPC(nameof(HandHide_R), RpcTarget.All, griped);
                 }
             }
-            
+
         }
 
     }
