@@ -56,7 +56,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     private void Update()
     {       
          // 윈도우 프로그램 빌드 시
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(4); }
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
