@@ -308,7 +308,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);
-            PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
+            //PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         }
     }
     public void NormalDamage()                                                // 일반 데미지
@@ -441,14 +441,14 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         }
     }
 
-    [PunRPC]
+   /* [PunRPC]
     public void HeadShot() // 머리를 맞았을 때 머리를 맞춘 플레이어를 기준으로 효과음 들림
     {
-        if (!PV.IsMine)
+        if (PV.IsMine)
         {
             AudioManager.AM.PlaySE("HeadShot");
         }
-    }
+    }*/
 
     [PunRPC]
     public void BodyShot() // 몸을 맞았을 때 몸을 맞춘 플레이어를 기준으로 효과음 들림
