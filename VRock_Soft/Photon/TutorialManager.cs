@@ -134,7 +134,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(2); }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(2); }
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
