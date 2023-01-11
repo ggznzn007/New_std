@@ -32,8 +32,9 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void Update()
+   /* private void Update()
     {
+        //if (!photonView.IsMine) return;
         if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
@@ -46,11 +47,11 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
             {
                 if (griped)
                 {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
+                    PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, griped);
                 }
                 else
                 {
-                    PV.RPC(nameof(HandHide_L), RpcTarget.All, griped);
+                    PV.RPC(nameof(HandHide_L), RpcTarget.AllBuffered, griped);
                 }
             }
         }
@@ -68,7 +69,7 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
             avatarLeftHand.forceRenderingOff = grip;
         }
     }
-
+*/
     /* [PunRPC]
      public void HandBye(bool grip)
      {
