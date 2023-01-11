@@ -20,8 +20,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
     [SerializeField] int actorNumber;
     public InputDevice targetDevice;
     public bool weaponInIt=false;           
-    private GameObject myGun;   
-  
+    private GameObject myGun;    
+
     private void Awake()
     {
         leftWeapon = this;
@@ -34,15 +34,16 @@ public class SpawnWeapon_L : MonoBehaviourPun
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
 
+       // HandL = GetComponentInChildren<MeshRenderer>();
+
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
         }
         //DataManager.DM.grabBomb = false;
-        
-    }
-   
-
+       
+    }   
+    
     public GunManager FindGun()
     {
         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
