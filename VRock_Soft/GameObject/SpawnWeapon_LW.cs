@@ -21,7 +21,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     public InputDevice DeviceL;
     public bool weaponInIt = false;
     private GameObject myGun;
-
+    
     private void Awake()
     {
         LW = this;
@@ -40,7 +40,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         }
        // DataManager.DM.grabGun = false;
       //  DataManager.DM.grabBomb = false;
-    }
+    }    
 
     public RevolverManager FindGun()
     {
