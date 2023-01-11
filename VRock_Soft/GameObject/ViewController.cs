@@ -10,11 +10,11 @@ public class ViewController : MonoBehaviour
     {
         if(this.transform.rotation.x>45)
         {
-            Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("LocalAvatarBody");
+            Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("LocalAvatarHands");
         }
         else
         {
-            Camera.main.cullingMask = Camera.main.cullingMask & ~(1 << LayerMask.NameToLayer("LocalAvatarBody"));
+            Camera.main.cullingMask = Camera.main.cullingMask & ~(1 << LayerMask.NameToLayer("LocalAvatarHands"));
         }
     }
 }
