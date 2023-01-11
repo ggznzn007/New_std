@@ -20,9 +20,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     [SerializeField] int actorNumber;
     public InputDevice DeviceR;
     public bool weaponInIt = false;
-    private GameObject myGun;
-   // public BoxCollider itemBox;
-
+    private GameObject myGun;    
+   
     private void Awake()
     {
         RW = this;
@@ -41,26 +40,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
 
        // DataManager.DM.grabGun = false;
        // DataManager.DM.grabBomb = false;
-    }
-
-    private void Update()
-    {
-        //ItemBoxable();
-    }
-
-  /*  public void ItemBoxable()
-    {
-        if (myGun == null)
-        {
-            if (myGun != null) { return; }
-            itemBox.enabled = true;
-        }
-        else
-        {
-            itemBox.enabled = false;
-        }
-    }*/
-
+    }   
+   
     public RevolverManager FindGun()
     {
         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Revolver"))
