@@ -48,8 +48,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸         
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_L_Rend;                                 // 아바타 왼손   장갑     
                                                                                             // [SerializeField] SkinnedMeshRenderer glove_R_Rend;                                 // 아바타 오른손 장갑     
-    [SerializeField] MeshRenderer hand_L_Rend;                                  // 아바타 왼손   
-    [SerializeField] MeshRenderer hand_R_Rend;                                  // 아바타 오른손   
+    //[SerializeField] MeshRenderer hand_L_Rend;                                  // 컨트롤러 왼손   
+    [SerializeField] MeshRenderer at_L_Rend;                                  // 아바타 왼손   
+    //[SerializeField] MeshRenderer hand_R_Rend;                                  // 컨트롤러 오른손   
+    [SerializeField] MeshRenderer at_R_Rend;                                  // 아바타 오른손   
 
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
@@ -194,8 +196,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         HP.value = 0;
         HP.maxValue = inItHP;
 
-        hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-        hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+      //  hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+        at_L_Rend.material = DeadMat_Hand;
+        at_R_Rend.material = DeadMat_Hand;
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
@@ -228,8 +232,10 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         hand_Right.interactionLayers = 6 | 12;                         // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
 
 
-        hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
-        hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
+       // hand_L_Rend.material = hand_R;                                 // 아바타 왼손 머티리얼 
+       // hand_R_Rend.material = hand_R;                                 // 아바타 오른손 머티리얼 
+        at_L_Rend.material = hand_R;
+        at_R_Rend.material = hand_R;
 
         if (DataManager.DM.currentMap == Map.TOY)
         {
@@ -279,7 +285,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         {
             if(!isAlive && DataManager.DM.currentTeam == Team.BLUE)
             {
-                PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);                
+                PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);
                 Debug.Log("블루팀 리스폰");
             }           
         }
