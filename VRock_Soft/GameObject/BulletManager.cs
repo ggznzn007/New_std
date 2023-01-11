@@ -57,7 +57,7 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
         // 터지는 이펙트 보여지고
         if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet")
              || collision.collider.CompareTag("Effect") || collision.collider.CompareTag("Gun")
-             || collision.collider.CompareTag("Bomb"))) // 일반태그
+             || collision.collider.CompareTag("Bomb"))|| collision.collider.CompareTag("FloorBox")) // 일반태그
         {
             if (PV.IsMine)
             {
