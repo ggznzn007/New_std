@@ -47,7 +47,7 @@ public class Bullet_rManager : MonoBehaviourPun
 
         if ((collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Bullet")
             || collision.collider.CompareTag("Effect") || collision.collider.CompareTag("Revolver")
-            || collision.collider.CompareTag("Bomb"))) // 일반태그
+            || collision.collider.CompareTag("Bomb"))||collision.collider.CompareTag("FloorBox")) // 일반태그
         {
             if (PV.IsMine)
             {
