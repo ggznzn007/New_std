@@ -184,15 +184,15 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             bodyTransform.localRotation = Quaternion.RotateTowards(bodyTransform.localRotation, this.m_NetworkRotation_Body, this.m_Angle_Body * (1.0f / PN.SerializationRate));
 
 
-            leftHandTransform.localPosition = Vector3.MoveTowards(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand, this.m_Distance_LeftHand * (1.0f / PN.SerializationRate));
-            leftHandTransform.localRotation = Quaternion.RotateTowards(leftHandTransform.localRotation, this.m_NetworkRotation_LeftHand, this.m_Angle_LeftHand * (1.0f / PN.SerializationRate));
+            leftHandTransform.localPosition = Vector3.MoveTowards(leftHandTransform.localPosition, this.m_NetworkPosition_LeftHand, this.m_Distance_LeftHand * (100.0f / PN.SerializationRate));
+            leftHandTransform.localRotation = Quaternion.RotateTowards(leftHandTransform.localRotation, this.m_NetworkRotation_LeftHand, this.m_Angle_LeftHand * (100.0f / PN.SerializationRate));
            
             //leftHandModel.localPosition = Vector3.MoveTowards(leftHandModel.localPosition, this.m_NetworkPosition_LeftHandModel, this.m_Distance_LeftHandModel * (1.0f / PN.SerializationRate));  // 추가
             //leftHandModel.localRotation = Quaternion.RotateTowards(leftHandModel.localRotation, this.m_NetworkRotation_LeftHandModel, this.m_Angle_LeftHandModel * (1.0f / PN.SerializationRate)); // 추가
 
 
-            rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (1.0f / PN.SerializationRate));
-            rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (1.0f / PN.SerializationRate));
+            rightHandTransform.localPosition = Vector3.MoveTowards(rightHandTransform.localPosition, this.m_NetworkPosition_RightHand, this.m_Distance_RightHand * (100.0f / PN.SerializationRate));
+            rightHandTransform.localRotation = Quaternion.RotateTowards(rightHandTransform.localRotation, this.m_NetworkRotation_RightHand, this.m_Angle_RightHand * (100.0f / PN.SerializationRate));
 
             // rightHandCon.localPosition = Vector3.MoveTowards(rightHandCon.localPosition, this.m_NetworkPosition_RightHandCon, this.m_Distance_RightHandCon * (1.0f / PN.SerializationRate));// 추가
           //  rightHandCon.localRotation = Quaternion.RotateTowards(rightHandCon.localRotation, this.m_NetworkRotation_RightHandCon, this.m_Angle_RightHandCon * (1.0f / PN.SerializationRate));// 추가
