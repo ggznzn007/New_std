@@ -25,6 +25,8 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     public GameObject AvatarBody;
     public GameObject AvatarHand_L;
     public GameObject AvatarHand_R;
+    public MeshRenderer at_L;
+    public MeshRenderer at_R;
 
     private void Start()
     {
@@ -32,17 +34,20 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         {
             LocalXRRigGameObject.SetActive(true);
             SetLayerRecursively(go: AvatarHead, 8);
-            SetLayerRecursively(go: AvatarBody, 9);
-            SetLayerRecursively(go: AvatarHand_L, 0);
-            SetLayerRecursively(go: AvatarHand_R, 0);
+            SetLayerRecursively(go: AvatarBody, 9);            
+            //SetLayerRecursively(go: AvatarHand_L, 0);
+            //SetLayerRecursively(go: AvatarHand_R, 0);
+            //Camera.main.cullingMask = Camera.main.cullingMask & ~(1 << LayerMask.NameToLayer("LocalAvatarHands"));// 레이어 제거
+            
         }
         else                                                   // 리모트 플레이어
         {
             LocalXRRigGameObject.SetActive(false);
             SetLayerRecursively(go: AvatarHead, 0);
             SetLayerRecursively(go: AvatarBody, 0);
-            SetLayerRecursively(go: AvatarHand_L, 0);
-            SetLayerRecursively(go: AvatarHand_R, 0);
+            //Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("LocalAvatarHands"); // 레이어 추가
+            // SetLayerRecursively(go: AvatarHand_L, 10);
+            // SetLayerRecursively(go: AvatarHand_R, 10);
         }
     }
     private void Update()
@@ -58,4 +63,51 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             trans.gameObject.layer = layerNum;
         }
     }
+
+    public void Hide_L()
+    {
+        if (photonView.IsMine)
+            photonView.RPC(nameof(HideL), RpcTarget.AllBuffered);
+    }
+    public void Show_L()
+    {
+        if (photonView.IsMine)
+            photonView.RPC(nameof(ShowL), RpcTarget.AllBuffered);
+    }
+    public void Hide_R()
+    {
+        if (photonView.IsMine)
+            photonView.RPC(nameof(HideR), RpcTarget.AllBuffered);
+    }
+    public void Show_R()
+    {
+        if (photonView.IsMine)
+            photonView.RPC(nameof(ShowR), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void HideL()
+    {
+        at_L.forceRenderingOff = true;
+    }
+
+    [PunRPC]
+    public void ShowL()
+    {
+        at_L.forceRenderingOff = false;
+    }
+
+
+    [PunRPC]
+    public void HideR()
+    {
+        at_R.forceRenderingOff = true;
+    }
+
+    [PunRPC]
+    public void ShowR()
+    {
+        at_R.forceRenderingOff = false;
+    }
+
 }
