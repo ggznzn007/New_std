@@ -46,7 +46,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("FloorBox"))
         {
             try
             {
