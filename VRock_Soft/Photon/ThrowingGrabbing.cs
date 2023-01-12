@@ -82,7 +82,8 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     public void Put_EMP()
     {
         isBeingHeld = false;
-    }
+    }       
+
     public void OnSelectedEntered()
     {
         Debug.Log("¿‚æ“¥Ÿ");        
