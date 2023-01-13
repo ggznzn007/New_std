@@ -9,30 +9,33 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
+public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
 {
     public static ArrowManager ArrowM;
     public PhotonView PV;                           // Æ÷Åæºä
-    private Vector3 remotePos;
-    private Quaternion remoteRot;
+    //private Vector3 remotePos;
+    //private Quaternion remoteRot;
     public bool isBeingHeld = false;
-    Rigidbody rb;
+    //Rigidbody rb;
     public bool isGrip;
+    public string headShot;
+    public string hit;
+    public int actNumber;
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
+    /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+      {
 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
+          if (stream.IsWriting)
+          {
+              stream.SendNext(transform.position);
+              stream.SendNext(transform.rotation);
+          }
+          else
+          {
+              remotePos = (Vector3)stream.ReceiveNext();
+              remoteRot = (Quaternion)stream.ReceiveNext();
+          }
+      }*/
 
     private void Awake()
     {
@@ -43,7 +46,7 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         isGrip = true;
         
     }
@@ -51,11 +54,11 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        if (!PV.IsMine)
+      /*  if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
-        }
+        }*/
 
         if (isBeingHeld)
         {
@@ -71,16 +74,43 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!AvartarController.ATC.isAlive)
+        {
+            return;
+        }
+
         if (collision.collider.CompareTag("Cube"))
         {
             if (!isBeingHeld && !isGrip)
             {
                 if (PV.IsMine)
                 {
-                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);                    
+                    AudioManager.AM.PlaySE(hit);
+                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
                 }
             }         
-        }       
+        }
+
+        if (collision.collider.CompareTag("Finish"))
+        {
+            if (!isBeingHeld && !isGrip)
+            {
+                if (PV.IsMine)
+                {
+                    AudioManager.AM.PlaySE(hit);
+                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+                }
+            }
+        }
+
+        if (collision.collider.CompareTag("Head"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;               
+                AudioManager.AM.PlaySE(headShot);                
+            }
+        }
     }
 
     [PunRPC]

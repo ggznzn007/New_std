@@ -9,17 +9,17 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-public class BowManager : MonoBehaviourPun, IPunObservable
+public class BowManager : MonoBehaviourPun//, IPunObservable
 {
     public static BowManager BowM;
     public PhotonView PV;                           // Æ÷Åæºä
-    private Vector3 remotePos;
-    private Quaternion remoteRot;
+    //private Vector3 remotePos;
+    //private Quaternion remoteRot;
     public List<Collider> bowColls;
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
 
         if (stream.IsWriting)
@@ -32,7 +32,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }
+    }*/
 
     private void Awake()
     {
@@ -49,11 +49,11 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     
     void Update()
     {
-        if (!PV.IsMine)
+       /* if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
-        }
+        }*/
 
         if (isBeingHeld)               
         {
