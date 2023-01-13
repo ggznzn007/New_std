@@ -32,15 +32,16 @@ public class BodyDamaged : MonoBehaviourPun
         }
     }
 
-    private void OnTriggerEnter(Collider coll)
+    private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
         {
-            if (!AT.isDamaged)
+            AT.GrenadeDamage();
+            Debug.Log("气藕单固瘤!");
+          /*  if (!AT.isDamaged)
             {
-                AT.GrenadeDamage();
-                Debug.Log("气藕单固瘤!");
-            }
+               
+            }*/
         }
     }
 
