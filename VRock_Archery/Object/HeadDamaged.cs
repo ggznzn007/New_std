@@ -30,6 +30,19 @@ public class HeadDamaged : MonoBehaviourPun
         }
     }
 
+   /* private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
+        {
+            AT.GrenadeDamage();
+            Debug.Log("ÆøÅºµ¥¹ÌÁö!");
+            *//*  if (!AT.isDamaged)
+              {
+
+              }*//*
+        }
+    }*/
+
     /*private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
