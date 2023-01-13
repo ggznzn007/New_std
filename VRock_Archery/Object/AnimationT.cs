@@ -20,7 +20,7 @@ public class AnimationT : MonoBehaviourPunCallbacks
     {
         if(PN.IsMasterClient)
         {
-            GunShootManager.GSM.Emp_Blue();
+           // GunShootManager.GSM.Emp_Blue();
         }
     }
 
@@ -28,7 +28,7 @@ public class AnimationT : MonoBehaviourPunCallbacks
     {
         if (PN.IsMasterClient)
         {
-            GunShootManager.GSM.Emp_Red();
+           // GunShootManager.GSM.Emp_Red();
         }
     }
 
