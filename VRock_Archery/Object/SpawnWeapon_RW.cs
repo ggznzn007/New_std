@@ -26,7 +26,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     public bool arrowInIt = false;
     public GameObject myBow;
     public GameObject myArrow;
-
+    public GameObject myShield;
+    private bool triggerBtnR;
     private void Awake()
     {
         RW = this;
@@ -48,21 +49,46 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         //DataManager.DM.grabBomb = false;
     }
 
-    /* private void Update()
-     {
-         if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
-         {
-             if (griped_R)
-             {
-                 weaponInIt = true;
-             }
-             else if (!griped_R)
-             {
-                 weaponInIt = false;
-             }
-         }
+    private void Update()
+    {
+        if (!photonView.IsMine) return;
 
-     }*/
+        if (photonView.IsMine)
+        {
+            if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R)
+                && DeviceR.TryGetFeatureValue(CommonUsages.triggerButton, out triggerBtnR))// && triggerBtnR)
+            {
+                
+                 if(myBow != null)
+                {
+                    if (myBow == null) return;
+                    if (triggerBtnR && griped_R)
+                    {
+                        myShield.SetActive(true);
+                        myBow.SetActive(false);
+                    }
+                    else// if (!triggerBtnR)
+                    {
+                        myShield.SetActive(false);
+                        myBow.SetActive(true);
+                    }
+
+                }               
+
+                else
+                {
+                    if (triggerBtnR && griped_R)
+                    {
+                        myShield.SetActive(true);                       
+                    }
+                    else// if (!triggerBtnR)
+                    {
+                        myShield.SetActive(false);                       
+                    }
+                }                
+            }
+        }
+    }
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox"))
@@ -95,7 +121,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                 if (griped_R2 && !weaponInIt && myBow == null && photonView.IsMine && photonView.AmOwner
                 && AvartarController.ATC.isAlive && !DataManager.DM.grabArrow)
                 {
-                    if (weaponInIt  || DataManager.DM.grabArrow) { return; }
+                    if (weaponInIt || DataManager.DM.grabArrow) { return; }
                     Debug.Log("화살이 정상적으로 생성됨.");
                     Arrow arrow = CreateArrow();
                     myArrow = arrow.gameObject;
@@ -109,6 +135,26 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                 }
             }
         }
+
+       /* if (coll.CompareTag("Skilled"))
+        {
+            if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
+            {
+                if (griped_R3 && !weaponInIt && myBow == null && photonView.IsMine && photonView.AmOwner
+                && AvartarController.ATC.isAlive && !DataManager.DM.grabArrow)
+                {
+                    if (weaponInIt || DataManager.DM.grabArrow) { return; }                                     
+                    myArrow = coll.gameObject;
+                    weaponInIt = true;
+                    return;
+                }
+                else
+                {                    
+                    weaponInIt = false;
+                    return;
+                }
+            }
+        }*/
 
         /*if (coll.CompareTag("String"))
         {
@@ -141,6 +187,13 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         myBow = PN.Instantiate(bow.name, attachPoint.position, attachPoint.rotation);
         return myBow.GetComponent<Bow>();
     }
+
+    [PunRPC]
+    public void ShieldView(GameObject shield, bool grip)
+    {
+        shield.SetActive(grip);
+    }
+
     /* private Arrow CreateArrow(Transform orientation)
      {
          // Create arrow, and get arrow component
