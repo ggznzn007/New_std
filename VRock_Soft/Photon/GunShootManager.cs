@@ -87,7 +87,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
-                Destroy(admin);
+                admin.SetActive(false);
+                // Destroy(admin);
             }
         }
     }
