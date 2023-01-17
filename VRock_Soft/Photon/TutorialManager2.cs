@@ -49,7 +49,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
 
             if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
-                Destroy(admin);
+                admin.SetActive(false);
             }
         }
     }
