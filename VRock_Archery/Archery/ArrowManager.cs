@@ -12,30 +12,31 @@ using PN = Photon.Pun.PN;
 public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
 {
     public static ArrowManager ArrowM;
-    public PhotonView PV;                           // 포톤뷰
+    public PhotonView PV;
+    public SphereCollider spColl;
+    public Arrow arrow;
+    public Rigidbody rb;
     //private Vector3 remotePos;
     //private Quaternion remoteRot;
     public bool isBeingHeld = false;
-    //Rigidbody rb;
     public bool isGrip;
     public string headShot;
     public string hit;
     public int actNumber;
 
-    /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-      {
+   /* public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
 
-          if (stream.IsWriting)
-          {
-              stream.SendNext(transform.position);
-              stream.SendNext(transform.rotation);
-          }
-          else
-          {
-              remotePos = (Vector3)stream.ReceiveNext();
-              remoteRot = (Quaternion)stream.ReceiveNext();
-          }
-      }*/
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+        }
+    }*/
 
     private void Awake()
     {
@@ -46,9 +47,9 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        //rb = GetComponent<Rigidbody>();
-        isGrip = true;
-        
+        arrow= GetComponent<Arrow>();
+        rb = arrow.rigidbody;
+        isGrip = true;        
     }
 
 
@@ -62,8 +63,8 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
 
         if (isBeingHeld)
         {
-            isGrip = true;
-           // rb.isKinematic = true;
+            isGrip = true;            
+            //rb.isKinematic = true;
         }
         else
         {
@@ -79,14 +80,14 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
             return;
         }
 
-        if (collision.collider.CompareTag("Cube"))
+   /*     if (collision.collider.CompareTag("Cube"))
         {
             if (!isBeingHeld && !isGrip)
             {
                 if (PV.IsMine)
-                {
-                    AudioManager.AM.PlaySE(hit);
-                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
+                {                    
+                    // AudioManager.AM.PlaySE(hit);
+                    PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);                   
                 }
             }         
         }
@@ -96,18 +97,18 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
             if (!isBeingHeld && !isGrip)
             {
                 if (PV.IsMine)
-                {
-                    AudioManager.AM.PlaySE(hit);
+                {                    
+                    //AudioManager.AM.PlaySE(hit);     
                     PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
                 }
             }
-        }
+        }*/
 
         if (collision.collider.CompareTag("Head"))
         {
             if (PV.IsMine)
             {
-                if (!PV.IsMine) return;               
+                if (!PV.IsMine) return;                
                 AudioManager.AM.PlaySE(headShot);                
             }
         }
@@ -169,7 +170,14 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
     [PunRPC]
     public void DestroyArrow()
     {
-        Destroy(gameObject, 0.15f);
+        Destroy(gameObject);
+        Debug.Log("화살이 즉시파괴되었습니다.");
+    }
+
+    [PunRPC]
+    public void DelayArrow()
+    {
+        Destroy(gameObject, 2);
         Debug.Log("화살이 딜레이파괴되었습니다.");
-    }  
+    }
 }
