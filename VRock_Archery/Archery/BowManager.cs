@@ -9,31 +9,20 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
-public class BowManager : MonoBehaviourPun//, IPunObservable
+public class BowManager : MonoBehaviourPun, IPunObservable
 {
     public static BowManager BowM;
-    public PhotonView PV;                           // Æ÷Åæºä
+    public PhotonView PV;
+   // public Transform pull;
+   // public Transform notch;
+    public Transform bowString;
     //private Vector3 remotePos;
     //private Quaternion remoteRot;
     public List<Collider> bowColls;
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
-    /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
-        }
-    }*/
-
+    
     private void Awake()
     {
         BowM = this;
@@ -66,7 +55,24 @@ public class BowManager : MonoBehaviourPun//, IPunObservable
             rb.isKinematic = false;           
         }
     }
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //stream.SendNext(notch.position);
+            //stream.SendNext(notch.rotation);
+            //stream.SendNext(pull.position);
+            //stream.SendNext(pull.rotation);
+            stream.SendNext(bowString.position);
+            stream.SendNext(bowString.rotation);
+        }
+        else
+        {
+            //notch.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+            //pull.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+            bowString.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Cube"))
@@ -119,4 +125,6 @@ public class BowManager : MonoBehaviourPun//, IPunObservable
         Debug.Log("È°À» ³õ¾Ò½À´Ï´Ù.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
+
+  
 }
