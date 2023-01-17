@@ -75,7 +75,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             //SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드 
             {
-                Destroy(admin);
+                //Destroy(admin);
+                admin.SetActive(false);
             }
 
             if (PN.IsMasterClient)
