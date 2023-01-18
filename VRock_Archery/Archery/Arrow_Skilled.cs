@@ -12,13 +12,14 @@ using Photon.Pun.Demo.Procedural;
 using UnityEngine.InputSystem.HID;
 
 public class Arrow_Skilled : Arrow
-{         
-    public GameObject effects;        
+{   
+    public GameObject effects;    
+    private bool isRotate;
 
     protected override void Awake()
     {
-        base.Awake();
-        
+        base.Awake();          
+        isRotate=true;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -26,6 +27,9 @@ public class Arrow_Skilled : Arrow
         base.OnSelectEntered(args);       
         DataManager.DM.grabArrow = true;
         PV.RequestOwnership();
+        rotSpeed = 0;
+        isRotate = false;
+        DataManager.DM.inArrowBox = false;       
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
@@ -52,8 +56,13 @@ public class Arrow_Skilled : Arrow
             }
         }
 
-    }   
-    
+    }
+
+    private void Update()
+    {
+        transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0,0,1));
+    }
+
     [PunRPC]
     public void DelayEX()
     {
