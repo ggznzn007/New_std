@@ -80,16 +80,16 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
             return;
         }
 
-   /*     if (collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("Cube"))
         {
             if (!isBeingHeld && !isGrip)
             {
                 if (PV.IsMine)
-                {                    
+                {
                     // AudioManager.AM.PlaySE(hit);
-                    PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);                   
+                    PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
                 }
-            }         
+            }
         }
 
         if (collision.collider.CompareTag("Finish"))
@@ -97,12 +97,12 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
             if (!isBeingHeld && !isGrip)
             {
                 if (PV.IsMine)
-                {                    
+                {
                     //AudioManager.AM.PlaySE(hit);     
                     PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
                 }
             }
-        }*/
+        }
 
         if (collision.collider.CompareTag("Head"))
         {

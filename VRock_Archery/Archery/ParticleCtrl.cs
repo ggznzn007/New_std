@@ -7,17 +7,44 @@ using Photon.Realtime;
 public class ParticleCtrl : MonoBehaviourPun
 {
     private ParticleSystem _particleSystem;
-    //public PhotonView PV;
+    private PhotonView PV;
 
     private void Awake()
-    {        
-        _particleSystem = GetComponent<ParticleSystem>();
-    }
-    private void OnTriggerExit(Collider coll)
     {
-        if(coll.CompareTag("RightHand")|| coll.CompareTag("LeftHand"))
+        _particleSystem = GetComponent<ParticleSystem>();
+        PV = GetComponent<PhotonView>();
+    }
+
+
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("Arrow"))
         {
-            _particleSystem.Stop();
+            if (PV.IsMine)
+                PV.RPC(nameof(FxPlay), RpcTarget.AllBuffered);
         }
     }
+
+    private void OnTriggerExit(Collider coll)
+    {
+        if (coll.CompareTag("Arrow"))
+        {
+            if (PV.IsMine)
+                PV.RPC(nameof(FxStop), RpcTarget.AllBuffered);
+        }
+    }
+   
+
+    [PunRPC]
+    public void FxPlay()
+    {
+        _particleSystem.Play();
+    }
+
+    [PunRPC]
+    public void FxStop()
+    {
+        _particleSystem.Stop();
+    }
+
 }

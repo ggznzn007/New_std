@@ -12,32 +12,43 @@ using Photon.Pun.Demo.Procedural;
 using UnityEngine.InputSystem.HID;
 public class Arrow_MultiShot : Arrow
 {
-    public GameObject[] effects;
+    public static Arrow_MultiShot ArrowMul;
+    public GameObject effects;
     public GameObject[] arrowMesh;
+    public TrailRenderer[] tails;
 
+    private void Start()
+    {
+        ArrowMul = this;
+    }
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
         arrowM.OnSelectedEntered();
         DataManager.DM.grabArrow = true;
-        PV.RequestOwnership();
+        PV.RequestOwnership();        
+        DataManager.DM.arrowNum = 2;
         rotSpeed = 0;
-        arrowMesh[0].SetActive(true);
-        arrowMesh[1].SetActive(true);
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        DataManager.DM.arrowNum = 0;
+        if (PV.IsMine) { if (!PV.IsMine) return; PV.RPC(nameof(Multipack), RpcTarget.AllBuffered); }       
+        
         if (args.interactorObject is Notch notch)
         {
-            //GetTarget();
+            //GetTarget();    
             if (notch.CanRelease)
             {
-                LaunchArrow(notch);
-                DataManager.DM.arrowNum = 2;
+                LaunchArrow(notch);                
                 arrowM.OnSelectedExited();
-                tail.gameObject.SetActive(true);
+                
+                if(PV.IsMine)
+                {
+                    if (!PV.IsMine) return;
+                    PV.RPC(nameof(Tailpack), RpcTarget.AllBuffered);
+                }
+                
                 if (effects != null)
                 {
                     if (!PV.IsMine) return;                    
@@ -64,12 +75,26 @@ public class Arrow_MultiShot : Arrow
         StartCoroutine(nameof(DelayEffect));
     }
 
+    [PunRPC]
+    public void Multipack()
+    {
+        arrowMesh[0].SetActive(true);
+        arrowMesh[1].SetActive(true);
+        arrowMesh[0].transform.rotation= Quaternion.identity;
+        arrowMesh[1].transform.rotation= Quaternion.identity;
+    }
+
+    [PunRPC]
+    public void Tailpack()
+    {
+        tail.gameObject.SetActive(true);
+        tails[0].gameObject.SetActive(true);
+        tails[1].gameObject.SetActive(true);       
+    }
+
     public IEnumerator DelayEffect()
     {
         yield return new WaitForSecondsRealtime(0.04f);
-        effects[0].SetActive(true);       
-        effects[1].SetActive(true);
-        effects[2].SetActive(true);       
-        effects[3].SetActive(true);       
+        effects.SetActive(true);                  
     }
 }
