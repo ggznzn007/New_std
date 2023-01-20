@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using PN = Photon.Pun.PN;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class TutorialManager : MonoBehaviourPunCallbacks
 {
@@ -37,7 +38,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             {
                 case 1:
                     PN.LocalPlayer.NickName = "마스터";
-                    DataManager.DM.nickName = PN.LocalPlayer.NickName;                    
+                    DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
                 case 2:
@@ -75,13 +76,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             //SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드 
             {
-                //Destroy(admin);
-                admin.SetActive(false);
+                Destroy(admin);
             }
 
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnBomb), 10, 30);
+                InvokeRepeating(nameof(SpawnBomb), 10, 35);
                 SpawnShield();
             }
 
@@ -124,7 +124,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                     spawnPlayer = PN.Instantiate(admin.name, adminPoint.position, adminPoint.rotation);
                     Debug.Log($"{PN.CurrentRoom.Name} 방에 관리자{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                     Info();
-                }               
+                }
                 break;
 
 
@@ -135,12 +135,12 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(2); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnBomb();
-            }
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(2); }
+        if (Input.GetKey(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnBomb();
+        }
         /*if (PN.InRoom && PN.IsMasterClient)
         {
 
@@ -162,11 +162,19 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.3f);
         foreach (GameObject bull in GameObject.FindGameObjectsWithTag("Bullet")) bull.GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
     }*/
+
+    public IEnumerator ExitGame()
+    {
+        yield return new WaitForSeconds(1);
+        photonView.RPC(nameof(ForceOff), RpcTarget.AllViaServer);
+    }
+
+
     public void SpawnBomb()
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);           
+            bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
 
@@ -212,7 +220,8 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
 
         PN.Destroy(spawnPlayer);
-        SceneManager.LoadScene(0);        
+        SceneManager.LoadScene(0);
+
         //PN.LoadLevel(0);
     }
 
@@ -224,6 +233,21 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
+    }
+
+    [PunRPC]
+    public void ForceOff()
+    {
+        Application.Quit();
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Application.Quit();
+            if (PN.IsMasterClient)
+            {
+                PN.DestroyAll();
+            }
+            PN.Destroy(spawnPlayer);
+        }
     }
 
 }
