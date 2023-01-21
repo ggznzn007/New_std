@@ -87,8 +87,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             SpawnPlayer();
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
-                admin.SetActive(false);
-                // Destroy(admin);
+                Destroy(admin);
             }
         }
     }
@@ -140,9 +139,9 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
-        else if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
-        else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
+        if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Emp_Red();
             Emp_Blue();
@@ -166,7 +165,11 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
         }*/
     }
-
+    public IEnumerator ExitGame()
+    {
+        yield return new WaitForSeconds(1);
+        photonView.RPC(nameof(ForceOff), RpcTarget.AllViaServer);
+    }
     void FixedUpdate()
     {
         SetScore();
@@ -239,6 +242,21 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         //PN.Instantiate(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
         bombBlue = PN.InstantiateRoomObject(bomB.name, bSpawnPosBlue.position, bSpawnPosBlue.rotation, 0);
+    }
+       
+    [PunRPC]
+    public void ForceOff()
+    {
+        Application.Quit();
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Application.Quit();
+            if (PN.IsMasterClient)
+            {
+                PN.DestroyAll();
+            }
+            PN.Destroy(spawnPlayer);
+        }
     }
 
     [PunRPC]
@@ -325,7 +343,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         gameOverImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(2);
         VictoryTeam();
-        yield return new WaitForSeconds(3);        
+        yield return new WaitForSeconds(3);
         AudioManager.AM.PlaySE("GameInfo7");
         gameOverImage.gameObject.SetActive(false);
         yield return new WaitForSeconds(3);
