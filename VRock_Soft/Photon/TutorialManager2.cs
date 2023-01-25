@@ -38,43 +38,48 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {            
+        {
             if (PN.IsMasterClient)
             {
-                InvokeRepeating(nameof(SpawnDynamite), 10, 30);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
-                Invoke(nameof(SpawnShield), 2); 
+                InvokeRepeating(nameof(SpawnDynamite), 10, 35);                // 게임 시작되고 20초후에 실행하고 그 후 15초마다 실행
+                Invoke(nameof(SpawnShield), 2);
                 //SpawnShield();
             }
             SpawnPlayer();
 
             if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
-                admin.SetActive(false);
+                Destroy(admin);
             }
         }
     }
     private void Update()
-    {       
-         // 윈도우 프로그램 빌드 시
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(4); }
-            else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnDynamite();
-            }
-       /* if (PN.InRoom && PN.IsMasterClient)
+    {
+        // 윈도우 프로그램 빌드 시
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(4); }
+        if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
+        if (Input.GetKeyDown(KeyCode.Space))
         {
+            SpawnDynamite();
+        }
+        /* if (PN.InRoom && PN.IsMasterClient)
+         {
 
-            if (Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
-                else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    SpawnDynamite();
-                }
-            }
-        }        */
+             if (Application.platform == RuntimePlatform.WindowsPlayer)
+             {
+                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PN.LoadLevel(4); }
+                 else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+                 else if (Input.GetKeyDown(KeyCode.Space))
+                 {
+                     SpawnDynamite();
+                 }
+             }
+         }        */
+    }
+    public IEnumerator ExitGame()
+    {
+        yield return new WaitForSeconds(1);
+        photonView.RPC(nameof(ForceOff), RpcTarget.AllViaServer);
     }
 
     public void SpawnPlayer()
@@ -98,8 +103,8 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
                 break;
- 
-             // 윈도우 프로그램 빌드 시
+
+            // 윈도우 프로그램 빌드 시
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -111,7 +116,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                     Info();
                 }
                 break;
-            
+
             default:
                 return;
         }
@@ -121,7 +126,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < bSpawnPosition.Length; i++)
         {
-           bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
+            bomBs = PN.InstantiateRoomObject(bomB.name, bSpawnPosition[i].position, bSpawnPosition[i].rotation, 0);
         }
     }
 
@@ -179,5 +184,20 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
+    }
+  
+    [PunRPC]
+    public void ForceOff()
+    {
+        Application.Quit();
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Application.Quit();
+            if (PN.IsMasterClient)
+            {
+                PN.DestroyAll();
+            }
+            PN.Destroy(spawnPlayer);
+        }
     }
 }
