@@ -14,12 +14,12 @@ using UnityEngine.XR;
 public class Bullet_rManager : MonoBehaviourPun
 {
     public static Bullet_rManager BrM;
-    [SerializeField] PhotonView PV;
+    public PhotonView PV;
     [SerializeField] Rigidbody rb;
     [SerializeField] ParticleSystem exploreEffect;
     [SerializeField] Transform firePoint;
-    public int actNumber;
     [SerializeField] float speed;
+    public int actNumber;
     public string revolverImpact;
     public string hitPlayer;
     public string headShot;
