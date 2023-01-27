@@ -43,17 +43,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
         //DataManager.DM.grabBomb = false;
        
     }   
-    
-    public GunManager FindGun()
-    {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
-        {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            Debug.Log("¿Ã √—¿∫ ≥ª≤®");
-        }
-        return null;
-    }
-    private void OnTriggerStay(Collider coll)
+   
+     private void OnTriggerStay(Collider coll)
     {        
         if (coll.CompareTag("ItemBox_L"))
         {
