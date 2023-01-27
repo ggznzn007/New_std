@@ -21,8 +21,8 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
     [SerializeField] Rigidbody rb;
     [SerializeField] ParticleSystem exploreEffect;
     [SerializeField] Transform firePoint;
-    public int actNumber;
     [SerializeField] float speed;
+    public int actNumber;
     public string bulletImpact;
     public string hitPlayer;
     public string headShot;
@@ -37,16 +37,8 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
         {
             if (this == null) return;
             Destroy(gameObject, 0.5f);
-        }
-
-        //PN.UseRpcMonoBehaviourCache = true;       
+        }       
     }
-
-    private void Update()
-    {
-        //PV.RefreshRpcMonoBehaviourCache();        
-    }
-
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -175,9 +167,12 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
 
     [PunRPC]
     public void DestroyBullet() => Destroy(gameObject);
+       
+    /*gameObject.SetActive(false);
+    gameObject.transform.position = firePoint.position;*/
 
-   /* [PunRPC]
-    public void DestroyDelay() => Destroy(gameObject, 0.5f);*/
+    /* [PunRPC]
+     public void DestroyDelay() => Destroy(gameObject, 0.5f);*/
 
     [PunRPC]
     public void HitShield() => AudioManager.AM.PlaySE(shieldHit);
