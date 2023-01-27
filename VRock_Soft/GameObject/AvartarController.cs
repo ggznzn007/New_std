@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
-using Antilatency;
-using Antilatency.TrackingAlignment;
-using Antilatency.DeviceNetwork;
-using Antilatency.Alt;
-using Antilatency.SDK;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
@@ -135,8 +129,6 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             if (pressed) { FPS.SetActive(false); }
         }
     }
-
-
 
     public void Nick_HP_Pos()
     {
@@ -446,16 +438,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             Debug.Log("블루에게 레드가 죽었음");
         }
     }
-
-   /* [PunRPC]
-    public void HeadShot() // 머리를 맞았을 때 머리를 맞춘 플레이어를 기준으로 효과음 들림
-    {
-        if (PV.IsMine)
-        {
-            AudioManager.AM.PlaySE("HeadShot");
-        }
-    }*/
-
+     
     [PunRPC]
     public void BodyShot() // 몸을 맞았을 때 몸을 맞춘 플레이어를 기준으로 효과음 들림
     {
