@@ -41,17 +41,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // º’ø°º≠ √—¿ª 
         //DataManager.DM.grabBomb = false;       
     }
 
-    
-
-    public GunManager FindGun()
-    {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
-        {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            Debug.Log("¿Ã √—¿∫ ≥ª≤®");
-        }
-        return null;
-    }
 
     private void OnTriggerStay(Collider coll)
     {
@@ -61,7 +50,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // º’ø°º≠ √—¿ª 
             {
                 if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
                && AvartarController.ATC.isAlive && myGun == null)
-                {
+                {                    
                     if (weaponInIt) { return; }
                     //if (myGun != null) { return; }
                     GunManager gun = SpawnGun();
@@ -118,12 +107,13 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // º’ø°º≠ √—¿ª 
 
     }
 
-
     private GunManager SpawnGun()
     {
         myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
         return myGun.GetComponent<GunManager>();
     }
+
+    
 
     /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
       {
