@@ -75,17 +75,7 @@ public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnersh
         isBeingHeld = false;
     }
 
-  /*  public IEnumerator DelayDes()
-    {
-        yield return new WaitForSecondsRealtime(1.5f);
-        PV.RPC(nameof(DestroyEMP), RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void DestroyEMP()
-    {
-        Destroy(PV.gameObject);
-    }*/
+  
   /*  public void OnSelectedEntered()
     {
         Debug.Log("¿‚æ“¥Ÿ");
