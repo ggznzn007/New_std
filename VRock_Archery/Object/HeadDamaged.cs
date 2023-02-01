@@ -24,24 +24,26 @@ public class HeadDamaged : MonoBehaviourPun
         {
             if (!AT.isDamaged)
             {
-                AT.CriticalDamage();
+                AT.HeadShotDamage();
                 Debug.Log("Çìµå¼¦!!!");
             }
         }
     }
 
-   /* private void OnTriggerEnter(Collider coll)
+    /*private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
         {
-            AT.GrenadeDamage();
-            Debug.Log("ÆøÅºµ¥¹ÌÁö!");
-            *//*  if (!AT.isDamaged)
-              {
-
-              }*//*
+            if (!AT.isDamaged)
+            {
+                AudioManager.AM.PlaySE("Damage");
+                AT.SkillDamage();
+                Debug.Log("ÆøÅºµ¥¹ÌÁö!");
+            }
         }
     }*/
+
+   
 
     /*private void OnTriggerEnter(Collider coll)
     {
