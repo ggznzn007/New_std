@@ -12,22 +12,21 @@ using Random = UnityEngine.Random;
 
 public class EMP_Effect : MonoBehaviour
 {
-    public CapsuleCollider coll;
+    public Collider coll;
     
-    private void Start()
-    {
-        StartCoroutine(CollOnOff());
-       
-    }
     private void Awake()
     {
-        coll = GetComponent<CapsuleCollider>();        
+        coll = GetComponent<Collider>();        
     }  
+    private void Start()
+    {
+        StartCoroutine(CollOnOff());       
+    }
 
     public IEnumerator CollOnOff()
     {
         coll.enabled = true;
-        yield return new WaitForSeconds(0.004f);
+        yield return new WaitForSeconds(0.005f);
         coll.enabled = false;        
     }
 
