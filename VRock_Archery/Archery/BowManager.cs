@@ -18,7 +18,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     public Transform bowString;
     //private Vector3 remotePos;
     //private Quaternion remoteRot;
-    public List<Collider> bowColls;
+   // public List<Collider> bowColls;
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
@@ -73,11 +73,26 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             bowString.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("Finish"))
         {
-            try
+            if(PV.IsMine)
+            {
+                if(!isGrip)
+                {
+                    try
+                    {
+                        PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                        Debug.Log("활이 파괴되었습니다.");
+                    }
+                    finally
+                    {
+                        PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                    }
+                }
+            }
+           /* try
             {
                 if (!isBeingHeld && !isGrip)
                 {
@@ -94,7 +109,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
                 {
                     PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
                 }
-            }
+            }*/
         }
     }
 
