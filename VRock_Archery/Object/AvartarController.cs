@@ -33,7 +33,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] int actNumber = 0;
     [SerializeField] int attackPower = 15;
     [SerializeField] int attackPowerH = 30;
-    [SerializeField] int grenadePower = 40;
+    [SerializeField] int grenadePower = 50;
     [SerializeField] XRDirectInteractor hand_Left;
     [SerializeField] XRDirectInteractor hand_Right;
     [SerializeField] GameObject at_hand_Left;
@@ -47,7 +47,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] MeshRenderer body_Rend_belt;                                           // 아바타 몸
     [SerializeField] MeshRenderer at_L_Rend;                                  // 아바타 왼손   
     [SerializeField] MeshRenderer at_R_Rend;                                  // 아바타 왼손   
-                                                                      
+
     [Header("플레이어 머티리얼 묶음")]
     [SerializeField] Material head_Mat;                                             // 아바타 머리     머티리얼    
     [SerializeField] Material body_Mat;                                             // 아바타 몸          
@@ -73,7 +73,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject[] effects;
     [SerializeField] bool isDeadLock;
 
-    private float delayTime = 1f;
+    private float delayTime = 0.7f;
     public bool isDamaged = false;
     public int team;
     //private int showCount = 0;
@@ -98,7 +98,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
         if (!PV.IsMine) return;
-        PV.RefreshRpcMonoBehaviourCache();
+        //PV.RefreshRpcMonoBehaviourCache();
         Nick_HP_Pos();
         Show_Frame();
         UnShow_Frame();
@@ -130,7 +130,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
  */
     public void Show_Frame()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
         {
             if (pressed) { FPS.SetActive(true); }
         }
@@ -138,7 +138,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void UnShow_Frame()
     {
-        if (SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
         {
             if (pressed) { FPS.SetActive(false); }
         }
@@ -187,8 +187,10 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
         threeScreen.gameObject.SetActive(false);
 
-        hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
-        hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
+        //hand_Left.enabled = false;
+       // hand_Right.enabled = false;
+       /* hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+        hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드*/
 
         playerColls[0].enabled = true;
         for (int i = 1; i < playerColls.Count; i++)
@@ -229,8 +231,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         deadScreen.gameObject.SetActive(false);
         Nickname.gameObject.SetActive(true);
 
-        hand_Left.interactionLayers = 6 | 12;                          // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
-        hand_Right.interactionLayers = 6 | 12;                         // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
+        //hand_Left.enabled = true; 
+       // hand_Right.enabled = true;
+       /* hand_Left.interactionLayers = 0 | 12 | 13 | 14 | 15;                          // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+        hand_Right.interactionLayers = 0 | 12 | 13 | 14 | 15;                         
+        
+       // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 활, 13 = 화살, 14 = 스킬화살, 15 = 멀티샷*/
 
         playerColls[0].enabled = false;
         for (int i = 1; i < playerColls.Count; i++)
@@ -299,15 +305,16 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void GrenadeDamage()                                              // 크리티컬(헤드샷) 데미지
+    public void SkillDamage()                                              // 크리티컬(헤드샷) 데미지
     {
         StartCoroutine(ShowDamageScreen());
+
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);
         }
     }
-    public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
+    public void HeadShotDamage()                                              // 크리티컬(헤드샷) 데미지
     {
         StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
@@ -456,7 +463,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
       }*/
 
     [PunRPC]
-    public void BodyShot()
+    public void BodyShot()// 몸을 맞았을 때 몸을 맞춘 플레이어를 기준으로 효과음 들림
     {
         if (!PV.IsMine)
         {
