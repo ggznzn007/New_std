@@ -22,10 +22,15 @@ public class Arrow : XRGrabInteractable
     public TrailRenderer tail;
     public float rotSpeed;
     public Transform shootPoint;
+    public GameObject effect;
     private ArrowCaster caster;
     private bool launched = false;
     private bool isGrip;
-    private RaycastHit hit;   
+    private RaycastHit hit;
+    public string aImpact;
+    public string headShot;
+    public string hitPlayer;
+    public string bombBeep;
 
     protected override void Awake()
     {        
@@ -176,17 +181,69 @@ public class Arrow : XRGrabInteractable
         {
             if (!isGrip&&launched&&!rigidbody.isKinematic)
             {
-                TrySticky(collision);
-              
+                TrySticky(collision);              
+            }
+        }
+
+        if (collision.collider.CompareTag("Head"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                if (!isGrip)
+                {
+                    try
+                    {
+                        AudioManager.AM.PlaySE(headShot);
+                        StartCoroutine(CollOff());
+                    }
+                    finally { AudioManager.AM.PlaySE(headShot); StartCoroutine(CollOff()); }
+                }
+
+            }
+        }
+
+        if (collision.collider.CompareTag("Body"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                if (!isGrip)
+                {
+                    try
+                    {
+                        AudioManager.AM.PlaySE(hitPlayer);
+                        StartCoroutine(CollOff());
+                    }
+                    finally { AudioManager.AM.PlaySE(hitPlayer); StartCoroutine(CollOff()); }
+                    
+                }
+
+            }
+        }
+
+        if (collision.collider.CompareTag("Cube"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                if (!isGrip)
+                {
+                    try
+                    {
+                        AudioManager.AM.PlaySE(aImpact);
+                    }
+                    finally { AudioManager.AM.PlaySE(aImpact); }
+                }
+
             }
         }
     }
-    public void TrySticky(Collision coll)
-    {
-        AudioManager.AM.PlaySE("Hit");
+    public void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
+    {        
         Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
         transform.parent = null;
-
+        
         if (coll.gameObject.isStatic)
         {
             rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
@@ -231,19 +288,26 @@ public class Arrow : XRGrabInteractable
         switch (DataManager.DM.arrowNum)
         {
             case 0:
-                GetComponent<PhotonView>().RPC("DelayArrow", RpcTarget.AllBuffered);
+                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
                 break;
             case 1:
-                GetComponent<PhotonView>().RPC("DestroyArrow", RpcTarget.AllBuffered);
+                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
                 break;
             case 2:
-                GetComponent<PhotonView>().RPC("DelayArrow", RpcTarget.AllBuffered);
+                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
                 break;
             case 3:
-                GetComponent<PhotonView>().RPC("BombArrow", RpcTarget.AllBuffered);
+                PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);
                 break;
         }
     }
+
+    public IEnumerator CollOff()
+    {
+        yield return new WaitForSeconds(0.1f);
+        coll.enabled= false;
+    }
+
     [PunRPC]
     public void Trailer()
     {
@@ -257,8 +321,41 @@ public class Arrow : XRGrabInteractable
         tail.gameObject.SetActive(false);
     }
 
-    
+    [PunRPC]
+    public void DestroyArrow()
+    {
+        Destroy(gameObject);
+        Debug.Log("화살이 즉시파괴되었습니다.");
+    }
 
+    [PunRPC]
+    public void DelayArrow()
+    {
+        Destroy(gameObject, 1.5f);
+        Debug.Log("화살이 딜레이파괴되었습니다.");
+    }
+
+    [PunRPC]
+    public void BombArrow()
+    {
+        StartCoroutine(Explode());
+    }
+
+    public IEnumerator Explode()
+    {
+        AudioManager.AM.PlaySX(bombBeep);
+        //PV.RPC(nameof(BeepSound), RpcTarget.AllBuffered);
+        yield return new WaitForSecondsRealtime(2.35f);
+        //PV.RPC(nameof(ExploSound), RpcTarget.AllBuffered);
+        PN.Instantiate(effect.name, transform.position, Quaternion.identity);
+        PV.RPC(nameof(DestroyBomb), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void DestroyBomb()
+    {
+        Destroy(gameObject, 0.2f);
+    }
     /*    [SerializeField] private float speed = 2000.0f;
 
         private new Rigidbody rigidbody;
