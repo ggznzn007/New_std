@@ -11,13 +11,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 public class BodyDamaged : MonoBehaviourPun
 {
-    public AvartarController AT;      
+    public AvartarController AT;
 
     private void Start()
     {
         AT = GetComponentInParent<AvartarController>();
     }
-   
+
     private void OnCollisionEnter(Collision collision)                         // ÃÑ¾Ë ÅÂ±× ½Ã ¸Þ¼­µå
     {
         if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
@@ -26,22 +26,20 @@ public class BodyDamaged : MonoBehaviourPun
             {
                 AT.NormalDamage();
                 Debug.Log("¹Ùµð¼¦!");
-
             }
 
         }
     }
 
-    private void OnTriggerStay(Collider coll)
+    private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
         {
-            AT.GrenadeDamage();
-            Debug.Log("ÆøÅºµ¥¹ÌÁö!");
-          /*  if (!AT.isDamaged)
-            {
-               
-            }*/
+            if (!AT.isDamaged)
+            {                
+                AT.SkillDamage();
+                Debug.Log("ÆøÅºµ¥¹ÌÁö!");
+            }
         }
     }
 
