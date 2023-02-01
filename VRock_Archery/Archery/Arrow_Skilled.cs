@@ -12,31 +12,36 @@ using Photon.Pun.Demo.Procedural;
 using UnityEngine.InputSystem.HID;
 
 public class Arrow_Skilled : Arrow
-{   
-    public GameObject effects;    
+{
+    public GameObject effects;
     private bool isRotate;
+    public SphereCollider tagColl;
 
     protected override void Awake()
     {
-        base.Awake();          
-        isRotate=true;
+        base.Awake();
+        isRotate = true;
+        tagColl.tag = "Skilled";
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
-        base.OnSelectEntered(args);       
-        DataManager.DM.grabArrow = true;
-        PV.RequestOwnership();
-        rotSpeed = 0;
+        base.OnSelectEntered(args);
+        DataManager.DM.grabArrow = true;       
+        //PV.RequestOwnership();
+        //rotSpeed = 0;
         isRotate = false;
-        DataManager.DM.inArrowBox = false;       
+        DataManager.DM.inArrowBox = false;
+        tagColl.enabled = false;
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-
+        tagColl.tag = "Effect";
+        DataManager.DM.grabArrow = false;
         if (args.interactorObject is Notch notch)
         {
+            tagColl.tag = "Effect";
             if (notch.CanRelease)
             {
                 LaunchArrow(notch);
@@ -60,7 +65,14 @@ public class Arrow_Skilled : Arrow
 
     private void Update()
     {
-        transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0,0,1));
+        if (isRotate)
+        {
+            transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0, 0, 1));
+        }
+        else
+        {
+            rotSpeed= 0;
+        }
     }
 
     [PunRPC]
