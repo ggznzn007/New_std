@@ -19,6 +19,10 @@ public class Arrow_MultiShot : Arrow
     public GameObject[] arrowMesh;
     public TrailRenderer[] tails;
     private bool isRotate;
+    public Rigidbody[] mulRid;
+    public float zVel2 = 0;
+    public float zVel3 = 0;
+    private float plusSpeed = 2f;
 
     protected override void Awake()
     {
@@ -78,8 +82,203 @@ public class Arrow_MultiShot : Arrow
 
     }
 
-    private void Update()
+    public new void LaunchArrow(Notch notch)
     {
+
+        isGrip = false;
+        launched = true;
+        flightTime = 0f;
+        transform.parent = null;
+        rigidbody.isKinematic = false;
+        rigidbody.useGravity = true;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+        mulRid[0].isKinematic = false;
+        mulRid[0].useGravity = true;
+        mulRid[0].collisionDetectionMode = CollisionDetectionMode.Continuous;
+        //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        mulRid[0].constraints = RigidbodyConstraints.FreezeRotation;
+
+        mulRid[1].isKinematic = false;
+        mulRid[1].useGravity = true;
+        mulRid[1].collisionDetectionMode = CollisionDetectionMode.Continuous;
+        //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        mulRid[1].constraints = RigidbodyConstraints.FreezeRotation;
+        ApplyForce(notch.PullMeasurer);
+        ApplyForce2(notch.PullMeasurer);
+        ApplyForce3(notch.PullMeasurer);
+        //StartCoroutine(ReEnableCollider());
+        // StartCoroutine(LaunchRoutine());
+        DataManager.DM.grabArrow = false;
+    }
+
+    public new void ApplyForce(PullMeasurer pullMeasurer)
+    {
+        //rigidbody.AddForce(transform.forward * (pullMeasurer.PullAmount * speed), ForceMode.Impulse);
+       rigidbody.AddForce(shootPoint.forward * (pullMeasurer.PullAmount * speed), ForceMode.VelocityChange);
+
+        if (rigidbody && MinForceHit != 0)
+        {
+            float zVel = System.Math.Abs(transform.InverseTransformDirection(rigidbody.velocity).z);
+
+            // Minimum Force not achieved
+            if (zVel < MinForceHit)
+            {
+                return;
+            }
+        }
+
+    }
+
+    public void ApplyForce2(PullMeasurer pullMeasurer)
+    {        
+        mulRid[0].AddForce(shootPoint.forward * (pullMeasurer.PullAmount * speed*plusSpeed), ForceMode.VelocityChange);            
+        if (mulRid[0] && MinForceHit != 0)
+        {
+            float zVel = System.Math.Abs(transform.InverseTransformDirection(mulRid[0].velocity).z);
+
+            // Minimum Force not achieved
+            if (zVel < MinForceHit)
+            {
+                return;
+            }
+        }
+    }
+
+    public void ApplyForce3(PullMeasurer pullMeasurer)
+    {        
+        mulRid[1].AddForce(shootPoint.forward * (pullMeasurer.PullAmount * speed*plusSpeed), ForceMode.VelocityChange);
+        if (mulRid[1] && MinForceHit != 0)
+        {
+            float zVel = System.Math.Abs(transform.InverseTransformDirection(mulRid[1].velocity).z);
+
+            // Minimum Force not achieved
+            if (zVel < MinForceHit)
+            {
+                return;
+            }
+        }
+    }
+
+    public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
+    {
+        Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
+        
+        transform.parent = null;
+
+        if (coll.gameObject.isStatic)
+        {
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            rigidbody.isKinematic = true;
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+            mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[0].isKinematic = true;
+            mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
+
+            mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[1].isKinematic = true;
+            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        else if (colRid != null && !colRid.isKinematic)
+        {
+            FixedJoint joint = gameObject.AddComponent<FixedJoint>();
+            joint.connectedBody = colRid;
+            joint.enableCollision = false;
+            joint.breakForce = float.MaxValue;
+            joint.breakTorque = float.MaxValue;
+
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else if (colRid != null && colRid.isKinematic && coll.transform.localScale == Vector3.one)
+        {
+            transform.SetParent(coll.transform);
+            rigidbody.useGravity = false;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            rigidbody.isKinematic = true;
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            rigidbody.WakeUp();
+
+            mulRid[0].useGravity = false;
+            mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[0].isKinematic = true;
+            mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[0].WakeUp();
+
+            mulRid[1].useGravity = false;
+            mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[1].isKinematic = true;
+            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[1].WakeUp();
+        }
+        else
+        {
+            if (coll.transform.localScale == Vector3.one)
+            {
+                transform.SetParent(coll.transform);
+                rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
+                mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+                rigidbody.useGravity = false;
+                rigidbody.isKinematic = true;
+
+                mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
+                mulRid[0].useGravity = false;
+                mulRid[0].isKinematic = true;
+
+                mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
+                mulRid[1].useGravity = false;
+                mulRid[1].isKinematic = true;
+            }
+        }
+
+
+     /*   switch (DataManager.DM.arrowNum)
+        {
+            case 0:
+                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 기본 화살
+                break;
+            case 1:
+                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
+                break;
+            case 2:
+                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 멀티샷
+                break;
+            case 3:
+                PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);  // 폭탄 화살
+                break;
+        }*/
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isGrip && mulRid[0] != null && rigidbody.velocity != Vector3.zero && launched && zVel > 0.02)
+        {
+            rigidbody.rotation = Quaternion.LookRotation(rigidbody.velocity);
+        }
+        zVel = transform.InverseTransformDirection(rigidbody.velocity).z;
+
+        if (!isGrip && mulRid[0] != null && mulRid[0].velocity != Vector3.zero && launched && zVel2 > 0.02)
+        {
+            mulRid[0].rotation = Quaternion.LookRotation(mulRid[0].velocity);
+        }
+        zVel2 = transform.InverseTransformDirection(mulRid[0].velocity).z;
+
+        if (!isGrip && mulRid[1] != null && mulRid[1].velocity != Vector3.zero && launched && zVel3 > 0.02)
+        {
+            mulRid[1].rotation = Quaternion.LookRotation(mulRid[1].velocity);
+        }
+        zVel3 = transform.InverseTransformDirection(mulRid[1].velocity).z;
+
+
         if (isRotate)
         {
             transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0, 0, 1));
