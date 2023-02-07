@@ -9,7 +9,7 @@ public class HandInteractor : XRDirectInteractor
     {
         if (interactable is Arrow arrow)
         {
-            arrow.coll.enabled = false;
+            arrow.myColl.enabled = false;
         }
     }
    
