@@ -27,8 +27,7 @@ public class Arrow_Bomb : Arrow
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        arrowM.OnSelectedEntered();
-        //PV.RequestOwnership();
+        PV.RequestOwnership();
         DataManager.DM.grabArrow = true;       
         isRotate = false;    
     }
@@ -37,15 +36,14 @@ public class Arrow_Bomb : Arrow
     {
         base.OnSelectExited(args);
         tagColl.tag = "Arrow";
-        //DataManager.DM.arrowNum = 3;
+        DataManager.DM.grabArrow = false;
         if (args.interactorObject is Notch notch)
         {    
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 3;
                 tagColl.tag = "Arrow";
-                LaunchArrow(notch);
-                arrowM.OnSelectedExited();
+                LaunchArrow(notch);                     
                 if (PV.IsMine)
                 {
                     if (!PV.IsMine) return;
@@ -57,6 +55,7 @@ public class Arrow_Bomb : Arrow
 
     }
 
+  
     private void Update()
     {
         if (isRotate)
