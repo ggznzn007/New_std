@@ -28,7 +28,7 @@ public class Arrow_Skilled : Arrow
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabArrow = true;       
-        //PV.RequestOwnership();
+        PV.RequestOwnership();
         //rotSpeed = 0;
         isRotate = false;
         DataManager.DM.inArrowBox = false;
@@ -44,8 +44,8 @@ public class Arrow_Skilled : Arrow
             tagColl.tag = "Effect";
             if (notch.CanRelease)
             {
-                LaunchArrow(notch);
                 DataManager.DM.arrowNum = 1;
+                LaunchArrow(notch);
                 if (effects != null)
                 {
                     if (!PV.IsMine) return;
@@ -62,6 +62,8 @@ public class Arrow_Skilled : Arrow
         }
 
     }
+
+   
 
     private void Update()
     {
