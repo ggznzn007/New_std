@@ -80,10 +80,10 @@ public class Arrow_Skilled : Arrow
     [PunRPC]
     public void DelayEX()
     {
-        StartCoroutine(nameof(DelayEffect));
+        StartCoroutine(nameof(DelayOnEffect));
     }
 
-    public IEnumerator DelayEffect()
+    public IEnumerator DelayOnEffect()
     {
         yield return new WaitForSecondsRealtime(0.04f);
         effects.SetActive(true);
