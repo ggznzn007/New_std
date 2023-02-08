@@ -22,8 +22,8 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     public InputDevice DeviceL;
     public bool weaponInIt = false;
     public bool arrowInIt = false;
-    public GameObject myBow;
-    public GameObject myArrow;
+    private GameObject myBow;
+    private GameObject myArrow;
 
     
     // public XRController myController;
@@ -56,9 +56,9 @@ public class SpawnWeapon_LW : MonoBehaviourPun
             if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
             {
                 if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && myBow == null&&myArrow==null && !DataManager.DM.grabArrow)
+                && AvartarController.ATC.isAlive && myBow == null&&myArrow==null)// && !DataManager.DM.grabArrow)
                 {
-                    if (weaponInIt || myBow != null||myArrow!=null||DataManager.DM.grabArrow) { return; }//if (myBow != null) { return; }
+                    if (weaponInIt || myBow != null||myArrow!=null) { return; }//if (myBow != null) { return; }
                     Debug.Log("활이 정상적으로 생성됨.");
                     Bow bow = CreateBow();
                     myBow = bow.gameObject;
