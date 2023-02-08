@@ -72,10 +72,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 파티클 효과 묶음")]
     [SerializeField] GameObject[] effects;
     [SerializeField] bool isDeadLock;
+    [SerializeField] GameObject myShield;    
 
     private float delayTime = 0.7f;
     public bool isDamaged = false;
     public int team;
+    public string damage;
     //private int showCount = 0;
     /* [SerializeField] private GameObject arrowPrefab;
      [SerializeField] private Transform[] spawnArea;
@@ -187,10 +189,10 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
         threeScreen.gameObject.SetActive(false);
 
-        //hand_Left.enabled = false;
-       // hand_Right.enabled = false;
-       /* hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
-        hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드*/
+        hand_Left.enabled = false;
+        hand_Right.enabled = false;
+        /* hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+         hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드*/
 
         playerColls[0].enabled = true;
         for (int i = 1; i < playerColls.Count; i++)
@@ -231,12 +233,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         deadScreen.gameObject.SetActive(false);
         Nickname.gameObject.SetActive(true);
 
-        //hand_Left.enabled = true; 
-       // hand_Right.enabled = true;
-       /* hand_Left.interactionLayers = 0 | 12 | 13 | 14 | 15;                          // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
-        hand_Right.interactionLayers = 0 | 12 | 13 | 14 | 15;                         
-        
-       // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 활, 13 = 화살, 14 = 스킬화살, 15 = 멀티샷*/
+        hand_Left.enabled = true;
+        hand_Right.enabled = true;
+        /* hand_Left.interactionLayers = 0 | 12 | 13 | 14 | 15;                          // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
+         hand_Right.interactionLayers = 0 | 12 | 13 | 14 | 15;                         
+
+        // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 활, 13 = 화살, 14 = 스킬화살, 15 = 멀티샷*/
 
         playerColls[0].enabled = false;
         for (int i = 1; i < playerColls.Count; i++)
@@ -307,29 +309,27 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void SkillDamage()                                              // 크리티컬(헤드샷) 데미지
     {
-        StartCoroutine(ShowDamageScreen());
-
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);
         }
     }
+
     public void HeadShotDamage()                                              // 크리티컬(헤드샷) 데미지
-    {
-        StartCoroutine(ShowDamageScreen());
+    {       
+           // PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);
-            // PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         }
     }
+
     public void NormalDamage()                                                // 일반 데미지
-    {
-        StartCoroutine(ShowDamageScreen());
+    {       
+           // PV.RPC(nameof(BodyShot), RpcTarget.AllBuffered);
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPower);
-            PV.RPC(nameof(BodyShot), RpcTarget.AllBuffered);
         }
     }
     public void Respawn()                                                     // 리스폰 메서드
@@ -340,7 +340,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
         damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         damageScreen.color = Color.clear;
     }
 
@@ -369,7 +369,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
             isDamaged = true;
         }
-        yield return new WaitForSeconds(0.17f);
+        yield return new WaitForSeconds(0.16f);
         playerColls[1].enabled = true;                                      // 머리 콜라이더
         playerColls[2].enabled = true;                                      // 몸통 콜라이더
 
@@ -389,8 +389,10 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (PV.IsMine)
             {
+                AudioManager.AM.PlaySE(damage);
+                StartCoroutine(ShowDamageScreen());
                 if (isDamaged) { return; }
-                AudioManager.AM.PlaySE("Damage");
+
                 curHP -= pow;
                 HP.value = Mathf.Round(curHP * 10) * 0.1f;
                 HP.maxValue = inItHP;
@@ -453,14 +455,14 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    /*  [PunRPC]
-      public void HeadShot()
-      {
-          if (!PV.IsMine)
-          {
-              AudioManager.AM.PlaySE("HeadShot");
-          }
-      }*/
+  /*  [PunRPC]
+    public void HeadShot()
+    {
+        if (PV.IsMine)
+        {
+            AudioManager.AM.PlaySE("HeadShot");
+        }
+    }
 
     [PunRPC]
     public void BodyShot()// 몸을 맞았을 때 몸을 맞춘 플레이어를 기준으로 효과음 들림
@@ -469,7 +471,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         {
             AudioManager.AM.PlaySE("Hit");
         }
-    }
+    }*/
 
     [PunRPC]
     public void DeadPlayer()                                                     // 플레이어 죽었을때
@@ -506,6 +508,8 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(Nickname.transform.forward);
             stream.SendNext(Nickname.text);
             stream.SendNext(HP.value);
+            
+           
         }
         else
         {
@@ -513,6 +517,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             Nickname.transform.forward = (Vector3)stream.ReceiveNext();
             Nickname.text = (string)stream.ReceiveNext();
             HP.value = (float)stream.ReceiveNext();
+            
         }
     }
 
