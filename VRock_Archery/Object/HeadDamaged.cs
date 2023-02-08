@@ -18,17 +18,17 @@ public class HeadDamaged : MonoBehaviourPun
         AT = GetComponentInParent<AvartarController>();
     }
 
-    private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    /*private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
         if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
             {
-                AT.HeadShotDamage();
+                AT.HeadShotDamage();                
                 Debug.Log("헤드샷!!!");
             }
         }
-    }
+    }*/
 
     /*private void OnTriggerEnter(Collider coll)
     {
