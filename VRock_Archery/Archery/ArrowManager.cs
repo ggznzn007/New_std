@@ -9,29 +9,24 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
+public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {   
     public PhotonView PV;    
-    public bool isBeingHeld = false;
-    public bool isGrip;    
-  
-
-   
+    public bool isBeingHeld;
+    private bool isGrip;
 
     private void Awake()
     {
-       
-        isGrip = true;
+        isBeingHeld = false;
+        isGrip= false;
     }
 
     void Start()
     {
-        PV = GetComponent<PhotonView>();       
-        isGrip = true;        
+        PV = GetComponent<PhotonView>();                   
     }
 
-
-    void Update()
+    void FixedUpdate()
     {     
         if (isBeingHeld)
         {
@@ -42,68 +37,11 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
             isGrip = false;
         }
     }
-
-   /* private void OnCollisionEnter(Collision collision)
-    {
-        if (!AvartarController.ATC.isAlive)
-        {
-            return;
-        }
-
-        if (collision.collider.CompareTag("Cube"))
-        {
-            if (PV.IsMine)
-            {
-                if (!isGrip)
-                {
-                    try
-                    {
-                        PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
-                    }
-                    finally { PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered); }
-                }
-            }
-            if (!isBeingHeld && !isGrip)
-            {
-                if (PV.IsMine)
-                {
-                    // AudioManager.AM.PlaySE(hit);
-                    PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
-                }
-            }
-        }
-
-        if (collision.collider.CompareTag("Finish"))
-        {
-            if (PV.IsMine)
-            {
-                if (!isGrip)
-                {
-                    try
-                    {
-                        PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-                    }
-                    finally { PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); }
-                }
-            }
-            if (!isBeingHeld && !isGrip)
-            {
-                if (PV.IsMine)
-                {
-                    //AudioManager.AM.PlaySE(hit);     
-                    PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered);
-                }
-            }
-        }
-
-
-    }*/
-
-
+     
     [PunRPC]
     public void StartGrabbing()
     {
-        isBeingHeld = true;
+        isBeingHeld = true;        
     }
 
     [PunRPC]
@@ -115,13 +53,45 @@ public class ArrowManager : MonoBehaviourPunCallbacks//, IPunObservable
     public void OnSelectedEntered()
     {
         Debug.Log("화살을 잡았습니다.");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);        
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+        if (PV.Owner == PN.LocalPlayer)
+        {
+            Debug.Log("이미 소유권이 나에게 있습니다.");
+        }
+        else
+        {
+            TransferOwnership();
+        }
     }
 
     public void OnSelectedExited()
     {
         Debug.Log("화살을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);       
-    }       
-   
+    }
+
+    private void TransferOwnership()
+    {
+        PV.RequestOwnership();
+    }
+
+    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+    {
+        if (targetView != PV)
+        {
+            return;
+        }
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);
+    }
+
+    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+    {
+        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+    }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+
+    }
 }
