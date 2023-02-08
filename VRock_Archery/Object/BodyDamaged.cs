@@ -18,18 +18,18 @@ public class BodyDamaged : MonoBehaviourPun
         AT = GetComponentInParent<AvartarController>();
     }
 
-    private void OnCollisionEnter(Collision collision)                         // ÃÑ¾Ë ÅÂ±× ½Ã ¸Þ¼­µå
+   /* private void OnCollisionEnter(Collision collision)                         // ÃÑ¾Ë ÅÂ±× ½Ã ¸Þ¼­µå
     {
         if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
-            {
-                AT.NormalDamage();
+            {                
+                AT.NormalDamage();               
                 Debug.Log("¹Ùµð¼¦!");
             }
 
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider coll)
     {
@@ -37,7 +37,7 @@ public class BodyDamaged : MonoBehaviourPun
         {
             if (!AT.isDamaged)
             {                
-                AT.SkillDamage();
+                AT.SkillDamage();                
                 Debug.Log("ÆøÅºµ¥¹ÌÁö!");
             }
         }
