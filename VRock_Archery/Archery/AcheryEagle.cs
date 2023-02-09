@@ -29,16 +29,13 @@ public class AcheryEagle : MonoBehaviourPunCallbacks//, IPunObservable
     {
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
-        transform.position = wayPos[wayNum].transform.position;
-        if (PN.IsMasterClient)
-        {
-           InvokeRepeating(nameof(SpawnEB), 2, 4);
-        }
+        transform.position = wayPos[wayNum].transform.position;       
     }
 
     private void FixedUpdate()
     {
         MovetoWay();
+        myBomb = GameObject.FindGameObjectWithTag("Bomb");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -84,19 +81,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks//, IPunObservable
         if (wayNum == wayPos.Length) { wayNum = 0; }
     }
 
-    public void SpawnEB()
-    {
-        if (myBomb == null)
-        {
-            if (myBomb != null) return;
-            myBomb = PN.InstantiateRoomObject(eagleBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
-            myBomb.transform.SetParent(transform, true);
-            myBomb.GetComponent<Rigidbody>().useGravity = false;
-            myBomb.GetComponent<SphereCollider>().enabled = false;
-        }
-
-        // PV.RPC(nameof(SpawnBarrel), RpcTarget.AllBuffered);
-    }
+  
 
     /*[PunRPC]
     public void SpawnBarrel()

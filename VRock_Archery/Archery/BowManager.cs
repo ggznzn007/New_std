@@ -9,23 +9,25 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
+using Unity.XR.PXR;
+
 public class BowManager : MonoBehaviourPun, IPunObservable
 {
     public static BowManager BowM;
     public PhotonView PV;
-   // public Transform pull;
-   // public Transform notch;
+    // public Transform pull;
+    // public Transform notch;
     public Transform bowString;
     //private Vector3 remotePos;
     //private Quaternion remoteRot;
-   // public List<Collider> bowColls;
+    // public List<Collider> bowColls;
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
     public GameObject shield_R;
     public GameObject shield_L;
-    public GameObject bow;    
-    public Notch notch;    
+    public GameObject bow;
+    public Notch notch;
     public Collider pullColl;
     public bool isRight;
 
@@ -34,7 +36,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         BowM = this;
         PV = GetComponent<PhotonView>();
     }
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,28 +45,28 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         bow.SetActive(true);
         pullColl.enabled = true;
         notch.enabled = true;
-        isGrip = true;       
-        isRight= false;
+        isGrip = true;
+        isRight = false;
     }
 
-    
+
     void Update()
     {
-       /* if (!PV.IsMine)
-        {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
-        }*/
+        /* if (!PV.IsMine)
+         {
+             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 10 * Time.deltaTime)
+                 , Quaternion.Lerp(transform.rotation, remoteRot, 10 * Time.deltaTime));
+         }*/
 
-        if (isBeingHeld)               
+        if (isBeingHeld)
         {
             isGrip = true;
-            rb.isKinematic = true;            
+            rb.isKinematic = true;
         }
         else
         {
             isGrip = false;
-            rb.isKinematic = false;           
+            rb.isKinematic = false;
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -85,13 +87,31 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             bowString.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {// 앞에 수는 진동의 진폭
+     // 뒤에 수는 진동의 강도
+        if (collision.collider.CompareTag("Arrow"))
+        {
+            if (PV.IsMine && isRight)
+            {
+                if (!PV.IsMine) return;
+                PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.RightController);
+            }
+            if (PV.IsMine && !isRight)
+            {
+                if (!PV.IsMine) return;
+                PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.LeftController);
+            }
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube")|| collision.collider.CompareTag("Finish"))
+        if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Finish"))
         {
-            if(PV.IsMine)
+            if (PV.IsMine)
             {
-                if(!isGrip)
+                if (!isGrip)
                 {
                     try
                     {
@@ -104,37 +124,36 @@ public class BowManager : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-           /* try
-            {
-                if (!isBeingHeld && !isGrip)
-                {
-                    if (PV.IsMine)
-                    {
-                        PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                        Debug.Log("활이 파괴되었습니다.");
-                    }
-                }
-            }
-            finally
-            {
-                if (PV.IsMine)
-                {
-                    PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                }
-            }*/
+            /* try
+             {
+                 if (!isBeingHeld && !isGrip)
+                 {
+                     if (PV.IsMine)
+                     {
+                         PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                         Debug.Log("활이 파괴되었습니다.");
+                     }
+                 }
+             }
+             finally
+             {
+                 if (PV.IsMine)
+                 {
+                     PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                 }
+             }*/
         }
-              
+
     }
 
     private void OnTriggerStay(Collider coll)
     {
-        if(coll.CompareTag("RightHand"))
+        if (coll.CompareTag("RightHand"))
         {
             //if (coll.CompareTag("LeftHand")) return;
             if (PV.IsMine)
             {
                 isRight = true;
-                
             }
         }
 
@@ -146,10 +165,10 @@ public class BowManager : MonoBehaviourPun, IPunObservable
                 isRight = false;
             }
         }
-    }
+    }   
 
     [PunRPC]
-    public void DestroyBow()=> Destroy(PV.gameObject);
+    public void DestroyBow() => Destroy(PV.gameObject);
 
 
     [PunRPC]
@@ -167,22 +186,24 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void ShieldOn()
     {
-        if(isRight)
+        if (isRight)
         {
             shield_R.SetActive(true);
+            shield_L.SetActive(false);
             bow.SetActive(false);
-            pullColl.enabled= false;
+            pullColl.enabled = false;
             notch.enabled = false;
         }
         else
         {
             shield_L.SetActive(true);
+            shield_R.SetActive(false);
             bow.SetActive(false);
             pullColl.enabled = false;
             notch.enabled = false;
         }
-        
-      
+
+
     }
 
     [PunRPC]
@@ -191,24 +212,26 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         if (isRight)
         {
             shield_R.SetActive(false);
+            shield_L.SetActive(false);
             bow.SetActive(true);
             pullColl.enabled = true;
             notch.enabled = true;
         }
         else
         {
+            shield_R.SetActive(false);
             shield_L.SetActive(false);
             bow.SetActive(true);
             pullColl.enabled = true;
             notch.enabled = true;
-        }       
-      
+        }
+
     }
 
     public void OnSelectedEntered()
     {
         Debug.Log("활을 잡았습니다.");
-        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);       
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
     }
 
     public void OnSelectedExited()
@@ -227,5 +250,5 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         PV.RPC(nameof(ShieldOff), RpcTarget.AllBuffered);
     }
 
-  
+
 }

@@ -30,7 +30,7 @@ public class Arrow_MultiShot : Arrow
         AMS = this;
         isRotate = true;
         //typing.gameObject.SetActive(true);
-        tagColl.tag = "Skilled";
+       
     }
     /* private void Start()
      {
@@ -56,19 +56,19 @@ public class Arrow_MultiShot : Arrow
         {
             PV.RPC(nameof(Multipack), RpcTarget.AllBuffered);
         }
-
-        tagColl.tag = "Arrow";
+        
         if (args.interactorObject is Notch notch)
         {
             //GetTarget();
-            tagColl.tag = "Arrow";
+            
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 2;
-                LaunchArrow(notch);
+                
                 if (PV.IsMine)
                 {
-                    // if (!PV.IsMine) return;
+                    if (!PV.IsMine) return;
+                    LaunchArrow(notch);
                     PV.RPC(nameof(Tailpack), RpcTarget.AllBuffered);
                     PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);
                 }
@@ -179,6 +179,16 @@ public class Arrow_MultiShot : Arrow
              mulRid[1].constraints = RigidbodyConstraints.FreezeAll;*/
         }
 
+        else if (!coll.gameObject.isStatic)
+        {
+            transform.SetParent(coll.transform);
+            rigidbody.useGravity = false;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            rigidbody.isKinematic = true;
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            rigidbody.WakeUp();
+        }
+
         else if (colRid != null && !colRid.isKinematic)
         {
             FixedJoint joint = gameObject.AddComponent<FixedJoint>();
@@ -268,6 +278,16 @@ public class Arrow_MultiShot : Arrow
             mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
         }
 
+        else if (!coll.gameObject.isStatic)
+        {
+            transform.SetParent(coll.transform);
+            mulRid[0].useGravity = false;
+            mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[0].isKinematic = true;
+            mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[0].WakeUp();
+        }
+
         else if (colRid != null && !colRid.isKinematic)
         {
             FixedJoint joint = gameObject.AddComponent<FixedJoint>();
@@ -323,6 +343,16 @@ public class Arrow_MultiShot : Arrow
             mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
             mulRid[1].isKinematic = true;
             mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        else if (!coll.gameObject.isStatic)
+        {
+            transform.SetParent(coll.transform);
+            mulRid[1].useGravity = false;
+            mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
+            mulRid[1].isKinematic = true;
+            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
+            mulRid[1].WakeUp();
         }
 
         else if (colRid != null && !colRid.isKinematic)
@@ -387,18 +417,18 @@ public class Arrow_MultiShot : Arrow
         }
         if (PV.IsMine)
         {
-            if (!isGrip && launched && !rigidbody.isKinematic)
+            if (!isGrip && launched)// && !rigidbody.isKinematic)
             {
                 TrySticky(collision);
-            }
-            if (!isGrip && launched && !mulRid[0].isKinematic)
-            {
                 TrySticky2(collision);
+                TrySticky3(collision);
+            }
+          /*  if (!isGrip && launched && !mulRid[0].isKinematic)
+            {
             }
             if (!isGrip && launched && !mulRid[1].isKinematic)
             {
-                TrySticky3(collision);
-            }
+            }*/
         }
 
         if (collision.collider.CompareTag("Head"))
@@ -422,7 +452,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -450,7 +480,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -490,7 +520,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -517,7 +547,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -550,7 +580,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -574,7 +604,7 @@ public class Arrow_MultiShot : Arrow
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
@@ -597,7 +627,7 @@ public class Arrow_MultiShot : Arrow
             }
         }
 
-        if (collision.collider.CompareTag("Shield"))
+        if (collision.collider.CompareTag("Shield")|| collision.collider.CompareTag("Bow"))
         {
             if (PV.IsMine)
             {
@@ -606,22 +636,19 @@ public class Arrow_MultiShot : Arrow
                 {
                     try
                     {
-                        AudioManager.AM.PlaySE(sImpact);
+                        PV.RPC(nameof(ImpactS),RpcTarget.AllBuffered);
+                       // AudioManager.AM.PlaySE(sImpact);
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
                             case 0:
-                                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 기본 화살
-                                break;
                             case 1:
-                                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
-                                break;
                             case 2:
-                                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 멀티샷
+                                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
                                 break;
                             case 3:
                                 PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);  // 폭탄 화살
@@ -630,22 +657,18 @@ public class Arrow_MultiShot : Arrow
                     }
                     finally
                     {
-                        AudioManager.AM.PlaySE(sImpact);
+                        PV.RPC(nameof(ImpactS), RpcTarget.AllBuffered);
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                        transform.position = contact.point;
+                        //transform.position = contact.point;
                         Destroy(effect, 0.5f);
                         switch (DataManager.DM.arrowNum)
                         {
                             case 0:
-                                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 기본 화살
-                                break;
                             case 1:
-                                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
-                                break;
                             case 2:
-                                PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 멀티샷
+                                PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
                                 break;
                             case 3:
                                 PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);  // 폭탄 화살
@@ -710,9 +733,9 @@ public class Arrow_MultiShot : Arrow
     }
 
     /*[PunRPC]
-    public void HideType()
+    public void ImpactS()
     {
-        typing.gameObject.SetActive(false);
+        AudioManager.AM.PlaySE(sImpact);
     }*/
 
     public IEnumerator DelayEffect()

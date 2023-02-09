@@ -14,14 +14,13 @@ public class Arrow_Bomb : Arrow
 {   
     public Collider tagColl;
     public ParticleSystem fireEX;
-    private bool isRotate;    
+    private bool isRotate;
+    //public AudioSource audioSource;
 
     protected override void Awake()
     {
         base.Awake();        
-        isRotate = true;
-        tagColl.tag = "Skilled";
-        //fireEX.gameObject.SetActive(false);
+        isRotate = true;     
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -29,24 +28,24 @@ public class Arrow_Bomb : Arrow
         base.OnSelectEntered(args);
         PV.RequestOwnership();
         DataManager.DM.grabArrow = true;       
-        isRotate = false;    
+        isRotate = false; 
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        tagColl.tag = "Arrow";
         DataManager.DM.grabArrow = false;
         if (args.interactorObject is Notch notch)
         {    
             if (notch.CanRelease)
             {
-                DataManager.DM.arrowNum = 3;
-                tagColl.tag = "Arrow";
-                LaunchArrow(notch);                     
+                DataManager.DM.arrowNum = 3;               
+                  
+                //audioSource.Stop();
                 if (PV.IsMine)
                 {
                     if (!PV.IsMine) return;
+                    LaunchArrow(notch);
                     PV.RPC(nameof(Active_EX), RpcTarget.AllBuffered);
                 }
 
@@ -78,7 +77,7 @@ public class Arrow_Bomb : Arrow
     public IEnumerator ActiveCtrl()
     {
         fireEX.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         fireEX.gameObject.SetActive(false);
     }
 }

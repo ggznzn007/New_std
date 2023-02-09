@@ -45,10 +45,11 @@ public class Arrow_Skilled : Arrow
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 1;
-                LaunchArrow(notch);
+                
                 if (effects != null)
                 {
                     if (!PV.IsMine) return;
+                    LaunchArrow(notch);
                     rigidbody.useGravity = false;
                     PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);
                     tail.gameObject.SetActive(false);
@@ -80,14 +81,21 @@ public class Arrow_Skilled : Arrow
     [PunRPC]
     public void DelayEX()
     {
-        StartCoroutine(nameof(DelayOnEffect));
+        StartCoroutine(DelayOnEffect());
+        //StartCoroutine(DelayTime());
     }
 
     public IEnumerator DelayOnEffect()
     {
         yield return new WaitForSecondsRealtime(0.04f);
-        effects.SetActive(true);
-        //AudioManager.AM.PlaySE("aSkillShot");
+        effects.SetActive(true);        
+        yield return StartCoroutine(DelayTime());
+    }
+
+    public IEnumerator DelayTime()
+    {
+        yield return new WaitForSeconds(2.2f);
+        Destroy(PV.gameObject);
     }
 
 }
