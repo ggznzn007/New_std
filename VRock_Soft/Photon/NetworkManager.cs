@@ -72,7 +72,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] RectTransform ad_WesternUI;
 
     private void Awake()
-    {
+    {        
         if (NM != null && NM != this)
         {
             Destroy(this.gameObject);
@@ -190,7 +190,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             IsOpen = true,
             MaxPlayers = (byte)roomSettings.maxPLayer,
             PlayerTtl = 235,
-            EmptyRoomTtl = 236,
+            EmptyRoomTtl = 236,            
             CustomRoomProperties = options
         };
 
@@ -226,7 +226,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             IsOpen = true,
             MaxPlayers = (byte)roomSettings.maxPLayer,
             PlayerTtl = 235,
-            EmptyRoomTtl = 236,
+            EmptyRoomTtl = 236,           
             CustomRoomProperties = options
         };
         
@@ -248,7 +248,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             IsOpen = true,
             MaxPlayers = (byte)roomSettings.maxPLayer,
             PlayerTtl = 235,
-            EmptyRoomTtl = 236,
+            EmptyRoomTtl = 236,            
             CustomRoomProperties = options
         };
         
