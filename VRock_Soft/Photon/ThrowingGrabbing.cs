@@ -31,7 +31,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
         outline = GetComponent<SelectionOutline>();       
     }
 
-    private void Update()
+    private void FixedUpdate()
     {      
         if (isBeingHeld)
         {           
