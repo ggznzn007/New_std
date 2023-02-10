@@ -29,7 +29,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
         isGrip = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (isBeingHeld)               // 총의 입장에서 손에 잡혀있음
         {
@@ -45,14 +45,14 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
         }
     }
     private void OnCollisionEnter(Collision collision)
-    {        
-         if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("FloorBox"))
+    {
+        if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("FloorBox"))
         {
             try
             {
-                if (!isBeingHeld && !isGrip)
+                if (PV.IsMine)
                 {
-                    if (PV.IsMine)
+                    if (!isBeingHeld && !isGrip)
                     {
                         PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
                     }
@@ -79,6 +79,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
                     }
                 }
             }
+
             finally
             {
                 if (PV.IsMine)
@@ -86,14 +87,15 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
                     PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
                 }
             }
-            
+
         }
     }
 
     [PunRPC]
     public void DestroyGun()
     {
-        Destroy(PV.gameObject);
+        Destroy(gameObject);
+        //Destroy(PV.gameObject);
     }
 
     [PunRPC]
