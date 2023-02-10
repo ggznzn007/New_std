@@ -391,6 +391,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             PN.RemoveBufferedRPCs();
         }
         PN.Destroy(spawnPlayer);
+        DataManager.DM.isReady = false;
         SceneManager.LoadScene(0);
 
     }
