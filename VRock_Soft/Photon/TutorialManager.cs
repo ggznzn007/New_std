@@ -20,7 +20,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     public Transform[] bSpawnPosition;                  // 气藕 积己困摹
     private GameObject bomBs;                           // 积己登绰 气藕
     private GameObject shieldCap;
-
+    
     private void Awake()
     {
         TM = this;
@@ -28,6 +28,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        DataManager.DM.isReady = false;
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
@@ -134,13 +135,22 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(2); }
-        if (Input.GetKey(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
-        if (Input.GetKeyDown(KeyCode.Space))
+    {        
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            SpawnBomb();
+            if (!DataManager.DM.isReady)
+            {
+                DataManager.DM.isReady = true;
+                photonView.RPC(nameof(Ready1), RpcTarget.AllViaServer);
+            }
+            else if (DataManager.DM.isReady)
+            {
+                DataManager.DM.isReady= false;
+                PN.LoadLevel(2);
+            } 
         }
+        if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
+        if (Input.GetKeyDown(KeyCode.Space)) { SpawnBomb(); }
         /*if (PN.InRoom && PN.IsMasterClient)
         {
 
@@ -157,11 +167,18 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
         }*/
     }
+
     /*IEnumerator DeleteBullet()
     {
         yield return new WaitForSeconds(0.3f);
         foreach (GameObject bull in GameObject.FindGameObjectsWithTag("Bullet")) bull.GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
     }*/
+
+    [PunRPC]
+    public void Ready1()
+    {
+        DataManager.DM.gameOver = true;
+    }
 
     public IEnumerator ExitGame()
     {
