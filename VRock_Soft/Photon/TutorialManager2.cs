@@ -27,12 +27,14 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     public Transform[] bSpawnPosition;                  // 폭탄 생성위치
     private GameObject bomBs;
     private GameObject shieldCap;
+    
     private void Awake()
     {
         TM2 = this;
     }
     private void Start()
     {
+        DataManager.DM.isReady = false;
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
@@ -56,7 +58,19 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     private void Update()
     {
         // 윈도우 프로그램 빌드 시
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { DataManager.DM.gameOver = true; PN.LoadLevel(4); }
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (!DataManager.DM.isReady)
+            {
+                DataManager.DM.isReady = true;
+                photonView.RPC(nameof(Ready2), RpcTarget.AllViaServer);
+            }
+            else if (DataManager.DM.isReady)
+            {
+                DataManager.DM.isReady = false;
+                PN.LoadLevel(4);
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -76,6 +90,13 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
              }
          }        */
     }
+
+    [PunRPC]
+    public void Ready2()
+    {
+        DataManager.DM.gameOver = true;
+    }
+
     public IEnumerator ExitGame()
     {
         yield return new WaitForSeconds(1);
