@@ -42,10 +42,10 @@ public class Arrow_Bomb : Arrow
                 DataManager.DM.arrowNum = 3;               
                   
                 //audioSource.Stop();
+                    LaunchArrow(notch);
                 if (PV.IsMine)
                 {
                     if (!PV.IsMine) return;
-                    LaunchArrow(notch);
                     PV.RPC(nameof(Active_EX), RpcTarget.AllBuffered);
                 }
 
@@ -54,7 +54,7 @@ public class Arrow_Bomb : Arrow
 
     }
 
-  
+    
     private void Update()
     {
         if (isRotate)
