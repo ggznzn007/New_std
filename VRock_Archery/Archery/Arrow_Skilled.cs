@@ -10,18 +10,22 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Photon.Pun.Demo.Procedural;
 using UnityEngine.InputSystem.HID;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Arrow_Skilled : Arrow
 {
     public GameObject effects;
     private bool isRotate;
     public SphereCollider tagColl;
+    public ParticleSystem[] parentsMesh;
 
     protected override void Awake()
     {
         base.Awake();
         isRotate = true;
         tagColl.tag = "Skilled";
+        parentsMesh[0].gameObject.SetActive(true);
+        parentsMesh[1].gameObject.SetActive(true);
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -46,13 +50,11 @@ public class Arrow_Skilled : Arrow
             {
                 DataManager.DM.arrowNum = 1;
                 
+                LaunchArrow(notch);
                 if (effects != null)
                 {
-                    if (!PV.IsMine) return;
-                    LaunchArrow(notch);
-                    rigidbody.useGravity = false;
-                    PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);
-                    tail.gameObject.SetActive(false);
+                    if (!PV.IsMine) return;                    
+                    PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);                    
                 }
                 else
                 {
@@ -64,7 +66,26 @@ public class Arrow_Skilled : Arrow
 
     }
 
-   
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (launched)
+        {
+            if (!launched) return;
+            if (coll.CompareTag("Head"))
+            {
+                AudioManager.AM.PlaySE(headShot);
+               var effect = Instantiate(wording_Cr, coll.transform.position + new Vector3(0, 0, -0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성
+               Destroy(effect,0.5f);
+            }
+
+            if (coll.CompareTag("Body"))
+            {
+                AudioManager.AM.PlaySE(hitPlayer);
+                var effect = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 0, -0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성
+                Destroy(effect, 0.5f);
+            }
+        }
+    }
 
     private void Update()
     {
@@ -87,8 +108,12 @@ public class Arrow_Skilled : Arrow
 
     public IEnumerator DelayOnEffect()
     {
+        tail.gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(0.04f);
-        effects.SetActive(true);        
+        rigidbody.useGravity = false;
+        effects.SetActive(true);
+        parentsMesh[0].gameObject.SetActive(false);
+        parentsMesh[1].gameObject.SetActive(false);
         yield return StartCoroutine(DelayTime());
     }
 
