@@ -88,7 +88,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {// 앞에 수는 진동의 진폭
      // 뒤에 수는 진동의 강도
         if (collision.collider.CompareTag("Arrow"))
@@ -96,15 +96,15 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             if (PV.IsMine && isRight)
             {
                 if (!PV.IsMine) return;
-                PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.RightController);
+                PXR_Input.SetControllerVibration(0.5f, 10, PXR_Input.Controller.RightController);
             }
             if (PV.IsMine && !isRight)
             {
                 if (!PV.IsMine) return;
-                PXR_Input.SetControllerVibration(0.5f, 8, PXR_Input.Controller.LeftController);
+                PXR_Input.SetControllerVibration(0.5f, 10, PXR_Input.Controller.LeftController);
             }
         }
-    }
+    }*/
     private void OnCollisionStay(Collision collision)
     {
         if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Finish"))
@@ -155,6 +155,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             {
                 isRight = true;
             }
+
         }
 
         if (coll.CompareTag("LeftHand"))
@@ -189,7 +190,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         if (isRight)
         {
             shield_R.SetActive(true);
-            shield_L.SetActive(false);
+            //shield_L.SetActive(false);
             bow.SetActive(false);
             pullColl.enabled = false;
             notch.enabled = false;
@@ -197,7 +198,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         else
         {
             shield_L.SetActive(true);
-            shield_R.SetActive(false);
+            //shield_R.SetActive(false);
             bow.SetActive(false);
             pullColl.enabled = false;
             notch.enabled = false;
@@ -212,14 +213,14 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         if (isRight)
         {
             shield_R.SetActive(false);
-            shield_L.SetActive(false);
+            //shield_L.SetActive(false);
             bow.SetActive(true);
             pullColl.enabled = true;
             notch.enabled = true;
         }
         else
         {
-            shield_R.SetActive(false);
+            //shield_R.SetActive(false);
             shield_L.SetActive(false);
             bow.SetActive(true);
             pullColl.enabled = true;
