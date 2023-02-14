@@ -13,24 +13,22 @@ using UnityEngine.InputSystem.HID;
 public class Arrow_MultiShot : Arrow
 {
     public static Arrow_MultiShot AMS;
-    public SphereCollider tagColl;
+    public SphereCollider[] tagColl;
     public ParticleSystem[] effects;
     public GameObject[] arrowMesh;
     public TrailRenderer[] tails;
+    public Transform[] shootPoints;
     private bool isRotate;
     public Rigidbody[] mulRid;
     public float zVel2 = 0;
     public float zVel3 = 0;
-    private float plusSpeed = 1.8f;
-    //public ParticleSystem typing;
+    private readonly float plusSpeed = 2f;    
 
     protected override void Awake()
     {
         base.Awake();
         AMS = this;
         isRotate = true;
-        //typing.gameObject.SetActive(true);
-       
     }
     /* private void Start()
      {
@@ -45,8 +43,6 @@ public class Arrow_MultiShot : Arrow
         PV.RequestOwnership();
         DataManager.DM.grabArrow = true;
         isRotate = false;
-        //rotSpeed = 0;
-
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
@@ -56,56 +52,85 @@ public class Arrow_MultiShot : Arrow
         {
             PV.RPC(nameof(Multipack), RpcTarget.AllBuffered);
         }
-        
+
         if (args.interactorObject is Notch notch)
         {
-            //GetTarget();
-            
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 2;
-                
+                LaunchArrow(notch);
+                LaunchArrow2(notch);
+                LaunchArrow3(notch);
+
                 if (PV.IsMine)
                 {
                     if (!PV.IsMine) return;
-                    LaunchArrow(notch);
+                    rigidbody.useGravity = false;
+                    mulRid[0].useGravity = false;
+                    mulRid[1].useGravity = false;
                     PV.RPC(nameof(Tailpack), RpcTarget.AllBuffered);
                     PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);
                 }
-
             }
         }
-
     }
 
     public new void LaunchArrow(Notch notch)
     {
-
         isGrip = false;
         launched = true;
         flightTime = 0f;
         transform.parent = null;
+
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
-        mulRid[0].isKinematic = false;
+        /*mulRid[0].isKinematic = false;
         mulRid[0].useGravity = true;
         mulRid[0].collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         mulRid[0].constraints = RigidbodyConstraints.FreezeRotation;
 
         mulRid[1].isKinematic = false;
         mulRid[1].useGravity = true;
         mulRid[1].collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-        mulRid[1].constraints = RigidbodyConstraints.FreezeRotation;
+        mulRid[1].constraints = RigidbodyConstraints.FreezeRotation;*/
         ApplyForce(notch.PullMeasurer);
-        ApplyForce2(notch.PullMeasurer);
-        ApplyForce3(notch.PullMeasurer);
+        // ApplyForce2(notch.PullMeasurer);
+        // ApplyForce3(notch.PullMeasurer);
+        //ApplyForce2(notch.PullMeasurer);
+        //ApplyForce3(notch.PullMeasurer);
         //StartCoroutine(ReEnableCollider());
         // StartCoroutine(LaunchRoutine());
+        DataManager.DM.grabArrow = false;
+    }
+    public void LaunchArrow2(Notch notch)
+    {
+        isGrip = false;  
+        launched = true;
+        flightTime = 0f;
+        transform.parent = null;
+
+        mulRid[0].isKinematic = false;
+        mulRid[0].useGravity = true;
+        mulRid[0].collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        mulRid[0].constraints = RigidbodyConstraints.FreezeRotation;
+        ApplyForce2(notch.PullMeasurer);
+        DataManager.DM.grabArrow = false;
+    }
+    public void LaunchArrow3(Notch notch)
+    {
+        isGrip = false;
+        launched = true;
+        flightTime = 0f;
+        transform.parent = null;
+
+        mulRid[1].isKinematic = false;
+        mulRid[1].useGravity = true;
+        mulRid[1].collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        mulRid[1].constraints = RigidbodyConstraints.FreezeRotation;
+        ApplyForce3(notch.PullMeasurer);
         DataManager.DM.grabArrow = false;
     }
 
@@ -125,11 +150,13 @@ public class Arrow_MultiShot : Arrow
             }
         }
 
+
     }
 
     public void ApplyForce2(PullMeasurer pullMeasurer)
     {
-        mulRid[0].AddForce(shootPoint.forward * (pullMeasurer.PullAmount * speed * plusSpeed), ForceMode.VelocityChange);
+        mulRid[0].AddForce(shootPoints[0].forward * (pullMeasurer.PullAmount * speed * plusSpeed), ForceMode.VelocityChange);
+
         if (mulRid[0] && MinForceHit != 0)
         {
             float zVel = System.Math.Abs(transform.InverseTransformDirection(mulRid[0].velocity).z);
@@ -144,7 +171,7 @@ public class Arrow_MultiShot : Arrow
 
     public void ApplyForce3(PullMeasurer pullMeasurer)
     {
-        mulRid[1].AddForce(shootPoint.forward * (pullMeasurer.PullAmount * speed * plusSpeed), ForceMode.VelocityChange);
+        mulRid[1].AddForce(shootPoints[1].forward * (pullMeasurer.PullAmount * speed * plusSpeed), ForceMode.VelocityChange);
         if (mulRid[1] && MinForceHit != 0)
         {
             float zVel = System.Math.Abs(transform.InverseTransformDirection(mulRid[1].velocity).z);
@@ -157,7 +184,6 @@ public class Arrow_MultiShot : Arrow
         }
     }
 
-
     public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
         Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
@@ -169,25 +195,8 @@ public class Arrow_MultiShot : Arrow
             rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
             rigidbody.isKinematic = true;
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-
-            /* mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
-             mulRid[0].isKinematic = true;
-             mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
-
-             mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
-             mulRid[1].isKinematic = true;
-             mulRid[1].constraints = RigidbodyConstraints.FreezeAll;*/
         }
 
-        else if (!coll.gameObject.isStatic)
-        {
-            transform.SetParent(coll.transform);
-            rigidbody.useGravity = false;
-            rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-            rigidbody.isKinematic = true;
-            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            rigidbody.WakeUp();
-        }
 
         else if (colRid != null && !colRid.isKinematic)
         {
@@ -198,8 +207,6 @@ public class Arrow_MultiShot : Arrow
             joint.breakTorque = float.MaxValue;
 
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            /*mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
-            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;*/
         }
         else if (colRid != null && colRid.isKinematic && coll.transform.localScale == Vector3.one)
         {
@@ -209,18 +216,6 @@ public class Arrow_MultiShot : Arrow
             rigidbody.isKinematic = true;
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             rigidbody.WakeUp();
-
-            /*  mulRid[0].useGravity = false;
-              mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
-              mulRid[0].isKinematic = true;
-              mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
-              mulRid[0].WakeUp();
-
-              mulRid[1].useGravity = false;
-              mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
-              mulRid[1].isKinematic = true;
-              mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
-              mulRid[1].WakeUp();*/
         }
         else
         {
@@ -228,42 +223,16 @@ public class Arrow_MultiShot : Arrow
             {
                 transform.SetParent(coll.transform);
                 rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-                /* mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
-                 mulRid[1].constraints = RigidbodyConstraints.FreezeAll;*/
             }
             else
             {
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
                 rigidbody.useGravity = false;
                 rigidbody.isKinematic = true;
-                /*
-                                mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
-                                mulRid[0].useGravity = false;
-                                mulRid[0].isKinematic = true;
-
-                                mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
-                                mulRid[1].useGravity = false;
-                                mulRid[1].isKinematic = true;*/
             }
         }
 
-        /* switch (DataManager.DM.arrowNum)
-         {
-             case 0:
-                 PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 기본 화살
-                 break;
-             case 1:
-                 PV.RPC(nameof(DestroyArrow), RpcTarget.AllBuffered); // 스킬 화살
-                 break;
-             case 2:
-                 PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);  // 멀티샷
-                 break;
-             case 3:
-                 PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);  // 폭탄 화살
-                 break;
-         }*/
     }
-
 
     public void TrySticky2(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
@@ -278,15 +247,6 @@ public class Arrow_MultiShot : Arrow
             mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
         }
 
-        else if (!coll.gameObject.isStatic)
-        {
-            transform.SetParent(coll.transform);
-            mulRid[0].useGravity = false;
-            mulRid[0].collisionDetectionMode = CollisionDetectionMode.Discrete;
-            mulRid[0].isKinematic = true;
-            mulRid[0].constraints = RigidbodyConstraints.FreezeAll;
-            mulRid[0].WakeUp();
-        }
 
         else if (colRid != null && !colRid.isKinematic)
         {
@@ -331,7 +291,6 @@ public class Arrow_MultiShot : Arrow
 
     }
 
-
     public void TrySticky3(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
         Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
@@ -343,16 +302,6 @@ public class Arrow_MultiShot : Arrow
             mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
             mulRid[1].isKinematic = true;
             mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
-        }
-
-        else if (!coll.gameObject.isStatic)
-        {
-            transform.SetParent(coll.transform);
-            mulRid[1].useGravity = false;
-            mulRid[1].collisionDetectionMode = CollisionDetectionMode.Discrete;
-            mulRid[1].isKinematic = true;
-            mulRid[1].constraints = RigidbodyConstraints.FreezeAll;
-            mulRid[1].WakeUp();
         }
 
         else if (colRid != null && !colRid.isKinematic)
@@ -409,7 +358,28 @@ public class Arrow_MultiShot : Arrow
         }*/
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider coll)
+    {        
+        if (launched)
+        {
+            if (!launched) return;
+            if (coll.CompareTag("Head"))
+            {               
+                var effect = Instantiate(arrowEX, coll.transform.position+new Vector3(0,0,-0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성                                                                         
+                AudioManager.AM.PlaySE(headShot);         
+                Destroy(effect, 0.5f);
+            }
+            if (coll.CompareTag("Body"))
+            {
+                var effect = Instantiate(arrowEX, coll.transform.position + new Vector3(0, 0, -0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성                                                                     
+                AudioManager.AM.PlaySE(hitPlayer);
+                Destroy(effect, 0.5f);
+            }          
+        }
+    }
+
+
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -423,12 +393,6 @@ public class Arrow_MultiShot : Arrow
                 TrySticky2(collision);
                 TrySticky3(collision);
             }
-          /*  if (!isGrip && launched && !mulRid[0].isKinematic)
-            {
-            }
-            if (!isGrip && launched && !mulRid[1].isKinematic)
-            {
-            }*/
         }
 
         if (collision.collider.CompareTag("Head"))
@@ -627,7 +591,7 @@ public class Arrow_MultiShot : Arrow
             }
         }
 
-        if (collision.collider.CompareTag("Shield")|| collision.collider.CompareTag("Bow"))
+        if (collision.collider.CompareTag("Shield") || collision.collider.CompareTag("Bow"))
         {
             if (PV.IsMine)
             {
@@ -636,8 +600,8 @@ public class Arrow_MultiShot : Arrow
                 {
                     try
                     {
-                        PV.RPC(nameof(ImpactS),RpcTarget.AllBuffered);
-                       // AudioManager.AM.PlaySE(sImpact);
+                        PV.RPC(nameof(ImpactS), RpcTarget.AllBuffered);
+                        // AudioManager.AM.PlaySE(sImpact);
                         ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                         Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                         var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
@@ -679,10 +643,11 @@ public class Arrow_MultiShot : Arrow
 
             }
         }
-    }
+    }*/
+
     private void FixedUpdate()
     {
-        if (!isGrip && mulRid[0] != null && rigidbody.velocity != Vector3.zero && launched && zVel > 0.02)
+        if (!isGrip && rigidbody != null && rigidbody.velocity != Vector3.zero && launched && zVel > 0.02)
         {
             rigidbody.rotation = Quaternion.LookRotation(rigidbody.velocity);
         }
@@ -714,7 +679,7 @@ public class Arrow_MultiShot : Arrow
     [PunRPC]
     public void DelayEX()
     {
-        StartCoroutine(DelayEffect());
+        StartCoroutine(DelayEffect());        
     }
 
     [PunRPC]
@@ -723,7 +688,7 @@ public class Arrow_MultiShot : Arrow
         arrowMesh[0].SetActive(true);
         arrowMesh[1].SetActive(true);
         arrowMesh[2].SetActive(true);
-        arrowMesh[3].SetActive(false);
+        arrowMesh[3].SetActive(false);        
     }
 
     [PunRPC]
@@ -740,18 +705,27 @@ public class Arrow_MultiShot : Arrow
 
     public IEnumerator DelayEffect()
     {
-        yield return new WaitForSecondsRealtime(0.05f);
+        yield return new WaitForSecondsRealtime(0.1f);
         effects[0].gameObject.SetActive(true);
         effects[1].gameObject.SetActive(true);
         effects[2].gameObject.SetActive(true);
+        yield return StartCoroutine(DelayTime());
     }
 
     public IEnumerator TailCtrl()
     {
         tails[0].gameObject.SetActive(true);
         tails[1].gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         tails[0].gameObject.SetActive(false);
         tails[1].gameObject.SetActive(false);
     }
+
+    public IEnumerator DelayTime()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(PV.gameObject);
+    }
+
+   
 }
