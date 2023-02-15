@@ -9,11 +9,13 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
+public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IPunObservable
 {   
     public PhotonView PV;    
     public bool isBeingHeld;
     private bool isGrip;
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
 
     private void Awake()
     {
@@ -27,7 +29,13 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     }
 
     void FixedUpdate()
-    {     
+    {
+        if (!PV.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            return;
+        }
         if (isBeingHeld)
         {
             isGrip = true;   
@@ -93,5 +101,19 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
     {
 
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {           
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);            
+        }
+        else
+        {
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+        }
     }
 }
