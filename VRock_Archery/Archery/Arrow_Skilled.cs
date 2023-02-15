@@ -89,13 +89,18 @@ public class Arrow_Skilled : Arrow
 
     private void Update()
     {
+        RotArrow();
+    }
+
+    public void RotArrow()
+    {
         if (isRotate)
         {
             transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0, 0, 1));
         }
         else
         {
-            rotSpeed= 0;
+            rotSpeed = 0;
         }
     }
 
