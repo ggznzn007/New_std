@@ -103,17 +103,17 @@ public class Arrow_Bomb : Arrow
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(headShot);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                    /*if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
                     {
                         if (!AvartarController.ATC.isDamaged)
                         {
                             AvartarController.ATC.HeadShotDamage();
                         }
-                    }
+                    }*/
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
                     PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);
@@ -131,17 +131,17 @@ public class Arrow_Bomb : Arrow
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(hitPlayer);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                   /* if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
                     {
                         if (!AvartarController.ATC.isDamaged)
                         {
                             AvartarController.ATC.NormalDamage();
                         }
-                    }
+                    }*/
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
                     PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);
@@ -193,7 +193,8 @@ public class Arrow_Bomb : Arrow
         }
     }
 
-    
+  
+
     public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
         Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
@@ -201,7 +202,7 @@ public class Arrow_Bomb : Arrow
 
         if (coll.gameObject.isStatic) // 정적오브젝트
         {
-            transform.SetParent(coll.transform);
+            //transform.SetParent(coll.transform);
             rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
             rigidbody.isKinematic = true;
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -261,11 +262,11 @@ public class Arrow_Bomb : Arrow
     }
     
 
-    [PunRPC]
+  /*  [PunRPC]
     public void Active_EX()
     {
        StartCoroutine(ActiveCtrl());
-    }
+    }*/
 
     [PunRPC]
     public void BombA()
@@ -309,10 +310,10 @@ public class Arrow_Bomb : Arrow
     {
         Destroy(gameObject, bombTime);
     }
-    public IEnumerator ActiveCtrl()
+   /* public IEnumerator ActiveCtrl()
     {
         fireEX.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.4f);
         fireEX.gameObject.SetActive(false);
-    }
+    }*/
 }
