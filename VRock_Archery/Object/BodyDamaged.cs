@@ -33,15 +33,26 @@ public class BodyDamaged : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider coll)
     {
-        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)
+        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
-            {                
-                AT.SkillDamage();                
+            {
+                AT.SkillDamage();
                 Debug.Log("气藕单固瘤!");
             }
         }
+
+        /*if (coll.CompareTag("Multishot") && AT.isAlive && DataManager.DM.inGame)
+        {
+            if (!AT.isDamaged)
+            {
+                AT.SkillDamage2();
+                Debug.Log("气藕单固瘤!");
+            }
+        }*/
     }
+
+   
 
     /* private void OnParticleCollision(GameObject explosion)
      {
