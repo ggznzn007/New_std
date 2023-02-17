@@ -71,13 +71,6 @@ public class Arrow_Skilled : Arrow
         if (launched)
         {
             if (!launched) return;
-            if (coll.CompareTag("Head"))
-            {
-                AudioManager.AM.PlaySE(headShot);
-               var effect = Instantiate(wording_Cr, coll.transform.position + new Vector3(0, 0, -0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성
-               Destroy(effect,0.5f);
-            }
-
             if (coll.CompareTag("Body"))
             {
                 AudioManager.AM.PlaySE(hitPlayer);
@@ -113,7 +106,8 @@ public class Arrow_Skilled : Arrow
 
     public IEnumerator DelayOnEffect()
     {
-        tail.gameObject.SetActive(false);
+        //tail.gameObject.SetActive(false);
+        head.SetActive(false);
         yield return new WaitForSecondsRealtime(0.04f);
         rigidbody.useGravity = false;
         effects.SetActive(true);
