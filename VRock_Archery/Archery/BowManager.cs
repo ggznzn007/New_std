@@ -107,7 +107,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     }*/
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Finish"))
+        if (collision.collider.CompareTag("FloorBox")||collision.collider.CompareTag("Cube"))
         {
             if (PV.IsMine)
             {
