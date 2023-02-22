@@ -5,11 +5,8 @@ using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
-using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-using Photon.Pun.Demo.Procedural;
-using UnityEngine.InputSystem.HID;
+
 public class Arrow_Bomb : Arrow
 {   
     public Collider tagColl;
@@ -17,6 +14,7 @@ public class Arrow_Bomb : Arrow
     public GameObject myMesh;
     public GameObject myEX;
     private bool isRotate;
+    private AudioSource bombAudio;
     
     private readonly float delTime = 0.4f;
     private readonly float arrowTime = 0.8f;
@@ -28,7 +26,7 @@ public class Arrow_Bomb : Arrow
     {
         base.Awake();        
         isRotate = true;     
-                
+        bombAudio = GetComponent<AudioSource>();
     }
    
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -116,7 +114,7 @@ public class Arrow_Bomb : Arrow
                     var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
 
                 }
 
@@ -144,13 +142,13 @@ public class Arrow_Bomb : Arrow
                     var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
 
                 }
             }
         }
 
-        if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Obtacle"))
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Obtacle"))
         {
             if (PV.IsMine)
             {
@@ -165,7 +163,7 @@ public class Arrow_Bomb : Arrow
                     //transform.position = contact.point+new Vector3(-contact.normal.x, -contact.normal.y, -contact.normal.z);
                     //transform.position = contact.point;                                             
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);                  
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);                  
                     
                 }
             }
@@ -185,8 +183,7 @@ public class Arrow_Bomb : Arrow
                     var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBufferedViaServer);                   
-                    
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);  
                 }
 
             }
@@ -293,15 +290,14 @@ public class Arrow_Bomb : Arrow
    
 
     public IEnumerator Explode()
-    {
-        yield return new WaitForSeconds(0.1f);
-        AudioManager.AM.PlaySX(bombBeep);
-        yield return new WaitForSeconds(2.35f);
+    {        
+        //AudioManager.AM.PlaySX(bombBeep);
+        bombAudio.Play();
+        yield return new WaitForSeconds(2);        
+        bombAudio.Stop();
         myMesh.SetActive(false);
         myEX.SetActive(false);
         PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);
-
-        // AudioManager.AM.PlaySE(bombExplo);       
     }
 
 
