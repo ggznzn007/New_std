@@ -12,61 +12,125 @@ using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 
-public class AcheryEagle : MonoBehaviourPunCallbacks//, IPunObservable
+public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwnershipCallbacks
 {
     public GameObject eagleBomb;
-    public GameObject effect;
+    public GameObject eagleDamEX;
     public Transform spawnPoint;
     public Transform[] wayPos;
     public float speed;
     public string eagleDam;
-    int wayNum = 0;
+    int wayNum = 1;
     private GameObject myBomb;
     private Animator animator;
     private PhotonView PV;
+    private Vector3 remotePos;
+    private Quaternion remoteRot;
 
     public void Start()
     {
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
-        transform.position = wayPos[wayNum].transform.position;       
+        wayPos = GameObject.Find("WayPoint").GetComponentsInChildren<Transform>();
+        /*switch(DataManager.DM.currentMap)
+        {
+            case Map.TUTORIAL_T:
+                wayPos = TutorialManager.TM.wayPos;
+                break;
+            case Map.TOY:
+                wayPos = GunShootManager.GSM.wayPos;
+                break;
+        }*/
+        //transform.position = wayPos[wayNum].transform.position;   
+        if (PN.IsMasterClient)
+        {
+            InvokeRepeating(nameof(SpawnEB), 2, 5);
+        }
     }
 
-    private void FixedUpdate()
+   
+    private void Update()
     {
+        if (!PV.IsMine)
+        {
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
+                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            return;
+        }
+
+        /*switch (DataManager.DM.currentMap)
+        {
+            case Map.TUTORIAL_T:
+                myBomb = TutorialManager.TM.myBomb;
+                break;
+            case Map.TOY:
+                myBomb = GunShootManager.GSM.myBomb;
+                break;
+        }*/
+
+        // myBomb = GameObject.Find("Barrel_Bomb");
+
         MovetoWay();
-        myBomb = GameObject.FindGameObjectWithTag("Bomb");
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Arrow"))
         {
-            if (PV.IsMine)
+            PV.RPC(nameof(BombOut), RpcTarget.AllBuffered);
+            PV.RPC(nameof(EDamage), RpcTarget.AllBuffered);
+            //AudioManager.AM.PlaySE(eagleDam);
+            /*if (PV.IsMine)
             {
-                PV.RPC(nameof(EDamage), RpcTarget.AllBuffered);
-            }
+                if (myBomb == null) return;
+                if (myBomb != null)
+                {
+                   
+                }
+            }*/
         }
     }
 
+    public void SpawnEB()
+    {
+        if (myBomb == null)
+        {
+            if (myBomb != null) return;
+            PV.RPC(nameof(BombInit), RpcTarget.AllBuffered);
+        }
+    }
 
     [PunRPC]
-    public void EDamage()
+    public void BombInit()
     {
-        StartCoroutine(EagleDamage());
+        myBomb = PN.Instantiate(eagleBomb.name, transform.position + new Vector3(0, 0.9f, 0), transform.rotation, 0);
+        myBomb.transform.SetParent(transform, true);
+        myBomb.GetComponent<Rigidbody>().useGravity = false;
+        myBomb.GetComponent<SphereCollider>().enabled = false;
+    }
+
+    [PunRPC]
+    public void BombOut()
+    {
         myBomb.transform.SetParent(transform, false);
         myBomb.GetComponent<Rigidbody>().useGravity = true;
         myBomb.GetComponent<SphereCollider>().enabled = true;
     }
+
+    [PunRPC]
+    public void EDamage()
+    {        
+        StartCoroutine(EagleDamage());
+    }
+
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
-        AudioManager.AM.PlaySE(eagleDam);
-        PN.Instantiate(effect.name, transform.position + new Vector3(0, 1.2f, 0), transform.rotation, 0);
+        
+        PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), transform.rotation, 0);
         yield return new WaitForSeconds(1f);
         animator.SetBool("Damaged", false);
     }
-
 
     public void MovetoWay()
     {
@@ -78,32 +142,61 @@ public class AcheryEagle : MonoBehaviourPunCallbacks//, IPunObservable
             wayNum++;
         }
 
-        if (wayNum == wayPos.Length) { wayNum = 0; }
+        if (wayNum == wayPos.Length) { wayNum = 1; }
     }
 
-  
-
-    /*[PunRPC]
-    public void SpawnBarrel()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-       
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            remotePos = (Vector3)stream.ReceiveNext();
+            remoteRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
+    /*  public void OnSelectedEntered()
+    {
+        
+        if (PV.Owner == PN.LocalPlayer)
+        {
+            Debug.Log("이미 소유권이 나에게 있습니다.");
+        }
+        else
+        {
+            TransferOwnership();
+        }
+    }
+
+    public void OnSelectedExited()
+    {
+
+    }
+
+    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+    {
+        if (targetView != PV) { return; }
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);
+    }
+
+    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+    {
+        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+    }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+
+    }
+
+    private void TransferOwnership()
+    {
+        PV.RequestOwnership();
     }*/
 
-
-    /*
-
-
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(myBomb.transform.position);
-                stream.SendNext(myBomb.transform.rotation);
-            }
-            else
-            {
-                myBomb.transform.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
-            }
-        }*/
 }
