@@ -11,24 +11,31 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class EagleBomb : MonoBehaviourPunCallbacks,IPunObservable
+public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwnershipCallbacks
 {
+    public PhotonView PV;
     public Rigidbody rb;
     public SphereCollider bombColl;
-    public ParticleSystem effect;
+    public GameObject myEX;
+    public GameObject myMesh;
+    public Transform exploPoint;
     public string fireCircle;
-    private PhotonView PV;
     private Vector3 remotePos;
     private Quaternion remoteRot;
+    
 
     void Awake()
     {
-        PV = GetComponent<PhotonView>();
+        PV = GetComponent<PhotonView>();        
+    }
+
+    private void Start()
+    {
         rb = GetComponent<Rigidbody>();
         bombColl = GetComponent<SphereCollider>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!PV.IsMine)
         {
@@ -39,30 +46,38 @@ public class EagleBomb : MonoBehaviourPunCallbacks,IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("FloorBox"))
         {
-            if (PV.IsMine)
+            PV.RPC(nameof(FireCircle), RpcTarget.AllBuffered);
+            /*if (PV.IsMine)
             {
-                PV.RPC(nameof(FireCircle), RpcTarget.AllBuffered);
-            }
+                          
+            }*/
         }
     }
 
+   /* public IEnumerator Explode()
+    {      
+        Destroy(PV.gameObject);
+        PN.Instantiate(myEX.name, exploPoint.position, exploPoint.rotation);        
+        yield return new WaitForSeconds(0.001f);        
+    }*/
 
     [PunRPC]
     public void FireCircle()
     {
-        Destroy(gameObject);
-        AudioManager.AM.PlaySX(fireCircle);
-        PN.Instantiate(effect.name, transform.position - new Vector3(0,0.35f,0), effect.transform.rotation,0);
+        //StartCoroutine(Explode());        
+        Destroy(PV.gameObject);
+        PN.Instantiate(myEX.name, exploPoint.position, exploPoint.rotation);
+        //PN.Instantiate(myEX.name, transform.position+new Vector3(0,-0.3f,0), myEX.transform.rotation);
     }
-
+   
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(remotePos);
-            stream.SendNext(remoteRot);
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
         }
         else
         {
@@ -70,4 +85,45 @@ public class EagleBomb : MonoBehaviourPunCallbacks,IPunObservable
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    /* public void OnSelectedEntered()
+    {          
+        
+        if (PV.Owner == PN.LocalPlayer)
+        {
+            Debug.Log("이미 소유권이 나에게 있습니다.");
+        }
+        else
+        {
+            TransferOwnership();
+        }
+    }
+
+    public void OnSelectedExited()
+    {
+       
+    }
+
+    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+    {
+        if (targetView != PV) { return; }
+        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        PV.TransferOwnership(requestingPlayer);
+    }
+
+    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+    {
+        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+    }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+
+    }
+
+    private void TransferOwnership()
+    {
+        PV.RequestOwnership();
+    }
+*/
 }
