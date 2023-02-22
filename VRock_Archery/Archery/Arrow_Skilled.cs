@@ -8,9 +8,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-using Photon.Pun.Demo.Procedural;
-using UnityEngine.InputSystem.HID;
-using static UnityEngine.Rendering.DebugUI.Table;
+
 
 public class Arrow_Skilled : Arrow
 {
