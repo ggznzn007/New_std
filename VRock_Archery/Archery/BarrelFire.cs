@@ -25,15 +25,14 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
         Destroy(PV.gameObject);
     }
-
     public IEnumerator CollOnOff()
     {
         while(true)
         {
             exColl.enabled = true;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f);
             exColl.enabled = false;
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.8f);
         }        
     }
     private void Update()
@@ -57,6 +56,4 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
-
 }
