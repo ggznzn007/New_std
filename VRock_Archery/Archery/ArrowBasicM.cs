@@ -35,6 +35,7 @@ public class ArrowBasicM : MonoBehaviourPunCallbacks, IPunObservable
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
             return;
         }
+
         if (isBeingHeld)
         {
             isGrip = true;
