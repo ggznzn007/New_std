@@ -13,15 +13,16 @@ using PN = Photon.Pun.PN;
 public class Arrow_Skilled : Arrow
 {
     public GameObject effects;
-    private bool isRotate;
-    public SphereCollider tagColl;
+    public Collider tagColl;
+    public Collider gripColl;
     public ParticleSystem[] parentsMesh;
+    private GameObject skillEX;
+    private bool isRotate;
 
     protected override void Awake()
     {
         base.Awake();
         isRotate = true;
-        tagColl.tag = "Skilled";
         parentsMesh[0].gameObject.SetActive(true);
         parentsMesh[1].gameObject.SetActive(true);
     }
@@ -29,53 +30,71 @@ public class Arrow_Skilled : Arrow
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabArrow = true;       
+        DataManager.DM.grabArrow = true;
         PV.RequestOwnership();
         //rotSpeed = 0;
         isRotate = false;
         DataManager.DM.inArrowBox = false;
-        tagColl.enabled = false;
+        //tagColl.enabled = false;
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        tagColl.tag = "Effect";
+        //tagColl.tag = "Effect";
         DataManager.DM.grabArrow = false;
         if (args.interactorObject is Notch notch)
         {
-            tagColl.tag = "Effect";
+            //tagColl.tag = "Effect";
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 1;
-                
+
                 LaunchArrow(notch);
                 if (effects != null)
                 {
-                    if (!PV.IsMine) return;                    
-                    PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);                    
+                    if (!PV.IsMine) return;
+                    PV.RPC(nameof(DelayEX), RpcTarget.AllBuffered);
                 }
                 else
                 {
                     effects = null;
                 }
-
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider coll)
     {
-        if (launched)
+        if (coll.CompareTag("Body"))
         {
-            if (!launched) return;
-            if (coll.CompareTag("Body"))
+            if (PV.IsMine)
             {
-                AudioManager.AM.PlaySE(hitPlayer);
-                var effect = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 0, -0.25f), coll.transform.rotation);// 충돌 지점에 이펙트 생성
-                Destroy(effect, 0.5f);
+                if (!PV.IsMine) return;
+                if (!isGrip && launched)
+                {
+                    StartCoroutine(DelayHit(coll));
+                }
             }
+
         }
+
+    }
+
+    public IEnumerator DelayHit(Collider coll)
+    {
+        AudioManager.AM.PlaySE(hitPlayer);
+        skillEX = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 1, 0), coll.transform.rotation);// 충돌 지점에 이펙트 생성
+        Destroy(skillEX, 0.5f);
+        yield return new WaitForSeconds(0.02f);
+        tagColl.enabled = false;
+    }
+
+    public IEnumerator CollOnOff()
+    {
+        tagColl.enabled = true;
+        //yield return new WaitForSeconds(0.005f);
+        yield return new WaitForSeconds(0.03f);
+        tagColl.enabled = false;
     }
 
     private void Update()
@@ -107,6 +126,7 @@ public class Arrow_Skilled : Arrow
         //tail.gameObject.SetActive(false);
         head.SetActive(false);
         yield return new WaitForSecondsRealtime(0.04f);
+        gripColl.gameObject.SetActive(false);
         rigidbody.useGravity = false;
         effects.SetActive(true);
         parentsMesh[0].gameObject.SetActive(false);
@@ -119,5 +139,4 @@ public class Arrow_Skilled : Arrow
         yield return new WaitForSeconds(2.2f);
         Destroy(PV.gameObject);
     }
-
 }
