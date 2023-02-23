@@ -14,14 +14,16 @@ using Unity.VisualScripting;
 
 public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwnershipCallbacks
 {
+    public static AcheryEagle AE;
     public GameObject eagleBomb;
     public GameObject eagleDamEX;
     public Transform spawnPoint;
     public Transform[] wayPos;
     public float speed;
     public string eagleDam;
-    int wayNum = 1;
-    private GameObject myBomb;
+    int wayNum = 0;
+    public GameObject myBomb = null;
+    private GameObject myEagle;
     private Animator animator;
     private PhotonView PV;
     private Vector3 remotePos;
@@ -29,26 +31,45 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
     public void Start()
     {
+        AE = this;
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
-        wayPos = GameObject.Find("WayPoint").GetComponentsInChildren<Transform>();
-        /*switch(DataManager.DM.currentMap)
-        {
-            case Map.TUTORIAL_T:
-                wayPos = TutorialManager.TM.wayPos;
-                break;
-            case Map.TOY:
-                wayPos = GunShootManager.GSM.wayPos;
-                break;
-        }*/
-        //transform.position = wayPos[wayNum].transform.position;   
+        transform.position = wayPos[wayNum].transform.position;
         if (PN.IsMasterClient)
         {
-            InvokeRepeating(nameof(SpawnEB), 2, 5);
+            InvokeRepeating(nameof(SpawnEB), 1, 2);
         }
+        switch (DataManager.DM.currentMap)
+        {
+            case Map.TUTORIAL_T:
+                myEagle = TutorialManager.TM.eagleNPC;
+                break;
+            case Map.TOY:
+                myEagle = GunShootManager.GSM.eagleNPC;
+                break;
+        }
+        /* switch (DataManager.DM.currentMap)
+         {
+             case Map.TUTORIAL_T:
+                 myBomb = TutorialManager.TM.myBomb;
+                 break;
+             case Map.TOY:
+                 myBomb = GunShootManager.GSM.myBomb;
+                 break;
+         }*/
+        /* wayPos = GameObject.Find("WayPoint").GetComponentsInChildren<Transform>();
+         switch (DataManager.DM.currentMap)
+         {
+             case Map.TUTORIAL_T:
+                 wayPos = TutorialManager.TM.wayPos;
+                 break;
+             case Map.TOY:
+                 wayPos = GunShootManager.GSM.wayPos;
+                 break;
+         }*/
     }
 
-   
+
     private void Update()
     {
         if (!PV.IsMine)
@@ -56,80 +77,80 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
             return;
-        }
-
-        /*switch (DataManager.DM.currentMap)
-        {
-            case Map.TUTORIAL_T:
-                myBomb = TutorialManager.TM.myBomb;
-                break;
-            case Map.TOY:
-                myBomb = GunShootManager.GSM.myBomb;
-                break;
-        }*/
-
-        // myBomb = GameObject.Find("Barrel_Bomb");
-
+        }       
+        //myEagle = TutorialManager.TM.eagleNPC;
+        //myEagle = GameObject.Find("Achery_Eagle");
+       // BombIn();
         MovetoWay();
+    }
+
+    public void BombIn()
+    {
+        myBomb = GameObject.FindGameObjectWithTag("Effect");        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Arrow"))
-        {
-            PV.RPC(nameof(BombOut), RpcTarget.AllBuffered);
-            PV.RPC(nameof(EDamage), RpcTarget.AllBuffered);
-            //AudioManager.AM.PlaySE(eagleDam);
-            /*if (PV.IsMine)
+        {            
+                PV.RPC(nameof(EDam), RpcTarget.AllBuffered,true);                         // 독수리가 대미지입고 폭탄투하
+           /* if (myBomb != null)
             {
-                if (myBomb == null) return;
-                if (myBomb != null)
-                {
-                   
-                }
+                //if (myBomb == null) return;
             }*/
-        }
+            //AudioManager.AM.PlaySE(eagleDam);           
+        }    
     }
 
+   
     public void SpawnEB()
     {
         if (myBomb == null)
         {
             if (myBomb != null) return;
-            PV.RPC(nameof(BombInit), RpcTarget.AllBuffered);
+            PV.RPC(nameof(BombInit), RpcTarget.AllBuffered,true,false);                   // 독수리의 자식으로 폭탄생성
         }
     }
 
     [PunRPC]
-    public void BombInit()
+    public void BombInit(bool parent, bool child)
     {
-        myBomb = PN.Instantiate(eagleBomb.name, transform.position + new Vector3(0, 0.9f, 0), transform.rotation, 0);
-        myBomb.transform.SetParent(transform, true);
-        myBomb.GetComponent<Rigidbody>().useGravity = false;
-        myBomb.GetComponent<SphereCollider>().enabled = false;
+        myBomb = PN.InstantiateRoomObject(eagleBomb.name, myEagle.transform.position + new Vector3(0, 0.9f, 0), myEagle.transform.rotation, 0);
+        myBomb.transform.SetParent(myEagle.transform, parent);
+        myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
+        myBomb.GetComponentInChildren<Collider>().enabled = child;
     }
 
+  
     [PunRPC]
-    public void BombOut()
+    public void EDam(bool child)
     {
-        myBomb.transform.SetParent(transform, false);
-        myBomb.GetComponent<Rigidbody>().useGravity = true;
-        myBomb.GetComponent<SphereCollider>().enabled = true;
-    }
-
-    [PunRPC]
-    public void EDamage()
-    {        
-        StartCoroutine(EagleDamage());
+        if(myBomb != null)
+        {
+            myBomb.transform.parent = null;
+            myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
+            myBomb.GetComponentInChildren<Collider>().enabled = child;
+            StartCoroutine(EagleDamage());
+        }
+        else
+        {
+            return;
+        }         
     }
 
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
-        
-        PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), transform.rotation, 0);
+        PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         yield return new WaitForSeconds(1f);
         animator.SetBool("Damaged", false);
+        //StartCoroutine(BombTime());
+    }
+
+    public IEnumerator BombTime()
+    {
+        yield return new WaitForSeconds(0.1f);
+        myBomb = null;
     }
 
     public void MovetoWay()
@@ -142,7 +163,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
             wayNum++;
         }
 
-        if (wayNum == wayPos.Length) { wayNum = 1; }
+        if (wayNum == wayPos.Length) { wayNum = 0; }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
