@@ -16,6 +16,7 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
     public PhotonView PV;
     public Rigidbody rb;
     public SphereCollider bombColl;
+    public Collider exColl;
     public GameObject myEX;
     public GameObject myMesh;
     public Transform exploPoint;
@@ -48,28 +49,46 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
     {
         if (collision.collider.CompareTag("FloorBox"))
         {
-            PV.RPC(nameof(FireCircle), RpcTarget.AllBuffered);
-            /*if (PV.IsMine)
-            {
-                          
-            }*/
+            PV.RPC(nameof(FireCircle), RpcTarget.AllBuffered);           
+        }
+
+        if(collision.collider.CompareTag("Cube"))
+        {
+            PV.RPC(nameof(FireDelete), RpcTarget.AllBuffered);
         }
     }
 
-   /* public IEnumerator Explode()
-    {      
-        Destroy(PV.gameObject);
-        PN.Instantiate(myEX.name, exploPoint.position, exploPoint.rotation);        
-        yield return new WaitForSeconds(0.001f);        
+    public IEnumerator Explode()
+    {
+        Destroy(gameObject);
+        PN.InstantiateRoomObject(myEX.name, exploPoint.position, exploPoint.rotation);
+        yield return new WaitForSeconds(0.1f);
+        AcheryEagle.AE.myBomb = null;
+    }
+
+/*    public IEnumerator CollOnOff()
+    {
+        while (true)
+        {
+            exColl.enabled = true;
+            yield return new WaitForSeconds(0.03f);
+            exColl.enabled = false;
+            yield return new WaitForSeconds(0.4f);
+        }
     }*/
 
     [PunRPC]
     public void FireCircle()
-    {
-        //StartCoroutine(Explode());        
-        Destroy(PV.gameObject);
-        PN.Instantiate(myEX.name, exploPoint.position, exploPoint.rotation);
+    {        
+        //Destroy(gameObject);
+        StartCoroutine(Explode());                
         //PN.Instantiate(myEX.name, transform.position+new Vector3(0,-0.3f,0), myEX.transform.rotation);
+    }
+
+    [PunRPC]
+    public void FireDelete()
+    {
+        Destroy(gameObject);
     }
    
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
