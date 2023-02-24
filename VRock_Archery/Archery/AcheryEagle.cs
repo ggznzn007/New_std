@@ -28,6 +28,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     private PhotonView PV;
     private Vector3 remotePos;
     private Quaternion remoteRot;
+    private float curTime;
 
     public void Start()
     {
@@ -35,10 +36,10 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
         transform.position = wayPos[wayNum].transform.position;
-        if (PN.IsMasterClient)
+        /*if (PN.IsMasterClient)
         {
-            InvokeRepeating(nameof(SpawnEB), 1, 2);
-        }
+            //InvokeRepeating(nameof(SpawnEB), 1, 2);
+        }*/
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
@@ -72,43 +73,49 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
     private void Update()
     {
+        if (PN.IsMasterClient)
+        {
+            SpawnEB();
+        }
         if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
             return;
-        }       
+        }
         //myEagle = TutorialManager.TM.eagleNPC;
         //myEagle = GameObject.Find("Achery_Eagle");
-       // BombIn();
+        // BombIn();
         MovetoWay();
-    }
-
-    public void BombIn()
-    {
-        myBomb = GameObject.FindGameObjectWithTag("Effect");        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Arrow"))
-        {            
-                PV.RPC(nameof(EDam), RpcTarget.AllBuffered,true);                         // 독수리가 대미지입고 폭탄투하
-           /* if (myBomb != null)
-            {
-                //if (myBomb == null) return;
-            }*/
-            //AudioManager.AM.PlaySE(eagleDam);           
-        }    
+        {
+            PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                         // 독수리가 대미지입고 폭탄투하            
+        }
     }
 
-   
+    private void OnTriggerExit(Collider coll)
+    {
+        if (coll.CompareTag("Effect"))
+        {
+            PV.RPC(nameof(BomNull), RpcTarget.AllBuffered);
+        }
+    }
+
     public void SpawnEB()
     {
         if (myBomb == null)
         {
             if (myBomb != null) return;
-            PV.RPC(nameof(BombInit), RpcTarget.AllBuffered,true,false);                   // 독수리의 자식으로 폭탄생성
+            curTime += Time.deltaTime;
+            if (curTime >= 3)
+            {
+                PV.RPC(nameof(BombInit), RpcTarget.AllBuffered, true, false);                   // 독수리의 자식으로 폭탄생성
+            }
+
         }
     }
 
@@ -119,13 +126,15 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         myBomb.transform.SetParent(myEagle.transform, parent);
         myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
         myBomb.GetComponentInChildren<Collider>().enabled = child;
+        curTime = 0;
+        Debug.Log("NPC폭탄 생성");
     }
 
-  
+
     [PunRPC]
     public void EDam(bool child)
     {
-        if(myBomb != null)
+        if (myBomb != null)
         {
             myBomb.transform.parent = null;
             myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
@@ -135,7 +144,13 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         else
         {
             return;
-        }         
+        }
+    }
+
+    [PunRPC]
+    public void BomNull()
+    {
+        StartCoroutine(BombTime());
     }
 
     public IEnumerator EagleDamage()
@@ -149,8 +164,9 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
     public IEnumerator BombTime()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.001f);
         myBomb = null;
+        Debug.Log("폭탄이 비었습니다.");
     }
 
     public void MovetoWay()
