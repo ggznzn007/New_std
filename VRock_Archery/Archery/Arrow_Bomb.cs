@@ -12,7 +12,7 @@ public class Arrow_Bomb : Arrow
     public Collider tagColl;
     public ParticleSystem fireEX;
     public GameObject myMesh;
-    public GameObject myEX;
+    public GameObject[] myEX;
     private bool isRotate;
     private AudioSource bombAudio;
     
@@ -45,10 +45,9 @@ public class Arrow_Bomb : Arrow
         {    
             if (notch.CanRelease)
             {
-                DataManager.DM.arrowNum = 3;               
-                  
-                //audioSource.Stop();
-                    LaunchArrow(notch);
+                DataManager.DM.arrowNum = 3;
+
+                LaunchArrow(notch);
                /* if (PV.IsMine)
                 {
                     if (!PV.IsMine) return;
@@ -104,7 +103,7 @@ public class Arrow_Bomb : Arrow
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
                     PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
@@ -124,7 +123,7 @@ public class Arrow_Bomb : Arrow
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
                     PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
@@ -190,9 +189,7 @@ public class Arrow_Bomb : Arrow
 
             }
         }
-    }
-
-  
+    }  
 
     public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
@@ -272,35 +269,39 @@ public class Arrow_Bomb : Arrow
     {
         StartCoroutine(Explode());
     }
+    public IEnumerator Explode()
+    {        
+        bombAudio.Play();
+        yield return new WaitForSeconds(2);
+        bombAudio.Stop();        
+        PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);
+    }
 
     [PunRPC]
     public void BombArrow()
     {
-        StartCoroutine(ExOnOff());        
-        //Instantiate(effect, pos, rot);
-        //Destroy(bombEx, 1.5f);
+        StartCoroutine(ExOnOff());  
     }
 
     public IEnumerator ExOnOff()
     {
-        effect.SetActive(true);        
+        myMesh.SetActive(false);
+        myEX[0].SetActive(false);
+        myEX[1].SetActive(false);
+        effect.SetActive(true);
+        StartCoroutine(AreaOnOff());
         yield return new WaitForSeconds(1.5f);
         effect.SetActive(false);
         Destroy(PV.gameObject);
     }
-   
 
-    public IEnumerator Explode()
-    {        
-        //AudioManager.AM.PlaySX(bombBeep);
-        bombAudio.Play();
-        yield return new WaitForSeconds(2);        
-        bombAudio.Stop();
-        myMesh.SetActive(false);
-        myEX.SetActive(false);
-        PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);
+    public IEnumerator AreaOnOff()
+    {
+        myEX[2].SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        myEX[2].SetActive(false);
     }
-
+   
 
     [PunRPC]
     public void DestroyBomb()
