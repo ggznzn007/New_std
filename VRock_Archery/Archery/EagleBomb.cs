@@ -63,7 +63,7 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
         Destroy(gameObject);
         PN.InstantiateRoomObject(myEX.name, exploPoint.position, exploPoint.rotation);
         yield return new WaitForSeconds(0.1f);
-        AcheryEagle.AE.myBomb = null;
+       // AcheryEagle.AE.myBomb = null;
     }
 
 /*    public IEnumerator CollOnOff()
