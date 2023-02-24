@@ -16,7 +16,7 @@ public class Arrow_Skilled : Arrow
     public Collider tagColl;
     public Collider gripColl;
     public ParticleSystem[] parentsMesh;
-    private GameObject skillEX;
+    //private GameObject skillEX;
     private bool isRotate;
 
     protected override void Awake()
@@ -31,24 +31,19 @@ public class Arrow_Skilled : Arrow
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabArrow = true;
-        PV.RequestOwnership();
-        //rotSpeed = 0;
-        isRotate = false;
-        DataManager.DM.inArrowBox = false;
-        //tagColl.enabled = false;
+        PV.RequestOwnership();        
+        isRotate = false;       
+        
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        base.OnSelectExited(args);
-        //tagColl.tag = "Effect";
+        base.OnSelectExited(args);        
         DataManager.DM.grabArrow = false;
         if (args.interactorObject is Notch notch)
-        {
-            //tagColl.tag = "Effect";
+        {           
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 1;
-
                 LaunchArrow(notch);
                 if (effects != null)
                 {
@@ -83,7 +78,7 @@ public class Arrow_Skilled : Arrow
     public IEnumerator DelayHit(Collider coll)
     {
         AudioManager.AM.PlaySE(hitPlayer);
-        skillEX = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 1, 0), coll.transform.rotation);// 충돌 지점에 이펙트 생성
+        var skillEX = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 0.5f, 0), coll.transform.rotation);// 충돌 지점에 이펙트 생성
         Destroy(skillEX, 0.5f);
         yield return new WaitForSeconds(0.02f);
         tagColl.enabled = false;
