@@ -15,7 +15,7 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
     public Collider exColl;
     private PhotonView PV;
     private Vector3 remotePos;
-    private Quaternion remoteRot;
+    private Quaternion remoteRot;    
 
     [System.Obsolete]
     private IEnumerator Start()
@@ -35,6 +35,8 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
             yield return new WaitForSeconds(0.8f);
         }        
     }
+
+   
     private void Update()
     {
         if (!PV.IsMine)
