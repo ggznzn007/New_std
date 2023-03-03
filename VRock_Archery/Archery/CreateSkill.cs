@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-public class CreateSkill : MonoBehaviour
+public class CreateSkill : MonoBehaviourPun
 {
     public GameObject arrowSkilled;
     public GameObject arrowBomb;
