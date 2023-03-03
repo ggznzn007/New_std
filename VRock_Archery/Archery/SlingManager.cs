@@ -22,8 +22,9 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
     //public GameObject shield_R;
     //public GameObject shield_L;
     public GameObject sling;
-    public Notch notch;
+    public Notch_S notch;
     public Collider pullColl;
+    public Collider crashColl;
     public bool isRight;
 
     private void Awake()
@@ -53,11 +54,13 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
         {
             isGrip = true;
             rb.isKinematic = true;
+            crashColl.isTrigger= true;
         }
         else
         {
             isGrip = false;
             rb.isKinematic = false;
+            crashColl.isTrigger= false;
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -90,7 +93,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
                     try
                     {
                         PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                        Debug.Log("활이 파괴되었습니다.");
+                        Debug.Log("새총이 파괴되었습니다.");
                     }
                     finally
                     {
@@ -98,49 +101,11 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-            /* try
-             {
-                 if (!isBeingHeld && !isGrip)
-                 {
-                     if (PV.IsMine)
-                     {
-                         PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                         Debug.Log("활이 파괴되었습니다.");
-                     }
-                 }
-             }
-             finally
-             {
-                 if (PV.IsMine)
-                 {
-                     PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                 }
-             }*/
+          
         }
 
     }
 
-    /*private void OnTriggerStay(Collider coll)
-    {
-        if (coll.CompareTag("RightHand"))
-        {
-            //if (coll.CompareTag("LeftHand")) return;
-            if (PV.IsMine)
-            {
-                isRight = true;
-            }
-
-        }
-
-        if (coll.CompareTag("LeftHand"))
-        {
-            //if (coll.CompareTag("RightHand")) return;
-            if (PV.IsMine)
-            {
-                isRight = false;
-            }
-        }
-    }   */
 
     [PunRPC]
     public void DestroyBow() => Destroy(PV.gameObject);
@@ -157,61 +122,16 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
     {
         isBeingHeld = false;
     }
-/*
-    [PunRPC]
-    public void ShieldOn()
-    {
-        if (isRight)
-        {
-            shield_R.SetActive(true);
-            //shield_L.SetActive(false);
-            bow.SetActive(false);
-            pullColl.enabled = false;
-            notch.enabled = false;
-        }
-        else
-        {
-            shield_L.SetActive(true);
-            //shield_R.SetActive(false);
-            bow.SetActive(false);
-            pullColl.enabled = false;
-            notch.enabled = false;
-        }
-
-
-    }
-
-    [PunRPC]
-    public void ShieldOff()
-    {
-        if (isRight)
-        {
-            shield_R.SetActive(false);
-            //shield_L.SetActive(false);
-            bow.SetActive(true);
-            pullColl.enabled = true;
-            notch.enabled = true;
-        }
-        else
-        {
-            //shield_R.SetActive(false);
-            shield_L.SetActive(false);
-            bow.SetActive(true);
-            pullColl.enabled = true;
-            notch.enabled = true;
-        }
-
-    }*/
 
     public void OnSelectedEntered()
     {
-        Debug.Log("활을 잡았습니다.");
+        Debug.Log("새총을 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
     }
 
     public void OnSelectedExited()
     {
-        Debug.Log("활을 놓았습니다.");
+        Debug.Log("새총을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
