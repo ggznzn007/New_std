@@ -1,0 +1,89 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using UnityEngine.UI;
+using PN = Photon.Pun.PN;
+using UnityEditor;
+
+public class SnowBlock : XRGrabInteractable
+{
+    public static SnowBlock SB;
+    public PhotonView PV;
+    public GameObject DestroyEX;
+    Rigidbody rb;
+    public bool isBeingHeld = false;
+    void Start()
+    {
+        SB=this;
+        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    
+    void Update()
+    {
+        if (isBeingHeld)
+        {
+            rb.isKinematic = true;            
+        }
+        else
+        {
+            rb.isKinematic = false;            
+        }
+    }
+
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        base.OnSelectEntered(args);
+        PV.RequestOwnership();
+        Debug.Log("눈블럭 잡았다");
+        PV.RPC(nameof(Grab_), RpcTarget.AllBuffered);
+    }
+
+    protected override void OnSelectExited(SelectExitEventArgs args)
+    {
+        base.OnSelectExited(args);
+        Debug.Log("눈블럭 놓았다");
+        PV.RPC(nameof(Put_), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void Grab_()
+    {
+        isBeingHeld = true;
+    }
+
+    [PunRPC]
+    public void Put_()
+    {
+        isBeingHeld = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Stoneball"))
+        {
+            PV.RPC(nameof(Disappear), RpcTarget.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void Disappear()
+    {
+        Destroy(gameObject);
+        PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
+        //StartCoroutine(EXOnOff());
+    }
+
+ /*   public IEnumerator EXOnOff()
+    {
+        
+        yield return new WaitForSeconds(0.3f);
+    }*/
+
+}
