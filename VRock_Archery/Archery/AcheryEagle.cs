@@ -123,7 +123,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     public void BombInit(bool parent, bool child)
     {
         myBomb = PN.InstantiateRoomObject(eagleBomb.name, myEagle.transform.position + new Vector3(0, 0.9f, 0), myEagle.transform.rotation, 0);
-        myBomb.transform.SetParent(myEagle.transform, parent);
+        myBomb.transform.SetParent(spawnPoint.transform, parent);
         myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
         myBomb.GetComponentInChildren<Collider>().enabled = child;
         curTime = 0;
