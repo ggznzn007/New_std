@@ -255,26 +255,20 @@ public class Arrow_Bomb : Arrow
         {
             rotSpeed = 0;
         }
-    }
-    
-
-  /*  [PunRPC]
-    public void Active_EX()
-    {
-       StartCoroutine(ActiveCtrl());
-    }*/
+    }  
 
     [PunRPC]
-    public void BombA()
+    public void BombA()                                                       // RPC ÆøÅº È­»ìÀÌ ¹ÚÈ÷¸é ½ÇÇà
     {
         StartCoroutine(Explode());
     }
-    public IEnumerator Explode()
+    public IEnumerator Explode()                                              // ÆøÅº È­»ì ÄÚ·çÆ¾
     {        
-        bombAudio.Play();
-        yield return new WaitForSeconds(2);
-        bombAudio.Stop();        
-        PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);
+        bombAudio.Play();                                                     // Æø¹ß ¿¹ºñÀ½ ¿Àµð¿À Àç»ý 
+        myEX[2].SetActive(true);                                              // Æø¹ß´ë¹ÌÁö ¹üÀ§ Ç¥½Ã ON
+        yield return new WaitForSeconds(2);                                   
+        bombAudio.Stop();                                                     // Æø¹ß ¿¹ºñÀ½ ¿Àµð¿À ¸ØÃã
+        PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);                     // RPC Æø¹ß ÆÄÆ¼Å¬ Àç»ý
     }
 
     [PunRPC]
@@ -285,23 +279,16 @@ public class Arrow_Bomb : Arrow
 
     public IEnumerator ExOnOff()
     {
-        myMesh.SetActive(false);
-        myEX[0].SetActive(false);
-        myEX[1].SetActive(false);
-        effect.SetActive(true);
-        StartCoroutine(AreaOnOff());
+        myMesh.SetActive(false);                                              // ÆøÅºÈ­»ì ·»´õ¸µ OFF
+        myEX[0].SetActive(false);                                             // ÆøÅºÈ­»ì È¿°ú OFF
+        myEX[1].SetActive(false);                                             // ÆøÅºÈ­»ì È¿°ú2 OFF
+        myEX[2].SetActive(false);                                             // Æø¹ß´ë¹ÌÁö ¹üÀ§ Ç¥½Ã OFF
+        effect.SetActive(true);                                               // Æø¹ßÆÄÆ¼Å¬ ON
         yield return new WaitForSeconds(1.5f);
-        effect.SetActive(false);
-        Destroy(PV.gameObject);
+        effect.SetActive(false);                                              // Æø¹ßÆÄÆ¼Å¬ OFF
+        Destroy(PV.gameObject);                                               // ÆøÅºÈ­»ì ÆÄ±«
     }
-
-    public IEnumerator AreaOnOff()
-    {
-        myEX[2].SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        myEX[2].SetActive(false);
-    }
-   
+  
 
     [PunRPC]
     public void DestroyBomb()
