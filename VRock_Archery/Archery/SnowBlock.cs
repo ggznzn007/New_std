@@ -74,16 +74,15 @@ public class SnowBlock : XRGrabInteractable
 
     [PunRPC]
     public void Disappear()
-    {
-        Destroy(gameObject);
-        PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
-        //StartCoroutine(EXOnOff());
+    {        
+        StartCoroutine(EXOnOff());
     }
 
- /*   public IEnumerator EXOnOff()
+    public IEnumerator EXOnOff()
     {
-        
-        yield return new WaitForSeconds(0.3f);
-    }*/
+        PN.InstantiateRoomObject(DestroyEX.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.01f);
+        Destroy(gameObject);
+    }
 
 }
