@@ -24,12 +24,12 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
-    public GameObject shield_R;
-    public GameObject shield_L;
+    public GameObject shield;
+    //public GameObject shield_L;
     public GameObject bow;
     public Notch notch;
     public Collider pullColl;
-    public bool isRight;
+    //public bool isRight;
 
     private void Awake()
     {
@@ -40,13 +40,11 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        shield_R.SetActive(false);
-        shield_L.SetActive(false);
+        shield.SetActive(false);        
         bow.SetActive(true);
         pullColl.enabled = true;
         notch.enabled = true;
-        isGrip = true;
-        isRight = false;
+        isGrip = true;       
     }
 
 
@@ -107,7 +105,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     }*/
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("FloorBox")||collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
         {
             if (PV.IsMine)
             {
@@ -146,7 +144,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
 
     }
 
-    private void OnTriggerStay(Collider coll)
+    /*private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("RightHand"))
         {
@@ -166,7 +164,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
                 isRight = false;
             }
         }
-    }   
+    }*/
 
     [PunRPC]
     public void DestroyBow() => Destroy(PV.gameObject);
@@ -187,46 +185,19 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void ShieldOn()
     {
-        if (isRight)
-        {
-            shield_R.SetActive(true);
-            //shield_L.SetActive(false);
-            bow.SetActive(false);
-            pullColl.enabled = false;
-            notch.enabled = false;
-        }
-        else
-        {
-            shield_L.SetActive(true);
-            //shield_R.SetActive(false);
-            bow.SetActive(false);
-            pullColl.enabled = false;
-            notch.enabled = false;
-        }
-
-
+        shield.SetActive(true);
+        bow.SetActive(false);
+        pullColl.enabled = false;
+        notch.enabled = false;
     }
 
     [PunRPC]
     public void ShieldOff()
     {
-        if (isRight)
-        {
-            shield_R.SetActive(false);
-            //shield_L.SetActive(false);
-            bow.SetActive(true);
-            pullColl.enabled = true;
-            notch.enabled = true;
-        }
-        else
-        {
-            //shield_R.SetActive(false);
-            shield_L.SetActive(false);
-            bow.SetActive(true);
-            pullColl.enabled = true;
-            notch.enabled = true;
-        }
-
+        shield.SetActive(false);
+        bow.SetActive(true);
+        pullColl.enabled = true;
+        notch.enabled = true;
     }
 
     public void OnSelectedEntered()
