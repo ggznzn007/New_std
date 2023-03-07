@@ -101,7 +101,7 @@ public class Arrow_Skilled : Arrow
     {
         if (isRotate)
         {
-            transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0, 0, 1));
+            transform.Rotate(rotSpeed * Time.deltaTime * Vector3.forward);
         }
         else
         {
