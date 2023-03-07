@@ -73,9 +73,14 @@ public class IceBlock : XRGrabInteractable
 
     [PunRPC]
     public void Disappear()
+    {       
+        StartCoroutine(EXOnOff());
+    }
+
+    public IEnumerator EXOnOff()
     {
+        PN.InstantiateRoomObject(DestroyEX.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
-        PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
-        //StartCoroutine(EXOnOff());
     }
 }
