@@ -111,7 +111,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         {
             if (myBomb != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 3)
+            if (curTime >= 2)
             {
                 PV.RPC(nameof(BombInit), RpcTarget.AllBuffered, true, false);                   // 독수리의 자식으로 폭탄생성
             }
