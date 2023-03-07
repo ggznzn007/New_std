@@ -13,6 +13,7 @@ public class Icicle : SnowBall
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
         isGrip = true;
+        
         //myColl = GetComponent<Collider>();
         //damageColl = GetComponent<Collider>();   
     }
@@ -23,30 +24,41 @@ public class Icicle : SnowBall
         DataManager.DM.grabBall = true;
         //PV.RequestOwnership();        
         isGrip = true;
-        rigidbody.isKinematic = false;
+        // rigidbody.isKinematic = false;
+        
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
+        isGrip = false;
         // PV.RequestOwnership();
-        rigidbody.isKinematic = true;
-        DataManager.DM.grabBall = false;
+        //rigidbody.isKinematic = true;
+        DataManager.DM.grabBall = false;        
         if (args.interactorObject is Notch_S notchs)
         {
             if (notchs.CanRelease)
-            {
+            {                
                 DataManager.DM.arrowNum = 0;
                 LaunchBall(notchs);
 
-                /*if (PV.IsMine)
+                if (PV.IsMine)
                 {
-                    if (!PV.IsMine) return;
-                    //PV.RPC(nameof(LaunchArrow), RpcTarget.AllBuffered,notch);
-                    PV.RPC(nameof(ActiveColl), RpcTarget.AllBuffered);
-                }*/
+                    if (!PV.IsMine) return;                    
+                    PV.RPC(nameof(ActiveEX), RpcTarget.AllBuffered);
+                }
             }
         }
 
+        else
+        {
+            flightTime = 1;
+        }
+    }
+
+    [PunRPC]
+    public void ActiveEX()
+    {
+        effect.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -97,13 +109,7 @@ public class Icicle : SnowBall
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
-        /*if (flightTime < 0.1f)//&& (collision.collider.CompareTag("Body")|| collision.collider.CompareTag("head")))
-        {
-            Physics.IgnoreCollision(collision.collider, bodyColl, true);
-            Physics.IgnoreCollision(collision.collider, headColl, true);
-            // return;
-        }*/
+    {       
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -111,14 +117,7 @@ public class Icicle : SnowBall
         }
 
         if (isGrip) return;
-
-        /*   if(collision.collider.CompareTag("LeftHand")|| collision.collider.CompareTag("RightHand") 
-               || collision.collider.CompareTag("Player") || collision.collider.CompareTag("Body")
-               || collision.collider.CompareTag("head"))
-           {
-               Physics.IgnoreCollision(collision.collider, myColl, true);
-               return;
-           }*/
+      
 
         string colNameLower = collision.transform.tag.ToLower();
 
@@ -138,13 +137,61 @@ public class Icicle : SnowBall
             return;
         }
 
-        /*if (PV.IsMine)
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
+               || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
+               || collision.collider.CompareTag("SlingShot") || collision.collider.CompareTag("Obtacle"))
         {
-            if (!isGrip && launched)
+            if (PV.IsMine)
             {
-                TrySticky(collision);
+                if (!isGrip)
+                {
+                    AudioManager.AM.PlaySE(iceImpact);
+                    //TrySticky(collision);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
+                    Destroy(effect, delTime);
+                }
             }
-        }*/
+
+        }
+
+        if(collision.collider.CompareTag("Body"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {
+                    AudioManager.AM.PlaySE(hitPlayer);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    Destroy(effect, delTime);
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                }
+            }
+        }
+
+        if (collision.collider.CompareTag("Head"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {
+                    AudioManager.AM.PlaySE(hitPlayer);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    Destroy(effect, delTime);
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                }
+            }
+        }
+
 
         if (collision.collider.CompareTag("Head"))
         {
@@ -218,7 +265,7 @@ public class Icicle : SnowBall
             }
         }
 
-        if (collision.collider.CompareTag("Shield") || collision.collider.CompareTag("Bow"))
+        if (collision.collider.CompareTag("SlingShot"))
         {
             if (PV.IsMine)
             {
@@ -237,7 +284,8 @@ public class Icicle : SnowBall
 
             }
         }
-        if (collision.collider.CompareTag("Snowblock"))
+        if (collision.collider.CompareTag("Snowblock")|| collision.collider.CompareTag("Iceblock")
+            || collision.collider.CompareTag("NPC"))
         {
             if (PV.IsMine)
             {
@@ -257,4 +305,10 @@ public class Icicle : SnowBall
         }
     }
 
+
+    private void OnCollisionStay(Collision collision)
+    {
+       
+
+    }
 }
