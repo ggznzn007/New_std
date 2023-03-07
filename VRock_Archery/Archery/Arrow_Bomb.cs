@@ -14,7 +14,7 @@ public class Arrow_Bomb : Arrow
     public GameObject myMesh;
     public GameObject[] myEX;
     private bool isRotate;
-    private AudioSource bombAudio;
+    //private AudioSource beepAudio;
     
     private readonly float delTime = 0.4f;
     private readonly float arrowTime = 0.8f;
@@ -25,8 +25,8 @@ public class Arrow_Bomb : Arrow
     protected override void Awake()
     {
         base.Awake();        
-        isRotate = true;     
-        bombAudio = GetComponent<AudioSource>();
+        isRotate = true;
+        //beepAudio = GetComponent<AudioSource>();
     }
    
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -249,7 +249,7 @@ public class Arrow_Bomb : Arrow
     {
         if (isRotate)
         {
-            transform.Rotate(rotSpeed * Time.deltaTime * new Vector3(0, 0, 1));
+            transform.Rotate(rotSpeed * Time.deltaTime * Vector3.forward);
         }
         else
         {
@@ -263,22 +263,23 @@ public class Arrow_Bomb : Arrow
         StartCoroutine(Explode());
     }
     public IEnumerator Explode()                                              // ÆøÅº È­»ì ÄÚ·çÆ¾
-    {        
-        bombAudio.Play();                                                     // Æø¹ß ¿¹ºñÀ½ ¿Àµð¿À Àç»ý 
+    {
+        AudioManager.AM.PlaySX(bombBeep);                                                      // Æø¹ß ¿¹ºñÀ½ ¿Àµð¿À Àç»ý 
         myEX[2].SetActive(true);                                              // Æø¹ß´ë¹ÌÁö ¹üÀ§ Ç¥½Ã ON
-        yield return new WaitForSeconds(2);                                   
-        bombAudio.Stop();                                                     // Æø¹ß ¿¹ºñÀ½ ¿Àµð¿À ¸ØÃã
-        PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);                     // RPC Æø¹ß ÆÄÆ¼Å¬ Àç»ý
+        yield return new WaitForSeconds(2);
+        StartCoroutine(ExOnOff());
+       // PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);                     // RPC Æø¹ß ÆÄÆ¼Å¬ Àç»ý
     }
 
     [PunRPC]
     public void BombArrow()
-    {
+    {        
         StartCoroutine(ExOnOff());  
     }
 
     public IEnumerator ExOnOff()
     {
+        AudioManager.AM.StopSX(bombBeep);
         myMesh.SetActive(false);                                              // ÆøÅºÈ­»ì ·»´õ¸µ OFF
         myEX[0].SetActive(false);                                             // ÆøÅºÈ­»ì È¿°ú OFF
         myEX[1].SetActive(false);                                             // ÆøÅºÈ­»ì È¿°ú2 OFF
