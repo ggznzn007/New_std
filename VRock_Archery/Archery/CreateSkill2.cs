@@ -36,9 +36,9 @@ public class CreateSkill2 : MonoBehaviourPun
         {
             if (curBall != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 2)
+            if (curTime >= 3)
             {
-                bool skilled = RandomArrow.RandArrowPer(10);
+                bool skilled = RandomArrow.RandArrowPer(50);
                 if (skilled)
                 {
                     curBall = PN.InstantiateRoomObject(snowStone.name, spawnPoint.position, spawnPoint.rotation, 0);
