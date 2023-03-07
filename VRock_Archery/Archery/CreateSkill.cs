@@ -35,9 +35,9 @@ public class CreateSkill : MonoBehaviourPun
         {
             if (curArrow != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 15)
+            if (curTime >= 2)
             {
-                bool skilled = RandomArrow.RandArrowPer(50);
+                bool skilled = RandomArrow.RandArrowPer(5);
                 if (skilled)
                 {
                     curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
