@@ -30,9 +30,9 @@ public class SnowBall : XRGrabInteractable
 
     protected RaycastHit hit;
     public bool launched = false;
-    public bool isGrip;
+    public bool isGrip;    
     public string snowImpact;
-    public string sImpact;
+    public string tImpact;
     public string headShot;
     public string hitPlayer;
     public string bombBeep;
@@ -49,7 +49,7 @@ public class SnowBall : XRGrabInteractable
         base.Awake();
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        isGrip = true;
+        isGrip = true;        
         //myColl = GetComponent<Collider>();
         //damageColl = GetComponent<Collider>();   
     }
@@ -59,14 +59,15 @@ public class SnowBall : XRGrabInteractable
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
         //PV.RequestOwnership();        
-        isGrip = true;
-        rigidbody.isKinematic = false;
+        isGrip = true;       
+        //rigidbody.isKinematic = false;
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
+        isGrip = false;
         // PV.RequestOwnership();
-        rigidbody.isKinematic = true;
+        //rigidbody.isKinematic = true;
         DataManager.DM.grabBall = false;
         if (args.interactorObject is Notch_S notchs)
         {
@@ -83,6 +84,7 @@ public class SnowBall : XRGrabInteractable
                 }*/
             }
         }
+     
 
     }
 
@@ -135,12 +137,7 @@ public class SnowBall : XRGrabInteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        /*if (flightTime < 0.1f)//&& (collision.collider.CompareTag("Body")|| collision.collider.CompareTag("head")))
-        {
-            Physics.IgnoreCollision(collision.collider, bodyColl, true);
-            Physics.IgnoreCollision(collision.collider, headColl, true);
-            // return;
-        }*/
+       
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -174,7 +171,74 @@ public class SnowBall : XRGrabInteractable
             Physics.IgnoreCollision(collision.collider, damageColl, true);
             return;
         }
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
+           || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
+           || collision.collider.CompareTag("SlingShot") || collision.collider.CompareTag("Obtacle"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {                    
+                    AudioManager.AM.PlaySE(snowImpact);
+                    //TrySticky(collision);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
+                    Destroy(effect, delTime);
+                }
+            }
 
+        }
+
+        if (collision.collider.CompareTag("Body"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {                   
+                    AudioManager.AM.PlaySE(hitPlayer);
+                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                    {
+                        if (!AvartarController.ATC.isDamaged)
+                        {
+                            AvartarController.ATC.NormalDamage();
+                        }
+                    }
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    Destroy(effect, delTime);
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                }
+            }
+        }
+
+        if (collision.collider.CompareTag("Head"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {                   
+                    AudioManager.AM.PlaySE(hitPlayer);
+                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                    {
+                        if (!AvartarController.ATC.isDamaged)
+                        {
+                            AvartarController.ATC.HeadShotDamage();
+                        }
+                    }
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    Destroy(effect, delTime);
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                }
+            }
+        }
         /*if (PV.IsMine)
         {
             if (!isGrip && launched)
@@ -204,8 +268,7 @@ public class SnowBall : XRGrabInteractable
                     var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
-                  
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살                  
                 }
 
             }
@@ -259,7 +322,8 @@ public class SnowBall : XRGrabInteractable
             }
         }
 
-        if (collision.collider.CompareTag("Shield") || collision.collider.CompareTag("Bow"))
+       
+        if (collision.collider.CompareTag("SlingShot"))
         {
             if (PV.IsMine)
             {
@@ -279,7 +343,8 @@ public class SnowBall : XRGrabInteractable
 
             }
         }
-        if (collision.collider.CompareTag("Snowblock"))
+        if (collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
+            || collision.collider.CompareTag("NPC"))
         {
             if (PV.IsMine)
             {
@@ -351,18 +416,43 @@ public class SnowBall : XRGrabInteractable
     
     }
 
-
-  /*  IEnumerator ActiveDamColl()
+   /* private void OnCollisionStay(Collision collision)
     {
-        yield return new WaitForSeconds(0.01f);
-        myColl.isTrigger = false;
-    }
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
+            || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
+            || collision.collider.CompareTag("SlingShot")|| collision.collider.CompareTag("Obtacle")
+            || collision.collider.CompareTag("Body")|| collision.collider.CompareTag("Head"))
+        {
+            if (PV.IsMine)
+            {
+                if (!isGrip)
+                {
+                    AudioManager.AM.PlaySE(snowImpact);
+                    //TrySticky(collision);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
+                    Destroy(effect, delTime);
+                }
+            }
 
-    [PunRPC]
-    public void ActiveColl()
-    {
-        StartCoroutine(ActiveDamColl());
+        }
+
     }*/
+
+    /*  IEnumerator ActiveDamColl()
+      {
+          yield return new WaitForSeconds(0.01f);
+          myColl.isTrigger = false;
+      }
+
+      [PunRPC]
+      public void ActiveColl()
+      {
+          StartCoroutine(ActiveDamColl());
+      }*/
 
     [PunRPC]
     public void DestroyBall()
@@ -381,6 +471,6 @@ public class SnowBall : XRGrabInteractable
     [PunRPC]
     public void ImpactS()
     {
-        AudioManager.AM.PlaySE(sImpact);
+        AudioManager.AM.PlaySE(tImpact);
     }
 }
