@@ -14,14 +14,15 @@ using Unity.XR.PXR;
 public class SlingManager : MonoBehaviourPun, IPunObservable
 {
     public static SlingManager slM;
-    public PhotonView PV;   
-    public Transform slingString;    
+    public PhotonView PV;
+    public Transform slingString;
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
     //public GameObject shield_R;
     //public GameObject shield_L;
     public GameObject sling;
+    public GameObject trashCan;
     public Notch_S notch;
     public Collider pullColl;
     public Collider crashColl;
@@ -34,14 +35,15 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
     }
     void Start()
     {
-        rb = GetComponent<Rigidbody>();        
-        sling.SetActive(true);
+        rb = GetComponent<Rigidbody>();
         pullColl.enabled = true;
         notch.enabled = true;
         isGrip = true;
         isRight = false;
+        sling.SetActive(true);
+        trashCan.SetActive(false);
     }
-   
+
     void Update()
     {
         /* if (!PV.IsMine)
@@ -54,13 +56,13 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
         {
             isGrip = true;
             rb.isKinematic = true;
-            crashColl.isTrigger= true;
+            crashColl.isTrigger = true;
         }
         else
         {
             isGrip = false;
             rb.isKinematic = false;
-            crashColl.isTrigger= false;
+            crashColl.isTrigger = false;
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -84,7 +86,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("FloorBox")||collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
         {
             if (PV.IsMine)
             {
@@ -101,7 +103,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-          
+
         }
 
     }
@@ -135,13 +137,33 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
-   /* public void OnActive()
+    [PunRPC]
+    public void CanOn()
     {
-        PV.RPC(nameof(ShieldOn), RpcTarget.AllBuffered);
+        sling.SetActive(false);
+        trashCan.SetActive(true);
+        pullColl.enabled = false;
+        notch.enabled = false;
+    }
+
+    [PunRPC]
+    public void CanOff()
+    {
+        sling.SetActive(true);
+        trashCan.SetActive(false);
+        pullColl.enabled = true;
+        notch.enabled = true;
+    }
+
+    public void OnActive()
+    {
+        if(PV.IsMine)
+        PV.RPC(nameof(CanOn), RpcTarget.AllBuffered);
     }
 
     public void OnDeactive()
     {
-        PV.RPC(nameof(ShieldOff), RpcTarget.AllBuffered);
-    }*/
+        if(PV.IsMine)
+        PV.RPC(nameof(CanOff), RpcTarget.AllBuffered);
+    }
 }
