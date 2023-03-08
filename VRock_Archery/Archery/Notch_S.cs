@@ -86,7 +86,7 @@ public class Notch_S : XRSocketInteractor
         if (interactable is SnowBall Ball)
         {
             curBall = Ball;
-            curBall.transform.rotation = new Quaternion(0,0, 0, 0);
+            //curBall.transform.rotation = new Quaternion(0,0, 0, 0);
         }
     }
 
