@@ -86,7 +86,9 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
+            || collision.collider.CompareTag("Snowblock")|| collision.collider.CompareTag("Iceblock")
+            || collision.collider.CompareTag("Obtacle"))
         {
             if (PV.IsMine)
             {
