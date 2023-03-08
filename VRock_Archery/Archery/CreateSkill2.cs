@@ -4,11 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CreateSkill2 : MonoBehaviourPun
+public class CreateSkill2 : MonoBehaviourPun                                               // ½º³ë¿ì Æ¯¼ö ´«µ¢ÀÌ »ý¼º ½½·Ô
 {
     public GameObject snowSkilled;
     public GameObject snowStone;
     public Transform spawnPoint;
+    private readonly float limitTime = 3;
+    private readonly int perCent = 50;
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private PhotonView PV;
@@ -36,9 +38,9 @@ public class CreateSkill2 : MonoBehaviourPun
         {
             if (curBall != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 3)
+            if (curTime >= limitTime)
             {
-                bool skilled = RandomArrow.RandArrowPer(50);
+                bool skilled = RandomArrow.RandArrowPer(perCent);
                 if (skilled)
                 {
                     curBall = PN.InstantiateRoomObject(snowStone.name, spawnPoint.position, spawnPoint.rotation, 0);
