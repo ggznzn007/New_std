@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-public class CreateSkill : MonoBehaviourPun
+public class CreateSkill : MonoBehaviourPun                                                 // 酒贸 漂荐 拳混 积己 浇吩
 {
     public GameObject arrowSkilled;
     public GameObject arrowBomb;
     public Transform spawnPoint;
+    private readonly float limitTime = 3;
+    private readonly int perCent = 50;
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private PhotonView PV;
@@ -35,19 +37,19 @@ public class CreateSkill : MonoBehaviourPun
         {
             if (curArrow != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 2)
+            if (curTime >= limitTime)
             {
-                bool skilled = RandomArrow.RandArrowPer(5);
+                bool skilled = RandomArrow.RandArrowPer(perCent);
                 if (skilled)
                 {
                     curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("胶懦 积己");
+                    Debug.Log("胶懦 拳混 积己");
                     curTime = 0;
                 }
                 else
                 {
                     curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("气藕 积己");
+                    Debug.Log("气藕 拳混 积己");
                     curTime = 0;
                 }
             }
