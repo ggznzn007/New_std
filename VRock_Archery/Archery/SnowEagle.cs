@@ -16,18 +16,20 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     public static SnowEagle SNOWE;
     public GameObject eagleBlock;
     public GameObject eagleDamEX;
+    public float speed;
+    public float limitTime;
+    public string eagleDam;
     public Transform spawnPoint;
     public Transform[] wayPos;
-    public float speed;
-    public string eagleDam;
-    int wayNum = 0;
-    public GameObject myBlock = null;
+    private int wayNum = 0;
+    private GameObject myBlock = null;
     private GameObject myEagle;
     private Animator animator;
     private PhotonView PV;
     private Vector3 remotePos;
     private Quaternion remoteRot;
     private float curTime;
+
 
     public void Start()
     {
@@ -59,10 +61,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
             return;
-        }
-        //myEagle = TutorialManager.TM.eagleNPC;
-        //myEagle = GameObject.Find("Achery_Eagle");
-        // BombIn();
+        }      
         MovetoWay();
     }
 
@@ -75,14 +74,21 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    
+    private void OnTriggerExit(Collider coll)
+    {
+        if (coll.CompareTag("Iceblock"))
+        {
+            PV.RPC(nameof(MyBlockNull), RpcTarget.AllBuffered);
+        }
+    }
+
     public void SpawnEB()
     {
         if (myBlock == null)
         {
             if (myBlock != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 3)
+            if (curTime >= limitTime)
             {
                 PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 폭탄생성 RPC 사용
             }
@@ -93,7 +99,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void BlockInit(bool parent, bool child)                                                 // 독수리의 자식으로 폭탄생성 RPC 구현
     {
-        myBlock = PN.InstantiateRoomObject(eagleBlock.name, myEagle.transform.position, myEagle.transform.rotation, 0);
+        myBlock = PN.InstantiateRoomObject(eagleBlock.name, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
         myBlock.transform.SetParent(spawnPoint.transform, parent);
         myBlock.GetComponentInChildren<Rigidbody>().useGravity = child;
         myBlock.GetComponentInChildren<Collider>().enabled = child;
@@ -107,16 +113,12 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (myBlock != null)
         {
+            if (myBlock == null) return;
             myBlock.transform.parent = null;
             myBlock.GetComponentInChildren<Rigidbody>().useGravity = child;
             myBlock.GetComponentInChildren<Collider>().enabled = child;
-            StartCoroutine(EagleDamage());
-            StartCoroutine(BlockNull());
-        }
-        else
-        {
-            return;
-        }
+            StartCoroutine(EagleDamage());            
+        }        
     }   
 
     public IEnumerator EagleDamage()
@@ -124,14 +126,18 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         animator.SetBool("Damaged", true);
         PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         yield return new WaitForSeconds(1f);
-        animator.SetBool("Damaged", false);
-       
-        //StartCoroutine(BombTime());
+        animator.SetBool("Damaged", false);    
     }
 
+
+    [PunRPC]
+    public void MyBlockNull()
+    {
+        StartCoroutine(BlockNull());
+    }
     public IEnumerator BlockNull()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.1f);
         myBlock = null;
     }
 
