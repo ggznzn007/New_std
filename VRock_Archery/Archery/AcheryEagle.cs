@@ -17,12 +17,13 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     public static AcheryEagle AE;
     public GameObject eagleBomb;
     public GameObject eagleDamEX;
+    public float speed;
+    public float limitTime;
+    public string eagleDam;
     public Transform spawnPoint;
     public Transform[] wayPos;
-    public float speed;
-    public string eagleDam;
-    int wayNum = 0;
-    public GameObject myBomb = null;
+    private int wayNum = 0;
+    private GameObject myBomb = null;
     private GameObject myEagle;
     private Animator animator;
     private PhotonView PV;
@@ -36,10 +37,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
         transform.position = wayPos[wayNum].transform.position;
-        /*if (PN.IsMasterClient)
-        {
-            //InvokeRepeating(nameof(SpawnEB), 1, 2);
-        }*/
+     
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
@@ -111,7 +109,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         {
             if (myBomb != null) return;
             curTime += Time.deltaTime;
-            if (curTime >= 2)
+            if (curTime >= limitTime)
             {
                 PV.RPC(nameof(BombInit), RpcTarget.AllBuffered, true, false);                   // 刀荐府狼 磊侥栏肺 气藕积己
             }
@@ -120,25 +118,25 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     }
 
     [PunRPC]
-    public void BombInit(bool parent, bool child)
+    public void BombInit(bool onSwitch, bool offSwitch)
     {
         myBomb = PN.InstantiateRoomObject(eagleBomb.name, myEagle.transform.position + new Vector3(0, 0.9f, 0), myEagle.transform.rotation, 0);
-        myBomb.transform.SetParent(spawnPoint.transform, parent);
-        myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
-        myBomb.GetComponentInChildren<Collider>().enabled = child;
+        myBomb.transform.SetParent(spawnPoint.transform, onSwitch);
+        myBomb.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;
+        myBomb.GetComponentInChildren<Collider>().enabled = offSwitch;
         curTime = 0;
         Debug.Log("NPC气藕 积己");
     }
 
 
     [PunRPC]
-    public void EDam(bool child)
+    public void EDam(bool onSwitch) 
     {
         if (myBomb != null)
         {
             myBomb.transform.parent = null;
-            myBomb.GetComponentInChildren<Rigidbody>().useGravity = child;
-            myBomb.GetComponentInChildren<Collider>().enabled = child;
+            myBomb.GetComponentInChildren<Rigidbody>().useGravity = onSwitch;
+            myBomb.GetComponentInChildren<Collider>().enabled = onSwitch;
             StartCoroutine(EagleDamage());
         }
         else
