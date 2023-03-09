@@ -12,7 +12,15 @@ public class HandInteractor : XRDirectInteractor
             arrow.myColl.enabled = false;
         }
     }
-   
+
+    public void HandDetection2(XRBaseInteractable interactable)
+    {
+        if (interactable is SnowBall ball)
+        {
+            ball.myColl.enabled = false;
+        }
+    }
+
     public void ForceInteract(SelectEnterEventArgs interactable)
     {
         OnSelectEntered(interactable);
