@@ -8,20 +8,25 @@ using Photon.Realtime;
 using PN = Photon.Pun.PN;
 
 public class Arrow_Bomb : Arrow
-{   
-    public Collider tagColl;
-    public ParticleSystem fireEX;
-    public GameObject myMesh;
-    public GameObject[] myEX;
-    private bool isRotate;
-    //private AudioSource beepAudio;
+{
+    /// <summary>
+    ///  폭탄화살 전체 메커니즘
+    ///  1. FireMissileTiny, Sparks == 생성시 활성화
+    ///  2. ExploArea == 생성시 비활성화 -> 폭탄화살이 발사되어 목표물에 명중시 활성화되고 폭발예비음 재생, 폭탄 화살 메쉬 비활성화
+    ///  3. 폭발 효과 활성화되면 폭발예비음 정지, ExploArea 비활성화, areaColl 짧은 순간 활성화되었다가 대미지 입고 다시 비활성화
+    ///  4. 폭탄화살 파괴
+    /// </summary>
+    public Collider tagColl;                                                       // 폭탄화살 태그 콜라이더
+    public Collider areaColl;                                                      // 폭발 대미지 범위 콜라이더    
+    public GameObject myMesh;                                                      // 폭탄화살 메쉬
+    public GameObject[] myEX;                                                      // 폭탄화살 효과들(FireMissileTiny, Sparks, ExploArea)
+    private bool isRotate;                                                         // 회전 여부
     
     private readonly float delTime = 0.4f;
     private readonly float arrowTime = 0.8f;
     private readonly float bombTime = 1f;
     private readonly float beepTime = 2.34f;
-    //public AudioSource audioSource;
-
+   
     protected override void Awake()
     {
         base.Awake();        
@@ -285,11 +290,18 @@ public class Arrow_Bomb : Arrow
         myEX[1].SetActive(false);                                             // 폭탄화살 효과2 OFF
         myEX[2].SetActive(false);                                             // 폭발대미지 범위 표시 OFF
         effect.SetActive(true);                                               // 폭발파티클 ON
+        StartCoroutine(CollCtrl());
         yield return new WaitForSeconds(1.5f);
         effect.SetActive(false);                                              // 폭발파티클 OFF
         Destroy(PV.gameObject);                                               // 폭탄화살 파괴
     }
   
+    IEnumerator CollCtrl()
+    {
+        areaColl.enabled= true;
+        yield return new WaitForSeconds(0.03f);
+        areaColl.enabled= false;
+    }
 
     [PunRPC]
     public void DestroyBomb()
