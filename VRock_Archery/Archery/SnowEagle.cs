@@ -53,9 +53,10 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     private void Update()
     {
         if (PN.IsMasterClient)
-        {
+        {            
             SpawnEB();
         }
+
         if (!PV.IsMine)
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
@@ -90,33 +91,33 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
             curTime += Time.deltaTime;
             if (curTime >= limitTime)
             {
-                PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 폭탄생성 RPC 사용
+                PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 블럭생성 RPC 사용
             }
 
         }
     }
 
     [PunRPC]
-    public void BlockInit(bool parent, bool child)                                                 // 독수리의 자식으로 폭탄생성 RPC 구현
+    public void BlockInit(bool onSwitch, bool offSwitch)                                                 // 독수리의 자식으로 블럭생성 RPC 구현
     {
         myBlock = PN.InstantiateRoomObject(eagleBlock.name, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
-        myBlock.transform.SetParent(spawnPoint.transform, parent);
-        myBlock.GetComponentInChildren<Rigidbody>().useGravity = child;
-        myBlock.GetComponentInChildren<Collider>().enabled = child;
+        myBlock.transform.SetParent(spawnPoint.transform, onSwitch);         // 부모 지정
+        myBlock.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;  // 중력 Off
+        myBlock.GetComponentInChildren<Collider>().enabled = offSwitch;      // 콜라이더 Off
         curTime = 0;
         Debug.Log("ICE블럭 생성");
     }
 
 
     [PunRPC]
-    public void EDam(bool child)
+    public void EDam(bool onSwitch)
     {
         if (myBlock != null)
         {
             if (myBlock == null) return;
-            myBlock.transform.parent = null;
-            myBlock.GetComponentInChildren<Rigidbody>().useGravity = child;
-            myBlock.GetComponentInChildren<Collider>().enabled = child;
+            myBlock.transform.parent = null;                                  // 부모 해제
+            myBlock.GetComponentInChildren<Rigidbody>().useGravity = onSwitch;// 중력 On
+            myBlock.GetComponentInChildren<Collider>().enabled = onSwitch;    // 콜라이더 On
             StartCoroutine(EagleDamage());            
         }        
     }   

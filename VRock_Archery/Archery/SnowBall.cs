@@ -57,17 +57,13 @@ public class SnowBall : XRGrabInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabBall = true;
-        //PV.RequestOwnership();        
-        isGrip = true;       
-        //rigidbody.isKinematic = false;
+        DataManager.DM.grabBall = true;              
+        isGrip = true;      
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        isGrip = false;
-        // PV.RequestOwnership();
-        //rigidbody.isKinematic = true;
+        isGrip = false;       
         DataManager.DM.grabBall = false;
         if (args.interactorObject is Notch_S notchs)
         {
@@ -109,9 +105,9 @@ public class SnowBall : XRGrabInteractable
         flightTime = 0f;   
         StartCoroutine(OnDamColl());
         transform.parent = null;
-        rigidbody.isKinematic = false;
-        rigidbody.useGravity = true;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        //rigidbody.isKinematic = false;
+        //rigidbody.useGravity = true;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;       
         //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         //rigidbody.constraints = RigidbodyConstraints.None;        
         ApplyForce(notchs.PullMeasurer_S);
@@ -127,7 +123,6 @@ public class SnowBall : XRGrabInteractable
         if (rigidbody && MinForceHit != 0)
         {
             float zVel = System.Math.Abs(transform.InverseTransformDirection(rigidbody.velocity).z);
-
             // Minimum Force not achieved
             if (zVel < MinForceHit)
             {
@@ -139,7 +134,7 @@ public class SnowBall : XRGrabInteractable
     public IEnumerator OnDamColl()
     {
         myColl.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         damageColl.gameObject.SetActive(true);
     }
     private void OnCollisionEnter(Collision collision)
@@ -156,7 +151,7 @@ public class SnowBall : XRGrabInteractable
         string colNameLower = collision.transform.tag.ToLower();
 
         //if (flightTime < 0.5f && colNameLower.Contains("slingshot"))//|| colNameLower.Contains("arrow")))
-         if (flightTime < 0.08f&&(colNameLower.Contains("head") || colNameLower.Contains("body")))
+         if (flightTime < 0.07f&&(colNameLower.Contains("head") || colNameLower.Contains("body")||colNameLower.Contains("slingshot")))
         {
             Physics.IgnoreCollision(collision.collider, myColl, true);
             Physics.IgnoreCollision(collision.collider, damageColl, true);
@@ -176,6 +171,7 @@ public class SnowBall : XRGrabInteractable
         {
             if (PV.IsMine)
             {
+                if (!PV.IsMine) return;
                 if (!isGrip)
                 {                    
                     AudioManager.AM.PlaySE(snowImpact);
@@ -254,13 +250,13 @@ public class SnowBall : XRGrabInteractable
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(headShot);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                  /*  if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
                     {
                         if (!AvartarController.ATC.isDamaged)
                         {
                             AvartarController.ATC.HeadShotDamage();
                         }
-                    }
+                    }*/
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
@@ -281,13 +277,13 @@ public class SnowBall : XRGrabInteractable
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(hitPlayer);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
+                    /*if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
                     {
                         if (!AvartarController.ATC.isDamaged)
                         {
                             AvartarController.ATC.NormalDamage();
                         }
-                    }
+                    }*/
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
@@ -336,8 +332,7 @@ public class SnowBall : XRGrabInteractable
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-                    Destroy(effect, delTime);
-                   
+                    Destroy(effect, delTime);                   
                 }
 
             }

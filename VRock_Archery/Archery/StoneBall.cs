@@ -18,25 +18,19 @@ public class StoneBall : SnowBall
         base.Awake();
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        isGrip = true;
-        //myColl = GetComponent<Collider>();
-        //damageColl = GetComponent<Collider>();   
+        isGrip = true;      
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabBall = true;
-        //PV.RequestOwnership();        
-        isGrip = true;
-       // rigidbody.isKinematic = false;
+        DataManager.DM.grabBall = true;         
+        isGrip = true;       
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        isGrip = false;
-        // PV.RequestOwnership();
-        // rigidbody.isKinematic = true;
+        isGrip = false;        
         DataManager.DM.grabBall = false;
         if (args.interactorObject is Notch_S notchs)
         {
@@ -81,8 +75,8 @@ public class StoneBall : SnowBall
         flightTime = 0f;
         StartCoroutine(OnDamColl());
         transform.parent = null;
-        rigidbody.isKinematic = false;
-        rigidbody.useGravity = true;
+        //rigidbody.isKinematic = false;
+        //rigidbody.useGravity = true;
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         //rigidbody.constraints = RigidbodyConstraints.None;        
@@ -122,7 +116,7 @@ public class StoneBall : SnowBall
         string colNameLower = collision.transform.tag.ToLower();
 
         //if (flightTime < 0.5f && colNameLower.Contains("slingshot"))//|| colNameLower.Contains("arrow")))
-        if (flightTime < 0.08f && (colNameLower.Contains("head") || colNameLower.Contains("body")))
+        if (flightTime < 0.07f && (colNameLower.Contains("head") || colNameLower.Contains("body")))
         {
             Physics.IgnoreCollision(collision.collider, myColl, true);
             Physics.IgnoreCollision(collision.collider, damageColl, true);
@@ -143,6 +137,7 @@ public class StoneBall : SnowBall
         {
             if (PV.IsMine)
             {
+                if (!PV.IsMine) return;
                 if (!isGrip)
                 {                    
                     AudioManager.AM.PlaySE(snowImpact);
@@ -175,13 +170,6 @@ public class StoneBall : SnowBall
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(headShot);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
-                    {
-                        if (!AvartarController.ATC.isDamaged)
-                        {
-                            AvartarController.ATC.HeadShotDamage();
-                        }
-                    }
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
@@ -204,13 +192,6 @@ public class StoneBall : SnowBall
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(hitPlayer);
-                    if (AvartarController.ATC.isAlive && DataManager.DM.inGame)
-                    {
-                        if (!AvartarController.ATC.isDamaged)
-                        {
-                            AvartarController.ATC.NormalDamage();
-                        }
-                    }
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
