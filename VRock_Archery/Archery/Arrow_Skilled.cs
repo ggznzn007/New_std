@@ -23,8 +23,10 @@ public class Arrow_Skilled : Arrow
     {
         base.Awake();
         isRotate = true;
-        parentsMesh[0].gameObject.SetActive(true);
-        parentsMesh[1].gameObject.SetActive(true);
+        parentsMesh[0].gameObject.SetActive(true);       
+        parentsMesh[1].gameObject.SetActive(true);       
+        parentsMesh[2].gameObject.SetActive(true);       
+        parentsMesh[3].gameObject.SetActive(true);       
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -124,8 +126,10 @@ public class Arrow_Skilled : Arrow
         gripColl.gameObject.SetActive(false);
         rigidbody.useGravity = false;
         effects.SetActive(true);
-        parentsMesh[0].gameObject.SetActive(false);
-        parentsMesh[1].gameObject.SetActive(false);
+        parentsMesh[0].gameObject.SetActive(false);       
+        parentsMesh[1].gameObject.SetActive(false);       
+        parentsMesh[2].gameObject.SetActive(false);       
+        parentsMesh[3].gameObject.SetActive(false);       
         yield return StartCoroutine(DelayTime());
     }
 
