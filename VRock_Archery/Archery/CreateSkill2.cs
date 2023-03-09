@@ -10,7 +10,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
     public GameObject snowStone;
     public Transform spawnPoint;
     private readonly float limitTime = 3;
-    private readonly int perCent = 50;
+    private readonly int perCent = 50;         // µ¹µ¢ÀÌ 1, ¾óÀ½ 2
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private PhotonView PV;
@@ -45,8 +45,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
                 {
                     curBall = PN.InstantiateRoomObject(snowStone.name, spawnPoint.position, spawnPoint.rotation, 0);
                     Debug.Log("µ¹µ¢ÀÌ »ý¼º");
-                    curTime = 0;
-                   
+                    curTime = 0;                   
                 }
                 else
                 {
