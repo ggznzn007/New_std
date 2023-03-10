@@ -12,20 +12,27 @@ using UnityEditor;
 public class IceBlock : XRGrabInteractable
 {
     public static IceBlock IB;
-    public PhotonView PV;
-    public GameObject DestroyEX;
+    public GameObject myMesh;
+    public GameObject iceEX;
+    private PhotonView PV;
     
     void Start()
     {
         IB = this;
-        PV = GetComponent<PhotonView>();       
+        PV = GetComponent<PhotonView>();
+        myMesh.SetActive(true);
+        iceEX.SetActive(false);
     }
     
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Icicle")|| collision.collider.CompareTag("FloorBox"))
         {
-            PV.RPC(nameof(Disappear), RpcTarget.AllBuffered);
+            if(PV.IsMine)
+            {
+                PV.RPC(nameof(Disappear), RpcTarget.AllBuffered);
+            }
+            
         }
     }
 
@@ -37,8 +44,10 @@ public class IceBlock : XRGrabInteractable
 
     public IEnumerator EXOnOff()
     {
-        PN.InstantiateRoomObject(DestroyEX.name, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(0.01f);
+        myMesh.SetActive(false);
+        iceEX.SetActive(true);
+        //PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }       
 
