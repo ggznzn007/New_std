@@ -31,7 +31,7 @@ public class Arrow_Bomb : Arrow
     {
         base.Awake();        
         isRotate = true;
-        //beepAudio = GetComponent<AudioSource>();
+       // rigidbody.useGravity = false;
     }
    
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -39,19 +39,21 @@ public class Arrow_Bomb : Arrow
         base.OnSelectEntered(args);
         PV.RequestOwnership();
         DataManager.DM.grabArrow = true;       
-        isRotate = false; 
+        isRotate = false;
+       // damageColl.gameObject.SetActive(false);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
         DataManager.DM.grabArrow = false;
+       // damageColl.gameObject.SetActive(true);
         if (args.interactorObject is Notch notch)
-        {    
+        {
+            //damageColl.gameObject.SetActive(false);
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 3;
-
                 LaunchArrow(notch);
                /* if (PV.IsMine)
                 {
@@ -77,7 +79,7 @@ public class Arrow_Bomb : Arrow
         string colNameLower = collision.transform.name.ToLower();
 
         //if (flightTime < 0.01f && (colNameLower.Contains("bow")|| colNameLower.Contains("arrow")))
-        if (colNameLower.Contains("bow"))
+        if (flightTime < 0.07f && colNameLower.Contains("bow"))
         {
             Physics.IgnoreCollision(collision.collider, myColl, true);
             return;
@@ -88,6 +90,8 @@ public class Arrow_Bomb : Arrow
             Physics.IgnoreCollision(collision.collider, myColl, true);
             return;
         }
+
+       
 
         /*if (PV.IsMine)
         {
