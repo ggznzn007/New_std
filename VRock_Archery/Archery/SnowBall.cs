@@ -49,22 +49,21 @@ public class SnowBall : XRGrabInteractable
         base.Awake();
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        isGrip = true;        
-        //myColl = GetComponent<Collider>();
-        //damageColl = GetComponent<Collider>();   
+        isGrip = true;               
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;              
-        isGrip = true;      
+        isGrip = true;        
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
         isGrip = false;       
         DataManager.DM.grabBall = false;
+
         if (args.interactorObject is Notch_S notchs)
         {
             if (notchs.CanRelease)
