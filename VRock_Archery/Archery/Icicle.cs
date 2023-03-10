@@ -13,37 +13,35 @@ public class Icicle : SnowBall
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
         isGrip = true;
-        
-        //myColl = GetComponent<Collider>();
-        //damageColl = GetComponent<Collider>();   
+        rigidbody.useGravity = false;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
-        //PV.RequestOwnership();        
         isGrip = true;
-        // rigidbody.isKinematic = false;
-        
+        damageColl.gameObject.SetActive(false);
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
         isGrip = false;
-        // PV.RequestOwnership();
-        //rigidbody.isKinematic = true;
-        DataManager.DM.grabBall = false;        
+        rigidbody.useGravity = true;
+        damageColl.gameObject.SetActive(true);
+        DataManager.DM.grabBall = false;
+
         if (args.interactorObject is Notch_S notchs)
         {
+            damageColl.gameObject.SetActive(false);
             if (notchs.CanRelease)
-            {                
+            {
                 DataManager.DM.arrowNum = 0;
                 LaunchBall(notchs);
 
                 if (PV.IsMine)
                 {
-                    if (!PV.IsMine) return;                    
+                    if (!PV.IsMine) return;
                     PV.RPC(nameof(ActiveEX), RpcTarget.AllBuffered);
                 }
             }
@@ -81,11 +79,11 @@ public class Icicle : SnowBall
         launched = true;
         flightTime = 0f;
         StartCoroutine(OnDamColl());
-        transform.parent = null;        
+        transform.parent = null;
         //rigidbody.isKinematic = false;
-        //rigidbody.useGravity = true;       
-         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-         //rigidbody.rotation = transform.rotation;
+        rigidbody.useGravity = true;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        //rigidbody.rotation = transform.rotation;
         //rigidbody.constraints = RigidbodyConstraints.None;        
         ApplyForce(notchs.PullMeasurer_S);
         //StartCoroutine(ReEnableCollider());
@@ -97,16 +95,16 @@ public class Icicle : SnowBall
     {
         //rigidbody.AddForce(transform.forward * (pullMeasurer.PullAmount * speed), ForceMode.Impulse);
         rigidbody.AddForce(shootPoint.forward * (pullMeasurers.PullAmount * speed), ForceMode.VelocityChange);
-       /* if (rigidbody && MinForceHit != 0)
-        {
-            float zVel = System.Math.Abs(transform.InverseTransformDirection(rigidbody.velocity).z);
+        /* if (rigidbody && MinForceHit != 0)
+         {
+             float zVel = System.Math.Abs(transform.InverseTransformDirection(rigidbody.velocity).z);
 
-            // Minimum Force not achieved
-            if (zVel < MinForceHit)
-            {
-                return;
-            }
-        }*/
+             // Minimum Force not achieved
+             if (zVel < MinForceHit)
+             {
+                 return;
+             }
+         }*/
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -118,7 +116,7 @@ public class Icicle : SnowBall
         }
 
         if (isGrip) return;
-      
+
 
         string colNameLower = collision.transform.tag.ToLower();
 
@@ -160,40 +158,40 @@ public class Icicle : SnowBall
 
         }
 
-       /* if(collision.collider.CompareTag("Body"))
-        {
-            if (PV.IsMine)
-            {
-                if (!isGrip)
-                {
-                    AudioManager.AM.PlaySE(hitPlayer);
-                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
-                    Destroy(effect, delTime);
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
-                }
-            }
-        }
+        /* if(collision.collider.CompareTag("Body"))
+         {
+             if (PV.IsMine)
+             {
+                 if (!isGrip)
+                 {
+                     AudioManager.AM.PlaySE(hitPlayer);
+                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                     var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                     transform.position = contact.point;
+                     Destroy(effect, delTime);
+                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                 }
+             }
+         }
 
-        if (collision.collider.CompareTag("Head"))
-        {
-            if (PV.IsMine)
-            {
-                if (!isGrip)
-                {
-                    AudioManager.AM.PlaySE(hitPlayer);
-                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
-                    Destroy(effect, delTime);
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
-                }
-            }
-        }
-*/
+         if (collision.collider.CompareTag("Head"))
+         {
+             if (PV.IsMine)
+             {
+                 if (!isGrip)
+                 {
+                     AudioManager.AM.PlaySE(hitPlayer);
+                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                     var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                     transform.position = contact.point;
+                     Destroy(effect, delTime);
+                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
+                 }
+             }
+         }
+ */
 
         if (collision.collider.CompareTag("Head"))
         {
@@ -277,7 +275,7 @@ public class Icicle : SnowBall
 
             }
         }
-        if (collision.collider.CompareTag("Snowblock")|| collision.collider.CompareTag("Iceblock")
+        if (collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
             || collision.collider.CompareTag("NPC"))
         {
             if (PV.IsMine)
@@ -299,5 +297,5 @@ public class Icicle : SnowBall
         }
     }
 
-    
+
 }
