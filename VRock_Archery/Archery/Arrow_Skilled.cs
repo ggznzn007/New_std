@@ -26,7 +26,8 @@ public class Arrow_Skilled : Arrow
         parentsMesh[0].gameObject.SetActive(true);       
         parentsMesh[1].gameObject.SetActive(true);       
         parentsMesh[2].gameObject.SetActive(true);       
-        parentsMesh[3].gameObject.SetActive(true);       
+        parentsMesh[3].gameObject.SetActive(true);
+       // rigidbody.useGravity = false;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -34,15 +35,17 @@ public class Arrow_Skilled : Arrow
         base.OnSelectEntered(args);
         DataManager.DM.grabArrow = true;
         PV.RequestOwnership();        
-        isRotate = false;       
-        
+        isRotate = false;
+       // damageColl.gameObject.SetActive(false);
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);        
         DataManager.DM.grabArrow = false;
+       // damageColl.gameObject.SetActive(true);
         if (args.interactorObject is Notch notch)
-        {           
+        {
+           // damageColl.gameObject.SetActive(false);
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 1;
