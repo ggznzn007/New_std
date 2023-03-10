@@ -10,7 +10,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
     public GameObject snowStone;
     public Transform spawnPoint;
     private readonly float limitTime = 3;
-    private readonly int perCent = 50;         // 돌덩이 1, 얼음 2
+    private readonly int perCent = 55;         // 돌덩이 1, 얼음 2
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private PhotonView PV;
