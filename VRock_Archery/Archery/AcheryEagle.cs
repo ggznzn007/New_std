@@ -77,8 +77,9 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         }
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            //float t = Mathf.Clamp(Time.deltaTime * 10, 0f, 0.99f);
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, Time.deltaTime * 30)
+                , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 30));
             return;
         }
         //myEagle = TutorialManager.TM.eagleNPC;
