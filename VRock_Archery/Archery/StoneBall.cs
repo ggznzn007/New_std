@@ -13,27 +13,34 @@ using static UnityEngine.ParticleSystem;
 public class StoneBall : SnowBall
 {
     public string stoneImpact;
+    //private int gripCount = 0;
     protected override void Awake()
     {
         base.Awake();
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        isGrip = true;      
+        isGrip = true;
+        rigidbody.useGravity = false;
     }
 
-    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    protected override void OnSelectEntered(SelectEnterEventArgs args) // 잡았을때
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabBall = true;         
-        isGrip = true;       
+        DataManager.DM.grabBall = true;
+        isGrip = true;
+        damageColl.gameObject.SetActive(false);
     }
-    protected override void OnSelectExited(SelectExitEventArgs args)
+    protected override void OnSelectExited(SelectExitEventArgs args) // 놓았을때 
     {
         base.OnSelectExited(args);
-        isGrip = false;        
+        isGrip = false;
+        rigidbody.useGravity = true;
+        damageColl.gameObject.SetActive(true);
         DataManager.DM.grabBall = false;
-        if (args.interactorObject is Notch_S notchs)
+
+        if (args.interactorObject is Notch_S notchs)                 // 새총 시위에 붙었을 때
         {
+            damageColl.gameObject.SetActive(false);
             if (notchs.CanRelease)
             {
                 DataManager.DM.arrowNum = 0;
@@ -67,6 +74,7 @@ public class StoneBall : SnowBall
         {
             flightTime += Time.fixedDeltaTime;
         }
+
     }
     public new void LaunchBall(Notch_S notchs)
     {
@@ -76,7 +84,7 @@ public class StoneBall : SnowBall
         StartCoroutine(OnDamColl());
         transform.parent = null;
         //rigidbody.isKinematic = false;
-        //rigidbody.useGravity = true;
+        rigidbody.useGravity = true;
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         //rigidbody.constraints = RigidbodyConstraints.None;        
@@ -102,6 +110,7 @@ public class StoneBall : SnowBall
         }
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -112,7 +121,7 @@ public class StoneBall : SnowBall
         }
 
         if (isGrip) return;
-       
+
         string colNameLower = collision.transform.tag.ToLower();
 
         //if (flightTime < 0.5f && colNameLower.Contains("slingshot"))//|| colNameLower.Contains("arrow")))
@@ -139,7 +148,7 @@ public class StoneBall : SnowBall
             {
                 if (!PV.IsMine) return;
                 if (!isGrip)
-                {                    
+                {
                     AudioManager.AM.PlaySE(snowImpact);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
@@ -153,7 +162,7 @@ public class StoneBall : SnowBall
 
         }
 
-    
+
         /*if (PV.IsMine)
         {
             if (!isGrip && launched)
@@ -244,7 +253,7 @@ public class StoneBall : SnowBall
             }
         }
         if (collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
-            ||collision.collider.CompareTag("NPC"))
+            || collision.collider.CompareTag("NPC"))
         {
             if (PV.IsMine)
             {
@@ -252,13 +261,13 @@ public class StoneBall : SnowBall
                 if (!isGrip && launched)
                 {
                     TrySticky(collision);
-                    AudioManager.AM.PlaySE(stoneImpact);                    
+                    AudioManager.AM.PlaySE(stoneImpact);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered) ;                     
-                    Destroy(effect, delTime);                    
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);
+                    Destroy(effect, delTime);
                 }
 
             }
