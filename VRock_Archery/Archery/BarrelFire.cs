@@ -41,8 +41,9 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!PV.IsMine)
         {
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
-                , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
+            float t = Mathf.Clamp(Time.deltaTime * 10, 0f, 0.99f);
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, t)
+                , Quaternion.Lerp(transform.rotation, remoteRot, t));
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
