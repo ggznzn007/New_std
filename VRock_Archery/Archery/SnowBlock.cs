@@ -13,13 +13,16 @@ using UnityEditor;
 public class SnowBlock : XRGrabInteractable
 {
     public static SnowBlock SB;
-    public PhotonView PV;
-    public GameObject DestroyEX;
-    
+    public GameObject myMesh;
+    public GameObject snowEX;
+    private PhotonView PV;
+
     void Start()
     {
         SB=this;
-        PV = GetComponent<PhotonView>();     
+        PV = GetComponent<PhotonView>();
+        myMesh.SetActive(true);
+        snowEX.SetActive(false);
     }
    
     private void OnCollisionEnter(Collision collision)
@@ -38,8 +41,10 @@ public class SnowBlock : XRGrabInteractable
 
     public IEnumerator EXOnOff()
     {
-        PN.InstantiateRoomObject(DestroyEX.name, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(0.01f);
+        myMesh.SetActive(false);
+        snowEX.SetActive(true);
+        //PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     } 
 }
