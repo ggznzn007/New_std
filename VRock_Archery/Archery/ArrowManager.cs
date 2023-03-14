@@ -46,7 +46,11 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IP
             isGrip = false;
         }
     }
-     
+
+    
+
+   
+
     [PunRPC]
     public void StartGrabbing()
     {
