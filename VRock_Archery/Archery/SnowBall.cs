@@ -133,7 +133,7 @@ public class SnowBall : XRGrabInteractable
     public IEnumerator OnDamColl()
     {
         myColl.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.03f);
         damageColl.gameObject.SetActive(true);
     }
     private void OnCollisionEnter(Collision collision)
@@ -179,7 +179,7 @@ public class SnowBall : XRGrabInteractable
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);
                     Destroy(effect, delTime);
                 }
             }
