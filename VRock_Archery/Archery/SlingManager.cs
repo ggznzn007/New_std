@@ -87,7 +87,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
     private void OnCollisionStay(Collision collision)
     {
         if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
-            || collision.collider.CompareTag("Snowblock")|| collision.collider.CompareTag("Iceblock")
+            || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
             || collision.collider.CompareTag("Obtacle"))
         {
             if (PV.IsMine)
@@ -159,13 +159,21 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
 
     public void OnActive()
     {
-        if(PV.IsMine)
-        PV.RPC(nameof(CanOn), RpcTarget.AllBuffered);
+        //if(PV.IsMine)
+        if (!DataManager.DM.grabString)
+        {
+            if (DataManager.DM.grabString) { return; }
+            PV.RPC(nameof(CanOn), RpcTarget.AllBuffered);
+        }
     }
 
     public void OnDeactive()
     {
-        if(PV.IsMine)
-        PV.RPC(nameof(CanOff), RpcTarget.AllBuffered);
+        //if(PV.IsMine)
+        if (!DataManager.DM.grabString)
+        {
+            if (DataManager.DM.grabString) { return; }
+            PV.RPC(nameof(CanOff), RpcTarget.AllBuffered);
+        }
     }
 }
