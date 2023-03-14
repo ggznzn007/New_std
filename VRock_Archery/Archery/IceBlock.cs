@@ -28,11 +28,7 @@ public class IceBlock : XRGrabInteractable
     {
         if (collision.collider.CompareTag("Icicle")|| collision.collider.CompareTag("FloorBox"))
         {
-            if(PV.IsMine)
-            {
-                PV.RPC(nameof(Disappear), RpcTarget.AllBuffered);
-            }
-            
+            PV.RPC(nameof(Disappear), RpcTarget.AllBuffered);
         }
     }
 
@@ -49,7 +45,5 @@ public class IceBlock : XRGrabInteractable
         //PN.Instantiate(DestroyEX.name, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
-    }       
-
-  
+    } 
 }
