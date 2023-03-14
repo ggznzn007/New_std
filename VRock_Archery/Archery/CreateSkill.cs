@@ -8,8 +8,8 @@ public class CreateSkill : MonoBehaviourPun                                     
     public GameObject arrowSkilled;
     public GameObject arrowBomb;
     public Transform spawnPoint;
-    private readonly float limitTime = 3;
-    private readonly int perCent = 45;         // ½ºÅ³ 1, ÆøÅº 2
+    private readonly float limitTime = 2;
+    private readonly int perCent = 40;         // ½ºÅ³ 1, ÆøÅº 2
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private PhotonView PV;
