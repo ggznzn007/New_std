@@ -40,11 +40,11 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        shield.SetActive(false);        
+        shield.SetActive(false);
         bow.SetActive(true);
         pullColl.enabled = true;
         notch.enabled = true;
-        isGrip = true;       
+        isGrip = true;
     }
 
 
@@ -214,12 +214,20 @@ public class BowManager : MonoBehaviourPun, IPunObservable
 
     public void OnActive()
     {
-        PV.RPC(nameof(ShieldOn), RpcTarget.AllBuffered);
+        if (!DataManager.DM.grabString)
+        {
+            if (DataManager.DM.grabString) { return; }
+            PV.RPC(nameof(ShieldOn), RpcTarget.AllBuffered);
+        }
     }
 
     public void OnDeactive()
     {
-        PV.RPC(nameof(ShieldOff), RpcTarget.AllBuffered);
+        if (!DataManager.DM.grabString)
+        {
+            if(DataManager.DM.grabString) { return; }
+            PV.RPC(nameof(ShieldOff), RpcTarget.AllBuffered);
+        }
     }
 
 
