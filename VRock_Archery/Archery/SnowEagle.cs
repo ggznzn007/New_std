@@ -37,7 +37,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
         transform.position = wayPos[wayNum].transform.position;
-       
+
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_W:
@@ -47,14 +47,18 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
                 myEagle = WesternManager.WM.eagleNPC;
                 break;
         }
-       
+
     }
 
     private void Update()
     {
         if (PN.IsMasterClient)
-        {            
-            SpawnEB();
+        {
+            if (myBlock == null)
+            {
+                if (myBlock != null && !PN.IsMasterClient) { return; }
+                SpawnEB();
+            }
         }
 
         if (!PV.IsMine)
@@ -63,48 +67,49 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, Time.deltaTime * 20)
                 , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 20));
             return;
-        }      
+        }
         MovetoWay();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Snowball")|| collision.collider.CompareTag("Stoneball")
+        if (collision.collider.CompareTag("Snowball") || collision.collider.CompareTag("Stoneball")
             || collision.collider.CompareTag("Icicle"))
         {
             PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                                  // 독수리가 대미지입고 블럭투하 RPC 사용            
         }
     }
 
-    private void OnTriggerExit(Collider coll)
+    /*private void OnTriggerExit(Collider coll)
     {
         if (coll.CompareTag("Iceblock"))
         {
             PV.RPC(nameof(MyBlockNull), RpcTarget.AllBuffered);
         }
-    }
+    }*/
 
     public void SpawnEB()
     {
-        if (myBlock == null)
+        curTime += Time.deltaTime;
+        if (curTime >= limitTime)
+        {
+            PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 블럭생성 RPC 사용
+        }
+      /*  if (myBlock == null)
         {
             if (myBlock != null) return;
-            curTime += Time.deltaTime;
-            if (curTime >= limitTime)
-            {
-                PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 블럭생성 RPC 사용
-            }
+           
 
-        }
+        }*/
     }
 
     [PunRPC]
     public void BlockInit(bool onSwitch, bool offSwitch)                                                 // 독수리의 자식으로 블럭생성 RPC 구현
     {
         myBlock = PN.InstantiateRoomObject(eagleBlock.name, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
-        myBlock.transform.SetParent(spawnPoint.transform, onSwitch);         // 부모 지정
-        myBlock.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;  // 중력 Off
-        myBlock.GetComponentInChildren<Collider>().enabled = offSwitch;      // 콜라이더 Off
+        myBlock.transform.SetParent(this.transform, onSwitch);         // 부모 지정
+        myBlock.GetComponent<Rigidbody>().useGravity = offSwitch;  // 중력 Off
+        myBlock.GetComponent<Collider>().enabled = offSwitch;      // 콜라이더 Off
         curTime = 0;
         Debug.Log("ICE블럭 생성");
     }
@@ -117,33 +122,34 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (myBlock == null) return;
             myBlock.transform.parent = null;                                  // 부모 해제
-            myBlock.GetComponentInChildren<Rigidbody>().useGravity = onSwitch;// 중력 On
-            myBlock.GetComponentInChildren<Collider>().enabled = onSwitch;    // 콜라이더 On
-            StartCoroutine(EagleDamage());            
-        }        
-    }   
+            myBlock.GetComponent<Rigidbody>().useGravity = onSwitch;// 중력 On
+            myBlock.GetComponent<Collider>().enabled = onSwitch;    // 콜라이더 On
+            StartCoroutine(EagleDamage());
+            StartCoroutine(BlockNull());
+        }
+    }
 
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
         PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         yield return new WaitForSeconds(1f);
-        animator.SetBool("Damaged", false);    
+        animator.SetBool("Damaged", false);
     }
 
 
-    [PunRPC]
+    /*[PunRPC]
     public void MyBlockNull()
     {
         StartCoroutine(BlockNull());
-    }
+    }*/
     public IEnumerator BlockNull()
     {
         yield return new WaitForSeconds(0.1f);
         myBlock = null;
     }
 
-   
+
     public void MovetoWay()
     {
         transform.position = Vector3.MoveTowards(transform.position, wayPos[wayNum].position, speed * Time.deltaTime);
