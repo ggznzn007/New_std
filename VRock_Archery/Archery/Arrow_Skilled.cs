@@ -34,7 +34,7 @@ public class Arrow_Skilled : Arrow
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabArrow = true;
-        PV.RequestOwnership();        
+        //PV.RequestOwnership();        
         isRotate = false;
        // damageColl.gameObject.SetActive(false);
     }
@@ -75,11 +75,9 @@ public class Arrow_Skilled : Arrow
                     StartCoroutine(DelayHit(coll));
                 }
             }
-
         }
-
     }
-
+    
     public IEnumerator DelayHit(Collider coll)
     {
         AudioManager.AM.PlaySE(hitPlayer);
@@ -127,6 +125,7 @@ public class Arrow_Skilled : Arrow
         head.SetActive(false);
         yield return new WaitForSecondsRealtime(0.04f);
         gripColl.gameObject.SetActive(false);
+        damageColl.gameObject.SetActive(false);
         rigidbody.useGravity = false;
         effects.SetActive(true);
         parentsMesh[0].gameObject.SetActive(false);       
