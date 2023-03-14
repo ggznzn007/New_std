@@ -21,33 +21,33 @@ public class Arrow_Bomb : Arrow
     public GameObject myMesh;                                                      // 폭탄화살 메쉬
     public GameObject[] myEX;                                                      // 폭탄화살 효과들(FireMissileTiny, Sparks, ExploArea)
     private bool isRotate;                                                         // 회전 여부
-    
-    private readonly float delTime = 0.4f;
-    private readonly float arrowTime = 0.8f;
-    private readonly float bombTime = 1f;
-    private readonly float beepTime = 2.34f;
-   
+
+    private readonly float delTime = 0.4f;    
+    private readonly float bombTime = 1f;   
+
     protected override void Awake()
     {
-        base.Awake();        
+        base.Awake();
         isRotate = true;
-       // rigidbody.useGravity = false;
+        rigidbody.useGravity = false;
     }
-   
+
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        PV.RequestOwnership();
-        DataManager.DM.grabArrow = true;       
+        DataManager.DM.grabArrow = true;
         isRotate = false;
-       // damageColl.gameObject.SetActive(false);
+        // rigidbody.useGravity = true;
+        //damageColl.gameObject.SetActive(false);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
+
+        //damageColl.gameObject.SetActive(true);
         DataManager.DM.grabArrow = false;
-       // damageColl.gameObject.SetActive(true);
+
         if (args.interactorObject is Notch notch)
         {
             //damageColl.gameObject.SetActive(false);
@@ -55,19 +55,28 @@ public class Arrow_Bomb : Arrow
             {
                 DataManager.DM.arrowNum = 3;
                 LaunchArrow(notch);
-               /* if (PV.IsMine)
-                {
-                    if (!PV.IsMine) return;
-                    PV.RPC(nameof(Active_EX), RpcTarget.AllBuffered);
-                }*/
+                /* if (PV.IsMine)
+                 {
+                     if (!PV.IsMine) return;
+                     PV.RPC(nameof(Active_EX), RpcTarget.AllBuffered);
+                 }*/
 
             }
         }
 
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
+            }
+        }
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -77,22 +86,19 @@ public class Arrow_Bomb : Arrow
         if (isGrip) return;
 
         string colNameLower = collision.transform.name.ToLower();
-
-        //if (flightTime < 0.01f && (colNameLower.Contains("bow")|| colNameLower.Contains("arrow")))
-        if (flightTime < 0.07f && colNameLower.Contains("bow"))
+                
+       /* if (flightTime < 0.05f && (colNameLower.Contains("head") || colNameLower.Contains("body")))
         {
             Physics.IgnoreCollision(collision.collider, myColl, true);
             return;
-        }
+        }*/
         //if (flightTime < 0.01f && (colNameLower.Contains("player") || colNameLower.Contains("lefthand") || colNameLower.Contains("righthand")))
         if (colNameLower.Contains("lefthand") || colNameLower.Contains("righthand"))
         {
             Physics.IgnoreCollision(collision.collider, myColl, true);
             return;
-        }
-
-       
-
+        }        
+     
         /*if (PV.IsMine)
         {
             if (!isGrip && launched)
@@ -108,7 +114,7 @@ public class Arrow_Bomb : Arrow
                 if (!PV.IsMine) return;
                 if (!isGrip && launched)
                 {
-                    AudioManager.AM.PlaySE(headShot);                   
+                    AudioManager.AM.PlaySE(headShot);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
@@ -128,7 +134,7 @@ public class Arrow_Bomb : Arrow
                 if (!PV.IsMine) return;
                 if (!isGrip && launched)
                 {
-                    AudioManager.AM.PlaySE(hitPlayer);                 
+                    AudioManager.AM.PlaySE(hitPlayer);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
@@ -148,14 +154,14 @@ public class Arrow_Bomb : Arrow
                 if (!isGrip && launched)
                 {
                     AudioManager.AM.PlaySE(aImpact);
-                    TrySticky(collision);                   
+                    TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                     var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성
                     //transform.position = contact.point+new Vector3(-contact.normal.x, -contact.normal.y, -contact.normal.z);
                     //transform.position = contact.point;                                             
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);    
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
                 }
             }
         }
@@ -187,18 +193,18 @@ public class Arrow_Bomb : Arrow
                 if (!isGrip && launched)
                 {
                     PV.RPC(nameof(ImpactS), RpcTarget.AllBuffered);
-                    TrySticky(collision);                    
+                    TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                     var effect = Instantiate(arrowEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
-                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);  
+                    PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
                 }
 
             }
         }
-    }  
+    }
 
     public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
@@ -240,10 +246,10 @@ public class Arrow_Bomb : Arrow
                 rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             }
             else
-            {                
+            {
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
                 rigidbody.useGravity = false;
-                rigidbody.isKinematic = true;                
+                rigidbody.isKinematic = true;
             }
         }
 
@@ -264,7 +270,7 @@ public class Arrow_Bomb : Arrow
         {
             rotSpeed = 0;
         }
-    }  
+    }
 
     [PunRPC]
     public void BombA()                                                       // RPC 폭탄 화살이 박히면 실행
@@ -277,13 +283,13 @@ public class Arrow_Bomb : Arrow
         myEX[2].SetActive(true);                                              // 폭발대미지 범위 표시 ON
         yield return new WaitForSeconds(2);
         StartCoroutine(ExOnOff());
-       // PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);                     // RPC 폭발 파티클 재생
+        // PV.RPC(nameof(BombArrow), RpcTarget.AllBuffered);                     // RPC 폭발 파티클 재생
     }
 
     [PunRPC]
     public void BombArrow()
-    {        
-        StartCoroutine(ExOnOff());  
+    {
+        StartCoroutine(ExOnOff());
     }
 
     public IEnumerator ExOnOff()
@@ -299,12 +305,12 @@ public class Arrow_Bomb : Arrow
         effect.SetActive(false);                                              // 폭발파티클 OFF
         Destroy(PV.gameObject);                                               // 폭탄화살 파괴
     }
-  
+
     IEnumerator CollCtrl()
     {
-        areaColl.enabled= true;
+        areaColl.enabled = true;
         yield return new WaitForSeconds(0.03f);
-        areaColl.enabled= false;
+        areaColl.enabled = false;
     }
 
     [PunRPC]
@@ -312,10 +318,10 @@ public class Arrow_Bomb : Arrow
     {
         Destroy(gameObject, bombTime);
     }
-   /* public IEnumerator ActiveCtrl()
-    {
-        fireEX.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
-        fireEX.gameObject.SetActive(false);
-    }*/
+    /* public IEnumerator ActiveCtrl()
+     {
+         fireEX.gameObject.SetActive(true);
+         yield return new WaitForSeconds(0.4f);
+         fireEX.gameObject.SetActive(false);
+     }*/
 }
