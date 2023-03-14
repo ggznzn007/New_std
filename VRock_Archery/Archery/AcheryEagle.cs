@@ -37,7 +37,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
         transform.position = wayPos[wayNum].transform.position;
-     
+
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
@@ -73,8 +73,13 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     {
         if (PN.IsMasterClient)
         {
-            SpawnEB();
+            if (myBomb == null)
+            {
+                if (myBomb != null && !PN.IsMasterClient) { return; }
+                SpawnEB();
+            }
         }
+
         if (!PV.IsMine)
         {
             //float t = Mathf.Clamp(Time.deltaTime * 10, 0f, 0.99f);
@@ -106,16 +111,17 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
     public void SpawnEB()
     {
-        if (myBomb == null)
+        curTime += Time.deltaTime;
+        if (curTime >= limitTime)
+        {
+            PV.RPC(nameof(BombInit), RpcTarget.AllBuffered, true, false);                   // 독수리의 자식으로 폭탄생성
+        }
+        /*if (myBomb == null)
         {
             if (myBomb != null) return;
-            curTime += Time.deltaTime;
-            if (curTime >= limitTime)
-            {
-                PV.RPC(nameof(BombInit), RpcTarget.AllBuffered, true, false);                   // 독수리의 자식으로 폭탄생성
-            }
+           
 
-        }
+        }*/
     }
 
     [PunRPC]
@@ -131,19 +137,16 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
 
     [PunRPC]
-    public void EDam(bool onSwitch) 
+    public void EDam(bool onSwitch)
     {
         if (myBomb != null)
         {
+            if (myBomb == null) { return; }
             myBomb.transform.parent = null;
             myBomb.GetComponentInChildren<Rigidbody>().useGravity = onSwitch;
             myBomb.GetComponentInChildren<Collider>().enabled = onSwitch;
             StartCoroutine(EagleDamage());
-        }
-        else
-        {
-            return;
-        }
+        }        
     }
 
     [PunRPC]
