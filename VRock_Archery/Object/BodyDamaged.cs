@@ -18,38 +18,47 @@ public class BodyDamaged : MonoBehaviourPun
         AT = GetComponentInParent<AvartarController>();
     }
 
-   /* private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    private void OnCollisionEnter(Collision collision)                         // 기본 화살이 몸에 맞았을 때 노멀 대미지 
     {
         if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
         {
             if (!AT.isDamaged)
-            {                
-                AT.NormalDamage();               
+            {
+                AT.NormalDamage();
                 Debug.Log("바디샷!");
             }
-
         }
-    }*/
+       
+    }
 
-    private void OnTriggerEnter(Collider coll)
+    private void OnTriggerEnter(Collider coll)                             
     {
-        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)
+        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)             // 폭탄 화살 대미지
+        {
+            if (!AT.isDamaged)
+            {
+                AT.BombDamage();
+                Debug.Log("폭탄대미지!");
+            }
+        }
+        if (coll.CompareTag("SFX") && AT.isAlive && DataManager.DM.inGame)          // 스킬 화살 대미지
         {
             if (!AT.isDamaged)
             {
                 AT.SkillDamage();
-                Debug.Log("폭탄데미지!");
+                Debug.Log("스킬대미지!");
             }
         }
 
-        /*if (coll.CompareTag("Multishot") && AT.isAlive && DataManager.DM.inGame)
+        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)           // NPC 도트 대미지
         {
             if (!AT.isDamaged)
             {
-                AT.SkillDamage2();
-                Debug.Log("폭탄데미지!");
+                AT.DotDamage();
+                Debug.Log("도트대미지!");
             }
-        }*/
+        }
+      
     }
 
    
