@@ -9,6 +9,7 @@ public class AdminMove : MonoBehaviour
     public TMP_Text blueScore;
     public TMP_Text redScore;
     public TMP_Text timerText;
+    public float scrollSpeed;
 
     private void Start()
     {
@@ -16,14 +17,15 @@ public class AdminMove : MonoBehaviour
     }
 
     void Update()
-    {
-        GetScore();
-        TimerTxt();
-        float h = Input.GetAxisRaw("Horizontal");
+    {      
+      // GetScore();
+      // TimerTxt();       
+        
+       /* float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
        Vector3 dirXY = Vector3.right * h+Vector3.up *v;
         dirXY.Normalize();
-        transform.position += dirXY * moveSpeed*Time.deltaTime;
+        transform.position += dirXY * moveSpeed*Time.deltaTime;*/
     }
 
     public void GetScore()
@@ -37,19 +39,18 @@ public class AdminMove : MonoBehaviour
         {
             blueScore.text = WesternManager.WM.score_BlueKill.ToString();
             redScore.text = WesternManager.WM.score_RedKill.ToString();
-        }
-        
+        }        
     }
 
     public void TimerTxt()
     {
         if(DataManager.DM.currentMap==Map.TOY)
         {
-           timerText.text =  GunShootManager.GSM.timerText.text;
+           timerText.text = GunShootManager.GSM.timerText[0].text;
         }
         else if(DataManager.DM.currentMap == Map.WESTERN)
         {
-            timerText.text = WesternManager.WM.timerText.text;
+            timerText.text = WesternManager.WM.timerText[0].text;
         }
         
     }

@@ -28,7 +28,7 @@ public class FPS_Count : MonoBehaviour
          style.fontSize = font_Size;
          style.normal.textColor = new Color(Red, Green, Blue, 1.0f);*/
        
-        StartCoroutine(nameof(worstReset));
+        StartCoroutine(nameof(WorstReset));
     }
 
     private void Start()
@@ -51,7 +51,7 @@ public class FPS_Count : MonoBehaviour
    
 
     
-    IEnumerator worstReset() //코루틴으로 5초 간격으로 최저 프레임 리셋해줌.
+    IEnumerator WorstReset() //코루틴으로 5초 간격으로 최저 프레임 리셋해줌.
     {
         while (true)
         {
