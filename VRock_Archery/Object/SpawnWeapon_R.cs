@@ -12,144 +12,98 @@ using Random = UnityEngine.Random;
 using TMPro;
 public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // 손에서 총을 생성하는 스크립트
 {
-    public static SpawnWeapon_R rightWeapon;
-    [SerializeField] GameObject gun;
+    public static SpawnWeapon_R SR;
+    [SerializeField] GameObject slingShot;
+    [SerializeField] GameObject snowBall;
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
-    public InputDevice targetDevice;
+    public InputDevice DeviceR;
     public bool weaponInIt = false;
-    private GameObject myGun;    
-    
+    public string spawnSling;
+    private GameObject mySling;
+
     private void Awake()
     {
-        rightWeapon = this;        
+        SR = this;
     }
 
     private void Start()
     {
-        List<InputDevice> devices = new List<InputDevice>();
-        InputDeviceCharacteristics rightControllerCharacteristics =
+        List<InputDevice> devicesR = new List<InputDevice>();
+        InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);               
-        if (devices.Count > 0)
-        {
-            targetDevice = devices[0];
-        }
-        DataManager.DM.grabBomb = false;
-    }   
+        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devicesR);
 
-    public GunManager FindGun()
-    {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
+        if (devicesR.Count > 0)
         {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            Debug.Log("이 총은 내꺼");
+            DeviceR = devicesR[0];
         }
-        return null;
+
+        weaponInIt = false;
     }
-    
+
+    private void Update()
+    {
+        weaponInIt = false;
+    }
+
     private void OnTriggerStay(Collider coll)
     {
-        //if(coll == null) return;
-        if (coll.CompareTag("ItemBox") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R) &&
-            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        if (!weaponInIt)                      // 오른손이 빈손일 때
         {
-            if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive)
+            if (weaponInIt) { return; }
+            if (coll.CompareTag("ItemBox"))  // 아이템 박스 오른손으로 태그하고 있을 때 컨트롤러 그립버튼을 누르면 새총생성 동시에 잡힘
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;                
-                return;
+                if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
+                {
+                    if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive  && !DataManager.DM.grabString && mySling == null)
+                    {
+                        if(mySling!= null) { return; }
+                        AudioManager.AM.PlaySE(spawnSling);
+                        Debug.Log("새총이 정상적으로 생성됨.");
+                        SlingShot sling = CreateSling();
+                        mySling = sling.gameObject;
+                        weaponInIt = true;
+                        return;
+                    }
+                }
             }
 
-            if (griped_R && !griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
+            // 오른손 콜라이더가 빈손 일 때 아래 태그들의 콜라이더에 태그 중일 때 손에 쥐고 있는 것으로 만들어줌
+            if (coll.CompareTag("Stoneball") || coll.CompareTag("Icicle")      
+             || coll.CompareTag("Snowblock") || coll.CompareTag("Iceblock"))
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);                
-                weaponInIt = true;                
-                SpawnWeapon_L.leftWeapon.weaponInIt = false;
-                return;
+                if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
+                {
+                    if (griped_R3 && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive)
+                    {
+                        weaponInIt = true;
+                        return;
+                    }
+                }
             }
-
-            else
-            {                
-                weaponInIt = false;
-                return;
-            }
-        }
-
-        if (coll.CompareTag("Bomb") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2) &&
-            SpawnWeapon_L.leftWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2))
-        {
-            if (griped_R2 && griped_L2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
-            {
-                weaponInIt = true;
-                DataManager.DM.grabBomb = true;
-                return;
-            }
-            else
-            {
-                weaponInIt = false;
-                DataManager.DM.grabBomb = false;
-                return;
-            }
+          
         }
     }
 
-  /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private void OnTriggerExit(Collider coll)    // 오른손 콜라이더가 아래태그들의 콜라이더에서 나갈 때 빈손으로 만들어줌
     {
-        if (stream.IsWriting)
+        if (coll.CompareTag("Stoneball") || coll.CompareTag("Icicle") || coll.CompareTag("SlingShot")
+              || coll.CompareTag("Snowblock") || coll.CompareTag("Iceblock") || coll.CompareTag("String"))
         {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+            weaponInIt = false;
+            return;
         }
-        else
-        {
-            remotePos = (Vector3)stream.ReceiveNext();
-            remoteRot = (Quaternion)stream.ReceiveNext();
-        }
-    }*/
+    }
 
-    /* myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-                        weaponInIt = true;
-                        return;*/
-
-    //myGun.GetPhotonView().OwnerActorNr = actorNumber;
-    //FindGun();
-    // Debug.Log("총 생성");
-
-    // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
-    // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
-
-    /*GameObject myGun = Instantiate(gunPrefab, attachPoint.position, attachPoint.rotation);  // 생성
-    myGun.transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation); // 서버 내의 위치 보정     */
+    private SlingShot CreateSling() // 새총 생성 메서드
+    {
+        mySling = PN.Instantiate(slingShot.name, attachPoint.position, attachPoint.rotation);
+        return mySling.GetComponent<SlingShot>();
+    }
 
 
-    //myGun.transform.parent = this.transform;
-
-    // photonView.RPC("SpawnGun", RpcTarget.AllBuffered,"Gun_Pun", myGun.transform.position, myGun.transform.rotation);
-
-    //GameObject myGun = Instantiate(gunPrefab);
-    //myGun.GetPhotonView().transform.SetPositionAndRotation(attachPoint.position, attachPoint.rotation);
-    //myGun.GetPhotonView().OwnerActorNr = this.photonView.OwnerActorNr;
-
-    // SpawnGun(photonView.Owner.ActorNumber);
-    /* else if(griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                         && AvartarController.ATC.isAlive && !griped_L
-                         && !GunShootingManager.gunShootingManager.isRed)
-                     {
-                         GameObject myGun = PN.Instantiate("Gun_Blue", attachPoint.position, attachPoint.rotation);  // 포톤서버 오브젝트 생성                    
-                         myGun.GetPhotonView().OwnerActorNr = actorNumber;
-                         // GunManager.gunManager.FindGun();
-                         Debug.Log("총 생성");
-
-                         weaponInIt = true;
-                         return;
-                     }*/
 }
 

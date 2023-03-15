@@ -12,95 +12,97 @@ using Random = UnityEngine.Random;
 using TMPro;
 public class SpawnWeapon_L : MonoBehaviourPun
 {
-    public static SpawnWeapon_L leftWeapon;
-    [SerializeField] GameObject gun;
+    public static SpawnWeapon_L SL;
+    [SerializeField] GameObject slingShot;
+    [SerializeField] GameObject snowBall;
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
-    public InputDevice targetDevice;
+    public InputDevice DeviceL;
     public bool weaponInIt = false;
-    private GameObject myGun;
+    public string spawnSling;
+    private GameObject mySling;
 
     private void Awake()
     {
-        leftWeapon = this;
+        SL = this;
     }
 
     private void Start()
     {
-        List<InputDevice> devices = new List<InputDevice>();
+        List<InputDevice> devicesL = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
             InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
+        InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devicesL);
 
-        if (devices.Count > 0)
+        if (devicesL.Count > 0)
         {
-            targetDevice = devices[0];
+            DeviceL = devicesL[0];
         }
-        DataManager.DM.grabBomb = false;
+        weaponInIt = false;
     }
 
-    public GunManager FindGun()
+    private void Update()
     {
-        foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun"))
-        {
-            if (gun.GetPhotonView().IsMine) return gun.GetComponent<GunManager>();
-            Debug.Log("이 총은 내꺼");
-        }
-        return null;
+        weaponInIt = false;
     }
+
     private void OnTriggerStay(Collider coll)
-    {        
-        if (coll.CompareTag("ItemBox") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L) &&
-            SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
+    {
+        if (!weaponInIt)                     // 왼손이 빈손일 때
         {
-            if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive)
+            if (weaponInIt) { return; }
+            if (coll.CompareTag("ItemBox"))// 아이템 박스 왼손으로 태그하고 있을 때 컨트롤러 그립버튼을 누르면 새총생성 동시에 잡힘
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
-                //FindGun();
-                weaponInIt = true;
-                return;
+                if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+                {
+                    if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive && !DataManager.DM.grabString && mySling == null)
+                    {
+                        if (mySling != null) { return; }
+                        AudioManager.AM.PlaySE(spawnSling);
+                        Debug.Log("새총이 정상적으로 생성됨.");
+                        SlingShot sling = CreateSling();
+                        mySling = sling.gameObject;
+                        weaponInIt = true;
+                        return;
+                    }
+                }
             }
 
-            if (griped_L && !griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                 && AvartarController.ATC.isAlive && DataManager.DM.grabBomb)
+            // 왼손 콜라이더가 빈손 일 때 아래 태그들의 콜라이더에 태그 중일 때 손에 쥐고 있는 것으로 만들어줌
+            if (coll.CompareTag("Stoneball") || coll.CompareTag("Icicle")
+             || coll.CompareTag("Snowblock") || coll.CompareTag("Iceblock"))
             {
-                if (myGun != null) { return; }
-                myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
-                //FindGun();
-                weaponInIt = true;
-                SpawnWeapon_R.rightWeapon.weaponInIt = false;
-                return;
+                if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L3))
+                {
+                    if (griped_L3 && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive)
+                    {                      
+                        weaponInIt = true;
+                        return;
+                    }                
+                }
             }
-
-            else
-            {
-                weaponInIt = false;
-                return;
-            }
+            
         }
+    }
 
-        if (coll.CompareTag("Bomb") &&
-            targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L2) &&
-            SpawnWeapon_R.rightWeapon.targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R2))
+    private void OnTriggerExit(Collider coll) // 왼손 콜라이더가 아래태그들의 콜라이더에서 나갈 때 빈손으로 만들어줌
+    {
+        if (coll.CompareTag("Stoneball") || coll.CompareTag("Icicle")|| coll.CompareTag("SlingShot")
+            || coll.CompareTag("Snowblock") || coll.CompareTag("Iceblock") || coll.CompareTag("String"))
         {
-            if (griped_L2 && griped_R2 && !weaponInIt && photonView.IsMine && photonView.AmOwner
-               && AvartarController.ATC.isAlive && !DataManager.DM.grabBomb)
-            {
-                weaponInIt = true;
-                DataManager.DM.grabBomb = true;
-                return;
-            }
-            else
-            {
-                weaponInIt = false;
-                DataManager.DM.grabBomb = false;
-                return;
-            }
+            weaponInIt = false;
+            return;
         }
-    }    
+    }
+
+    private SlingShot CreateSling()  // 새총 생성 메서드
+    {
+        mySling = PN.Instantiate(slingShot.name, attachPoint.position, attachPoint.rotation);
+        return mySling.GetComponent<SlingShot>();
+    }
+
 }
 
 
