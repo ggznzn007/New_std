@@ -111,15 +111,8 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             {
                 if (!isGrip)
                 {
-                    try
-                    {
-                        PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                        Debug.Log("활이 파괴되었습니다.");
-                    }
-                    finally
-                    {
-                        PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                    }
+                    PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
+                    Debug.Log("활이 파괴되었습니다.");
                 }
             }
             /* try
@@ -167,7 +160,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     }*/
 
     [PunRPC]
-    public void DestroyBow() => Destroy(PV.gameObject);
+    public void DestroyBow() => Destroy(gameObject);
 
 
     [PunRPC]
