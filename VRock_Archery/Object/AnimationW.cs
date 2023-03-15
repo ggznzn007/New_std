@@ -18,13 +18,13 @@ public class AnimationW : MonoBehaviourPunCallbacks
     public AudioSource aniAudio;
     public AudioClip aniClip;
     //public Animation anim;
-    void SpawnDynamite()
+   /* void SpawnDynamite()
     {
         if (PN.IsMasterClient)
         {
             WesternManager.WM.SpawnDynamite();
         }
-    }
+    }*/
 
     void RunAudio()
     {
