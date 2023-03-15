@@ -37,6 +37,7 @@ public class Arrow_Bomb : Arrow
         base.OnSelectEntered(args);
         DataManager.DM.grabArrow = true;
         isRotate = false;
+        isGrip = true;
         // rigidbody.useGravity = true;
         //damageColl.gameObject.SetActive(false);
     }
@@ -44,7 +45,7 @@ public class Arrow_Bomb : Arrow
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-
+        isGrip = false;
         //damageColl.gameObject.SetActive(true);
         DataManager.DM.grabArrow = false;
 
@@ -69,21 +70,14 @@ public class Arrow_Bomb : Arrow
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
-        {
-            if (PV.IsMine)
-            {
-                if (!PV.IsMine) return;
-                PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
-            }
-        }
+       
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
             return;
         }
 
-        if (isGrip) return;
+        //if (isGrip) return;
 
         string colNameLower = collision.transform.name.ToLower();
                 
@@ -151,7 +145,7 @@ public class Arrow_Bomb : Arrow
             if (PV.IsMine)
             {
                 if (!PV.IsMine) return;
-                if (!isGrip && launched)
+                if (!isGrip && launched)                                 // 화살을 쏘았을때
                 {
                     AudioManager.AM.PlaySE(aImpact);
                     TrySticky(collision);
@@ -162,10 +156,15 @@ public class Arrow_Bomb : Arrow
                     //transform.position = contact.point;                                             
                     Destroy(effect, delTime);
                     PV.RPC(nameof(BombA), RpcTarget.AllBuffered);
+                }  
+                else if(!isGrip&& !launched)                            // 화살을 쏘지않고 손에서 놓았을 경우
+                {
+                    PV.RPC(nameof(DelayArrow), RpcTarget.AllBuffered);
                 }
             }
         }
 
+      
         if (collision.collider.CompareTag("NPC") || collision.collider.CompareTag("Effect"))
         {
             if (PV.IsMine)
@@ -204,6 +203,9 @@ public class Arrow_Bomb : Arrow
 
             }
         }
+
+      
+
     }
 
     public new void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
