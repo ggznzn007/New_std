@@ -23,11 +23,8 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     [SerializeField] int actorNumber;
     public InputDevice DeviceR;
     public bool weaponInIt = false;
-    public bool arrowInIt = false;
+    public string spawnBow;
     private GameObject myBow;
-    private GameObject myArrow;
-    //public GameObject myShield;
-   // private bool triggerBtnR;
 
 
     private void Awake()
@@ -45,62 +42,61 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         {
             DeviceR = devicesR[0];
         }
-        // DataManager.DM.grabGun = false;
-        //DataManager.DM.grabBomb = false;
+        weaponInIt = false;
     }
 
-    private GameObject GetMyBow()
+    private void Update()
     {
-        return myBow;
+        weaponInIt = false;
     }
-   
+
     private void OnTriggerStay(Collider coll)
     {
-        if (coll.CompareTag("ItemBox"))
+        if (!weaponInIt)
         {
-            if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
+            if (weaponInIt) { return; }
+            if (coll.CompareTag("ItemBox"))
             {
-                if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && myBow == null && myArrow == null)
+                if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
                 {
-                    if (weaponInIt || myBow != null || myArrow != null) { return; }//if (myBow != null) { return; }
-                    Debug.Log("활이 정상적으로 생성됨.");
-                    Bow bow = CreateBow();
-                    myBow = bow.gameObject;
-                    weaponInIt = true;
-                    return;
+                    if (griped_R && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive && !DataManager.DM.grabString && myBow == null)
+                    {
+                        if(myBow!= null) { return; }
+                        AudioManager.AM.PlaySE(spawnBow);
+                        Debug.Log("활이 정상적으로 생성됨.");
+                        Bow bow = CreateBow();
+                        myBow = bow.gameObject;
+                        weaponInIt = true;
+                        return;
+                    }
                 }
-                else
+            }
+
+
+            if (coll.CompareTag("Skilled"))
+            {
+                if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
                 {
-                    weaponInIt = false;
-                    return;
+                    if (griped_R3 && !weaponInIt && photonView.IsMine && photonView.AmOwner
+                    && AvartarController.ATC.isAlive)
+                    {
+                        weaponInIt = true;
+                        return;
+                    }
                 }
             }
         }
-
-
-        if (coll.CompareTag("Skilled"))
-        {
-            if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R3))
-            {
-                if (griped_R3 && !weaponInIt && myBow == null && photonView.IsMine && photonView.AmOwner
-                && AvartarController.ATC.isAlive && !DataManager.DM.grabArrow)
-                {
-                    if (weaponInIt || DataManager.DM.grabArrow) { return; }
-                    // myArrow = coll.gameObject;
-                    weaponInIt = true;
-                    return;
-                }
-                else
-                {
-                    weaponInIt = false;
-                    return;
-                }
-            }
-        }
-
     }
 
+    private void OnTriggerExit(Collider coll)
+    {
+        if (coll.CompareTag("Skilled") || coll.CompareTag("String")|| coll.CompareTag("Bow"))
+        {
+            weaponInIt = false;
+            return;
+        }
+    }
 
     private Bow CreateBow()
     {
