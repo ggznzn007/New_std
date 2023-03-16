@@ -306,8 +306,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         switch (DataManager.DM.startingNum)
         {
-            case 1:
-            case 3:
+            case 2:
+            case 4:
                 InitTutoT();
                 // 유니티 에디터에서 재생 시
                 /* if (Application.platform == RuntimePlatform.WindowsEditor)
@@ -323,8 +323,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     ad_MapUI.gameObject.SetActive(false);
                 }
                 break;
-            case 2:
-            case 4:
+            case 1:
+            case 3:
                 InitTutoW();
                 // 유니티 에디터에서 재생 시
                 /*    if (Application.platform == RuntimePlatform.WindowsEditor)
@@ -347,8 +347,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         switch (DataManager.DM.startingNum)
         {
-            case 1:
-            case 3:
+            case 2:
+            case 4:
                 teamSelectUI_T.gameObject.SetActive(true);
                 //mapSelectUI.gameObject.SetActive(false);
                 //ad_MapUI.gameObject.SetActive(false);
@@ -375,8 +375,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     teamSelectUI_T.gameObject.SetActive(false);
                 }
                 break;
-            case 2:
-            case 4:
+            case 1:
+            case 3:
                 //mapSelectUI.gameObject.SetActive(false);
                 teamSelectUI_W.gameObject.SetActive(true);
                 // 유니티 에디터에서 재생 시
