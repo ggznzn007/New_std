@@ -15,7 +15,9 @@ public class SnowBlock : XRGrabInteractable
     public static SnowBlock SB;
     public GameObject myMesh;
     public GameObject snowEX;
-    private PhotonView PV;
+    public PhotonView PV;
+    Rigidbody rb;
+    public bool isBeingHeld = false;
 
     void Start()
     {
@@ -23,8 +25,46 @@ public class SnowBlock : XRGrabInteractable
         PV = GetComponent<PhotonView>();
         myMesh.SetActive(true);
         snowEX.SetActive(false);
+        rb = GetComponent<Rigidbody>();
     }
-   
+
+    private void Update()
+    {
+        if (isBeingHeld)
+        {
+            rb.isKinematic = true;            
+        }
+        else
+        {
+            rb.isKinematic = false;            
+        }
+    }
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        base.OnSelectEntered(args);
+        PV.RequestOwnership();
+        Debug.Log("잡았다");
+        PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
+    }
+
+    protected override void OnSelectExited(SelectExitEventArgs args)
+    {
+        base.OnSelectExited(args);
+        Debug.Log("놓았다");
+        PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void StartGrabbing()
+    {
+        isBeingHeld = true;
+    }
+
+    [PunRPC]
+    public void StopGrabbing()
+    {
+        isBeingHeld = false;
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.CompareTag("Stoneball"))
