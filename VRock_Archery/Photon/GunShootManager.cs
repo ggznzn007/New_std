@@ -90,10 +90,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
+           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
             {                
                 Destroy(admin);
-            }
+            }*/
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
@@ -133,6 +133,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
+                    if (Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     DataManager.DM.gameOver = false;
