@@ -14,7 +14,7 @@ public class IceBlock : XRGrabInteractable
     public static IceBlock IB;
     public GameObject myMesh;
     public GameObject iceEX;
-    private PhotonView PV;
+    public PhotonView PV;
     
     void Start()
     {
