@@ -31,8 +31,7 @@ public class BlockManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks, I
     void FixedUpdate()
     {
         if (!PV.IsMine)
-        {
-            //float t = Mathf.Clamp(Time.deltaTime * 10, 0f, 0.99f);
+        {           
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, Time.deltaTime * 30)
                 , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 30));
             return;
