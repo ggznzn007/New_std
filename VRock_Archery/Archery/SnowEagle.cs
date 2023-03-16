@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
+
 public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static SnowEagle SNOWE;
@@ -56,7 +57,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (myBlock == null)
             {
-                if (myBlock != null && !PN.IsMasterClient) { return; }
+                if (myBlock != null) { return; }
                 SpawnEB();
             }
         }
@@ -64,8 +65,8 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         if (!PV.IsMine)
         {
             //float t = Mathf.Clamp(Time.deltaTime * 10, 0f, 0.99f);
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, Time.deltaTime * 20)
-                , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 20));
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, Time.deltaTime * 30)
+                , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 30));
             return;
         }
         MovetoWay();
@@ -73,10 +74,10 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Snowball") || collision.collider.CompareTag("Stoneball")
-            || collision.collider.CompareTag("Icicle"))
-        {
-            PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                                  // 독수리가 대미지입고 블럭투하 RPC 사용            
+        if (collision.collider.CompareTag("Snowball"))/*|| collision.collider.CompareTag("Stoneball")
+            || collision.collider.CompareTag("Icicle"))*/
+        {          
+                PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                                  // 독수리가 대미지입고 블럭투하 RPC 사용   
         }
     }
 
@@ -95,21 +96,22 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         {
             PV.RPC(nameof(BlockInit), RpcTarget.AllBuffered, true, false);                    // 독수리의 자식으로 블럭생성 RPC 사용
         }
-      /*  if (myBlock == null)
-        {
-            if (myBlock != null) return;
-           
+        /*  if (myBlock == null)
+          {
+              if (myBlock != null) return;
 
-        }*/
+
+          }*/
     }
+
 
     [PunRPC]
     public void BlockInit(bool onSwitch, bool offSwitch)                                                 // 독수리의 자식으로 블럭생성 RPC 구현
     {
-        myBlock = PN.InstantiateRoomObject(eagleBlock.name, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
-        myBlock.transform.SetParent(this.transform, onSwitch);         // 부모 지정
-        myBlock.GetComponent<Rigidbody>().useGravity = offSwitch;  // 중력 Off
-        myBlock.GetComponent<Collider>().enabled = offSwitch;      // 콜라이더 Off
+        myBlock = PN.InstantiateRoomObject(eagleBlock.name, myEagle.transform.position + new Vector3(0, -0.32f, 0), myEagle.transform.rotation, 0);
+        myBlock.transform.SetParent(spawnPoint.transform, onSwitch);         // 부모 지정
+        myBlock.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;  // 중력 Off
+        myBlock.GetComponentInChildren<Collider>().enabled = offSwitch;      // 콜라이더 Off
         curTime = 0;
         Debug.Log("ICE블럭 생성");
     }
@@ -120,12 +122,12 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (myBlock != null)
         {
-            if (myBlock == null) return;
+            if (myBlock == null) { return; }
             myBlock.transform.parent = null;                                  // 부모 해제
-            myBlock.GetComponent<Rigidbody>().useGravity = onSwitch;// 중력 On
-            myBlock.GetComponent<Collider>().enabled = onSwitch;    // 콜라이더 On
+            myBlock.GetComponentInChildren<Rigidbody>().useGravity = onSwitch;// 중력 On
+            myBlock.GetComponentInChildren<Collider>().enabled = onSwitch;    // 콜라이더 On
+            myBlock = null;
             StartCoroutine(EagleDamage());
-            StartCoroutine(BlockNull());
         }
     }
 
@@ -143,6 +145,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     {
         StartCoroutine(BlockNull());
     }*/
+
     public IEnumerator BlockNull()
     {
         yield return new WaitForSeconds(0.1f);
