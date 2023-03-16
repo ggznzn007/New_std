@@ -55,10 +55,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            /*if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }
+            }*/
             /*if (PN.IsMasterClient)
             {
                 //InvokeRepeating(nameof(SpawnBomb), 1, 4);
@@ -178,6 +178,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
                 {
+                    if(Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;                    
                     DataManager.DM.gameOver = false;
