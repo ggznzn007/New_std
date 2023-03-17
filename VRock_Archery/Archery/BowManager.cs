@@ -27,8 +27,10 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     public GameObject shield;
     //public GameObject shield_L;
     public GameObject bow;
-    public Notch notch;
+    public Collider notchColl;
     public Collider pullColl;
+    public Collider bowCollU;
+    public Collider bowCollD;
     //public bool isRight;
 
     private void Awake()
@@ -42,8 +44,10 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         rb = GetComponent<Rigidbody>();
         shield.SetActive(false);
         bow.SetActive(true);
+        notchColl.enabled = true;
         pullColl.enabled = true;
-        notch.enabled = true;
+        bowCollU.enabled = true;
+        bowCollD.enabled = true;
         isGrip = true;
     }
 
@@ -180,8 +184,10 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     {
         shield.SetActive(true);
         bow.SetActive(false);
+        notchColl.enabled = false;
         pullColl.enabled = false;
-        notch.enabled = false;
+        bowCollU.enabled = false;
+        bowCollD.enabled = false;
     }
 
     [PunRPC]
@@ -189,8 +195,10 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     {
         shield.SetActive(false);
         bow.SetActive(true);
+        notchColl.enabled = true;
         pullColl.enabled = true;
-        notch.enabled = true;
+        bowCollU.enabled = true;
+        bowCollD.enabled = true;
     }
 
     public void OnSelectedEntered()
