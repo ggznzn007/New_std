@@ -50,6 +50,7 @@ public class Arrow_Skilled : Arrow
             {
                 DataManager.DM.arrowNum = 1;
                 LaunchArrow(notch);
+                myColl.tag = "Untagged";
                 if (effects != null)
                 {
                     if (!PV.IsMine) return;
