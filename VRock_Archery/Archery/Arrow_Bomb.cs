@@ -56,6 +56,7 @@ public class Arrow_Bomb : Arrow
             {
                 DataManager.DM.arrowNum = 3;
                 LaunchArrow(notch);
+                myColl.tag = "Untagged";
                 /* if (PV.IsMine)
                  {
                      if (!PV.IsMine) return;
