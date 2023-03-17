@@ -9,7 +9,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
     public GameObject snowSkilled;
     public GameObject snowStone;
     public Transform spawnPoint;
-    private readonly float limitTime = 3;
+    private readonly float limitTime = 5;
     private readonly int perCent = 60;         // µπµ¢¿Ã 1, æÛ¿Ω 2
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
