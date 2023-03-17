@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Icicle : SnowBall
 {
     public string iceImpact;
+    //public MeshRenderer mesh;
     protected override void Awake()
     {
         base.Awake();
@@ -33,9 +34,11 @@ public class Icicle : SnowBall
 
         if (args.interactorObject is Notch_S notchs)
         {
+           // mesh.transform.rotation = shootPoint.rotation;
             damageColl.gameObject.SetActive(false);
             if (notchs.CanRelease)
             {
+               
                 DataManager.DM.arrowNum = 0;
                 LaunchBall(notchs);
 
