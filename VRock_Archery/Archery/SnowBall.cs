@@ -329,7 +329,7 @@ public class SnowBall : XRGrabInteractable
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
+                    //transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
                     Destroy(effect, delTime);                   
                 }
