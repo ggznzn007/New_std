@@ -16,18 +16,15 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
     public static SlingManager slM;
     public PhotonView PV;
     public Transform slingString;
-    public bool isBeingHeld = false;
-    public bool isGrip;
-    Rigidbody rb;
-    //public GameObject shield_R;
-    //public GameObject shield_L;
     public GameObject sling;
     public GameObject trashCan;
     public Notch_S notch;
     public Collider pullColl;
     public Collider crashColl;
-    public bool isRight;
-
+    public bool isBeingHeld = false;
+    public bool isGrip;
+    Rigidbody rb;  
+   
     private void Awake()
     {
         slM = this;
@@ -39,7 +36,6 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
         pullColl.enabled = true;
         notch.enabled = true;
         isGrip = true;
-        isRight = false;
         sling.SetActive(true);
         trashCan.SetActive(false);
     }
