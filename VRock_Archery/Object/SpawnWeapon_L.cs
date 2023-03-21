@@ -43,7 +43,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
 
     private void Update()
     {
-        weaponInIt = false;
+            weaponInIt = false;
+       
     }
 
     private void OnTriggerStay(Collider coll)
@@ -64,6 +65,10 @@ public class SpawnWeapon_L : MonoBehaviourPun
                         SlingShot sling = CreateSling();
                         mySling = sling.gameObject;
                         weaponInIt = true;
+                        return;
+                    }
+                    else
+                    {
                         return;
                     }
                 }
