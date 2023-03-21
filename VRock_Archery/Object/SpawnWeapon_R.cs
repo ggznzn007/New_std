@@ -44,7 +44,8 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
 
     private void Update()
     {
-        weaponInIt = false;
+            weaponInIt = false;
+        
     }
 
     private void OnTriggerStay(Collider coll)
@@ -67,6 +68,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                         weaponInIt = true;
                         return;
                     }
+                    else { return; }
                 }
             }
 
