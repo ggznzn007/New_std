@@ -11,11 +11,11 @@ using PN = Photon.Pun.PN;
 
 public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IPunObservable
 {   
-    public PhotonView PV;    
-    public bool isBeingHeld;
-    private bool isGrip;
-    private Vector3 remotePos;
-    private Quaternion remoteRot;
+    public PhotonView PV;           // 포톤뷰
+    public bool isBeingHeld;        
+    private bool isGrip;            
+    private Vector3 remotePos;      // 리모트 위치
+    private Quaternion remoteRot;   // 리모트 회전
 
     private void Awake()
     {
@@ -63,7 +63,7 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IP
         isBeingHeld = false;        
     }
 
-    public void OnSelectedEntered()
+    public void OnSelectedEntered()                                   // 소유권 이전
     {
         Debug.Log("화살을 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
