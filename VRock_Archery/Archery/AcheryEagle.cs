@@ -14,22 +14,22 @@ using Unity.VisualScripting;
 
 public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwnershipCallbacks
 {
-    public static AcheryEagle AE;
-    public GameObject eagleBomb;
-    public GameObject eagleDamEX;
-    public float speed;
-    public float limitTime;
-    public string eagleDam;
-    public Transform spawnPoint;
-    public Transform[] wayPos;
-    private int wayNum = 0;
-    private GameObject myBomb = null;
-    private GameObject myEagle;
-    private Animator animator;
-    private PhotonView PV;
-    private Vector3 remotePos;
-    private Quaternion remoteRot;
-    private float curTime;
+    public static AcheryEagle AE;                                                             // 싱글턴
+    public GameObject eagleBomb;                                                              // 독수리 밑에 생성되는 폭탄 프리팹
+    public GameObject eagleDamEX;                                                             // 독수리 대미지 이펙트
+    public float speed;                                                                       // 독수리 속도
+    public float limitTime;                                                                   // 폭탄 생성 제한시간
+    public string eagleDam;                                                                   // 독수리 대미지 오디오 생성 문자열
+    public Transform spawnPoint;                                                              // 폭탄 생성 포인트
+    public Transform[] wayPos;                                                                // 독수리 이동 경로
+    private int wayNum = 0;                                                                   // 독수리 이동 경로 번호
+    private GameObject myBomb = null;                                                         // 현재 폭탄
+    private GameObject myEagle;                                                               // 현재 독수리
+    private Animator animator;                                                                // 독수리 애니메이터
+    private PhotonView PV;                                                                    // 포톤뷰
+    private Vector3 remotePos;                                                                // 리모트 위치
+    private Quaternion remoteRot;                                                             // 리모트 회전
+    private float curTime;                                                                    // 현재 시간(생성을 위해 필요)
 
     public void Start()
     {
@@ -95,7 +95,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Arrow"))
+        if (collision.collider.CompareTag("Arrow"))                                    // 기본화살태그에만 반응
         {
             PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                         // 독수리가 대미지입고 폭탄투하     
         }
