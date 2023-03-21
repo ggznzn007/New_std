@@ -22,22 +22,22 @@ public class Arrow_Bomb : Arrow
     public GameObject[] myEX;                                                      // 폭탄화살 효과들(FireMissileTiny, Sparks, ExploArea)
     private bool isRotate;                                                         // 회전 여부
 
-    private readonly float delTime = 0.4f;    
-    private readonly float bombTime = 1f;   
+    private readonly float delTime = 0.4f;                                         // 딜레이 시간
+    private readonly float bombTime = 1f;                                          // 폭발시간
 
     protected override void Awake()
     {
         base.Awake();
-        isRotate = true;
-        rigidbody.useGravity = false;
+        isRotate = true;                                                           // 회전 on
+        rigidbody.useGravity = false;                                              // 중력 off
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabArrow = true;
-        isRotate = false;
-        isGrip = true;
+        DataManager.DM.grabArrow = true;                                           // 화살 그립 on
+        isRotate = false;                                                          // 회전 off
+        isGrip = true;                                                             // 그립 on
         // rigidbody.useGravity = true;
         //damageColl.gameObject.SetActive(false);
     }
@@ -45,18 +45,18 @@ public class Arrow_Bomb : Arrow
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        isGrip = false;
-        //damageColl.gameObject.SetActive(true);
-        DataManager.DM.grabArrow = false;
+        isGrip = false;                                                            // 그립 off
+        //damageColl.gameObject.SetActive(true); 
+        DataManager.DM.grabArrow = false;                                          // 화살 그립 off
 
-        if (args.interactorObject is Notch notch)
+        if (args.interactorObject is Notch notch)                                  // 활 시위에 장작했을 때
         {
             //damageColl.gameObject.SetActive(false);
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 3;
-                LaunchArrow(notch);
-                myColl.tag = "Untagged";
+                LaunchArrow(notch);                                                // 화살 발사 메서드
+                myColl.tag = "Untagged";                                           // 콜라이더 태그를 변경
                 /* if (PV.IsMine)
                  {
                      if (!PV.IsMine) return;
