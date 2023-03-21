@@ -20,7 +20,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     [SerializeField] Transform attachPoint;
     [SerializeField] int actorNumber;
     public InputDevice DeviceL;
-    public bool weaponInIt = false;
+    public bool weaponInIt;
     //public bool arrowInIt = false;
     public string spawnBow;
     private GameObject myBow;
@@ -51,7 +51,8 @@ public class SpawnWeapon_LW : MonoBehaviourPun
 
     private void Update()
     {
-        weaponInIt = false;        
+            weaponInIt = false;
+               
     }
 
     private void OnTriggerStay(Collider coll)
