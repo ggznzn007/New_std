@@ -20,8 +20,6 @@ using System.Linq;
 using UnityEngine.SocialPlatforms.Impl;
 using static Pico.Platform.Message;
 
-//public enum DamagePower { Dot = 10, Normal = 15, Critic = 30, Skill = 50 }
-
 public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static AvartarController ATC;                                     // 싱글턴
@@ -77,6 +75,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("플레이어 피격효과 이미지")]
     [SerializeField] Image damageScreen;
     [SerializeField] Image deadScreen;
+    [SerializeField] Image thirtyScreen;
 
     [Header("플레이어 파티클 효과 묶음")]
     [SerializeField] GameObject[] effects;
@@ -90,7 +89,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public string damage;
     public string respawn;
     public string shield;
-    public float animTime = 1.5f;
+    public float animTime = 2f;
     [SerializeField] private AnimationCurve fadeCurve;
 
     private void Awake()
@@ -239,7 +238,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(0.001f);
         isDeadLock = false;                                                  // 중복죽음방지
         Nickname.gameObject.SetActive(false);                                // 플레이어 닉네임
-        //threeScreen.gameObject.SetActive(false);
+        thirtyScreen.gameObject.SetActive(false);
 
         hand_Left.enabled = false;
         hand_Right.enabled = false;
@@ -333,20 +332,21 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
-        damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
+        damageScreen.color = new Color(1, 0, 0, 0.7f);
         yield return new WaitForSeconds(0.45f);
         damageScreen.color = Color.clear;
+        //damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
     }
 
-    public IEnumerator ShowEmergency()
+   /* public IEnumerator ShowEmergency()
     {
-        while(true)
+        while(true)           // Color(R,G,B,alphaValue)
         {
-            damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
+            damageScreen.color = new Color(1, 0, 0,1f);
             yield return new WaitForSeconds(0.5f);
             damageScreen.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
-            damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
+            damageScreen.color = new Color(1, 0, 0, 1f);
             yield return new WaitForSeconds(0.5f);
             damageScreen.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
@@ -355,7 +355,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                 break;
             }
         }
-    }
+    }*/
     public IEnumerator ShowDeadEffect()                                        // 죽음 효과 보여주기
     {
         effects[0].SetActive(true);
@@ -498,10 +498,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                 StartCoroutine(ShowDamageScreen());
                 delayTime = 1f;
                 Debug.Log("남은 HP : " + HP.value.ToString() + "%");
+
                 if (HP.value <= 30)
                 {
-                    StartCoroutine(ShowEmergency());
+                    thirtyScreen.gameObject.SetActive(true);
                 }
+
                 if (HP.value <= 0)
                 {
                     isAlive = false;
