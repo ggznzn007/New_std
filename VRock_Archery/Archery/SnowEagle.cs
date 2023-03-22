@@ -30,6 +30,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 remotePos;
     private Quaternion remoteRot;
     private float curTime;
+    private float damp = 0.5f;
 
 
     public void Start()
@@ -155,7 +156,10 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
 
     public void MovetoWay()
     {
-        transform.position = Vector3.MoveTowards(transform.position, wayPos[wayNum].position, speed * Time.deltaTime);
+        Vector3 dir = wayPos[wayNum].position - transform.position;
+        Quaternion rot = Quaternion.LookRotation(dir);
+        transform.position = Vector3.MoveTowards(transform.position, wayPos[wayNum].position, speed * Time.deltaTime);        
+        transform.rotation = Quaternion.Slerp(transform.rotation,rot,Time.deltaTime * damp);
         transform.LookAt(wayPos[wayNum].position);
 
         if (transform.position == wayPos[wayNum].transform.position)
