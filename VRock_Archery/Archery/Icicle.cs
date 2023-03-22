@@ -8,6 +8,7 @@ public class Icicle : SnowBall
 {
     public string iceImpact;
     public MeshRenderer mesh;
+    public Collider tagColl;
     protected override void Awake()
     {
         base.Awake();
@@ -22,7 +23,7 @@ public class Icicle : SnowBall
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
         isGrip = true;
-        damageColl.gameObject.SetActive(false);
+        //damageColl.gameObject.SetActive(false);
     }
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
@@ -59,9 +60,45 @@ public class Icicle : SnowBall
     [PunRPC]
     public void ActiveEX()
     {
-        effect.SetActive(true);
+        StartCoroutine(ActiveSkill());
     }
 
+    IEnumerator ActiveSkill()
+    {
+        yield return new WaitForSeconds(0.01f);
+        mesh.gameObject.SetActive(false);
+        effect.SetActive(true);
+        yield return StartCoroutine(DelayTime());
+    }
+    public IEnumerator DelayTime()
+    {
+        yield return new WaitForSeconds(4f);
+        Destroy(PV.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("Body"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                if (!isGrip && launched)
+                {
+                    StartCoroutine(DelayHit(coll));
+                }
+            }
+        }
+    }
+
+    public IEnumerator DelayHit(Collider coll)
+    {
+        AudioManager.AM.PlaySE(hitPlayer);
+        var skillEX = Instantiate(wording_Hit, coll.transform.position + new Vector3(0, 0.5f, 0), coll.transform.rotation);// 충돌 지점에 이펙트 생성
+        Destroy(skillEX, 0.5f);
+        yield return new WaitForSeconds(0.02f);
+        tagColl.enabled = false;
+    }
     private void FixedUpdate()
     {
         if (!isGrip && rigidbody != null && launched)
@@ -85,7 +122,7 @@ public class Icicle : SnowBall
         StartCoroutine(OnDamColl());
         transform.parent = null;
         //rigidbody.isKinematic = false;
-        rigidbody.useGravity = true;
+        rigidbody.useGravity = false;
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         //rigidbody.rotation = transform.rotation;
         //rigidbody.constraints = RigidbodyConstraints.None;        
@@ -197,7 +234,7 @@ public class Icicle : SnowBall
          }
  */
 
-        if (collision.collider.CompareTag("Head"))
+        /*if (collision.collider.CompareTag("Head"))
         {
             if (PV.IsMine)
             {
@@ -298,7 +335,7 @@ public class Icicle : SnowBall
                 }
 
             }
-        }
+        }*/
     }
 
 
