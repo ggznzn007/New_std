@@ -8,8 +8,8 @@ public class CreateSkill : MonoBehaviourPun                                     
     public GameObject arrowSkilled;                                                   // 스킬화살 프리팹
     public GameObject arrowBomb;                                                      // 폭탄화살 프리팹
     public Transform spawnPoint;                                                      // 특수화살 생성 포인트
-    private readonly float limitTime = 2;                                             // 특수화살 생성 제한시간
-    private readonly int perCent = 50;                                                // 특수화살 생성 확률       스킬 1순위, 폭탄 2순위
+    private readonly float limitTime = 3;                                             // 특수화살 생성 제한시간
+    private readonly float perCent = 50;                                              // 특수화살 생성 확률       스킬 1순위, 폭탄 2순위
     private ParticleSystem _particleSystem;                                           // 특수화살 생성 슬롯 파티클
     private AudioSource _audioSource;                                                 // 특수화살 생성 오디오
     private PhotonView PV;                                                            // 포톤뷰
