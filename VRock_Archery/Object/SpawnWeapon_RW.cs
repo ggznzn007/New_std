@@ -47,8 +47,13 @@ public class SpawnWeapon_RW : MonoBehaviourPun
 
     private void Update()
     {
-            weaponInIt = false;
-        
+        if (DeviceR.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_R))
+        {
+            if (!griped_R)
+            {
+                weaponInIt = false; return;
+            }           
+        }
     }
 
     private void OnTriggerStay(Collider coll)
