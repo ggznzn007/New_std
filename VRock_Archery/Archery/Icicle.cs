@@ -23,8 +23,9 @@ public class Icicle : SnowBall
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
         isGrip = true;
-        //damageColl.gameObject.SetActive(false);
+        PV.RPC(nameof(DelTagged), RpcTarget.AllBuffered);
     }
+
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
@@ -32,11 +33,11 @@ public class Icicle : SnowBall
         rigidbody.useGravity = true;
         damageColl.gameObject.SetActive(true);
         DataManager.DM.grabBall = false;
-        mesh.gameObject.transform.rotation = shootPoint.rotation;
+        PV.RPC(nameof(RotBefore), RpcTarget.All);        
 
         if (args.interactorObject is Notch_S notchs)
         {
-            mesh.gameObject.transform.rotation = transform.rotation;
+            PV.RPC(nameof(RotAfter), RpcTarget.All);            
             damageColl.gameObject.SetActive(false);
             if (notchs.CanRelease)
             {                
@@ -57,6 +58,20 @@ public class Icicle : SnowBall
         }
     }
 
+   
+
+    [PunRPC]
+    public void RotBefore()
+    {
+        mesh.gameObject.transform.rotation = shootPoint.rotation;
+    }
+
+    [PunRPC]
+    public void RotAfter()
+    {
+        mesh.gameObject.transform.rotation = transform.rotation;
+    }
+
     [PunRPC]
     public void ActiveEX()
     {
@@ -68,6 +83,8 @@ public class Icicle : SnowBall
         yield return new WaitForSeconds(0.01f);
         mesh.gameObject.SetActive(false);
         effect.SetActive(true);
+        yield return new WaitForSeconds(0.05f);
+        tagColl.gameObject.SetActive(true) ;
         yield return StartCoroutine(DelayTime());
     }
     public IEnumerator DelayTime()
@@ -115,20 +132,15 @@ public class Icicle : SnowBall
     }
     public new void LaunchBall(Notch_S notchs)
     {
-        mesh.gameObject.transform.rotation = transform.rotation;
+        PV.RPC(nameof(RotAfter), RpcTarget.All);        
         isGrip = false;
         launched = true;
         flightTime = 0f;
         StartCoroutine(OnDamColl());
-        transform.parent = null;
-        //rigidbody.isKinematic = false;
+        transform.parent = null;        
         rigidbody.useGravity = false;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        //rigidbody.rotation = transform.rotation;
-        //rigidbody.constraints = RigidbodyConstraints.None;        
-        ApplyForce(notchs.PullMeasurer_S);
-        //StartCoroutine(ReEnableCollider());
-        // StartCoroutine(LaunchRoutine());
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;             
+        ApplyForce(notchs.PullMeasurer_S);        
         DataManager.DM.grabBall = false;
     }
 
@@ -178,8 +190,8 @@ public class Icicle : SnowBall
         }
 
         if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
-               || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
-               || collision.collider.CompareTag("SlingShot") || collision.collider.CompareTag("Obtacle"))
+               /*|| collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
+               || collision.collider.CompareTag("Obtacle")*/)
         {
             if (PV.IsMine)
             {
@@ -189,11 +201,11 @@ public class Icicle : SnowBall
                     AudioManager.AM.PlaySE(iceImpact);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-                    Destroy(effect, delTime);
+                    // 고드름 충돌EX 파괴메서드는 고드름 충돌EX에 붙어있음
                 }
             }
 
@@ -207,7 +219,7 @@ public class Icicle : SnowBall
                  {
                      AudioManager.AM.PlaySE(hitPlayer);
                      ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                      var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
                      transform.position = contact.point;
                      Destroy(effect, delTime);
@@ -224,7 +236,7 @@ public class Icicle : SnowBall
                  {
                      AudioManager.AM.PlaySE(hitPlayer);
                      ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                     Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                      var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
                      transform.position = contact.point;
                      Destroy(effect, delTime);
@@ -244,7 +256,7 @@ public class Icicle : SnowBall
                     AudioManager.AM.PlaySE(headShot);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
@@ -266,7 +278,7 @@ public class Icicle : SnowBall
                     AudioManager.AM.PlaySE(hitPlayer);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     Destroy(effect, delTime);
@@ -287,7 +299,7 @@ public class Icicle : SnowBall
                     TrySticky(collision);
                     AudioManager.AM.PlaySE(iceImpact);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);
                     Destroy(effect, delTime);
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
@@ -306,7 +318,7 @@ public class Icicle : SnowBall
                     TrySticky(collision);
                     PV.RPC(nameof(ImpactS), RpcTarget.AllBuffered);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
@@ -327,7 +339,7 @@ public class Icicle : SnowBall
                     TrySticky(collision);
                     AudioManager.AM.PlaySE(iceImpact);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);
@@ -338,5 +350,15 @@ public class Icicle : SnowBall
         }*/
     }
 
-
+    [PunRPC]
+    public void DelTagged()
+    {
+        StartCoroutine(DelayTag());
+    }
+    IEnumerator DelayTag()                            // 아이템생성 슬롯 이중생성방지위한 메서드
+    {
+        yield return new WaitForSeconds(0.1f);
+        myColl.tag = "Icicle";
+        damageColl.tag = "Icicle";
+    }
 }
