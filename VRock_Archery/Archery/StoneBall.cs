@@ -13,7 +13,7 @@ using static UnityEngine.ParticleSystem;
 public class StoneBall : SnowBall
 {
     public string stoneImpact;
-    //private int gripCount = 0;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -28,8 +28,10 @@ public class StoneBall : SnowBall
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
         isGrip = true;
+        PV.RPC(nameof(DelTagged), RpcTarget.AllBuffered);
         damageColl.gameObject.SetActive(false);
     }
+
     protected override void OnSelectExited(SelectExitEventArgs args) // 놓았을때 
     {
         base.OnSelectExited(args);
@@ -45,21 +47,15 @@ public class StoneBall : SnowBall
             {
                 DataManager.DM.arrowNum = 0;
                 LaunchBall(notchs);
-
-                /*if (PV.IsMine)
-                {
-                    if (!PV.IsMine) return;
-                    //PV.RPC(nameof(LaunchArrow), RpcTarget.AllBuffered,notch);
-                    PV.RPC(nameof(ActiveColl), RpcTarget.AllBuffered);
-                }*/
             }
         }
         else
         {
             flightTime = 1;
         }
-
     }
+
+    
 
     private void FixedUpdate()
     {
@@ -82,15 +78,10 @@ public class StoneBall : SnowBall
         launched = true;
         flightTime = 0f;
         StartCoroutine(OnDamColl());
-        transform.parent = null;
-        //rigidbody.isKinematic = false;
+        transform.parent = null;        
         rigidbody.useGravity = true;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        //rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-        //rigidbody.constraints = RigidbodyConstraints.None;        
-        ApplyForce(notchs.PullMeasurer_S);
-        //StartCoroutine(ReEnableCollider());
-        // StartCoroutine(LaunchRoutine());
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;        
+        ApplyForce(notchs.PullMeasurer_S);       
         DataManager.DM.grabBall = false;
     }
 
@@ -113,7 +104,6 @@ public class StoneBall : SnowBall
 
     private void OnCollisionEnter(Collision collision)
     {
-
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -152,12 +142,11 @@ public class StoneBall : SnowBall
                     AudioManager.AM.PlaySE(snowImpact);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-                    Destroy(effect, delTime);
-                }
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살                    
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
             }
 
         }
@@ -181,14 +170,11 @@ public class StoneBall : SnowBall
                     AudioManager.AM.PlaySE(headShot);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(wording_Cr, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
-                    Destroy(effect, delTime);
+                    transform.position = contact.point;                    
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
-
-
-                }
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
 
             }
         }
@@ -203,13 +189,11 @@ public class StoneBall : SnowBall
                     AudioManager.AM.PlaySE(hitPlayer);
                     TrySticky(collision);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(wording_Hit, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
-                    Destroy(effect, delTime);
+                    transform.position = contact.point;                   
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered); // 스킬 화살
-
-                }
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
             }
         }
 
@@ -223,12 +207,10 @@ public class StoneBall : SnowBall
                     TrySticky(collision);
                     AudioManager.AM.PlaySE(stoneImpact);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
-                    var effect = Instantiate(ballEX, contact.point, rot);
-                    Destroy(effect, delTime);
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
+                    var effect = Instantiate(ballEX, contact.point, rot);                   
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-
-                }
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
             }
         }
 
@@ -242,13 +224,11 @@ public class StoneBall : SnowBall
                     TrySticky(collision);
                     PV.RPC(nameof(ImpactS), RpcTarget.AllBuffered);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-                    Destroy(effect, delTime);
-
-                }
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살        
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
 
             }
         }
@@ -263,17 +243,26 @@ public class StoneBall : SnowBall
                     TrySticky(collision);
                     AudioManager.AM.PlaySE(stoneImpact);
                     ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡타가 이루는 회전각도 추출                           
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
                     var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
                     transform.position = contact.point;
                     PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);
-                    Destroy(effect, delTime);
-                }
+                }// 돌덩이 충돌EX 파괴메서드는 돌덩이 충돌EX에 붙어있음
 
             }
         }
     }
 
-
+    [PunRPC]
+    public void DelTagged()
+    {
+        StartCoroutine(DelayTag());
+    }
+    IEnumerator DelayTag()                            // 아이템생성 슬롯 이중생성방지위한 메서드
+    {
+        yield return new WaitForSeconds(0.1f);
+        myColl.tag = "Stoneball";
+        damageColl.tag = "Stoneball";
+    }
 
 }
