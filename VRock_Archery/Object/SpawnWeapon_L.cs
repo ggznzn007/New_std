@@ -42,9 +42,14 @@ public class SpawnWeapon_L : MonoBehaviourPun
     }
 
     private void Update()
-    {
-            weaponInIt = false;
-       
+    {        
+      if(DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
+        {
+            if(!griped_L)
+            {
+                weaponInIt = false; return;
+            }            
+        }
     }
 
     private void OnTriggerStay(Collider coll)
@@ -57,7 +62,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                 if (DeviceL.TryGetFeatureValue(CommonUsages.gripButton, out bool griped_L))
                 {
                     if (griped_L && !weaponInIt && photonView.IsMine && photonView.AmOwner
-                    && AvartarController.ATC.isAlive && !DataManager.DM.grabString && mySling == null)
+                    && AvartarController.ATC.isAlive && !DataManager.DM.grabString&& mySling==null)
                     {
                         if (mySling != null) { return; }
                         AudioManager.AM.PlaySE(spawnSling);
@@ -85,7 +90,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
                     {                      
                         weaponInIt = true;
                         return;
-                    }                
+                    } 
+                    
                 }
             }
             
