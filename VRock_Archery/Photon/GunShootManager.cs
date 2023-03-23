@@ -32,18 +32,18 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     [SerializeField] GameObject blueTeam;
     [Header("관리자")]
     public GameObject admin;
-    [Header("스킬화살 프리팹")]
-    public GameObject arrowSkilled;                            // 스킬 화살
-    public GameObject arrowMulti;                              // 멀티샷
-    public GameObject arrowBomb;                               // 폭탄 화살
     [Header("Eagle NPC 프리팹")]                                            // 폭탄을 생성해주는 NPC => 크레인
     public GameObject eagleNPC;
     public Transform[] wayPos;
-    public Transform[] aSpawnPosition;                         // 특수화살 생성위치
-    public ParticleSystem[] arrowSpawnFX;
     public GameObject eagleBomb;
     public Transform spawnPoint;
     public GameObject myBomb = null;
+   /* [Header("스킬화살 프리팹")]
+    public ParticleSystem[] arrowSpawnFX;
+    public Transform[] aSpawnPosition;                         // 특수화살 생성위치
+    public GameObject arrowSkilled;                            // 스킬 화살
+    public GameObject arrowMulti;                              // 멀티샷
+    public GameObject arrowBomb;                               // 폭탄 화살*/
 
     private GameObject spawnPlayer;                                  // 생성되는 플레이어
     [SerializeField] bool count = false;                             // 타이머 카운트 스위치
@@ -90,10 +90,10 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-           /* if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
-            {                
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드 시 필요한 코드
+            {
                 Destroy(admin);
-            }*/
+            }
             SpawnPlayer();
             if (PN.IsMasterClient)
             {
@@ -451,7 +451,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         AudioManager.AM.PlaySE("GameInfo2");
         countText[0].text = string.Format("3초 뒤에 다음 스테이지로 이동합니다");
         countText[1].text = string.Format("3초 뒤에 다음 스테이지로 이동합니다");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }
@@ -469,7 +469,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             bluewinImg[1].gameObject.SetActive(true);
             redloseImg[0].gameObject.SetActive(true);
             redloseImg[1].gameObject.SetActive(true);
-
         }
         else if (score_BlueKill < score_RedKill)
         {

@@ -23,12 +23,11 @@ public class TutorialManager : MonoBehaviourPunCallbacks
     public GameObject eagleNPC;
     public Transform adminPoint;                        // 包府磊 积己困摹
     public Transform eaglePoint;
-    public GameObject arrowSkilled;                             // 气藕 橇府普
-    public GameObject arrowMulti;                             // 气藕 橇府普
-    public GameObject arrowBomb;                             // 气藕 橇府普
-
+    //public GameObject arrowSkilled;                             // 气藕 橇府普
+    //public GameObject arrowBomb;                             // 气藕 橇府普
+   
     public Transform[] wayPos;
-    public Transform[] aSpawnPosition;                  // 气藕 积己困摹
+    //public Transform[] aSpawnPosition;                  // 气藕 积己困摹
     //public ParticleSystem[] arrowSpawnFX;
     //public AcheryEagle aEagle;
     // int wayNum = 0;
@@ -55,10 +54,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
-            /*if (DataManager.DM.currentTeam != Team.ADMIN)  // 包府磊 呼靛矫 鞘夸茄 内靛
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 包府磊 呼靛矫 鞘夸茄 内靛
             {
                 Destroy(admin);
-            }*/
+            }
             /*if (PN.IsMasterClient)
             {
                 //InvokeRepeating(nameof(SpawnBomb), 1, 4);
