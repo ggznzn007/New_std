@@ -31,6 +31,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     private Quaternion remoteRot;
     private float curTime;
     private float damp = 0.5f;
+    private bool eagleisDam;
 
 
     public void Start()
@@ -49,7 +50,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
                 myEagle = WesternManager.WM.eagleNPC;
                 break;
         }
-
+        eagleisDam = false;
     }
 
     private void Update()
@@ -70,15 +71,19 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
                 , Quaternion.Lerp(transform.rotation, remoteRot, Time.deltaTime * 30));
             return;
         }
-        MovetoWay();
+        if (!eagleisDam)
+        {
+            if (eagleisDam) { return; }
+            MovetoWay();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Snowball"))/*|| collision.collider.CompareTag("Stoneball")
             || collision.collider.CompareTag("Icicle"))*/
-        {          
-                PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                                  // 독수리가 대미지입고 블럭투하 RPC 사용   
+        {
+            PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                                  // 독수리가 대미지입고 블럭투하 RPC 사용   
         }
     }
 
@@ -109,7 +114,7 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void BlockInit(bool onSwitch, bool offSwitch)                                                 // 독수리의 자식으로 블럭생성 RPC 구현
     {
-        myBlock = PN.InstantiateRoomObject(eagleBlock.name, myEagle.transform.position + new Vector3(0, -0.32f, 0), myEagle.transform.rotation, 0);
+        myBlock = PN.InstantiateRoomObject(eagleBlock.name, myEagle.transform.position, myEagle.transform.rotation, 0);
         myBlock.transform.SetParent(spawnPoint.transform, onSwitch);         // 부모 지정
         myBlock.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;  // 중력 Off
         myBlock.GetComponentInChildren<Collider>().enabled = offSwitch;      // 콜라이더 Off
@@ -135,9 +140,12 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
+        eagleisDam = true;
         PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         yield return new WaitForSeconds(1f);
         animator.SetBool("Damaged", false);
+        yield return new WaitForSeconds(0.5f);
+        eagleisDam = false;
     }
 
 
@@ -158,8 +166,8 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     {
         Vector3 dir = wayPos[wayNum].position - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);
-        transform.position = Vector3.MoveTowards(transform.position, wayPos[wayNum].position, speed * Time.deltaTime);        
-        transform.rotation = Quaternion.Slerp(transform.rotation,rot,Time.deltaTime * damp);
+        transform.position = Vector3.MoveTowards(transform.position, wayPos[wayNum].position, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * damp);
         transform.LookAt(wayPos[wayNum].position);
 
         if (transform.position == wayPos[wayNum].transform.position)
