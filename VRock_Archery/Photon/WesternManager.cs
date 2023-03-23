@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.XR;
 using Unity.XR.PXR;
+using Unity.VisualScripting;
 
 public class WesternManager : MonoBehaviourPunCallbacks
 {
@@ -21,6 +22,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshPro[] countText;
     [Header("게임 제한시간")]
     public TextMeshPro[] timerText;
+    public TextMeshPro[] btimerText;
     public TextMeshPro[] resultText;
     [Header("레드팀 프리팹")]
     [SerializeField] GameObject redTeam;
@@ -32,15 +34,18 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public GameObject snowBlock;
     [Header("NPC 프리팹")]
     public GameObject eagleNPC;
+    [Header("스노우 블럭 생성시간")]
+    public float limit = 40;                                                                     // 스노우블럭 생성 딜레이
+
 
     public Transform[] blockPoint;
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
     [SerializeField] int limitedTime;
+    [SerializeField] int buildTime = 30;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
     private float curTime;
-    private float limit = 35;                                                                     // 스노우블럭 생성 딜레이
     public Transform adminPoint;
     public string GameInfo1;
     public string GameInfo2;
@@ -70,6 +75,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
+       
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -77,15 +83,54 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
             if (PN.IsMasterClient)
             {
+                //PV.RPC(nameof(BuildTimer), RpcTarget.AllViaServer);                              // 타이머 동기화
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);                              // 타이머 동기화
+               // BuildTimer();
             }
 
-          /*  if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
+            if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }*/
+            }
         }
     }
+
+    /*[PunRPC]
+    public void BuildTimer()
+    {       
+       StartCoroutine(BuildT());        
+    }
+
+    public IEnumerator BuildT()
+    {
+        AudioManager.AM.PlaySE("GameInfo1");
+        buildTime = 30;
+        yield return new WaitForSeconds(4);
+        if (buildTime>0)
+        {
+            buildTime -= 1;
+        }
+        if(buildTime<=0)
+        {
+            StartCoroutine(StartTimer());
+        }
+        else
+        {
+            yield break;
+        }
+        
+        photonView.RPC(nameof(ShowBuildT), RpcTarget.All,buildTime);
+
+        yield return new WaitForSeconds(1);
+        StartCoroutine(BuildT());        
+    }
+
+    [PunRPC]
+    public void ShowBuildT(int number)
+    {
+        btimerText[0].text = number.ToString();
+        btimerText[1].text = number.ToString();
+    }*/
 
     public void SpawnPlayer()
     {
@@ -134,10 +179,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
 
-        if (PN.IsMasterClient)
+        /*if (PN.IsMasterClient)
         {
             SpawnBlock();
-        }
+        }*/
 
         /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
         {
@@ -150,7 +195,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         SetScore();
-        TimerW();       
+        TimerW();        
     }
 
     public void SetScore()
@@ -178,6 +223,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
             timerText[0].text = string.Format("{0:00} : {1:00}", min, sec);
             timerText[1].text = string.Format("{0:00} : {1:00}", min, sec);
+           
             if (limitedTime < 60)
             {
                 timerText[0].text = string.Format("{0:0}", sec);
@@ -187,12 +233,13 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 if (count)
                 {
-                    count = false;
+                    count = false;                    
                     StartCoroutine(PlayTimer());
                 }
             }
         }
     }
+    
 
     public void SpawnBlock()                                                                       // 정해진 시간마다 생성되는 눈블럭
     {
@@ -210,7 +257,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void StartBtnW()
-    {
+    {        
         StartCoroutine(StartTimer());
     }
 
@@ -261,7 +308,95 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(4);
+        AudioManager.AM.PlaySE("BuildTime");
+        yield return new WaitForSeconds(5);   
+        AudioManager.AM.PlaySE("BuildTime2");
+        countText[0].text = string.Format("Build Time");
+        countText[1].text = string.Format("Build Time");
+        yield return new WaitForSeconds(1);        
+        btimerText[0].text = string.Format("30");
+        btimerText[1].text = string.Format("30");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("29");
+        btimerText[1].text = string.Format("29");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("28");
+        btimerText[1].text = string.Format("28");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("27");
+        btimerText[1].text = string.Format("27");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("26");
+        btimerText[1].text = string.Format("26");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("25");
+        btimerText[1].text = string.Format("25");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("24");
+        btimerText[1].text = string.Format("24");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("23");
+        btimerText[1].text = string.Format("23");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("22");
+        btimerText[1].text = string.Format("22");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("21");
+        btimerText[1].text = string.Format("21");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("20");
+        btimerText[1].text = string.Format("20");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("19");
+        btimerText[1].text = string.Format("19");       
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("18");
+        btimerText[1].text = string.Format("18");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("17");
+        btimerText[1].text = string.Format("17");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("16");
+        btimerText[1].text = string.Format("16");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("15");
+        btimerText[1].text = string.Format("15");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("14");
+        btimerText[1].text = string.Format("14");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("13");
+        btimerText[1].text = string.Format("13");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("12");
+        btimerText[1].text = string.Format("12");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("11");
+        btimerText[1].text = string.Format("11");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("10");
+        btimerText[1].text = string.Format("10");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("9");
+        btimerText[1].text = string.Format("9");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("8");
+        btimerText[1].text = string.Format("8");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("7");
+        btimerText[1].text = string.Format("7");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("6");
+        btimerText[1].text = string.Format("6");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("5");
+        btimerText[1].text = string.Format("5");
+        yield return new WaitForSeconds(1);
+        btimerText[0].text = string.Format("4");
+        btimerText[1].text = string.Format("4");
+        yield return new WaitForSeconds(1);
+        btimerText[0].gameObject.SetActive(false);  
+        btimerText[1].gameObject.SetActive(false);  
         AudioManager.AM.PlaySE("GameInfo1");
         countText[0].text = string.Format("게임이 3초 뒤에 시작됩니다.");
         countText[1].text = string.Format("게임이 3초 뒤에 시작됩니다.");
@@ -312,8 +447,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText[1].gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo8");
         countText[0].text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");
-        countText[1].text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");        
-        yield return new WaitForSeconds(3);
+        countText[1].text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");
+        yield return new WaitForSeconds(4);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }

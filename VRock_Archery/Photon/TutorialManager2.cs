@@ -24,10 +24,11 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     public Transform adminPoint;                        // 관리자 생성위치
     public Transform eaglePoint;
     private GameObject spawnPlayer;                     // 생성되는 플레이어
-    public GameObject snowBlock;                             // 생성되는 폭탄   
-    public Transform[] blockPoint;    
+    public GameObject snowBlock;                             // 생성되는 폭탄       
+    public Transform[] blockPoint;
+    [Header("스노우 블럭 생성시간")]
+    public float limit = 40;                                     // 스노우 블럭 생성 딜레이    
     private float curTime;
-    private float limit = 35;                                // 스노우 블럭 생성 딜레이
 
     private void Awake()
     {
@@ -41,15 +42,13 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             SceneManager.LoadScene(0);
         }
         if (PN.IsConnectedAndReady && PN.InRoom)
-        {            
+        {
             SpawnPlayer();
 
-           /* if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
+            if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
                 Destroy(admin);
-            }*/
-
-           
+            }
         }
     }
     private void Update()
@@ -70,11 +69,11 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
 
-        if(PN.IsMasterClient)
+        if (PN.IsMasterClient)
         {
-            SpawnBlock();            
+            SpawnBlock();
         }
-        
+
     }
 
     public void SpawnPlayer()
@@ -143,13 +142,13 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             }
             PN.Destroy(spawnPlayer);
         }
-    }   
-   
+    }
+
     public void SpawnBlock()                                                                       // 정해진 시간마다 생성되는 눈블럭
     {
         curTime += Time.deltaTime;
 
-        if(curTime>=limit)
+        if (curTime >= limit)
         {
             for (int i = 0; i < blockPoint.Length; i++)
             {
@@ -157,7 +156,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
                 curTime = 0;
             }
         }
-       
+
     }
 
     [ContextMenu("포톤 서버 정보")]
