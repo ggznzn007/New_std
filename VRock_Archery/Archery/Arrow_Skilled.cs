@@ -15,8 +15,7 @@ public class Arrow_Skilled : Arrow
     public GameObject effects;
     public Collider tagColl;
     public Collider gripColl;
-    public ParticleSystem[] parentsMesh;
-    //private GameObject skillEX;
+    public ParticleSystem[] parentsMesh;   
     private bool isRotate;
 
     protected override void Awake()
@@ -26,31 +25,29 @@ public class Arrow_Skilled : Arrow
         parentsMesh[0].gameObject.SetActive(true);       
         parentsMesh[1].gameObject.SetActive(true);       
         parentsMesh[2].gameObject.SetActive(true);       
-        parentsMesh[3].gameObject.SetActive(true);
-       // rigidbody.useGravity = false;
+        parentsMesh[3].gameObject.SetActive(true);       
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        DataManager.DM.grabArrow = true;
-        //PV.RequestOwnership();        
+        DataManager.DM.grabArrow = true;              
         isRotate = false;
-       // damageColl.gameObject.SetActive(false);
+        PV.RPC(nameof(DelayTagged), RpcTarget.AllBuffered);
     }
+
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);        
-        DataManager.DM.grabArrow = false;
-       // damageColl.gameObject.SetActive(true);
+        DataManager.DM.grabArrow = false;      
+        
         if (args.interactorObject is Notch notch)
-        {
-           // damageColl.gameObject.SetActive(false);
+        {           
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 1;
                 LaunchArrow(notch);
-                myColl.tag = "Untagged";
+                
                 if (effects != null)
                 {
                     if (!PV.IsMine) return;
@@ -63,7 +60,7 @@ public class Arrow_Skilled : Arrow
             }
         }
     }
-
+   
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Body"))
@@ -86,15 +83,7 @@ public class Arrow_Skilled : Arrow
         Destroy(skillEX, 0.5f);
         yield return new WaitForSeconds(0.02f);
         tagColl.enabled = false;
-    }
-
-    public IEnumerator CollOnOff()
-    {
-        tagColl.enabled = true;
-        //yield return new WaitForSeconds(0.005f);
-        yield return new WaitForSeconds(0.03f);
-        tagColl.enabled = false;
-    }
+    }   
 
     private void Update()
     {
@@ -116,13 +105,11 @@ public class Arrow_Skilled : Arrow
     [PunRPC]
     public void DelayEX()
     {
-        StartCoroutine(DelayOnEffect());
-        //StartCoroutine(DelayTime());
+        StartCoroutine(DelayOnEffect());       
     }
 
     public IEnumerator DelayOnEffect()
-    {
-        //tail.gameObject.SetActive(false);
+    {        
         head.SetActive(false);
         yield return new WaitForSecondsRealtime(0.04f);
         gripColl.gameObject.SetActive(false);
@@ -141,4 +128,6 @@ public class Arrow_Skilled : Arrow
         yield return new WaitForSeconds(2.2f);
         Destroy(PV.gameObject);
     }
+
+   
 }
