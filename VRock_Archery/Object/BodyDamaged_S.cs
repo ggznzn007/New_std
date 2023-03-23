@@ -34,6 +34,25 @@ public class BodyDamaged_S : MonoBehaviourPun
 
     }
 
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)             // ÆøÅº È­»ì ´ë¹ÌÁö
+        {
+            if (!AT.isDamaged)
+            {
+                AT.IceDamage();
+                Debug.Log("¾ÆÀÌ½ºÆøÅº´ë¹ÌÁö!");
+            }
+        }
 
+        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)             // ÆøÅº È­»ì ´ë¹ÌÁö
+        {
+            if (!AT.isDamaged)
+            {
+                AT.SkillDamage();
+                Debug.Log("¾ÆÀÌ½ºÆøÅº´ë¹ÌÁö!");
+            }
+        }
+    }
 
 }
