@@ -30,10 +30,12 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     private Vector3 remotePos;                                                                // 리모트 위치
     private Quaternion remoteRot;                                                             // 리모트 회전
     private float curTime;                                                                    // 현재 시간(생성을 위해 필요)
+    private bool eagleisDam;
 
     public void Start()
     {
         AE = this;
+        eagleisDam = false;
         PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
         transform.position = wayPos[wayNum].transform.position;
@@ -66,6 +68,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
                  wayPos = GunShootManager.GSM.wayPos;
                  break;
          }*/
+        
     }
 
 
@@ -90,7 +93,12 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         //myEagle = TutorialManager.TM.eagleNPC;
         //myEagle = GameObject.Find("Achery_Eagle");
         // BombIn();
-        MovetoWay();
+        if (!eagleisDam)
+        {
+            if (eagleisDam) { return; }
+            MovetoWay();
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -159,9 +167,12 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
+        eagleisDam = true;
         PN.Instantiate(eagleDamEX.name, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         yield return new WaitForSeconds(1f);
         animator.SetBool("Damaged", false);
+        yield return new WaitForSeconds(0.5f);
+        eagleisDam = false;
         //StartCoroutine(BombTime());
     }
 
