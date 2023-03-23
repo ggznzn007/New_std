@@ -27,62 +27,36 @@ public class CreateSkill : MonoBehaviourPun                                     
     {
         if (PN.IsMasterClient)                                                        // 마스터 만 화살 생성(여러사람이 생성하면 에러)
         {
-            SpawnBomb(); // 랜덤확률 생성
-            //SpawnItem(); // 번갈아가며 교차 생성
+            if (curArrow == null)
+            {
+                if (curArrow != null) return;
+                SpawnBomb(); // 랜덤확률 생성
+            }
+            //SpawnItem(); // 번갈아가며 교차 생성           
         }
     }
 
     public void SpawnBomb()                                                            // 화살 생성 메서드
     {
-        if (curArrow == null)                                                          // 현재 슬롯이 비었을 때만 생성
+        curTime += Time.deltaTime;                                                 // 시간
+        if (curTime >= limitTime)                                                  // 시간이 제한시간보다 같거나 클 때 생성
         {
-            if (curArrow != null) return;                                              // 아니면 리턴
-            curTime += Time.deltaTime;                                                 // 시간
-            if (curTime >= limitTime)                                                  // 시간이 제한시간보다 같거나 클 때 생성
+            bool skilled = RandomArrow.RandArrowPer(perCent);                      // 확률 계산하는 메서드 (따로 만든 클래스)
+            if (skilled)
             {
-                bool skilled = RandomArrow.RandArrowPer(perCent);                      // 확률 계산하는 메서드 (따로 만든 클래스)
-                if (skilled)
-                {
-                    curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("스킬 화살 생성");
-                    curTime = 0;
-                }
-                else
-                {
-                    curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("폭탄 화살 생성");
-                    curTime = 0;
-                }
+                curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
+                Debug.Log("스킬 화살 생성");
+                curTime = 0;
+            }
+            else
+            {
+                curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
+                Debug.Log("폭탄 화살 생성");
+                curTime = 0;
             }
         }
     }
 
-    public void SpawnItem()
-    {
-        if (curArrow == null)
-        {
-            if (curArrow != null) { return; }
-            curTime += Time.deltaTime;
-            if(curTime>=limitTime)
-            {
-                int thisSelect = selectNum;
-                if(thisSelect==0)
-                {
-                    curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("스킬 화살 생성");
-                    curTime = 0;
-                    selectNum = 1;
-                }
-                else
-                {
-                    curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
-                    Debug.Log("폭탄 화살 생성");
-                    curTime = 0;
-                    selectNum = 0;
-                }
-            }
-        }
-    }
 
     private void OnTriggerEnter(Collider coll)
     {
@@ -93,7 +67,6 @@ public class CreateSkill : MonoBehaviourPun                                     
                 //if (!PV.IsMine) return;
                 PV.RPC(nameof(FxPlay), RpcTarget.AllBuffered);  // 슬롯 파티클 재생 , RPC로 모든 플레이어에게 공유
             }
-
         }
     }
 
@@ -106,7 +79,6 @@ public class CreateSkill : MonoBehaviourPun                                     
                 //if (!PV.IsMine) return;
                 PV.RPC(nameof(FxStop), RpcTarget.AllBuffered); // 슬롯 파티클 정지 , RPC로 모든 플레이어에게 공유
             }
-
         }
     }
 
@@ -125,4 +97,30 @@ public class CreateSkill : MonoBehaviourPun                                     
         _audioSource.Stop();
         curArrow = null;
     }
+    /*  public void SpawnItem() // 교차생성방식
+      {
+          if (curArrow == null)
+          {
+              if (curArrow != null) { return; }
+              curTime += Time.deltaTime;
+              if(curTime>=limitTime)
+              {
+                  int thisSelect = selectNum;
+                  if(thisSelect==0)
+                  {
+                      curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
+                      Debug.Log("스킬 화살 생성");
+                      curTime = 0;
+                      selectNum = 1;
+                  }
+                  else
+                  {
+                      curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
+                      Debug.Log("폭탄 화살 생성");
+                      curTime = 0;
+                      selectNum = 0;
+                  }
+              }
+          }
+      }*/
 }
