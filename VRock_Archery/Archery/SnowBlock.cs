@@ -30,14 +30,14 @@ public class SnowBlock : XRGrabInteractable
 
     private void Update()
     {
-        if (isBeingHeld)
+       /* if (isBeingHeld)
         {
             rb.isKinematic = true;            
         }
         else
         {
             rb.isKinematic = false;            
-        }
+        }*/
     }
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
