@@ -9,6 +9,7 @@ public class Icicle : SnowBall
     public string iceImpact;
     public MeshRenderer mesh;
     public Collider tagColl;
+    public Collider iceDamColl;
     protected override void Awake()
     {
         base.Awake();
@@ -16,13 +17,14 @@ public class Icicle : SnowBall
         rigidbody = GetComponent<Rigidbody>();
         isGrip = true;
         rigidbody.useGravity = false;
+        
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
         DataManager.DM.grabBall = true;
-        isGrip = true;
+        isGrip = true;       
         PV.RPC(nameof(DelTagged), RpcTarget.AllBuffered);
     }
 
@@ -31,27 +33,18 @@ public class Icicle : SnowBall
         base.OnSelectExited(args);
         isGrip = false;
         rigidbody.useGravity = true;
-        damageColl.gameObject.SetActive(true);
         DataManager.DM.grabBall = false;
-        PV.RPC(nameof(RotBefore), RpcTarget.All);        
+        PV.RPC(nameof(RotBefore), RpcTarget.AllBuffered);        
 
         if (args.interactorObject is Notch_S notchs)
         {
-            PV.RPC(nameof(RotAfter), RpcTarget.All);            
-            damageColl.gameObject.SetActive(false);
+            PV.RPC(nameof(RotAfter), RpcTarget.AllBuffered);            
+            
             if (notchs.CanRelease)
-            {                
-                DataManager.DM.arrowNum = 0;
-                LaunchBall(notchs);
-
-                if (PV.IsMine)
-                {
-                    if (!PV.IsMine) return;
-                    PV.RPC(nameof(ActiveEX), RpcTarget.AllBuffered);
-                }
+            {
+                LaunchIcicle(notchs);  
             }
         }
-
         else
         {
             flightTime = 1;
@@ -64,12 +57,14 @@ public class Icicle : SnowBall
     public void RotBefore()
     {
         mesh.gameObject.transform.rotation = shootPoint.rotation;
+        iceDamColl.gameObject.SetActive(true);
     }
 
     [PunRPC]
     public void RotAfter()
     {
         mesh.gameObject.transform.rotation = transform.rotation;
+        iceDamColl.gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -83,13 +78,14 @@ public class Icicle : SnowBall
         yield return new WaitForSeconds(0.01f);
         mesh.gameObject.SetActive(false);
         effect.SetActive(true);
-        yield return new WaitForSeconds(0.05f);
-        tagColl.gameObject.SetActive(true) ;
+        yield return new WaitForSeconds(0.04f);
+        
+        tagColl.gameObject.SetActive(true) ;        
         yield return StartCoroutine(DelayTime());
     }
     public IEnumerator DelayTime()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3.5f);
         Destroy(PV.gameObject);
     }
 
@@ -130,13 +126,17 @@ public class Icicle : SnowBall
             flightTime += Time.fixedDeltaTime;
         }
     }
-    public new void LaunchBall(Notch_S notchs)
+    public  void LaunchIcicle(Notch_S notchs)
     {
-        PV.RPC(nameof(RotAfter), RpcTarget.All);        
+        if (PV.IsMine)
+        {
+            if (!PV.IsMine) return;
+            PV.RPC(nameof(RotAfter), RpcTarget.AllBuffered);
+            PV.RPC(nameof(ActiveEX), RpcTarget.AllBuffered);
+        }
         isGrip = false;
         launched = true;
-        flightTime = 0f;
-        StartCoroutine(OnDamColl());
+        flightTime = 0f;        
         transform.parent = null;        
         rigidbody.useGravity = false;
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;             
@@ -162,6 +162,28 @@ public class Icicle : SnowBall
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube") || collision.collider.CompareTag("Snowblock"))
+        {
+            if (PV.IsMine)
+            {
+                if (!PV.IsMine) return;
+                if(!isGrip)
+                {
+                    AudioManager.AM.PlaySE(iceImpact);
+                    //TrySticky(collision);
+                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
+                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
+                    var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
+                    transform.position = contact.point;
+                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
+                    // 고드름 충돌EX 파괴메서드는 고드름 충돌EX에 붙어있음
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
@@ -189,27 +211,7 @@ public class Icicle : SnowBall
             return;
         }
 
-        if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
-               /*|| collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
-               || collision.collider.CompareTag("Obtacle")*/)
-        {
-            if (PV.IsMine)
-            {
-                if (!PV.IsMine) return;
-                if (!isGrip)
-                {
-                    AudioManager.AM.PlaySE(iceImpact);
-                    TrySticky(collision);
-                    ContactPoint contact = collision.contacts[0];// 충돌지점의 정보를 추출                        
-                    Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact.normal);// 법선 벡터가 이루는 회전각도 추출                            
-                    var effect = Instantiate(ballEX, contact.point, rot);// 충돌 지점에 이펙트 생성        
-                    transform.position = contact.point;
-                    PV.RPC(nameof(DestroyBall), RpcTarget.AllBuffered);  // 기본 화살
-                    // 고드름 충돌EX 파괴메서드는 고드름 충돌EX에 붙어있음
-                }
-            }
-
-        }
+        
 
         /* if(collision.collider.CompareTag("Body"))
          {
