@@ -25,10 +25,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     public Transform eaglePoint;
     private GameObject spawnPlayer;                     // 생성되는 플레이어
     public GameObject snowBlock;                             // 생성되는 폭탄       
-    public Transform[] blockPoint;
-    [Header("스노우 블럭 생성시간")]
-    public float limit = 40;                                     // 스노우 블럭 생성 딜레이    
-    private float curTime;
+    public Transform[] blockPoint;   
 
     private void Awake()
     {
@@ -44,6 +41,10 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
             SpawnPlayer();
+            if (PN.IsMasterClient)
+            {
+                SpawnBlock();                                                                  // 스노우블럭 시작시  지정위치에 생성 총 10개
+            }
 
             if (DataManager.DM.currentTeam != Team.ADMIN)     // 관리자 빌드시 필요한 코드
             {
@@ -68,11 +69,6 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
-
-        if (PN.IsMasterClient)
-        {
-            SpawnBlock();
-        }
 
     }
 
@@ -144,19 +140,12 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SpawnBlock()                                                                       // 정해진 시간마다 생성되는 눈블럭
+    public void SpawnBlock()                                                                       // 스노우블럭 생성 메서드
     {
-        curTime += Time.deltaTime;
-
-        if (curTime >= limit)
+        for (int i = 0; i < blockPoint.Length; i++)
         {
-            for (int i = 0; i < blockPoint.Length; i++)
-            {
-                PN.InstantiateRoomObject(snowBlock.name, blockPoint[i].position, blockPoint[i].rotation, 0);
-                curTime = 0;
-            }
+            PN.InstantiateRoomObject(snowBlock.name, blockPoint[i].position, blockPoint[i].rotation, 0);
         }
-
     }
 
     [ContextMenu("포톤 서버 정보")]
