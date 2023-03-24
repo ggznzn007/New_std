@@ -11,19 +11,17 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwnershipCallbacks
+public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable// 아처 독수리 아래 생성되는 폭탄을 관리하는 스크립트
 {
-    public PhotonView PV;
-    public Rigidbody rb;
-    public SphereCollider bombColl;
-    public Collider exColl;
-    public GameObject myEX;
-    public GameObject myMesh;
-    public Transform exploPoint;
-    public string fireCircle;
-    private Vector3 remotePos;
-    private Quaternion remoteRot;
-    
+    public PhotonView PV;            // 포톤뷰
+    public Rigidbody rb;             // 리지드바디
+    public SphereCollider bombColl;  // 폭탄 콜라이더 = 바닥에 떨어졌을 때 충돌 감지    
+    public GameObject myEX;          // 폭탄 폭발시 생성되는 파티클 프리팹
+    public GameObject myMesh;        // 폭탄 메쉬
+    public Transform exploPoint;     // 폭탄 폭발 위치
+    public string fireCircle;        // 폭탄 폭발 시 재생되는 오디오 문자열
+    private Vector3 remotePos;       // 포톤을 통해 공유되는 리모트 위치
+    private Quaternion remoteRot;    // 포톤을 통해 공유되는 리모트 회전    
 
     void Awake()
     {
@@ -38,7 +36,7 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
 
     private void FixedUpdate()
     {
-        if (!PV.IsMine)
+        if (!PV.IsMine)  // 자신(폭탄) 이외의 다른 플레이어에게 자신의 위치 및 회전값을 부드럽게 전달
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
@@ -47,12 +45,12 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("FloorBox"))
+        if (collision.collider.CompareTag("FloorBox"))  // 폭탄이 바닥에 떨어져서 태그되면 폭발하는 RPC 호출
         {
             PV.RPC(nameof(FireCircle), RpcTarget.AllBuffered);           
         }
 
-        if(collision.collider.CompareTag("Cube"))
+        if(collision.collider.CompareTag("Cube"))       // 폭탄이 바닥 이외에 떨어져서 태그되면 사라지는 RPC 호출
         {
             PV.RPC(nameof(FireDelete), RpcTarget.AllBuffered);
         }
@@ -62,27 +60,13 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
     {
         Destroy(gameObject);
         PN.InstantiateRoomObject(myEX.name, exploPoint.position, exploPoint.rotation);
-        yield return new WaitForSeconds(0.1f);
-       // AcheryEagle.AE.myBomb = null;
+        yield return new WaitForSeconds(0.1f);       
     }
-
-/*    public IEnumerator CollOnOff()
-    {
-        while (true)
-        {
-            exColl.enabled = true;
-            yield return new WaitForSeconds(0.03f);
-            exColl.enabled = false;
-            yield return new WaitForSeconds(0.4f);
-        }
-    }*/
 
     [PunRPC]
     public void FireCircle()
-    {        
-        //Destroy(gameObject);
-        StartCoroutine(Explode());                
-        //PN.Instantiate(myEX.name, transform.position+new Vector3(0,-0.3f,0), myEX.transform.rotation);
+    {                
+        StartCoroutine(Explode());          
     }
 
     [PunRPC]
@@ -103,46 +87,5 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwners
             remotePos = (Vector3)stream.ReceiveNext();
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
-    }
-
-    /* public void OnSelectedEntered()
-    {          
-        
-        if (PV.Owner == PN.LocalPlayer)
-        {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
-        }
-        else
-        {
-            TransferOwnership();
-        }
-    }
-
-    public void OnSelectedExited()
-    {
-       
-    }
-
-    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
-    {
-        if (targetView != PV) { return; }
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
-        PV.TransferOwnership(requestingPlayer);
-    }
-
-    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
-    {
-        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
-    }
-
-    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
-    {
-
-    }
-
-    private void TransferOwnership()
-    {
-        PV.RequestOwnership();
-    }
-*/
+    }   
 }
