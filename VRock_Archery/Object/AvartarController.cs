@@ -37,16 +37,16 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     public string damage;                                                              // 대미지 오디오 재생을 위한 문자열
     public string respawn;                                                             // 부활 오디오 재생을 위한 문자열
     public string shield;                                                              // 실드 오디오 재생을 위한 문자열
-    public float animTime = 2f;                                                        // 대미지 시 HP 재생 애니메이션 시간
+    public float animTime = 1;                                                         // 대미지 시 HP 재생 애니메이션 시간
     public AnimationCurve fadeCurve;                                                   // 대미지 시 HP 재생 애니메이션 강도
 
-    private readonly int damNormal = 15;                                              // 노멀 대미지
-    private readonly int damCritic = 30;                                              // 헤드샷 대미지
-    private readonly int damDot = 10;                                                 // 도트 대미지
-    private readonly int damSkill = 40;                                               // 폭탄,스킬 대미지
-    private readonly int damIce = 30;                                                 // 아이스 대미지
-    private int curHP = 100;                                                          // 현재 HP
-    private readonly int inItHP = 100;                                                // 초기 HP
+    private readonly int damNormal = 15;                                               // 노멀 대미지
+    private readonly int damCritic = 30;                                               // 헤드샷 대미지
+    private readonly int damDot = 10;                                                  // 도트 대미지
+    private readonly int damSkill = 40;                                                // 폭탄,스킬 대미지
+    private readonly int damIce = 30;                                                  // 아이스 대미지
+    private int curHP = 100;                                                           // 현재 HP
+    private readonly int inItHP = 100;                                                 // 초기 HP
     private float delayTime = 0.7f;                                                    // 이중피격방지를 위한 딜레이    
     [SerializeField] private int actNumber = 0;                                        // 포톤 액터넘버 
     [SerializeField] XRDirectInteractor hand_Left;                                     // 왼손 컨트롤러 - 인터렉션
@@ -315,6 +315,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
+        AudioManager.AM.PlaySE(damage);
         damageScreen.color = new Color(1, 0, 0, 0.7f);
         yield return new WaitForSeconds(0.45f);
         damageScreen.color = Color.clear;
@@ -464,8 +465,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                 HP.value = Mathf.Round(curHP * 10) * 0.1f;
                 HP.maxValue = inItHP;
                 myHp.value = HP.value;
-                myHp.maxValue = HP.maxValue;
-                AudioManager.AM.PlaySE(damage);
+                myHp.maxValue = HP.maxValue;                
                 StartCoroutine(DamagedDelay());
                 StartCoroutine(ShowDamageScreen());
                 delayTime = 1f;
