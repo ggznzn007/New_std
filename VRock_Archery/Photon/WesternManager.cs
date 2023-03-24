@@ -33,16 +33,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
     [Header("스노우블럭 프리팹")]
     public GameObject snowBlock;
     [Header("NPC 프리팹")]
-    public GameObject eagleNPC;
-    [Header("스노우 블럭 생성시간")]
-    public float limit = 40;                                                                     // 스노우블럭 생성 딜레이
-
+    public GameObject eagleNPC;  
 
     public Transform[] blockPoint;
     private GameObject spawnPlayer;
     [SerializeField] bool count = false;
+    [SerializeField] bool bCount = false;
     [SerializeField] int limitedTime;
-    [SerializeField] int buildTime = 30;
+    [SerializeField] float buildTime;
     Hashtable setTime = new Hashtable();
     PhotonView PV;
     private float curTime;
@@ -56,6 +54,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public string gameover;
     public int kills;
     private ExitGames.Client.Photon.Hashtable playerProp = new ExitGames.Client.Photon.Hashtable();
+    public Image[] buildTImage;
     public Image[] gameOverImage;
     public Image[] bluewinImg;
     public Image[] redwinImg;
@@ -66,6 +65,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     public TMP_Text[] redScore;
     public int score_BlueKill;
     public int score_RedKill;
+
     private void Awake()
     {
         WM = this;
@@ -75,7 +75,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-       
+
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -85,7 +85,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 //PV.RPC(nameof(BuildTimer), RpcTarget.AllViaServer);                              // 타이머 동기화
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);                              // 타이머 동기화
-               // BuildTimer();
+                                                                                                // BuildTimer();
+                SpawnBlock();                                                                  // 스노우블럭 시작시  지정위치에 생성 총 10개
             }
 
             if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
@@ -195,7 +196,8 @@ public class WesternManager : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         SetScore();
-        TimerW();        
+        TimerW();
+        TimerB();
     }
 
     public void SetScore()
@@ -223,7 +225,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);
             timerText[0].text = string.Format("{0:00} : {1:00}", min, sec);
             timerText[1].text = string.Format("{0:00} : {1:00}", min, sec);
-           
+
             if (limitedTime < 60)
             {
                 timerText[0].text = string.Format("{0:0}", sec);
@@ -233,31 +235,53 @@ public class WesternManager : MonoBehaviourPunCallbacks
             {
                 if (count)
                 {
-                    count = false;                    
+                    count = false;
                     StartCoroutine(PlayTimer());
                 }
             }
         }
     }
-    
 
-    public void SpawnBlock()                                                                       // 정해진 시간마다 생성되는 눈블럭
+    public void TimerB()
     {
-        curTime += Time.deltaTime;
-        if (curTime >= limit)
+        if (PN.InRoom && PN.IsConnectedAndReady)
         {
-            for (int i = 0; i < blockPoint.Length; i++)
+            btimerText[0].text = Mathf.Round(buildTime).ToString();
+            btimerText[1].text = Mathf.Round(buildTime).ToString();
+            if (PN.IsMasterClient)
             {
-                PN.InstantiateRoomObject(snowBlock.name, blockPoint[i].position, blockPoint[i].rotation, 0);
-                curTime = 0;
+                if (bCount)
+                {
+                    bCount = false;
+                    PV.RPC(nameof(CountB), RpcTarget.AllViaServer);
+                }
             }
         }
+    }
 
+    [PunRPC]
+    public void CountB()
+    {
+        StartCoroutine(BuildTimer());
+    }
+
+    public void SpawnBlock()  // 스노우블럭 생성 메서드                                                                      
+    {
+        for (int i = 0; i < blockPoint.Length; i++)
+        {
+            PN.InstantiateRoomObject(snowBlock.name, blockPoint[i].position, blockPoint[i].rotation, 0);          
+        }
+      /*  curTime += Time.deltaTime;
+        if (curTime >= limit)
+        {
+           
+        }
+*/
     }
 
     [PunRPC]
     public void StartBtnW()
-    {        
+    {
         StartCoroutine(StartTimer());
     }
 
@@ -306,97 +330,44 @@ public class WesternManager : MonoBehaviourPunCallbacks
         }
     }
 
+
+    public IEnumerator BuildTimer()
+    {
+        yield return new WaitForSeconds(1);
+        bCount = true;
+        buildTime -= 1;
+        if (buildTime < 0)
+        {
+            buildTime = 0;
+            bCount = false;
+            StartCoroutine(RealTimer());
+        }
+
+    }
+
     IEnumerator StartTimer()
     {
-        AudioManager.AM.PlaySE("BuildTime");
-        yield return new WaitForSeconds(5);   
+        yield return new WaitForSeconds(4);
         AudioManager.AM.PlaySE("BuildTime2");
-        countText[0].text = string.Format("Build Time");
-        countText[1].text = string.Format("Build Time");
-        yield return new WaitForSeconds(1);        
-        btimerText[0].text = string.Format("30");
-        btimerText[1].text = string.Format("30");
+        countText[0].gameObject.SetActive(false);
+        countText[1].gameObject.SetActive(false);
+        buildTImage[0].gameObject.SetActive(true);
+        buildTImage[1].gameObject.SetActive(true);
         yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("29");
-        btimerText[1].text = string.Format("29");
+        AudioManager.AM.PlaySE("BuildTime");        
+        buildTime = 30;
+        bCount = true;        
+    }
+
+    public IEnumerator RealTimer()
+    {
+        buildTImage[0].gameObject.SetActive(false);
+        buildTImage[1].gameObject.SetActive(false);
+        btimerText[0].gameObject.SetActive(false);
+        btimerText[1].gameObject.SetActive(false);
+        countText[0].gameObject.SetActive(true);
+        countText[1].gameObject.SetActive(true);
         yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("28");
-        btimerText[1].text = string.Format("28");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("27");
-        btimerText[1].text = string.Format("27");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("26");
-        btimerText[1].text = string.Format("26");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("25");
-        btimerText[1].text = string.Format("25");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("24");
-        btimerText[1].text = string.Format("24");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("23");
-        btimerText[1].text = string.Format("23");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("22");
-        btimerText[1].text = string.Format("22");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("21");
-        btimerText[1].text = string.Format("21");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("20");
-        btimerText[1].text = string.Format("20");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("19");
-        btimerText[1].text = string.Format("19");       
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("18");
-        btimerText[1].text = string.Format("18");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("17");
-        btimerText[1].text = string.Format("17");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("16");
-        btimerText[1].text = string.Format("16");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("15");
-        btimerText[1].text = string.Format("15");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("14");
-        btimerText[1].text = string.Format("14");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("13");
-        btimerText[1].text = string.Format("13");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("12");
-        btimerText[1].text = string.Format("12");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("11");
-        btimerText[1].text = string.Format("11");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("10");
-        btimerText[1].text = string.Format("10");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("9");
-        btimerText[1].text = string.Format("9");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("8");
-        btimerText[1].text = string.Format("8");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("7");
-        btimerText[1].text = string.Format("7");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("6");
-        btimerText[1].text = string.Format("6");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("5");
-        btimerText[1].text = string.Format("5");
-        yield return new WaitForSeconds(1);
-        btimerText[0].text = string.Format("4");
-        btimerText[1].text = string.Format("4");
-        yield return new WaitForSeconds(1);
-        btimerText[0].gameObject.SetActive(false);  
-        btimerText[1].gameObject.SetActive(false);  
         AudioManager.AM.PlaySE("GameInfo1");
         countText[0].text = string.Format("게임이 3초 뒤에 시작됩니다.");
         countText[1].text = string.Format("게임이 3초 뒤에 시작됩니다.");
@@ -417,7 +388,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText[0].text = string.Format("게임 스타트!!!");
         countText[1].text = string.Format("게임 스타트!!!");
         yield return new WaitForSeconds(1);
-        count = true;
+        count = true;                                             // 게임 타이머 스타트
         DataManager.DM.inGame = true;
         timerText[0].gameObject.SetActive(true);
         timerText[1].gameObject.SetActive(true);
