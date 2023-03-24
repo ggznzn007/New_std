@@ -11,19 +11,17 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class IcicleBomb : MonoBehaviourPunCallbacks, IPunObservable
+public class IcicleBomb : MonoBehaviourPunCallbacks, IPunObservable  // 스노우 독수리 아래 생성되는 폭탄을 관리하는 스크립트
 {
-    public PhotonView PV;
-    public Rigidbody rb;
-    public SphereCollider bombColl;
-    public Collider exColl;
+    public PhotonView PV;            // 포톤뷰
+    public Rigidbody rb;             // 리지드바디
+    public SphereCollider bombColl;  // 폭탄 콜라이더    
     public GameObject myEX;
     public GameObject myMesh;
     public Transform exploPoint;
     public string fireCircle;
     private Vector3 remotePos;
     private Quaternion remoteRot;
-
 
     void Awake()
     {
@@ -59,21 +57,13 @@ public class IcicleBomb : MonoBehaviourPunCallbacks, IPunObservable
         Destroy(gameObject);
         PN.InstantiateRoomObject(myEX.name, exploPoint.position, exploPoint.rotation);
         yield return new WaitForSeconds(0.1f);        
-    }
-
-  
+    }  
 
     [PunRPC]
     public void FireCircle()
     {        
         StartCoroutine(Explode());        
     }
-
-    /*[PunRPC]
-    public void FireDelete()
-    {
-        Destroy(gameObject);
-    }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
