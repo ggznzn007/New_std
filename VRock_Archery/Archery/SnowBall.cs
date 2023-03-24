@@ -65,7 +65,7 @@ public class SnowBall : XRGrabInteractable
             if (notchs.CanRelease)
             {
                 DataManager.DM.arrowNum = 0;
-                LaunchBall(notchs);                    
+                LaunchBall(notchs);                
             }
         }    
     }
