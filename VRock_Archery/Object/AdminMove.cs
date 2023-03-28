@@ -10,24 +10,7 @@ public class AdminMove : MonoBehaviour
     public TMP_Text redScore;
     public TMP_Text timerText;
     public float scrollSpeed;
-
-    private void Start()
-    {
-        //SetResolution(); // 해상도 설정
-    }
-
-    void Update()
-    {      
-      // GetScore();
-      // TimerTxt();       
-        
-       /* float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-       Vector3 dirXY = Vector3.right * h+Vector3.up *v;
-        dirXY.Normalize();
-        transform.position += dirXY * moveSpeed*Time.deltaTime;*/
-    }
-
+  
     public void GetScore()
     {
         if(DataManager.DM.currentMap==Map.TOY)
