@@ -70,7 +70,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                     {
                         if(myBow!= null) { return; }
                         AudioManager.AM.PlaySE(spawnBow);
-                        Debug.Log("활이 정상적으로 생성됨.");
+                        //Debug.Log("활이 정상적으로 생성됨.");
                         Bow bow = CreateBow();
                         myBow = bow.gameObject;
                         weaponInIt = true;
