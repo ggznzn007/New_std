@@ -12,33 +12,28 @@ using static UnityEngine.ParticleSystem;
 
 public class SnowBall : XRGrabInteractable
 {
-    public float speed;
-    public float flightTime = 0f;
-    public PhotonView PV;
-    public new Rigidbody rigidbody;
-    public Collider myColl;   
-    public Collider damageColl;    
-    public Transform shootPoint;
-    public GameObject effect;
-    public ParticleSystem ballEX;
-    public GameObject wording_Cr;
-    public GameObject wording_Hit;
-    public int actNumber;
-    protected RaycastHit hit;
-    public bool launched = false;
-    public bool isGrip;    
-    public string snowImpact;
-    public string tImpact;
-    public string headShot;
-    public string hitPlayer;
-    public string bombBeep;
-    public string bombExplo;
-    public float MinForceHit = 0.02f;
-    public float zVel = 0;
-    protected readonly float delTime = 0.4f;
-    protected readonly float arrowTime = 0.8f;
-    protected readonly float bombTime = 1f;
-    protected readonly float beepTime = 2.34f;    
+    public float speed;                                        // 눈덩이 속도
+    public float flightTime = 0f;                              // 눈덩이 비행시간
+    public PhotonView PV;                                      // 포톤뷰
+    public new Rigidbody rigidbody;                            // 리지드바디
+    public Collider myColl;                                    // 인터렉션위한 콜라이더   
+    public Collider damageColl;                                // 충돌감지 콜라이더
+    public Transform shootPoint;                               // 발사 방향을 위한 트랜스폼 - 발사 위치
+    public GameObject effect;                                  // 효과          
+    public ParticleSystem ballEX;                              // 눈덩이 충돌효과EX
+    public GameObject wording_Cr;                              // 크리티컬 대미지 문구 EX
+    public GameObject wording_Hit;                             // 일반 대미지 문구 EX
+    public int actNumber;                                      // 액터넘버
+    protected RaycastHit hit;                                  // 충돌지점
+    public bool launched = false;                              // 눈덩이 발사 여부
+    public bool isGrip;                                        // 눈덩이 그립 여부
+    public string snowImpact;                                  // 눈덩이 충돌효과EX 오디오재생을 위한 문자열
+    public string tImpact;                                     // 방패 충돌 시 오디오재생을 위한 문자열 
+    public string headShot;                                    // 머리 충돌 시 오디오재생을 위한 문자열
+    public string hitPlayer;                                   // 몸 충돌 시 오디오재생을 위한 문자열       
+    public float MinForceHit = 0.02f;                          // 충돌 시 최소시간
+    public float zVel = 0;                                     // 눈덩이 z축 회전값   
+    protected readonly float arrowTime = 0.8f;                 // 눈덩이 파괴 제한시간    
 
     protected override void Awake()
     {
@@ -392,14 +387,14 @@ public class SnowBall : XRGrabInteractable
     public void DestroyBall()
     {
         Destroy(gameObject);
-        Debug.Log("눈덩이가 즉시파괴되었습니다.");
+       // Debug.Log("눈덩이가 즉시파괴되었습니다.");
     }
 
     [PunRPC]
     public void DelayBall()
     {
         Destroy(gameObject, arrowTime);
-        Debug.Log("눈덩이가 딜레이파괴되었습니다.");
+       // Debug.Log("눈덩이가 딜레이파괴되었습니다.");
     }
 
     [PunRPC]

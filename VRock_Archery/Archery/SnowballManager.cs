@@ -60,11 +60,11 @@ public class SnowballManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     public void OnSelectedEntered()
     {
-        Debug.Log("눈덩이를 잡았습니다.");
+       // Debug.Log("눈덩이를 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
         if (PV.Owner == PN.LocalPlayer)
         {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
+            //Debug.Log("이미 소유권이 나에게 있습니다.");
         }
         else
         {
@@ -74,7 +74,7 @@ public class SnowballManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 
     public void OnSelectedExited()
     {
-        Debug.Log("눈덩이을 놓았습니다.");
+        //Debug.Log("눈덩이을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
@@ -89,13 +89,13 @@ public class SnowballManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
         {
             return;
         }
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        //Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
         PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+        //Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
