@@ -12,32 +12,24 @@ using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.XR;
 
-public class TutorialManager : MonoBehaviourPunCallbacks
+public class TutorialManager : MonoBehaviourPunCallbacks  // 아처 튜토리얼 포톤 관리 스크립트
 {
     public static TutorialManager TM;
 
     [SerializeField] GameObject redTeam;                // 레드팀 프리팹
     [SerializeField] GameObject blueTeam;               // 블루팀 프리팹
-    [SerializeField] GameObject defaultTeam;
+    [SerializeField] GameObject defaultTeam;            // 디폴트 프리팹 - 예외가 생겼을 때
     [SerializeField] GameObject admin;                  // 관리자 프리팹
-    public GameObject eagleNPC;
+    public GameObject eagleNPC;                         // 독수리
     public Transform adminPoint;                        // 관리자 생성위치
-    public Transform eaglePoint;
-    //public GameObject arrowSkilled;                             // 폭탄 프리팹
-    //public GameObject arrowBomb;                             // 폭탄 프리팹
-   
-    public Transform[] wayPos;
-    //public Transform[] aSpawnPosition;                  // 폭탄 생성위치
-    //public ParticleSystem[] arrowSpawnFX;
-    //public AcheryEagle aEagle;
-    // int wayNum = 0;
+    public Transform eaglePoint;                        // 독수리 첫 위치 -> 웨이포인트의 첫 포인트 
+    public Transform[] wayPos;                          // 독수리 이동경로
+    public GameObject eagleBomb;                        // 독수리 밑에 생성되는 폭탄 프리팹
+    public Transform spawnPoint;                        // 독수리 폭탄 생성 포인트
+    public GameObject myBomb = null;                    // 독수리 폭탄 초기화
 
-    public GameObject eagleBomb;
-    public Transform spawnPoint;
-    public GameObject myBomb = null;
-
-    private PhotonView PV;   
-    private GameObject spawnPlayer;                     // 생성되는 플레이어   
+    private PhotonView PV;                              // 포톤뷰
+    private GameObject spawnPlayer;                     // 현재 생성되는 플레이어   
 
     private void Awake()
     {
@@ -56,21 +48,10 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         {
             if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
             {
-                Destroy(admin);
-            }
-            /*if (PN.IsMasterClient)
-            {
-                //InvokeRepeating(nameof(SpawnBomb), 1, 4);
-                InvokeRepeating(nameof(SpawnB), 1, 4);
-                InvokeRepeating(nameof(SpawnBB), 1, 4);
-                InvokeRepeating(nameof(SpawnR), 1, 4);
-                InvokeRepeating(nameof(SpawnRR), 1, 4);
+                Destroy(admin);                            // 현재 관리자가 아니면 관리자를 삭제
+            }            
 
-                //SpawnEagle();
-                //InvokeRepeating(nameof(SpawnEB), 2, 5);
-            }*/
-
-            switch (PN.CurrentRoom.PlayerCount)
+            switch (PN.CurrentRoom.PlayerCount)            // 현재방에 플레이어 들어오는 순서에 따라 닉네임 배급
             {
                 case 1:
                     PN.LocalPlayer.NickName = "마스터";
@@ -103,7 +84,7 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                     SpawnPlayer();
                     break;
                 default:
-                    PN.LocalPlayer.NickName = "마스터 플레이어";
+                    PN.LocalPlayer.NickName = "마스터";
                     DataManager.DM.nickName = PN.LocalPlayer.NickName;
                     SpawnPlayer();
                     break;
@@ -128,38 +109,18 @@ public class TutorialManager : MonoBehaviourPunCallbacks
         }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }        
        
-    }
+    }   
 
-    /* public void SpawnEagle()
-     {
-         if (curEagle == null)
-         {
-             if (curEagle != null) return;
-             curEagle = PN.InstantiateRoomObject(eagleNPC.name, wayPos[0].position, wayPos[0].rotation, 0);
-         }
-     }*/
-    /*public void SpawnEB()
+    public void SpawnPlayer()                   // 플레이어 생성 메서드
     {
-        if (myBomb != null) return;
-        if (myBomb == null)
-        {
-            myBomb = PN.InstantiateRoomObject(eagleBomb.name, eagleNPC.transform.position + new Vector3(0, 0.9f, 0), eagleNPC.transform.rotation, 0);
-           
-        }
-    }*/
-
-
-    public void SpawnPlayer()
-    {
-        switch (DataManager.DM.currentTeam)
+        switch (DataManager.DM.currentTeam)     // 선택한 팀에 따라 해당 포톤 플레이어 생성
         {
             case Team.RED:
-                PN.AutomaticallySyncScene = true;
-                DataManager.DM.inGame = false;                
-                DataManager.DM.gameOver = false;
+                PN.AutomaticallySyncScene = true; 
+                DataManager.DM.inGame = false;               
+                DataManager.DM.gameOver = false; 
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                //StartCoroutine(DeleteBullet());
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
                 Info();
                 break;
 
@@ -168,14 +129,13 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 DataManager.DM.inGame = false;                
                 DataManager.DM.gameOver = false;
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
-                Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-                //StartCoroutine(DeleteBullet());
+                Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");                
                 Info();
                 break;
 
-            // 윈도우 프로그램 빌드 시
+            // 윈도우 프로그램 빌드 시 PC버전 관리자
             case Team.ADMIN:
-                if (Application.platform == RuntimePlatform.WindowsPlayer)//|| Application.platform == RuntimePlatform.WindowsEditor)
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     if(Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
@@ -188,206 +148,22 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                 }
                 break;
 
-
             default:
                 return;
         }
-    }
-
-
-    /*public void SpawnBomb()
-    {
-        if (curArrow == null)
-        {
-            if (curArrow != null) return;
-            timeBomb += Time.deltaTime;
-            if (timeBomb >= 3)
-            {
-                bool skilled = RandomArrow.RandArrowPer(40);
-                if (skilled)
-                {
-                    curArrow = PN.InstantiateRoomObject(arrowSkilled.name, aSpawnPosition[0].position, aSpawnPosition[0].rotation, 0);
-                    Debug.Log("스킬 생성");
-                    timeBomb = 0;
-                }
-                else
-                {
-                    bool bomb = RandomArrow.RandArrowPer(100);
-                    if (bomb)
-                    {
-                        curArrow = PN.InstantiateRoomObject(arrowBomb.name, aSpawnPosition[0].position, aSpawnPosition[0].rotation, 0);
-                        Debug.Log("폭탄 생성");
-                        timeBomb = 0;
-                    }
-                    else
-                    {
-                        curArrow = PN.InstantiateRoomObject(arrowMulti.name, aSpawnPosition[0].position, aSpawnPosition[0].rotation, 0);
-                        Debug.Log("멀티샷 생성");
-                        timeBomb = 0;
-                    }
-                }
-            }
-        }
-    }
-    public void SpawnB()
-    {        
-        if (curArrowB == null)
-        {
-            if (curArrowB != null) return;
-            timeB += Time.deltaTime;
-            if (timeB >= 3)
-            {
-                bool skilled = RandomArrow.RandArrowPer(50);
-                if (skilled)
-                {
-                    
-                    curArrowB = PN.InstantiateRoomObject(arrowSkilled.name, aSpawnPosition[1].position, aSpawnPosition[1].rotation, 0);
-                    Debug.Log("스킬 생성");
-                    timeB = 0;
-                }
-                else
-                {
-                    bool bomb = RandomArrow.RandArrowPer(100);
-                    if (bomb)
-                    {
-                        curArrowB = PN.InstantiateRoomObject(arrowBomb.name, aSpawnPosition[1].position, aSpawnPosition[1].rotation, 0);
-                        Debug.Log("폭탄 생성");
-                        timeB = 0;
-                    }
-                    else
-                    {
-                        curArrowB = PN.InstantiateRoomObject(arrowMulti.name, aSpawnPosition[1].position, aSpawnPosition[1].rotation, 0);
-                        Debug.Log("멀티샷 생성");
-                        timeB = 0;
-                    }
-                }
-            }
-        }
-    }
-    public void SpawnBB()
-    {       
-        if (curArrowBB == null)
-        {
-            if (curArrowBB != null) return;
-            timeBB += Time.deltaTime;
-            if (timeBB >= 3)
-            {
-
-                bool skilled = RandomArrow.RandArrowPer(50);
-                if (skilled)
-                {
-                    curArrowBB = PN.InstantiateRoomObject(arrowSkilled.name, aSpawnPosition[2].position, aSpawnPosition[2].rotation, 0);
-                    Debug.Log("스킬 생성");
-                    timeBB = 0;
-                }
-                else
-                {
-                    bool bomb = RandomArrow.RandArrowPer(100);
-                    if (bomb)
-                    {
-                        curArrowBB = PN.InstantiateRoomObject(arrowBomb.name, aSpawnPosition[2].position, aSpawnPosition[2].rotation, 0);
-                        Debug.Log("폭탄 생성");
-                        timeBB = 0;
-                    }
-                    else
-                    {
-                        curArrowBB = PN.InstantiateRoomObject(arrowMulti.name, aSpawnPosition[2].position, aSpawnPosition[2].rotation, 0);
-                        Debug.Log("멀티샷 생성");
-                        timeBB = 0;
-                    }
-                }
-            }
-        }
-    }
-    public void SpawnR()
-    {
-        if (curArrowR == null)
-        {
-            if (curArrowR != null) return;
-            timeR += Time.deltaTime;
-            if (timeR >= 3)
-            {
-
-                bool skilled = RandomArrow.RandArrowPer(50);
-                if (skilled)
-                {
-                    curArrowR = PN.InstantiateRoomObject(arrowSkilled.name, aSpawnPosition[3].position, aSpawnPosition[3].rotation, 0);
-                    Debug.Log("스킬 생성");
-                    timeR = 0;
-                }
-                else
-                {
-                    bool bomb = RandomArrow.RandArrowPer(100);
-                    if (bomb)
-                    {
-                        curArrowR = PN.InstantiateRoomObject(arrowBomb.name, aSpawnPosition[3].position, aSpawnPosition[3].rotation, 0);
-                        Debug.Log("폭탄 생성");
-                        timeR = 0;
-                    }
-                    else
-                    {
-                        curArrowR = PN.InstantiateRoomObject(arrowMulti.name, aSpawnPosition[3].position, aSpawnPosition[3].rotation, 0);
-                        Debug.Log("멀티샷 생성");
-                        timeR = 0;
-                    }
-                }
-            }
-        }
-    }
-    public void SpawnRR()
-    {
-        if (curArrowRR == null)
-        {
-            if (curArrowRR != null) return;
-            timeRR += Time.deltaTime;
-            if (timeRR >= 3)
-            {
-
-                bool skilled = RandomArrow.RandArrowPer(50);
-                if (skilled)
-                {
-                    curArrowRR = PN.InstantiateRoomObject(arrowSkilled.name, aSpawnPosition[4].position, aSpawnPosition[4].rotation, 0);
-                    Debug.Log("스킬 생성");
-                    timeRR = 0;
-                }
-                else
-                {
-                    bool bomb = RandomArrow.RandArrowPer(100);
-                    if (bomb)
-                    {
-                        curArrowRR = PN.InstantiateRoomObject(arrowBomb.name, aSpawnPosition[4].position, aSpawnPosition[4].rotation, 0);
-                        Debug.Log("폭탄 생성");
-                        timeRR = 0;
-                    }
-                    else
-                    {
-                        curArrowRR = PN.InstantiateRoomObject(arrowMulti.name, aSpawnPosition[4].position, aSpawnPosition[4].rotation, 0);
-                        Debug.Log("멀티샷 생성");
-                        timeRR = 0;
-                    }
-                }
-            }
-        }
-    }*/
-
-  
+    }   
 
     [PunRPC]
-    public void Ready1()
+    public void Ready1()    // 게임 준비
     {
         DataManager.DM.gameOver = true;
     }
 
-    public IEnumerator ExitGame()
+    public IEnumerator ExitGame()  // 게임 강제 종료 - 모든플레이어 한꺼번에 아웃
     {
         yield return new WaitForSeconds(1);
         photonView.RPC(nameof(ForceOff), RpcTarget.AllViaServer);
-    }
-    /* IEnumerator DeleteBullet()
-     {
-         yield return new WaitForSeconds(0.3f);
-         foreach (GameObject bull in GameObject.FindGameObjectsWithTag("Arrow")) bull.GetComponent<PhotonView>().RPC("DestroyArrow", RpcTarget.AllBuffered);
-     }*/
+    }  
 
     [ContextMenu("포톤 서버 정보")]
     void Info()
