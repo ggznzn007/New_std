@@ -48,34 +48,15 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
             case Map.TOY:
                 myEagle = GunShootManager.GSM.eagleNPC;
                 break;
-        }
-        /* switch (DataManager.DM.currentMap)
-         {
-             case Map.TUTORIAL_T:
-                 myBomb = TutorialManager.TM.myBomb;
-                 break;
-             case Map.TOY:
-                 myBomb = GunShootManager.GSM.myBomb;
-                 break;
-         }*/
-        /* wayPos = GameObject.Find("WayPoint").GetComponentsInChildren<Transform>();
-         switch (DataManager.DM.currentMap)
-         {
-             case Map.TUTORIAL_T:
-                 wayPos = TutorialManager.TM.wayPos;
-                 break;
-             case Map.TOY:
-                 wayPos = GunShootManager.GSM.wayPos;
-                 break;
-         }*/
-        
+        }     
     }
 
 
     private void Update()
     {
-        if (PN.IsMasterClient)
+        if (PN.IsMasterClient && !DataManager.DM.gameOver)
         {
+            if (DataManager.DM.gameOver) { return; }
             if (myBomb == null)
             {
                 if (myBomb != null) { return; }
@@ -105,7 +86,11 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
     {
         if (collision.collider.CompareTag("Arrow"))                                    // 기본화살태그에만 반응
         {
-            PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                         // 독수리가 대미지입고 폭탄투하     
+            if (!DataManager.DM.gameOver)
+            {
+                if (DataManager.DM.gameOver) { return; }
+                PV.RPC(nameof(EDam), RpcTarget.AllBuffered, true);                         // 독수리가 대미지입고 폭탄투하     
+            }
         }
     }
 
@@ -139,8 +124,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         myBomb.transform.SetParent(spawnPoint.transform, onSwitch);
         myBomb.GetComponentInChildren<Rigidbody>().useGravity = offSwitch;
         myBomb.GetComponentInChildren<Collider>().enabled = offSwitch;
-        curTime = 0;
-        Debug.Log("NPC폭탄 생성");
+        curTime = 0;        
     }
 
 
@@ -157,13 +141,7 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
             StartCoroutine(EagleDamage());
         }
     }
-
-    /* [PunRPC]
-     public void BomNull()
-     {
-         StartCoroutine(BombTime());
-     }
- */
+   
     public IEnumerator EagleDamage()
     {
         animator.SetBool("Damaged", true);
@@ -172,16 +150,8 @@ public class AcheryEagle : MonoBehaviourPunCallbacks, IPunObservable//, IPunOwne
         yield return new WaitForSeconds(1f);
         animator.SetBool("Damaged", false);
         yield return new WaitForSeconds(0.5f);
-        eagleisDam = false;
-        //StartCoroutine(BombTime());
-    }
-
-    /*public IEnumerator BombTime()
-    {
-        yield return new WaitForSeconds(0.001f);
-        myBomb = null;
-        Debug.Log("폭탄이 비었습니다.");
-    }*/
+        eagleisDam = false;        
+    }    
 
     public void MovetoWay()
     {
