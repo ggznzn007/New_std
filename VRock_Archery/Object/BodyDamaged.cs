@@ -9,7 +9,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
-public class BodyDamaged : MonoBehaviourPun
+public class BodyDamaged : MonoBehaviourPun   // 아처 플레이어 몸통 콜라이더 스크립트 - 바디 대미지
 {
     public AvartarController AT;
 
@@ -18,14 +18,13 @@ public class BodyDamaged : MonoBehaviourPun
         AT = GetComponentInParent<AvartarController>();
     }
 
-    private void OnCollisionEnter(Collision collision)                         // 기본 화살이 몸에 맞았을 때 노멀 대미지 
+    private void OnCollisionEnter(Collision collision)                         
     {
-        if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
+        if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame) // 기본 화살이 몸에 맞았을 때 노멀 대미지 
         {
             if (!AT.isDamaged)
             {
-                AT.NormalDamage();
-                Debug.Log("바디샷!");
+                AT.NormalDamage();               
             }
         }
        
@@ -33,46 +32,28 @@ public class BodyDamaged : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider coll)                             
     {
-        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)             // 폭탄 화살 대미지
+        if (coll.CompareTag("Bomb") && AT.isAlive && DataManager.DM.inGame)         // 폭탄 화살 대미지
         {
             if (!AT.isDamaged)
             {
-                AT.BombDamage();
-                Debug.Log("폭탄대미지!");
+                AT.BombDamage();                
             }
         }
         if (coll.CompareTag("SFX") && AT.isAlive && DataManager.DM.inGame)          // 스킬 화살 대미지
         {
             if (!AT.isDamaged)
             {
-                AT.SkillDamage();
-                Debug.Log("스킬대미지!");
+                AT.SkillDamage();                
             }
         }
 
-        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)           // NPC 도트 대미지
+        if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)      // 독수리 폭탄 도트 대미지
         {
             if (!AT.isDamaged)
             {
-                AT.DotDamage();
-                Debug.Log("도트대미지!");
+                AT.DotDamage();                
             }
         }
       
     }
-
-   
-
-    /* private void OnParticleCollision(GameObject explosion)
-     {
-         if (explosion.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
-         {
-             if (!AT.isDamaged)
-             {
-                 AT.GrenadeDamage();
-                 Debug.Log("바디샷!");
-             }
-         }
-     }*/
-
 }
