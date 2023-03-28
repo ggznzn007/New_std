@@ -67,7 +67,7 @@ public class Notch_S : XRSocketInteractor
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        Debug.Log("활시위에 화살이 붙었습니다.");
+       // Debug.Log("활시위에 화살이 붙었습니다.");
         AttachBall(curBall);
         notchColl.enabled = false;
         DataManager.DM.grabBall = true;
@@ -76,7 +76,7 @@ public class Notch_S : XRSocketInteractor
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        Debug.Log("화살이 발사되었습니다.");
+       // Debug.Log("화살이 발사되었습니다.");
         notchColl.enabled = true;
         DataManager.DM.grabBall = false;
     }
