@@ -16,15 +16,7 @@ using Unity.XR.PXR;
 public class AnimationW : MonoBehaviourPunCallbacks
 {
     public AudioSource aniAudio;
-    public AudioClip aniClip;
-    //public Animation anim;
-   /* void SpawnDynamite()
-    {
-        if (PN.IsMasterClient)
-        {
-            WesternManager.WM.SpawnDynamite();
-        }
-    }*/
+    public AudioClip aniClip; 
 
     void RunAudio()
     {
