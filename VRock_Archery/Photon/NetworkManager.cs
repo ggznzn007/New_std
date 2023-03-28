@@ -15,14 +15,14 @@ using Unity.VisualScripting;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [System.Serializable]
-public class DefaultRoom
+public class DefaultRoom  // 플레이어 이름, 씬 번호, 방에 입장 가능한 최대원
 {
     public string Name;
     public int sceneNum;
     public int maxPLayer;
 }
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacks  // 전체적인 포톤 네트워크 관리하는 스크립트
 {
     public static NetworkManager NM;
 
@@ -81,7 +81,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PN.AutomaticallySyncScene = true;
         localPlayer.SetActive(true);
-         // 윈도우 프로그램 빌드 시
+         // 윈도우 프로그램 빌드 시 PC버전
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             adminPlayer.SetActive(true);
@@ -101,7 +101,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (DataManager.DM.startingNum >= 2)
         {
             connectUI.gameObject.SetActive(false);
-              // 윈도우 프로그램 빌드 시
+            // 윈도우 프로그램 빌드 시 PC버전
             if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 ad_ConnectUI.gameObject.SetActive(false);
@@ -126,7 +126,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.Keypad3)) { InitBlue(2); }                 //  웨스턴 블루
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
-        // 윈도우 프로그램 빌드 시
+        // 윈도우 프로그램 빌드 시 PC버전
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
@@ -162,7 +162,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
          DataManager.DM.nickName = str;*/
     }
 
-    public void StartToServer_Admin()                                                     // 서버연결 메서드
+    public void StartToServer_Admin()                                               // 관리자 서버연결 메서드
     {
         PN.ConnectUsingSettings();                                                  // 디폴트 연결
         //PN.ConnectToMaster(masterAddress, portNum, appID);                        // 서버주소, 포트넘버, 앱아이디로 서버연결
@@ -174,15 +174,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         //DataManager.DM.nickName = adminName;
     }
 
-    public void InitAdmin(int defaultRoomIndex)                                       // 레드팀 선택
+    public void InitAdmin(int defaultRoomIndex)                                       // 관리자 선택
     {
         DataManager.DM.currentTeam = Team.ADMIN;
         DataManager.DM.isSelected = true;
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 240 } };
-
+        Hashtable options = new Hashtable { { "Time", 240 } };                        // 게임 플레이 시간 설정 초단위로 설정가능
+                                                                                      //ex) "Time" 뒤 숫자에 60을 넣으면 1분
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -197,13 +197,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void InitTutoT()                                                          // 토이 선택
+    public void InitTutoT()                                                          // 아처 선택
     {
         DataManager.DM.currentMap = Map.TUTORIAL_T;
         PN.JoinLobby();
     }
 
-    public void InitTutoW()                                                         // 웨스턴 선택
+    public void InitTutoW()                                                         // 스노우 선택
     {
         DataManager.DM.currentMap = Map.TUTORIAL_W;
         PN.JoinLobby();
@@ -217,8 +217,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 240 } };        
-
+        Hashtable options = new Hashtable { { "Time", 240 } };                      // 게임 플레이 시간 설정 초단위로 설정가능
+                                                                                    //ex) "Time" 뒤 숫자에 60을 넣으면 1분
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -239,8 +239,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         DefaultRoom roomSettings = defaultRooms[defaultRoomIndex];
 
-        Hashtable options = new Hashtable { { "Time", 240 } };       
-
+        Hashtable options = new Hashtable { { "Time", 240 } };                      // 게임 플레이 시간 설정 초단위로 설정가능
+                                                                                    //ex) "Time" 뒤 숫자에 60을 넣으면 1분     
         RoomOptions roomOptions = new RoomOptions
         {
             IsVisible = true,
@@ -308,14 +308,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case 1:
             case 3:
-                InitTutoT();
-                // 유니티 에디터에서 재생 시
-                /* if (Application.platform == RuntimePlatform.WindowsEditor)
-                 {
-                     ad_ConnectUI.gameObject.SetActive(false);
-                     ad_MapUI.gameObject.SetActive(false);
-                 }                */
-
+                InitTutoT();          
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -325,13 +318,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case 2:
             case 4:
-                InitTutoW();
-                // 유니티 에디터에서 재생 시
-                /*    if (Application.platform == RuntimePlatform.WindowsEditor)
-                    {
-                        ad_ConnectUI.gameObject.SetActive(false);
-                        ad_MapUI.gameObject.SetActive(false);
-                    }               */
+                InitTutoW();                
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -349,15 +336,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case 1:
             case 3:
-                teamSelectUI_T.gameObject.SetActive(true);
-                //mapSelectUI.gameObject.SetActive(false);
-                //ad_MapUI.gameObject.SetActive(false);
-                // 유니티 에디터에서 재생 시     
-                /* if (Application.platform == RuntimePlatform.WindowsEditor)
-                 {
-                     ad_ToyUI.gameObject.SetActive(true);
-                 }*/
-
+                teamSelectUI_T.gameObject.SetActive(true);               
                 // 윈도우 프로그램 빌드 시                
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -376,15 +355,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 }
                 break;
             case 2:
-            case 4:
-                //mapSelectUI.gameObject.SetActive(false);
-                teamSelectUI_W.gameObject.SetActive(true);
-                // 유니티 에디터에서 재생 시
-                /* if (Application.platform == RuntimePlatform.WindowsEditor)
-                 {
-                     ad_WesternUI.gameObject.SetActive(false);
-                     InitAdmin(2);
-                 }*/
+            case 4:                
+                teamSelectUI_W.gameObject.SetActive(true);               
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -415,13 +387,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         switch (DataManager.DM.currentMap)
         {
-            case Map.TUTORIAL_T:
-                //teamSelectUI_T.gameObject.SetActive(false);
-                // 유니티 에디터에서 재생 시
-               /* if (Application.platform == RuntimePlatform.WindowsEditor)
-                {
-                    ad_ToyUI.gameObject.SetActive(false);
-                }     */         
+            case Map.TUTORIAL_T:                
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -435,12 +401,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 PN.LoadLevel(2); // 토이
                 break;
             case Map.TUTORIAL_W:
-                teamSelectUI_W.gameObject.SetActive(false);
-                // 유니티 에디터에서 재생 시
-               /* if (Application.platform == RuntimePlatform.WindowsEditor)
-                {
-                    ad_WesternUI.gameObject.SetActive(false);
-                }*/
+                teamSelectUI_W.gameObject.SetActive(false);               
                  // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -474,23 +435,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             switch (roomString)
             {
                 case "Tutorial_T":
-                    Debug.Log("토이튜토 인원 : " + room.PlayerCount);
+                    Debug.Log("아처 인원 : " + room.PlayerCount);
                     countText_TT.text = room.PlayerCount + " 명";
                     break;
                 case "Tutorial_W":
-                    Debug.Log("웨스턴튜토 인원 : " + room.PlayerCount);
+                    Debug.Log("스노우 인원 : " + room.PlayerCount);
                     countText_TW.text = room.PlayerCount + " 명";
                     break;
                 default:
-                    return;
-                    /* case "Toy":
-                         Debug.Log("토이방 인원 : " + room.PlayerCount);
-                         countText_T.text = room.PlayerCount + " 명";
-                         break;
-                     case "Western":
-                         Debug.Log("웨스턴방 인원 : " + room.PlayerCount);
-                         countText_W.text = room.PlayerCount + " 명";
-                         break;*/
+                    return;                   
             }
         }
     }
