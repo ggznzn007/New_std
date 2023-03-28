@@ -9,7 +9,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
-public class HeadDamaged : MonoBehaviourPun
+public class HeadDamaged : MonoBehaviourPun       // 아처 플레이어 머리 콜라이더 스크립트 - 헤드샷 대미지
 {
     public AvartarController AT;
 
@@ -18,14 +18,13 @@ public class HeadDamaged : MonoBehaviourPun
         AT = GetComponentInParent<AvartarController>();
     }
 
-    private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
+    private void OnCollisionEnter(Collision collision)     
     {
-        if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)
+        if (collision.collider.CompareTag("Arrow") && AT.isAlive && DataManager.DM.inGame)  // 기본화살에 맞았을 때 대미지
         {
             if (!AT.isDamaged)
             {
-                AT.HeadShotDamage();
-                Debug.Log("헤드샷!!!");
+                AT.HeadShotDamage();                
             }
         }
     }
@@ -42,33 +41,5 @@ public class HeadDamaged : MonoBehaviourPun
             }
         }
     }*/
-
-
-
-    /*private void OnTriggerEnter(Collider coll)
-    {
-        if (coll.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
-        {
-            if (!AT.isDamaged)
-            {
-                AT.GrenadeDamage();
-                Debug.Log("폭탄데미지!");
-            }
-
-        }
-    }*/
-
-    /*  private void OnParticleCollision(GameObject explosion)
-      {
-          if (explosion.CompareTag("Bomb") && AT.isAlive && NetworkManager.NM.inGame)
-          {
-              if (!AT.isDamaged)
-              {
-                  AT.GrenadeDamage();
-                  Debug.Log("헤드샷!");
-              }
-          }
-      }
-  */
-
+            
 }
