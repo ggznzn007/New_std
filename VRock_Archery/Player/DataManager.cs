@@ -34,39 +34,39 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 {
     public static DataManager DM;    
 
-    public Team currentTeam;  // 현재 팀구분
+    public Team currentTeam;       // 현재 팀구분
 
-    public Map currentMap;    // 현재 맵구분   
+    public Map currentMap;         // 현재 맵구분   
 
-    public int startingNum = 0;   // 처음 시작을 구분하기위한 수
+    public int startingNum = 0;    // 처음 시작을 구분하기위한 수
 
-    public bool isSelected;   // 팀을 선택했는지 여부
+    public bool isSelected;        // 팀을 선택했는지 여부
 
-    public bool inGame;       // 게임 중인지 여부    
+    public bool inGame;            // 게임 중인지 여부    
 
-    public bool gameOver;       // 게임 중인지 여부    
+    public bool gameOver;          // 게임 중인지 여부
 
-    public bool grabBomb;     // 폭탄을 집었는지 여부
+    public bool inBuild;           // 스노우 스테이지에서 빌드 타임 여부
 
-    public bool grabGun;      // 총을 집었는지 여부
+    public bool grabBomb;          // 폭탄을 집었는지 여부   
 
-    public bool grabBow;   
-    
-    public bool grabArrow;
+    public bool grabBow;           // 활을 집었는지 여부
 
-    public bool grabString;
+    public bool grabArrow;         // 화살을 집었는지 여부
 
-    public bool grabSling;
+    public bool grabString;        // 활시위를 집었는지 여부
 
-    public bool grabBall;   
+    public bool grabSling;         // 새총을 집었는지 여부
 
-    public bool isReady;
+    public bool grabBall;          // 눈덩이를 집었는지 여부   
 
-    public string nickName;    
+    public bool isReady;           // 게임준비 여부
 
-    public int teamInt;       // 팀 숫자 0=블루팀, 1=레드팀
+    public string nickName;        // 닉네임 문자열    
 
-    public int arrowNum;
+    public int teamInt;            // 팀 숫자 0=블루팀, 1=레드팀
+
+    public int arrowNum;           // 화살 번호
     private void Awake()
     {
         if (DM == null) DM = this;
