@@ -66,7 +66,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
                     {
                         if (mySling != null) { return; }
                         AudioManager.AM.PlaySE(spawnSling);
-                        Debug.Log("새총이 정상적으로 생성됨.");
+                        //Debug.Log("새총이 정상적으로 생성됨.");
                         SlingShot sling = CreateSling();
                         mySling = sling.gameObject;
                         weaponInIt = true;
