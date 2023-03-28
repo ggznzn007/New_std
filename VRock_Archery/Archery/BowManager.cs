@@ -14,24 +14,17 @@ using Unity.XR.PXR;
 public class BowManager : MonoBehaviourPun, IPunObservable
 {
     public static BowManager BowM;
-    public PhotonView PV;
-    // public Transform pull;
-    // public Transform notch;
-    public Transform bowString;
-    //private Vector3 remotePos;
-    //private Quaternion remoteRot;
-    // public List<Collider> bowColls;
+    public PhotonView PV;   
+    public Transform bowString;   
     public bool isBeingHeld = false;
     public bool isGrip;
     Rigidbody rb;
-    public GameObject shield;
-    //public GameObject shield_L;
+    public GameObject shield;    
     public GameObject bow;
     public Collider notchColl;
     public Collider pullColl;
     public Collider bowCollU;
-    public Collider bowCollD;
-    //public bool isRight;
+    public Collider bowCollD;    
 
     private void Awake()
     {
@@ -89,24 +82,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             bowString.SetPositionAndRotation((Vector3)stream.ReceiveNext(), (Quaternion)stream.ReceiveNext());
         }
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {// 앞에 수는 진동의 진폭
-     // 뒤에 수는 진동의 강도
-        if (collision.collider.CompareTag("Arrow"))
-        {
-            if (PV.IsMine && isRight)
-            {
-                if (!PV.IsMine) return;
-                PXR_Input.SetControllerVibration(0.5f, 10, PXR_Input.Controller.RightController);
-            }
-            if (PV.IsMine && !isRight)
-            {
-                if (!PV.IsMine) return;
-                PXR_Input.SetControllerVibration(0.5f, 10, PXR_Input.Controller.LeftController);
-            }
-        }
-    }*/
+    
     private void OnCollisionStay(Collision collision)
     {
         if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube"))
@@ -116,7 +92,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
                 if (!isGrip)
                 {
                     PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                    Debug.Log("활이 파괴되었습니다.");
+                    //Debug.Log("활이 파괴되었습니다.");
                 }
             }
             /* try
@@ -203,13 +179,13 @@ public class BowManager : MonoBehaviourPun, IPunObservable
 
     public void OnSelectedEntered()
     {
-        Debug.Log("활을 잡았습니다.");
+        //Debug.Log("활을 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
     }
 
     public void OnSelectedExited()
     {
-        Debug.Log("활을 놓았습니다.");
+        //Debug.Log("활을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
