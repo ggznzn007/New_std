@@ -14,7 +14,7 @@ public class SnowBlock : XRGrabInteractable
 {
     public static SnowBlock SB;
     public GameObject myMesh;
-    public GameObject snowEX;
+    public GameObject snowEX;    
     public PhotonView PV;
     Rigidbody rb;
     public bool isBeingHeld = false;
@@ -30,27 +30,23 @@ public class SnowBlock : XRGrabInteractable
 
     private void Update()
     {
-       /* if (isBeingHeld)
+        if (!DataManager.DM.inBuild)
         {
-            rb.isKinematic = true;            
-        }
-        else
-        {
-            rb.isKinematic = false;            
-        }*/
+            interactionLayers = 0;
+        }       
     }
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
-        base.OnSelectEntered(args);
+        base.OnSelectEntered(args);        
         PV.RequestOwnership();
-        Debug.Log("잡았다");
+        //Debug.Log("잡았다");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        base.OnSelectExited(args);
-        Debug.Log("놓았다");
+        base.OnSelectExited(args);        
+        //Debug.Log("놓았다");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
