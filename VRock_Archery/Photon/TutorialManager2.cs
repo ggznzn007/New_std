@@ -34,6 +34,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     private void Start()
     {
         DataManager.DM.isReady = false;
+        DataManager.DM.inBuild = true;
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
@@ -116,7 +117,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     [PunRPC]
     public void Ready2()
     {
-        DataManager.DM.gameOver = true;
+        DataManager.DM.gameOver = true;        
     }
 
     public IEnumerator ExitGame()
