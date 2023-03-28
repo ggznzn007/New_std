@@ -28,7 +28,7 @@ public class IcicleEX : MonoBehaviourPunCallbacks, IPunObservable
     public IEnumerator CollOnOff()
     {
         exColl.enabled = true;
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.04f);
         exColl.enabled = false;        
     }
 
