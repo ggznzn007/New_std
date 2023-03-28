@@ -8,7 +8,7 @@ public class CreateSkill : MonoBehaviourPun                                     
     public GameObject arrowSkilled;                                                   // 스킬화살 프리팹
     public GameObject arrowBomb;                                                      // 폭탄화살 프리팹
     public Transform spawnPoint;                                                      // 특수화살 생성 포인트
-    private readonly float limitTime = 30;                                             // 특수화살 생성 제한시간
+    private readonly float limitTime = 25;                                            // 특수화살 생성 제한시간
     private readonly float perCent = 50;                                              // 특수화살 생성 확률       스킬 1순위, 폭탄 2순위
     private ParticleSystem _particleSystem;                                           // 특수화살 생성 슬롯 파티클
     private AudioSource _audioSource;                                                 // 특수화살 생성 오디오
@@ -44,14 +44,12 @@ public class CreateSkill : MonoBehaviourPun                                     
             bool skilled = RandomArrow.RandArrowPer(perCent);                      // 확률 계산하는 메서드 (따로 만든 클래스)
             if (skilled)
             {
-                curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
-                Debug.Log("스킬 화살 생성");
+                curArrow = PN.InstantiateRoomObject(arrowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);                
                 curTime = 0;
             }
             else
             {
-                curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);
-                Debug.Log("폭탄 화살 생성");
+                curArrow = PN.InstantiateRoomObject(arrowBomb.name, spawnPoint.position, spawnPoint.rotation, 0);                
                 curTime = 0;
             }
         }
