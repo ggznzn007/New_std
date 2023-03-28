@@ -10,7 +10,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
     public GameObject snowStone;                                                          // 돌덩이 프리팹
     public Transform spawnPoint;                                                          // 특수 눈덩이 생성 포인트
     private readonly float limitTime = 20;                                                // 특수 눈덩이 생성 제한시간
-    private readonly float perCent = 60;                                                    // 특수눈덩이 확률 돌덩이 1순위, 고드름 2순위  // 수치가 높으면 돌덩이 확률이 높다
+    private readonly float perCent = 60;                                                  // 특수눈덩이 확률 돌덩이 1순위, 고드름 2순위  // 수치가 높으면 돌덩이 확률이 높다
     private ParticleSystem _particleSystem;                                               // 생성 슬롯 파티클
     private AudioSource _audioSource;                                                     // 생성 슬롯 오디오
     private PhotonView PV;                                                                // 포톤뷰
@@ -45,14 +45,12 @@ public class CreateSkill2 : MonoBehaviourPun                                    
             bool skilled = RandomArrow.RandArrowPer(perCent);                     // 확률 계산하는 메서드 (따로 만든 클래스)
             if (skilled)
             {
-                curBall = PN.InstantiateRoomObject(snowStone.name, spawnPoint.position, spawnPoint.rotation, 0);
-                Debug.Log("돌덩이 생성");
+                curBall = PN.InstantiateRoomObject(snowStone.name, spawnPoint.position, spawnPoint.rotation, 0);                
                 curTime = 0;
             }
             else
             {
-                curBall = PN.InstantiateRoomObject(snowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);
-                Debug.Log("고드름 생성");
+                curBall = PN.InstantiateRoomObject(snowSkilled.name, spawnPoint.position, spawnPoint.rotation, 0);                
                 curTime = 0;
             }
         }
