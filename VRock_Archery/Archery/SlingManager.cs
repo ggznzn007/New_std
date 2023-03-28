@@ -93,7 +93,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
                     try
                     {
                         PV.RPC(nameof(DestroyBow), RpcTarget.AllBuffered);
-                        Debug.Log("새총이 파괴되었습니다.");
+                        //Debug.Log("새총이 파괴되었습니다.");
                     }
                     finally
                     {
@@ -125,13 +125,13 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
 
     public void OnSelectedEntered()
     {
-        Debug.Log("새총을 잡았습니다.");
+        //Debug.Log("새총을 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
     }
 
     public void OnSelectedExited()
     {
-        Debug.Log("새총을 놓았습니다.");
+        //Debug.Log("새총을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);
     }
 
