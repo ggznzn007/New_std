@@ -349,7 +349,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         while (delayTime >= 0)
         {
             delayTime -= Time.deltaTime;
-            Debug.Log("콜라이더 OFF");
+            //Debug.Log("콜라이더 OFF");
             playerColls[1].enabled = false;                                      // 머리 콜라이더
             playerColls[2].enabled = false;                                      // 몸통 콜라이더           
 
@@ -360,7 +360,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         playerColls[2].enabled = true;                                      // 몸통 콜라이더
 
         isDamaged = false;
-        Debug.Log("콜라이더 ON");
+        //Debug.Log("콜라이더 ON");
         if (HP.value <= 0)
         {
             playerColls[1].enabled = false;                                      // 머리 콜라이더
@@ -427,19 +427,19 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (col.CompareTag("RespawnBlue") && !isAlive && DataManager.DM.currentTeam == Team.BLUE)
         {
             PV.RPC(nameof(RespawnPlayer), RpcTarget.All);
-            Debug.Log("블루팀 리스폰");
+            //Debug.Log("블루팀 리스폰");
         }
 
         if (col.CompareTag("RespawnRed") && !isAlive && DataManager.DM.currentTeam == Team.RED)
         {
             PV.RPC(nameof(RespawnPlayer), RpcTarget.All);
-            Debug.Log("레드팀 리스폰");
+            //Debug.Log("레드팀 리스폰");
         }
 
         if (col.CompareTag("Warning"))
         {
             warningScreen.SetActive(true);
-            Debug.Log("경계선 경고!!!!!!!!");
+            //Debug.Log("경계선 경고!!!!!!!!");
         }
     }
 
@@ -448,7 +448,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (col.CompareTag("Warning"))
         {
             warningScreen.SetActive(false);
-            Debug.Log("경계선을 벗어남");
+            //Debug.Log("경계선을 벗어남");
         }
     }
 
@@ -469,7 +469,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                 StartCoroutine(DamagedDelay());
                 StartCoroutine(ShowDamageScreen());
                 delayTime = 1f;
-                Debug.Log("남은 HP : " + HP.value.ToString() + "%");
+                //Debug.Log("남은 HP : " + HP.value.ToString() + "%");
 
                 if (HP.value <= 30)
                 {
@@ -490,7 +490,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
                     }
 
                     PV.RPC(nameof(DeadPlayer), RpcTarget.AllBuffered);
-                    Debug.Log("킬 성공");
+                   // Debug.Log("킬 성공");
                 }
             }
         }
@@ -502,12 +502,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (team == 0)                    // 레드팀이 블루팀을 죽였을 때  == 블루팀 사망
         {
             GunShootManager.GSM.score_RedKill++;
-            Debug.Log("레드에게 블루가 죽었음");
+            //Debug.Log("레드에게 블루가 죽었음");
         }
         else                              // 블루팀이 레드팀을 죽였을 때  == 레드팀 사망
         {
             GunShootManager.GSM.score_BlueKill++;
-            Debug.Log("블루에게 레드가 죽었음");
+            //Debug.Log("블루에게 레드가 죽었음");
         }
     }
 
@@ -517,12 +517,12 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         if (team == 0)                   // 레드팀이 블루팀을 죽였을 때  == 블루팀 사망
         {
             WesternManager.WM.score_RedKill++;
-            Debug.Log("레드에게 블루가 죽었음");
+            //Debug.Log("레드에게 블루가 죽었음");
         }
         else                             // 블루팀이 레드팀을 죽였을 때  == 레드팀 사망
         {
             WesternManager.WM.score_BlueKill++;
-            Debug.Log("블루에게 레드가 죽었음");
+            //Debug.Log("블루에게 레드가 죽었음");
         }
     }
 
