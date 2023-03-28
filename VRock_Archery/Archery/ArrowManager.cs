@@ -65,11 +65,11 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IP
 
     public void OnSelectedEntered()                                   // 소유권 이전
     {
-        Debug.Log("화살을 잡았습니다.");
+        //Debug.Log("화살을 잡았습니다.");
         PV.RPC(nameof(StartGrabbing), RpcTarget.AllBuffered);
         if (PV.Owner == PN.LocalPlayer)
         {
-            Debug.Log("이미 소유권이 나에게 있습니다.");
+            //Debug.Log("이미 소유권이 나에게 있습니다.");
         }
         else
         {
@@ -79,7 +79,7 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IP
 
     public void OnSelectedExited()
     {
-        Debug.Log("화살을 놓았습니다.");
+        //Debug.Log("화살을 놓았습니다.");
         PV.RPC(nameof(StopGrabbing), RpcTarget.AllBuffered);       
     }
 
@@ -94,13 +94,13 @@ public class ArrowManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks,IP
         {
             return;
         }
-        Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
+        //Debug.Log("소유권 요청 : " + targetView.name + "from " + requestingPlayer.NickName);
         PV.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
+        //Debug.Log("현재소유한 플레이어: " + targetView.name + "from " + previousOwner.NickName);
     }
 
     public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
