@@ -34,14 +34,14 @@ public class PullMeasurer_S : XRBaseInteractable
         PullAmount = 0;       
         DataManager.DM.grabString = false;
         AudioManager.AM.PlaySE("SnowThrow");
-        Debug.Log("새총 시위를 놓았습니다.");
-        Debug.Log("눈덩이 던지는 소리재생");
+        //Debug.Log("새총 시위를 놓았습니다.");
+        //Debug.Log("눈덩이 던지는 소리재생");
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        Debug.Log("새총 시위를 잡았습니다.");
+       // Debug.Log("새총 시위를 잡았습니다.");
         DataManager.DM.grabString = true;
         SpawnBall();                                                  // 활시위를 잡았을 때 기본화살 생성하는 메서드 호출
         PullSoundInterval(0, 0.7f, 0.4f);
@@ -71,7 +71,7 @@ public class PullMeasurer_S : XRBaseInteractable
         // Use the interactor's position to calculate amount
         // Vector3 interactorPosition = firstInteractorSelecting.transform.position;                       
         Vector3 interactorPosition = firstInteractorSelecting.transform.position;
-        Debug.Log("새총 시위를 당기는중...");
+        //Debug.Log("새총 시위를 당기는중...");
 
         // Figure out the new pull value, and it's position in space
         PullAmount = CalculatePull(interactorPosition);
