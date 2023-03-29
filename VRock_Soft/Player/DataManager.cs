@@ -44,11 +44,9 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public bool inGame;       // 게임 중인지 여부    
 
-    //public bool grabBomb;     // 폭탄을 집었는지 여부
+    public bool gameOver;     // 게임오버 여부
 
-    //public bool grabGun;      // 총을 집었는지 여부
-
-    //public bool grabShield;      // 방패를 집었는지 여부
+    public bool isReady;
 
     public string nickName;
 
@@ -59,6 +57,6 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
     {
         if (DM == null) DM = this;
         else if (DM != null) return;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);       
     }
 }
