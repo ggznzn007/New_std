@@ -128,7 +128,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         else if (Input.GetKeyDown(KeyCode.A)) { InitAdmin(0); }                      // 토이 관리자    입장
         else if (Input.GetKeyDown(KeyCode.S)) { InitAdmin(2); }                      // 웨스턴 관리자   입장
         // 윈도우 프로그램 빌드 시
-        /*if (Application.platform == RuntimePlatform.WindowsPlayer)
+       /* if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
             else if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }           // 종료
@@ -419,13 +419,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         switch (DataManager.DM.currentMap)
         {
             case Map.TUTORIAL_T:
-                //teamSelectUI_T.gameObject.SetActive(false);
-                PN.LoadLevel(1); // 튜토리얼T
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ToyUI.gameObject.SetActive(false);                    
                 }
+                //teamSelectUI_T.gameObject.SetActive(false);
+                PN.LoadLevel(1); // 튜토리얼T
                 // 유니티 에디터에서 재생 시
               /*  if (Application.platform == RuntimePlatform.WindowsEditor)
                 {
