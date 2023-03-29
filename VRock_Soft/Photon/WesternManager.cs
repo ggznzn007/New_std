@@ -79,7 +79,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             if (PN.IsMasterClient)
             {
                 PV.RPC(nameof(StartBtnW), RpcTarget.AllViaServer);
-                PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);
+                PN.InstantiateRoomObject(npc.name, new Vector3(8.25f, 0.02f, -0.62f), Quaternion.identity);     // 말
                 Invoke(nameof(SpawnShield), 2);
             }
             if (DataManager.DM.currentTeam != Team.ADMIN)      // 관리자 빌드시 필요한 코드
@@ -116,6 +116,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    if (Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     DataManager.DM.gameOver = false;
@@ -135,10 +136,10 @@ public class WesternManager : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnW", RpcTarget.All); }
         if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameW", RpcTarget.All); }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
-        if (Input.GetKeyDown(KeyCode.Space))
+      /*  if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnDynamite();
-        }
+        }*/
         /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient) // 윈도우 프로그램 빌드 시
         {
             if (Application.platform == RuntimePlatform.WindowsPlayer)
@@ -287,7 +288,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
 
     IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(4);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -328,7 +329,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         AudioManager.AM.PlaySE("GameInfo8");
         countText.text = string.Format("게임이 종료되었습니다\n 헤드셋을 벗어주세요");
         // resultText.gameObject.SetActive(false);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }
