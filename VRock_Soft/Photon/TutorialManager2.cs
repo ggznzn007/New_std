@@ -129,6 +129,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    if (Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     DataManager.DM.gameOver = false;
