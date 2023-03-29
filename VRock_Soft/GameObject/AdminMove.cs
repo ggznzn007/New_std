@@ -1,21 +1,16 @@
-using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
-using PN = Photon.Pun.PN;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 
 public class AdminMove : MonoBehaviourPun
 {
-    private float moveSpeed = 5f;
     public TMP_Text blueScore;
     public TMP_Text redScore;   
     public TMP_Text timerText;
-
-    private void Start()
-    {
-        //SetResolution(); // 해상도 설정
-    }
+    private readonly float moveSpeed = 5f;
 
     void Update()
     {
@@ -23,9 +18,9 @@ public class AdminMove : MonoBehaviourPun
         TimerTxt();
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-       Vector3 dirXY = Vector3.right * h+Vector3.up *v;
+        Vector3 dirXY = Vector3.right * h + Vector3.up * v;
         dirXY.Normalize();
-        transform.position += dirXY * moveSpeed*Time.deltaTime;
+        transform.position += dirXY * moveSpeed * Time.deltaTime;
     }
 
     public void GetScore()
