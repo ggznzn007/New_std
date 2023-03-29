@@ -22,19 +22,34 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [Header("플레이어 정보")]
     [SerializeField] TextMeshPro Nickname;                            // 플레이어 닉네임
     [SerializeField] PhotonView PV;                                   // 포톤뷰
-    public Slider HP;                                                 // 플레이어 HP
-    [SerializeField] int curHP = 100;
-    [SerializeField] int inItHP = 100;
+    public Slider HP;
+    public Slider myHp;                                                 // 플레이어 HP
+    public Image hpBack;
+    public Image hpFront;
+    public Image hpText;
+    public bool isDamaged = false;
+    public string damage;
+    public string respawn;
+    public string shield;
+    public int team;
+    public float animTime = 1f;
+    [SerializeField] private AnimationCurve fadeCurve;
+
+    private float delayTime = 1f;
+    private int curHP = 100;
+    private readonly int inItHP = 100;
+    private readonly int attackPower = 15;
+    private readonly int attackPowerH = 30;
+    private readonly int grenadePower = 40;
     [SerializeField] int actNumber = 0;
-    [SerializeField] int attackPower = 15;
-    [SerializeField] int attackPowerH = 30;
-    [SerializeField] int grenadePower = 40;
     [SerializeField] XRDirectInteractor hand_Left;
     [SerializeField] XRDirectInteractor hand_Right;
     [SerializeField] GameObject at_hand_Left;
     [SerializeField] GameObject at_hand_Right;
     [SerializeField] GameObject FPS;
     [SerializeField] Camera myCam;
+    [SerializeField] GameObject warningScreen;
+
 
     [Header("플레이어 렌더러 묶음")]
     [SerializeField] MeshRenderer head_Rend;                                           // 아바타 머리     렌더러
@@ -72,10 +87,6 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] GameObject[] effects;
     [SerializeField] bool isDeadLock;
 
-    private float delayTime = 1f;
-    public bool isDamaged = false;    
-    public int team;
-    //private int showCount = 0;
 
     private void Awake()
     {
@@ -149,7 +160,9 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         curHP = inItHP;                                                      // 플레이어 HP 초기화
         HP.value = inItHP;
         HP.maxValue = inItHP;                                                  // 실제로 보여지는 HP양 초기화      
-        
+        myHp.value = inItHP;
+        myHp.maxValue = inItHP;
+
         GetNickNameByActorNumber(actNumber);
     }
 
@@ -177,7 +190,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         hand_Left.interactionLayers = 0;                                     // 인터렉션 레이어를 바꾸는 방법으로 소유권 이전
         hand_Right.interactionLayers = 0;                                    // 레이어 넘버 0 = 디폴트 ,6 = 인터렉터블, 12 = 쉴드
 
-        playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
+        //playerColls[0].enabled = true;                                       // 리스폰 감지 콜라이더
         playerColls[1].enabled = false;                                      // 머리 콜라이더
         playerColls[2].enabled = false;                                      // 몸통 콜라이더
         playerColls[3].enabled = false;                                      // 아이템스폰박스 오른쪽
@@ -187,9 +200,11 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         HP.gameObject.SetActive(false);                                      // 플레이어 HP
         HP.value = 0;
         HP.maxValue = inItHP;
+        myHp.value = 0;
+        myHp.maxValue = inItHP;
 
-       // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
-      //  hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
+        // hand_L_Rend.material = DeadMat_Hand;                                 // 아바타 왼손 머티리얼 
+        //  hand_R_Rend.material = DeadMat_Hand;                                 // 아바타 오른손 머티리얼 
         at_L_Rend.material = DeadMat_Hand;
         at_R_Rend.material = DeadMat_Hand;
 
@@ -214,7 +229,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         deadScreen.gameObject.SetActive(false);
         Nickname.gameObject.SetActive(true);       
 
-        playerColls[0].enabled = false;
+       // playerColls[0].enabled = false;
         playerColls[1].enabled = true;
         playerColls[2].enabled = true;
         playerColls[3].enabled = true;
@@ -247,12 +262,15 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         //  hand_R_Rend.material = hand_R;
 
         effects[2].SetActive(true);                   // 실드 효과 On
-        yield return new WaitForSeconds(3.5f);           // 4초간격
-        effects[2].SetActive(false);                  // 실드 효과 Off        
+        yield return new WaitForSeconds(2.5f);        
+        effects[2].SetActive(false);                  // 실드 효과 Off
+        AudioManager.AM.StopSE(shield);
         curHP = inItHP;
         HP.value = inItHP;
         HP.maxValue = inItHP;
         HP.gameObject.SetActive(true);
+        myHp.value = inItHP;
+        myHp.maxValue = inItHP;
         isAlive = true;
         isDeadLock = true;
     }
@@ -290,11 +308,26 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
                 Debug.Log("레드팀 리스폰");
             }         
         }
+
+        if (col.CompareTag("Warning"))
+        {
+            warningScreen.SetActive(true);
+            Debug.Log("경계선 경고!!!!!!!!");
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Warning"))
+        {
+            warningScreen.SetActive(false);
+            Debug.Log("경계선을 벗어남");
+        }
     }
 
     public void GrenadeDamage()                                              // 크리티컬(헤드샷) 데미지
     {
-        StartCoroutine(ShowDamageScreen());
+        //StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);
@@ -302,7 +335,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     }
     public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
     {
-        StartCoroutine(ShowDamageScreen());
+        //StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPowerH);
@@ -311,7 +344,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     }
     public void NormalDamage()                                                // 일반 데미지
     {
-        StartCoroutine(ShowDamageScreen());
+        //StartCoroutine(ShowDamageScreen());
         if (isDeadLock)
         {
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, attackPower);
@@ -325,8 +358,8 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
 
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
-        damageScreen.color = new Color(1, 0, 0, Random.Range(0.65f, 0.75f));
-        yield return new WaitForSeconds(0.3f);
+        damageScreen.color = new Color(1, 0, 0, 0.7f);
+        yield return new WaitForSeconds(0.4f);
         damageScreen.color = Color.clear;
     }
 
@@ -340,7 +373,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     public IEnumerator ShowRespawnEffect()                                     // 부활 효과 보여주기
     {
         effects[1].SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         effects[1].SetActive(false);
     }
 
@@ -368,6 +401,42 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public IEnumerator MyHpOnOff()                                             // 데미지시 남은HP 보여주기
+    {
+        myHp.gameObject.SetActive(true);
+        //yield return StartCoroutine(Fade(0,1));       // 페이드인
+        yield return StartCoroutine(Fade(1, 0));       // 페이드아웃
+        myHp.gameObject.SetActive(false);
+    }
+    public IEnumerator Fade(float start, float end)                            // 데미지 페이드 효과 보여주기
+    {
+        float currentTime = 0.0f;
+        float percent = 0.0f;
+
+        while (percent < 1)
+        {
+            // fadeTime으로 나누어서 fadeTime 시간 동안
+            // percent 값이 0 ~ 1로 증가하도록 함
+            currentTime += Time.deltaTime;
+            percent = currentTime / animTime;
+
+            // 알파값을 시작부터 끝까지 fadeTime 시간 동안 변화
+            Color c = hpFront.color;
+            Color c2 = hpBack.color;
+            Color c3 = hpText.color;
+            // color.a = Mathf.Lerp(start, end, percent);
+            c.a = Mathf.Lerp(start, end, fadeCurve.Evaluate(percent));
+            c2.a = Mathf.Lerp(start, end, fadeCurve.Evaluate(percent));
+            c3.a = Mathf.Lerp(start, end, fadeCurve.Evaluate(percent));
+
+            hpFront.color = c;
+            hpBack.color = c2;
+            hpText.color = c3;
+
+            yield return null;
+        }
+    }
+
     [PunRPC]
     public void Damaged(int pow)                                                  // 플레이어 데미지 받았을 때
     {
@@ -375,12 +444,16 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         {
             if (PV.IsMine)
             {
-                if (isDamaged) { return; }
-                AudioManager.AM.PlaySE("Damage");
+                StartCoroutine(MyHpOnOff());
+                if (isDamaged||!isAlive) { return; }
                 curHP -= pow;
                 HP.value = Mathf.Round(curHP * 10) * 0.1f;
                 HP.maxValue = inItHP;
+                myHp.value = HP.value;
+                myHp.maxValue = HP.maxValue;
+                AudioManager.AM.PlaySE("Damage");
                 StartCoroutine(DamagedDelay());
+                StartCoroutine(ShowDamageScreen());
                 delayTime = 1f;
                 Debug.Log("남은 HP : " + HP.value.ToString() + "%");
 
@@ -464,12 +537,13 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
 
     [PunRPC]
     public void RespawnPlayer()                                                 //  플레이어 리스폰할 때
-    {
+    {       
         if (PV.IsMine)
         {
-            AudioManager.AM.PlaySE("Respawn");
-            AudioManager.AM.PlaySE("Shield");
+            AudioManager.AM.PlaySE(respawn);
+            AudioManager.AM.PlaySE(shield);
         }
+        
         StartCoroutine(ShowRespawnEffect());
 
         StartCoroutine(PlayerRespawn());
