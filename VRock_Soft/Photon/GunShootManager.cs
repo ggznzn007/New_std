@@ -66,33 +66,35 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         GSM = this;
         DataManager.DM.currentMap = Map.TOY;
-        SetScore();
+        SetScore();      
     }
 
     private void Start()
-    {
+    {        
         //PN.UseRpcMonoBehaviourCache = true;
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
+            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
+            {
+                Destroy(admin);
+            }
+
             if (PN.IsMasterClient)
             {
-                PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);
-                PN.InstantiateRoomObject(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);
+                PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);                                               // 타이머 동기화
+                PN.InstantiateRoomObject(npc.name, new Vector3(-0.021f, 0.725f, -0.097f), Quaternion.identity);  // 크레인 
                 Invoke(nameof(Shield_Blue), 2);
                 Invoke(nameof(Shield_Red), 2);
                 //Shield_Blue();
                 //Shield_Red();
             }
             SpawnPlayer();
-            if (DataManager.DM.currentTeam != Team.ADMIN)  // 관리자 빌드시 필요한 코드
-            {
-                Destroy(admin);
-            }
+            
         }
     }
 
-
+    
     public void SpawnPlayer()
     {
         switch (DataManager.DM.currentTeam)
@@ -121,6 +123,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
             case Team.ADMIN:
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    if (Application.platform != RuntimePlatform.WindowsPlayer) { return; }
                     PN.AutomaticallySyncScene = true;
                     DataManager.DM.inGame = false;
                     DataManager.DM.gameOver = false;
@@ -137,15 +140,15 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     }
 
     private void Update()
-    {
+    {        
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { PV.RPC("StartBtnT", RpcTarget.All); }
         if (Input.GetKeyDown(KeyCode.Backspace)) { PV.RPC("EndGameT", RpcTarget.All); }
         if (Input.GetKeyDown(KeyCode.Escape)) { StartCoroutine(nameof(ExitGame)); }
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             Emp_Red();
             Emp_Blue();
-        }
+        }*/
 
         /*if (PN.IsConnectedAndReady && PN.InRoom && PN.IsMasterClient)  // 윈도우 프로그램 빌드 시
         {
@@ -174,8 +177,9 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
     {
         SetScore();
         Timer();
+      
     }
-
+   
     public void SetScore()
     {
         blueScore.text = score_BlueKill.ToString();   // 블루팀 점수
@@ -311,7 +315,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
     public IEnumerator StartTimer()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(4);
         AudioManager.AM.PlaySE("GameInfo1");
         countText.text = string.Format("게임이 3초 뒤에 시작됩니다.");
         yield return new WaitForSeconds(3);
@@ -350,7 +354,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         countText.gameObject.SetActive(true);
         AudioManager.AM.PlaySE("GameInfo2");
         countText.text = string.Format("3초 뒤에 다음 스테이지로 이동합니다");
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(5);
         PN.LeaveRoom();
         StopCoroutine(LeaveGame());
     }
