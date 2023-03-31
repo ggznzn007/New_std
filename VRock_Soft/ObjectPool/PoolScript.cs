@@ -9,9 +9,9 @@ using PN = Photon.Pun.PN;
 
 public class PoolScript : MonoBehaviourPun
 {
-    [PunRPC]
+   /* [PunRPC]
     void SetActiveRPC(bool bull)
     {
         gameObject.SetActive(bull);
-    }
+    }*/
 }
