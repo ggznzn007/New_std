@@ -48,6 +48,8 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
 
     public bool inBuild;           // 스노우 스테이지에서 빌드 타임 여부
 
+    public bool activeBall;        // 스노우 스테이지 특수아이템 여부
+
     public bool grabBomb;          // 폭탄을 집었는지 여부   
 
     public bool grabBow;           // 활을 집었는지 여부
