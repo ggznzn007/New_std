@@ -146,7 +146,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         // HP.transform.SetPositionAndRotation(myCam.transform.position + new Vector3(0, 0.5f, 0), myCam.transform.rotation);
         // HP.transform.position = myCam.transform.position + new Vector3(0, 0.42f, 0);
         //Nickname.transform.SetPositionAndRotation(myCam.transform.position + new Vector3(0, 0.6f, 0), myCam.transform.rotation);
-        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.55f, 0);
+        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.4f, 0);
         // HP.transform.forward = -myCam.transform.forward;
         Nickname.transform.forward = -myCam.transform.forward;
     }
