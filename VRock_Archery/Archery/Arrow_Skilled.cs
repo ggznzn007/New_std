@@ -8,6 +8,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
+using Unity.VisualScripting;
 
 
 public class Arrow_Skilled : Arrow
@@ -34,6 +35,7 @@ public class Arrow_Skilled : Arrow
         DataManager.DM.grabArrow = true;              
         isRotate = false;
         PV.RPC(nameof(DelayTagged), RpcTarget.AllBuffered);
+        PV.RPC(nameof(OnColl), RpcTarget.AllBuffered);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
@@ -129,5 +131,9 @@ public class Arrow_Skilled : Arrow
         Destroy(PV.gameObject);
     }
 
-   
+    [PunRPC]
+    public void OnColl()
+    {
+        damageColl.gameObject.SetActive(true);
+    }
 }
