@@ -309,7 +309,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks  // 전체적인 포톤 네트워
             case 1:
             case 3:
                 InitTutoT();          
-                // 윈도우 프로그램 빌드 시
+                // 윈도우 프로그램 빌드 시hc
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
                     ad_ConnectUI.gameObject.SetActive(false);
