@@ -29,7 +29,7 @@ public class Arrow_Bomb : Arrow
     {
         base.Awake();
         isRotate = true;                                                           // 회전 on
-        rigidbody.useGravity = false;                                              // 중력 off
+        rigidbody.useGravity = false;                                              // 중력 off        
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -39,6 +39,7 @@ public class Arrow_Bomb : Arrow
         isRotate = false;                                                          // 회전 off
         isGrip = true;                                                             // 그립 on
         PV.RPC(nameof(DelayTagged), RpcTarget.AllBuffered);
+        PV.RPC(nameof(OnColl), RpcTarget.AllBuffered);
         // rigidbody.useGravity = true;
         //damageColl.gameObject.SetActive(false);
     }
@@ -56,8 +57,7 @@ public class Arrow_Bomb : Arrow
             if (notch.CanRelease)
             {
                 DataManager.DM.arrowNum = 3;
-                LaunchArrow(notch);                                                // 화살 발사 메서드
-                
+                LaunchArrow(notch);                                                // 화살 발사 메서드                
                 /* if (PV.IsMine)
                  {
                      if (!PV.IsMine) return;
@@ -315,5 +315,11 @@ public class Arrow_Bomb : Arrow
     public void DestroyBomb()
     {
         Destroy(gameObject, bombTime);
+    }
+
+    [PunRPC]
+    public void OnColl()
+    {
+        tagColl.gameObject.SetActive(true);
     }
 }
