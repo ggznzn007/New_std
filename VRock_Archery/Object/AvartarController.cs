@@ -141,7 +141,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void Nick_HP_Pos()                                                  // 닉네임,HP 위치 메서드
     {        
-        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.54f, 0);       
+        Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.4f, 0);       
         Nickname.transform.forward = -myCam.transform.forward;
     }
     public void Initialize()                                                   // 플레이어 초기화 메서드
