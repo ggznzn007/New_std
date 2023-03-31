@@ -83,6 +83,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
     void Start()
     {
         DataManager.DM.inBuild = true;
+        DataManager.DM.activeBall = false;
         PV = GetComponent<PhotonView>();
         if (PN.IsConnectedAndReady && PN.InRoom)
         {
@@ -346,6 +347,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         countText[0].text = string.Format("게임 스타트!!!");
         countText[1].text = string.Format("게임 스타트!!!");
         DataManager.DM.inBuild = false;                                // 빌드 타임 중 여부 데이터 해제
+        DataManager.DM.activeBall = true;
         yield return new WaitForSeconds(1);
         count = true;                                                  // 게임 타이머 시작
         DataManager.DM.inGame = true;                                  // 게임 중 여부 데이터 저장
