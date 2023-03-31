@@ -54,7 +54,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI countText_TW;
 
     [Header("페이드인 스크린")]
-    [SerializeField] Canvas fadeScreen;  
+    [SerializeField] Canvas fadeScreen;
+
+    [Header("컨트롤러 설명 이미지")]
+    [SerializeField] RectTransform explainImage;
 
     private readonly string gameVersion = "1.0";
     //private readonly string masterAddress = "125.134.36.239";
@@ -309,7 +312,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             case 1:
             case 3:
-                InitTutoT();
+                InitTutoT();                
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -328,6 +331,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             case 2:
             case 4:
                 InitTutoW();
+                
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -418,7 +422,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         switch (DataManager.DM.currentMap)
         {
-            case Map.TUTORIAL_T:
+            case Map.TUTORIAL_T:                
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
@@ -438,6 +442,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case Map.TUTORIAL_W:
                 teamSelectUI_W.gameObject.SetActive(false);
+                explainImage.gameObject.SetActive(false);
                 // 윈도우 프로그램 빌드 시
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
