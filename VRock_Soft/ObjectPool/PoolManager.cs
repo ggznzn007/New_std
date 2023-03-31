@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour// 싱글 플레이 풀방식
 {
-   /* private static PoolManager poolManager;
+    /*private static PoolManager PM;
     public static PoolManager PoolingManager
     {
         get
         {
-            return poolManager;
+            return PM;
         }
     }
 
@@ -17,11 +17,11 @@ public class PoolManager : MonoBehaviour// 싱글 플레이 풀방식
 
     private void Awake()
     {
-        if (poolManager)
+        if (PM)
         {
             Destroy(gameObject);
             return;
         }
-        poolManager = this;
+        PM = this;
     }*/
 }
