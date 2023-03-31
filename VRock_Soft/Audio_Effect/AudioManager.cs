@@ -134,6 +134,27 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log("등록된 예비음이 없습니다.");
     }
+    public void StopSB(string soundName)
+    {
+        for (int i = 0; i < soundB.Length; i++)
+        {
+            if (soundName == soundB[i].name)
+            {
+                for (int j = 0; j < beepSpeaker.Length; j++)
+                {
+                    if (beepSpeaker[j].isPlaying)
+                    {
+                        beepSpeaker[j].clip = soundB[i].clip;
+                        beepSpeaker[j].Stop();
+                        return;
+                    }
+                }
+                Debug.Log("모든 효과음스피커가 사용중입니다.");
+                return;
+            }
+        }
+        Debug.Log("등록된 효과음이 없습니다.");
+    }
 
     public void StopSX(string soundName)
     {
