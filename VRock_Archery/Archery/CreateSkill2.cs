@@ -28,7 +28,7 @@ public class CreateSkill2 : MonoBehaviourPun                                    
     {
         if (PN.IsMasterClient)                                                         // 마스터 만 화살 생성(여러사람이 생성하면 에러)
         {
-            if (curBall == null)                                                          // 현재 슬롯이 비었을 때만 생성
+            if (curBall == null&&DataManager.DM.activeBall)                                 // 현재 슬롯이 비었을 때만 생성
             {
                 if (curBall != null) return;                                              // 아니면 리턴
                 SpawnBomb();
