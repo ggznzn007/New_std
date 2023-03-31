@@ -16,8 +16,9 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 {
     PhotonView PV;
     Rigidbody rb;
-    public GameObject effect;   
-    public bool isBeingHeld = false;    
+    public GameObject effect;
+    public AudioSource dynaSound;
+    public bool isBeingHeld = false;        
     public string bombBeep;
     public string dm_Explo;
     SelectionOutline outline = null;
@@ -30,7 +31,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     private void Start()
     {
         rb = GetComponent<Rigidbody>();       
-        outline = GetComponent<SelectionOutline>();
+        outline = GetComponent<SelectionOutline>();        
     }
     private void FixedUpdate()
     {      
@@ -47,7 +48,8 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     }
 
     public IEnumerator Explode_D()
-    {
+    {        
+        dynaSound.Stop();
         PV.RPC(nameof(BeepSound), RpcTarget.AllBuffered);
         yield return new WaitForSecondsRealtime(2.35f);
         PV.RPC(nameof(ExploSound), RpcTarget.AllBuffered);
@@ -57,9 +59,10 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
 
     [PunRPC]
     public void BeepSound()
-    {
+    {        
         AudioManager.AM.PlaySB(bombBeep);
     }
+
     [PunRPC]
     public void ExploSound()
     {
@@ -75,12 +78,13 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     public void Grab_DM()
     {
         isBeingHeld = true;
+        dynaSound.Play();
     }
 
     [PunRPC]
     public void Put_DM()
     {
-        isBeingHeld = false;
+        isBeingHeld = false;        
     }
 
     public void OnSelectedEntered()
@@ -98,7 +102,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
     }
 
     public void OnSelectedExited()
-    {
+    {        
         StartCoroutine(Explode_D());
         //Invoke(nameof(Explode_D), 2.35f);
         PV.RPC(nameof(Put_DM), RpcTarget.AllBuffered);
