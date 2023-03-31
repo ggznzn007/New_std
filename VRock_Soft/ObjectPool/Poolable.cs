@@ -9,7 +9,7 @@ using TMPro;
 
 public class Poolable : MonoBehaviourPun  // 싱글 플레이 풀방식
 {
-   /* protected BulletPool pool;
+    /*protected BulletPool pool;
 
     public virtual void CreateBullet(BulletPool pool)
     {
