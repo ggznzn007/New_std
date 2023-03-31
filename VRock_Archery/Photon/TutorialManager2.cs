@@ -35,6 +35,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
     {
         DataManager.DM.isReady = false;
         DataManager.DM.inBuild = true;
+        DataManager.DM.activeBall = true;
         if (!PN.IsConnectedAndReady)
         {
             SceneManager.LoadScene(0);
