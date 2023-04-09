@@ -8,23 +8,19 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-using Photon.Pun.Demo.Procedural;
-using UnityEngine.InputSystem.HID;
+
 
 //[RequireComponent(typeof(PullMeasurer))]
 public class Notch : XRSocketInteractor
 {
-    [SerializeField, Range(0, 1)] private float releaseThreshold = 0f;
-    private Arrow curArrow;
-    //private Arrow_Skilled curArrow2;
-    public Collider coll;
-    public Bow Bow { get; private set; }
-    public PullMeasurer PullMeasurer { get; private set; }
-
-    public HandInteractor HandInteractor { get; private set; }
-
+    [SerializeField, Range(0, 1)] private float releaseThreshold = 0f;                                // 활시위에 릴리즈 시간
+    private Arrow curArrow;                                                                           // 현재 화살
+    public Collider notchColl;                                                                        // 활시위에 붙기위한 콜라이더
+    public Collider[] colls;                                                                            
+    public Bow Bow { get; private set; }                                                              // 활
+    public PullMeasurer PullMeasurer { get; private set; }                                            // 활시위
+    public HandInteractor HandInteractor { get; private set; }                                        // 손 인터렉션
     //public Arrow Arrow { get; private set; }
-
     public bool CanRelease => PullMeasurer.PullAmount > releaseThreshold;
 
     protected override void Awake()
@@ -44,7 +40,7 @@ public class Notch : XRSocketInteractor
     protected override void OnDisable()
     {
         base.OnDisable();
-        PullMeasurer.selectExited.RemoveListener(ReleaseArrow);
+        PullMeasurer.selectExited.RemoveListener(ReleaseArrow);        
     }
 
     public void ReleaseArrow(SelectExitEventArgs args)
@@ -68,32 +64,30 @@ public class Notch : XRSocketInteractor
         attachTransform.position = PullMeasurer.PullPosition;        
     }
 
-    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    protected override void OnSelectEntered(SelectEnterEventArgs args)            // 활시위에 화살이 붙었을 때
     {
-        base.OnSelectEntered(args);
-        Debug.Log("활시위에 화살이 붙었습니다.");
-        AttachArrow(curArrow);        
-        coll.enabled = false;        
-        //DataManager.DM.grabArrow = true;
+        base.OnSelectEntered(args);               
+        AttachArrow(curArrow);                                                    // 활시위에 화살이 붙는 메서드 호출               
+        notchColl.enabled = false;                                                // 활시위 콜라이더 off
+        DataManager.DM.grabArrow = true;                                          // 활시위에 화살이 붙어있다는 데이터 저장
     }
 
-    protected override void OnSelectExited(SelectExitEventArgs args)
+    protected override void OnSelectExited(SelectExitEventArgs args)              // 활시위에서 화살이 발사되었을 때
     {
-        base.OnSelectExited(args);
-        Debug.Log("화살이 발사되었습니다.");        
-        coll.enabled = true;
-       // DataManager.DM.grabArrow = false;
+        base.OnSelectExited(args);       
+        notchColl.enabled = true;                                                 // 활시위 콜라이더 on
+        DataManager.DM.grabArrow = false;                                         // 활시위에 화살이 떨어졌다는 데이터 저장
     }
 
-    private void AttachArrow(Arrow interactable)
+    private void AttachArrow(Arrow interactable)                                  // 활시위에 화살이 붙는 메서드
     {
         if (interactable is Arrow Arrow)
         {
-            curArrow = Arrow;            
+            curArrow = Arrow;           
         }        
     }
 
-    public override bool CanSelect(IXRSelectInteractable interactable)
+    public override bool CanSelect(IXRSelectInteractable interactable)            // 화살을 활시위 가까이 가져가면 자동으로 붙게 만드는 메서드
     {
         // We check for the hover here too, since it factors in the recycle time of the socket
         // We also check that notch is ready, which is set once the bow is picked up
@@ -101,14 +95,14 @@ public class Notch : XRSocketInteractor
         return QuickSelect(interactable) && CanHover(interactable) && interactable is Arrow && Bow.isSelected;
     }
 
-    private bool QuickSelect(IXRSelectInteractable interactable)
+    private bool QuickSelect(IXRSelectInteractable interactable)                 // 화살을 활시위 가까이 가져가면 자동으로 붙게 만드는 메서드
     {
         // This lets the Notch automatically grab the arrow
         
         return !hasSelection || IsSelecting(interactable);
     }
 
-    private bool CanHover(IXRSelectInteractable interactable)
+    private bool CanHover(IXRSelectInteractable interactable)                    // 화살을 활시위 가까이 가져가면 자동으로 붙게 만드는 메서드
     {
         if (interactable is IXRHoverInteractable hoverInteractable)
             return CanHover(hoverInteractable) && QuickSelect(interactable);
