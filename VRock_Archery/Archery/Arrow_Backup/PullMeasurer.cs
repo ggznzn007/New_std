@@ -8,59 +8,39 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-using Photon.Pun.Demo.Procedural;
-using UnityEngine.InputSystem.HID;
 
 public class PullMeasurer : XRBaseInteractable
 {
-    [SerializeField] private Transform start;
-    [SerializeField] private Transform end;
-    [SerializeField] GameObject arrow;
-    [SerializeField] Transform attachPoint;
-    private GameObject myArrow;
-    public AudioSource audioSource;
-    //public PhotonView PV;
-   // private XRBaseInteractor pullingInteractor = null;
-   // public HandInteractor HandInteractor { get; private set; }
-    //public Notch Notch { get; private set; }
-
-    public float PullAmount { get; private set; } = 0.0f;
-
-    public Vector3 PullPosition => Vector3.Lerp(start.position, end.position, PullAmount);
-
-   // public Quaternion PullRotation =>Quaternion.Lerp(start.rotation, end.rotation, PullAmount);
+    [SerializeField] private Transform start; // 활시위 시작점
+    [SerializeField] private Transform end;   // 활시위 끝점
+    [SerializeField] GameObject arrow;        // 화살
+    [SerializeField] Transform attachPoint;   // 화살이 생성되어 붙는 위치
+    private GameObject myArrow;               // 현재 화살
+    public AudioSource audioSource;           // 활 당길때 오디오
    
+    public float PullAmount { get; private set; } = 0.0f; // 활시위 당기는 양
 
-    /* protected override void Awake()
-     {
-         base.Awake();
-         HandInteractor = FindObjectOfType<HandInteractor>();
-     }*/
+    public Vector3 PullPosition => Vector3.Lerp(start.position, end.position, PullAmount); // 활시위 당기는 양에따라 위치 변화  
 
     private void Start()
     {
-        audioSource= GetComponentInParent<AudioSource>();
-       // PV = GetComponent<PhotonView>();
+        audioSource= GetComponentInParent<AudioSource>();      
     }
 
-    protected override void OnSelectExited(SelectExitEventArgs args)
+    protected override void OnSelectExited(SelectExitEventArgs args) // 활시위를 놓았을 때 메서드
     {
         base.OnSelectExited(args);
-        PullAmount = 0;
-        Debug.Log("활시위를 놓았습니다.");
-        DataManager.DM.grabArrow = false;
-        AudioManager.AM.PlaySE("bShoot");
+        PullAmount = 0;                    // 당기는 양 초기화
+        DataManager.DM.grabString = false; // 활시위를 놓았다는 데이터 저장
+        AudioManager.AM.PlaySE("bShoot");  // 화살 발사 오디오 재생
     }
 
-    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    protected override void OnSelectEntered(SelectEnterEventArgs args) // 활시위를 잡았을 때 메서드
     {
         base.OnSelectEntered(args);
-        Debug.Log("활시위를 잡았습니다.");
-        SpawnArrow();                                                  // 활시위를 잡았을 때 기본화살 생성하는 메서드 호출
-        PullSoundInterval(0, 0.7f, 0.4f);
-        //PullSoundInterval(0, 1.66f, 0.4f);
-        //pullingInteractor = HandInteractor;        
-
+        SpawnArrow();                       // 활시위를 잡았을 때 기본화살 생성하는 메서드 호출
+        PullSoundInterval(0, 0.7f, 0.4f);   // 활시위를 잡아 당길때 인터벌
+        DataManager.DM.grabString = true;   // 활시위를 잡았다는 데이터 저장        
     }
 
     public void ForceInteract(SelectEnterEventArgs args)
@@ -81,18 +61,17 @@ public class PullMeasurer : XRBaseInteractable
     }
 
    
-    private void UpdatePull()
+    private void UpdatePull() // 활시위 당기는 중이라는 메서드
     {
         // Use the interactor's position to calculate amount
        // Vector3 interactorPosition = firstInteractorSelecting.transform.position;                       
         Vector3 interactorPosition =firstInteractorSelecting.transform.position;
-        Debug.Log("활시위를 당기는중...");
         
         // Figure out the new pull value, and it's position in space
         PullAmount = CalculatePull(interactorPosition);       
     }
 
-    private float CalculatePull(Vector3 pullPosition)
+    private float CalculatePull(Vector3 pullPosition)            // 활시위 당기는 위치 및 회전 계산 메서드
     {
         // Direction, and length
         Vector3 pullDirection = pullPosition - start.position;
