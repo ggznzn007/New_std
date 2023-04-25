@@ -419,12 +419,12 @@ public class GameManager : MonoBehaviour
         // 점수계산	
         newScore += oneLine switch // Switch case 사용
         {
-            1 => (oneLine * 10) + (shapePosLength + 20),       // 1줄 클리어, 블럭수 + 1*10             10  보너스
+            1 => (oneLine * 10) + (shapePosLength + 30),       // 1줄 클리어, 블럭수 + 1*10             10  보너스
             2 => (oneLine * 80) + (shapePosLength + 60),       // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
-            3 => (oneLine * 160) + (shapePosLength + 90),      // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
-            4 => (oneLine * 240) + (shapePosLength + 120),     // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
-            5 => (oneLine * 320) + (shapePosLength + 150),     // 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
-            6 => (oneLine * 350) + (shapePosLength),           // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
+            3 => (oneLine * 160) + (shapePosLength + 500),      // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
+            4 => (oneLine * 240) + (shapePosLength + 1000),     // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
+            5 => (oneLine * 320) + (shapePosLength + 1500),     // 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
+            6 => (oneLine * 350) + (shapePosLength+ 10000),           // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
             _ => shapePosLength, //Default => _ 로 표현 (C# 9.0에서 나온 간결한 기능 )
         };
         // 기존 버전 점수 배점
