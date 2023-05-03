@@ -10,7 +10,11 @@ public class OneCommand : MonoBehaviour
     #region 태그에 따른 함수호출
     void Awake() { if (CompareTag("GameManager")) Awake_GM(); }
 
-    void Update() { if (CompareTag("GameManager")) Update_GM(); }
+    void Update()
+    {
+        if (CompareTag("GameManager")) Update_GM();
+        if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+    }
 
     void FixedUpdate() { if (CompareTag("GameManager")) FixedUpdate_GM(); }
 
