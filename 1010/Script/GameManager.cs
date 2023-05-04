@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             backPanel.SetActive(true); // 메뉴창(뒤로가기) 활성화
             if (newScore > beforeScore)
             {
-                backpanelScore.text = "New Best : " + newScore.ToString();
+                backpanelScore.text = "새로운 기록 : " + newScore.ToString();
             }
             else
             {
@@ -420,10 +420,10 @@ public class GameManager : MonoBehaviour
         newScore += oneLine switch // Switch case 사용
         {
             1 => (oneLine * 10) + (shapePosLength + 30),       // 1줄 클리어, 블럭수 + 1*10             10  보너스
-            2 => (oneLine * 80) + (shapePosLength + 60),       // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
-            3 => (oneLine * 160) + (shapePosLength + 500),      // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
-            4 => (oneLine * 240) + (shapePosLength + 1000),     // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
-            5 => (oneLine * 320) + (shapePosLength + 1500),     // 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
+            2 => (oneLine * 40) + (shapePosLength + 60),       // 2줄 클리어, 블럭수 + (1+2)*10         30  보너스
+            3 => (oneLine * 80) + (shapePosLength + 100),      // 3줄 클리어, 블럭수 + (1+2+3)*10       60  보너스
+            4 => (oneLine * 200) + (shapePosLength + 300),     // 4줄 클리어, 블럭수 + (1+2+3+4)*10     100 보너스
+            5 => (oneLine * 320) + (shapePosLength + 1000),     // 5줄 클리어, 블럭수 + (1+2+3+4+5)*10   150 보너스
             6 => (oneLine * 350) + (shapePosLength+ 10000),           // 6줄 클리어, 블럭수 + (1+2+3+4+5+6)*10 210 보너스
             _ => shapePosLength, //Default => _ 로 표현 (C# 9.0에서 나온 간결한 기능 )
         };
