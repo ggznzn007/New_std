@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-	[SerializeField] float smoothTimeX, smoothTimeY;
+	[SerializeField] float smoothTimeX, smoothTimeY;   // 카메라 움직임을 부드럽게 하기위한 변수
 	[Header("Now Position")]
-	[SerializeField] Vector2 velocity;
-	[SerializeField] GameObject player;
+	[SerializeField] Vector2 velocity;                 // 속도
+	[SerializeField] GameObject player;                // 플레이어
 	[Header("Control Area")] 
-	[SerializeField] Vector2 minPos, maxPos;
+	[SerializeField] Vector2 minPos, maxPos;           // 카메라 이동제한 위치값
 	
 
 	void Start()
