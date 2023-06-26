@@ -30,7 +30,6 @@ public class CellScript : MonoBehaviour
         }
     }
 
-
     void OnMouseDown()
     {
         SoundManager.instance.Playsound(SoundManager.instance.blockClick);
