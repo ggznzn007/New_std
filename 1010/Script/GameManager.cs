@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ScoreTextMeshPro;                    // 현재점수
     public TextMeshProUGUI BestScoreText;                       // 최고점수
 
-
     // 옵션 변수
     [SerializeField]
     private GameObject bgm;                                     // BGM 오브젝트
