@@ -44,6 +44,7 @@ public class Arrow_MultiShot : Arrow
         DataManager.DM.grabArrow = true;
         isRotate = false;
     }
+
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
@@ -105,6 +106,7 @@ public class Arrow_MultiShot : Arrow
         // StartCoroutine(LaunchRoutine());
         DataManager.DM.grabArrow = false;
     }
+
     public void LaunchArrow2(Notch notch)
     {
         isGrip = false;  
@@ -119,6 +121,7 @@ public class Arrow_MultiShot : Arrow
         ApplyForce2(notch.PullMeasurer);
         DataManager.DM.grabArrow = false;
     }
+
     public void LaunchArrow3(Notch notch)
     {
         isGrip = false;
