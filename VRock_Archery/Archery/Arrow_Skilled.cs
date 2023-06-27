@@ -10,7 +10,6 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Unity.VisualScripting;
 
-
 public class Arrow_Skilled : Arrow
 {
     public GameObject effects;
