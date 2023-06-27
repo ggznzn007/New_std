@@ -8,6 +8,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
+
 public class ArrowBasicM : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
