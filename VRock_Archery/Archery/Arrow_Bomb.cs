@@ -67,13 +67,10 @@ public class Arrow_Bomb : Arrow
             }
         }
 
-    }
-
-    
+    }    
 
     private void OnCollisionEnter(Collision collision)
-    {
-       
+    {       
         // Ignore parent collisions
         if (transform.parent != null && collision.transform == transform.parent)
         {
