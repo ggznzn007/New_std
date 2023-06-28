@@ -44,7 +44,6 @@ public class BowManager : MonoBehaviourPun, IPunObservable
         isGrip = true;
     }
 
-
     void Update()
     {
         /* if (!PV.IsMine)
@@ -64,6 +63,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             rb.isKinematic = false;
         }
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -206,6 +206,4 @@ public class BowManager : MonoBehaviourPun, IPunObservable
             PV.RPC(nameof(ShieldOff), RpcTarget.AllBuffered);
         }
     }
-
-
 }
