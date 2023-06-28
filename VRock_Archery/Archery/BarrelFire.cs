@@ -35,7 +35,6 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
             yield return new WaitForSeconds(0.8f);
         }        
     }
-
    
     private void Update()
     {
@@ -46,6 +45,7 @@ public class BarrelFire : MonoBehaviourPunCallbacks, IPunObservable
                 , Quaternion.Lerp(transform.rotation, remoteRot, t));
         }
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
