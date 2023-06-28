@@ -13,19 +13,13 @@ public class CreateB : MonoBehaviourPunCallbacks
     private PhotonView PV;
     private GameObject curArrow;
     private float curTime;
+
     void Start()
     {
         _particleSystem = GetComponent<ParticleSystem>();
         PV = GetComponent<PhotonView>();
-    }
-        
-    void Update()
-    {
-        if (PN.IsMasterClient)
-        {
-
-        }
-    }
+    }        
+   
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Skilled"))
