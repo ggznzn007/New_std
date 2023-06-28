@@ -72,5 +72,4 @@ public class CameraRot : MonoBehaviour
                 break;*/
         }
     }
-
 }
