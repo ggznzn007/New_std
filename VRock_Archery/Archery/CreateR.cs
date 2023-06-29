@@ -19,14 +19,7 @@ public class CreateR : MonoBehaviourPunCallbacks
         _particleSystem = GetComponent<ParticleSystem>();
         PV = GetComponent<PhotonView>();
     }
-        
-    void Update()
-    {
-        if (PN.IsMasterClient)
-        {
-
-        }
-    }
+    
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Skilled"))
