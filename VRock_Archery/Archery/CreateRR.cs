@@ -20,13 +20,6 @@ public class CreateRR : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
     }
    
-    void Update()
-    {
-        if (PN.IsMasterClient)
-        {
-
-        }
-    }
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Skilled"))
@@ -49,7 +42,6 @@ public class CreateRR : MonoBehaviourPunCallbacks
                 //if (!PV.IsMine) return;
                 PV.RPC(nameof(FxStop), RpcTarget.AllBuffered);
             }
-
         }
     }
 
