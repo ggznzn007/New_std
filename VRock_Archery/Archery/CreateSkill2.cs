@@ -33,7 +33,6 @@ public class CreateSkill2 : MonoBehaviourPun                                    
                 if (curBall != null) return;                                              // 아니면 리턴
                 SpawnBomb();
             }
-
         }
     }
 
@@ -65,7 +64,6 @@ public class CreateSkill2 : MonoBehaviourPun                                    
                 //if (!PV.IsMine) return;
                 PV.RPC(nameof(FxPlay), RpcTarget.AllBuffered); // 슬롯 파티클 재생 , RPC로 모든 플레이어에게 공유
             }
-
         }
     }
 
@@ -78,10 +76,8 @@ public class CreateSkill2 : MonoBehaviourPun                                    
                 //if (!PV.IsMine) return;
                 PV.RPC(nameof(FxStop), RpcTarget.AllBuffered); // 슬롯 파티클 정지 , RPC로 모든 플레이어에게 공유
             }
-
         }
     }
-
 
     [PunRPC]
     public void FxPlay()
