@@ -10,14 +10,14 @@ public class Icicle : SnowBall
     public MeshRenderer mesh;
     public Collider tagColl;
     public Collider iceDamColl;
+
     protected override void Awake()
     {
         base.Awake();
         PV = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
         isGrip = true;
-        rigidbody.useGravity = false;
-        
+        rigidbody.useGravity = false;        
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -134,6 +134,7 @@ public class Icicle : SnowBall
             PV.RPC(nameof(RotAfter), RpcTarget.AllBuffered);
             PV.RPC(nameof(ActiveEX), RpcTarget.AllBuffered);
         }
+
         isGrip = false;
         launched = true;
         flightTime = 0f;        
@@ -209,9 +210,7 @@ public class Icicle : SnowBall
             Physics.IgnoreCollision(collision.collider, myColl, true);
             Physics.IgnoreCollision(collision.collider, damageColl, true);
             return;
-        }
-
-        
+        }        
 
         /* if(collision.collider.CompareTag("Body"))
          {
