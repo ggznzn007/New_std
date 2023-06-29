@@ -82,6 +82,7 @@ public class EagleBomb : MonoBehaviourPunCallbacks, IPunObservable// 아처 독수리
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
+
         else
         {
             remotePos = (Vector3)stream.ReceiveNext();
