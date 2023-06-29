@@ -16,6 +16,7 @@ public class CreateSkill : MonoBehaviourPun                                     
     private GameObject curArrow;                                                      // 현재 화살
     private float curTime;                                                            // 현재 시간
     private int selectNum = 0;
+
     private void Start()
     {
         _particleSystem = GetComponent<ParticleSystem>();
@@ -79,7 +80,6 @@ public class CreateSkill : MonoBehaviourPun                                     
             }
         }
     }
-
 
     [PunRPC]
     public void FxPlay()
