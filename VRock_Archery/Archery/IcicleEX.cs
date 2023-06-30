@@ -25,13 +25,13 @@ public class IcicleEX : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
         Destroy(PV.gameObject);
     }
+
     public IEnumerator CollOnOff()
     {
         exColl.enabled = true;
         yield return new WaitForSeconds(0.04f);
         exColl.enabled = false;        
     }
-
 
     private void Update()
     {
@@ -42,6 +42,7 @@ public class IcicleEX : MonoBehaviourPunCallbacks, IPunObservable
                 , Quaternion.Lerp(transform.rotation, remoteRot, t));
         }
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -55,5 +56,4 @@ public class IcicleEX : MonoBehaviourPunCallbacks, IPunObservable
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
 }
