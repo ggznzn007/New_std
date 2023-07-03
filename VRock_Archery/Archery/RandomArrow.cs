@@ -40,7 +40,5 @@ public static class RandomArrow
             Success = true;
         }
         return Success;
-    }
-
-   
+    }   
 }
