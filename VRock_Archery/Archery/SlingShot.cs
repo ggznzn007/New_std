@@ -11,6 +11,4 @@ public class SlingShot : XRGrabInteractable
     {
         base.OnSelectExited(interactor);       
     }
-
-
 }
