@@ -45,7 +45,6 @@ public class PullMeasurer_S : XRBaseInteractable
         DataManager.DM.grabString = true;
         SpawnBall();                                                  // 활시위를 잡았을 때 기본화살 생성하는 메서드 호출
         PullSoundInterval(0, 0.7f, 0.4f);
-
     }
 
     public void ForceInteract(SelectEnterEventArgs args)
