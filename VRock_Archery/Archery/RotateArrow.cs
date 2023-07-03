@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RotateArrow : MonoBehaviour
-{
-    
+{    
     private void Awake()
     {
         
