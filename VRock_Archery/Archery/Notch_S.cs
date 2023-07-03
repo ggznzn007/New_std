@@ -47,7 +47,6 @@ public class Notch_S : XRSocketInteractor
     {
         if (hasSelection)
             interactionManager.SelectExit(this, firstInteractableSelected);
-
     }
 
     public override void ProcessInteractor(XRInteractionUpdateOrder.UpdatePhase updatePhase)
@@ -93,14 +92,12 @@ public class Notch_S : XRSocketInteractor
     {
         // We check for the hover here too, since it factors in the recycle time of the socket
         // We also check that notch is ready, which is set once the bow is picked up
-
         return QuickSelect(interactable) && CanHover(interactable) && interactable is SnowBall && Sling.isSelected;
     }
 
     private bool QuickSelect(IXRSelectInteractable interactable)
     {
         // This lets the Notch automatically grab the arrow
-
         return !hasSelection || IsSelecting(interactable);
     }
 
