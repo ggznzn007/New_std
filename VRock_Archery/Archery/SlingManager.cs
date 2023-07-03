@@ -61,6 +61,7 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
             crashColl.isTrigger = false;
         }
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -101,15 +102,11 @@ public class SlingManager : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-
         }
-
     }
-
 
     [PunRPC]
     public void DestroyBow() => Destroy(PV.gameObject);
-
 
     [PunRPC]
     public void StartGrabbing()
