@@ -79,7 +79,6 @@ public class ParticleCtrl : MonoBehaviourPunCallbacks
         }
     }
 
-
     [PunRPC]
     public void FxPlay()
     {
@@ -92,5 +91,4 @@ public class ParticleCtrl : MonoBehaviourPunCallbacks
         _particleSystem.Stop(); 
         curArrow= null;
     }
-
 }
