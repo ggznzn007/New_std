@@ -49,6 +49,7 @@ public class SnowBall : XRGrabInteractable
         DataManager.DM.grabBall = true;              
         isGrip = true;        
     }
+
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
@@ -79,6 +80,7 @@ public class SnowBall : XRGrabInteractable
             flightTime += Time.fixedDeltaTime;           
         }
     }
+
     public void LaunchBall(Notch_S notchs)
     {
         isGrip = false;
@@ -127,8 +129,7 @@ public class SnowBall : XRGrabInteractable
             return;
         }
 
-        if (isGrip) return;
-     
+        if (isGrip) return;     
 
         string colNameLower = collision.transform.tag.ToLower();
 
@@ -147,6 +148,7 @@ public class SnowBall : XRGrabInteractable
             Physics.IgnoreCollision(collision.collider, damageColl, true);
             return;
         }
+
         if (collision.collider.CompareTag("FloorBox") || collision.collider.CompareTag("Cube")
            || collision.collider.CompareTag("Snowblock") || collision.collider.CompareTag("Iceblock")
            || collision.collider.CompareTag("SlingShot") || collision.collider.CompareTag("Obtacle"))
@@ -332,7 +334,6 @@ public class SnowBall : XRGrabInteractable
         }
     }
 
-
     public void TrySticky(Collision coll)                               // 화살이 목표물에 박혔을 때 메서드
     {
         Rigidbody colRid = coll.collider.GetComponent<Rigidbody>();
@@ -401,7 +402,5 @@ public class SnowBall : XRGrabInteractable
     public void ImpactS()
     {
         AudioManager.AM.PlaySE(tImpact);
-    }
-
-    
+    }    
 }
