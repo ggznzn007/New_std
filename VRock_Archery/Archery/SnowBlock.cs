@@ -35,6 +35,7 @@ public class SnowBlock : XRGrabInteractable
             interactionLayers = 0;
         }       
     }
+
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);        
@@ -61,6 +62,7 @@ public class SnowBlock : XRGrabInteractable
     {
         isBeingHeld = false;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.CompareTag("Stoneball"))
