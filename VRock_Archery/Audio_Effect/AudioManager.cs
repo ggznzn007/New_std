@@ -60,6 +60,7 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log("등록된 효과음이 없습니다.");        
     }
+
     public void StopSE(string soundName)
     {
         for (int i = 0; i < soundE.Length; i++)
@@ -81,6 +82,7 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log("등록된 효과음이 없습니다.");
     }
+
     public void PlaySX(string soundName)
     {
         for (int i = 0; i < soundX.Length; i++)
@@ -130,7 +132,5 @@ public class AudioManager : MonoBehaviour
         int rand = Random.Range(0,bgm.Length);
         bgmSpeaker.clip = bgm[rand].clip;
         bgmSpeaker.Play();
-    }
-   
-    
+    }    
 }
