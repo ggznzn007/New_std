@@ -23,6 +23,7 @@ public class SpawnBox : XRBaseInteractable
     {
         DataManager.DM.grabBow = false;
     }
+
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
