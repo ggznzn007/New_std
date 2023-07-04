@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AudioManager_Gun : MonoBehaviour
 {
-
     [Header("배경음 재생기")]
     public AudioSource bgmPlayer;
 
