@@ -53,9 +53,7 @@ public class StoneBall : SnowBall
         {
             flightTime = 1;
         }
-    }
-
-    
+    }    
 
     private void FixedUpdate()
     {
@@ -72,6 +70,7 @@ public class StoneBall : SnowBall
         }
 
     }
+
     public new void LaunchBall(Notch_S notchs)
     {
         isGrip = false;
@@ -100,7 +99,6 @@ public class StoneBall : SnowBall
             }
         }
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -264,5 +262,4 @@ public class StoneBall : SnowBall
         myColl.tag = "Stoneball";
         damageColl.tag = "Stoneball";
     }
-
 }
