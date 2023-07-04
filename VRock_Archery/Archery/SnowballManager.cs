@@ -17,12 +17,12 @@ public class SnowballManager : MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
     private Vector3 remotePos;
     private Quaternion remoteRot;
 
-
     private void Awake()
     {
         isBeingHeld = false;
         isGrip = false;
     }
+
     void Start()
     {
         PV = GetComponent<PhotonView>();
