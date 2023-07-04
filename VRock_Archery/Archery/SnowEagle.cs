@@ -32,7 +32,6 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
     private float curTime;    
     private bool eagleisDam;
 
-
     public void Start()
     {
         SNOWE = this;
@@ -113,7 +112,6 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
           }*/
     }
 
-
     [PunRPC]
     public void BlockInit()                                                 // 독수리의 자식으로 블럭생성 RPC 구현
     {
@@ -124,7 +122,6 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
         curTime = 0;
         //Debug.Log("ICE블럭 생성");
     }
-
 
     [PunRPC]
     public void SEDam()
@@ -177,5 +174,4 @@ public class SnowEagle : MonoBehaviourPunCallbacks, IPunObservable
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
-
 }
