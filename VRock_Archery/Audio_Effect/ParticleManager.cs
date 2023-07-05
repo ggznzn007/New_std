@@ -11,6 +11,5 @@ public class ParticleManager : MonoBehaviour
     {
         particle = GetComponent<ParticleSystem>();
         gameEffects = new ParticleSystem.Particle[particle.main.maxParticles];
-    }
-   
+    }   
 }
