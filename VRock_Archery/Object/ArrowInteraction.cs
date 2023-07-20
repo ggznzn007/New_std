@@ -65,7 +65,6 @@ public class ArrowInteraction : MonoBehaviour
         MaskAndFire(value);
         StartCoroutine(RotateWithVelocity());
         this.lastPosition = tipPosition.position;
-
     }
 
     private void MaskAndFire(float power)
