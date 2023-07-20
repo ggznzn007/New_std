@@ -28,5 +28,4 @@ public class AnimationW : MonoBehaviourPunCallbacks
        aniAudio = GetComponent<AudioSource>();
         //anim = GetComponent<Animation>();
     }
-
 }
