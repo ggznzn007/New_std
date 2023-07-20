@@ -34,8 +34,7 @@ public class AdminMove : MonoBehaviour
         else if(DataManager.DM.currentMap == Map.WESTERN)
         {
             timerText.text = WesternManager.WM.timerText[0].text;
-        }
-        
+        }        
     }
 
     public void SetResolution()
