@@ -35,7 +35,6 @@ public class BodyDamaged_S : MonoBehaviourPun  // 스노우 플레이어 몸통 콜라이더 
                 AT.HeadShotDamage(); // 특수 눈덩이는 헤드샷과 같은 대미지 적용
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider coll)
@@ -56,5 +55,4 @@ public class BodyDamaged_S : MonoBehaviourPun  // 스노우 플레이어 몸통 콜라이더 
             }
         }
     }
-
 }
