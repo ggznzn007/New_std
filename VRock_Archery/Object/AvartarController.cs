@@ -125,6 +125,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
     }
+
     public void Show_Frame()                                                   // 프레임 보여주기
     {
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primaryButton, out bool pressed))
@@ -132,6 +133,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             if (pressed) { FPS.SetActive(true); }
         }
     }
+
     public void UnShow_Frame()                                                 // 프레임 숨기기
     {
         if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.secondaryButton, out bool pressed))
@@ -139,11 +141,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             if (pressed) { FPS.SetActive(false); }
         }
     }
+
     public void Nick_HP_Pos()                                                  // 닉네임,HP 위치 메서드
     {        
         Nickname.transform.position = myCam.transform.position + new Vector3(0, 0.4f, 0);       
         Nickname.transform.forward = -myCam.transform.forward;
     }
+
     public void Initialize()                                                   // 플레이어 초기화 메서드
     {
         // 플레이어 HP & 닉네임 초기화
@@ -159,6 +163,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
 
         GetNickNameByActorNumber(actNumber);
     }
+
     public string GetNickNameByActorNumber(int actorNumber)                    // 닉네임 가져오기
     {
         //지금 현재 방에 접속한 사람의 닉네임을 가져온다   -- PlayerListOthers 자기 자신을 뺀 나머지 다 가져옴
@@ -171,6 +176,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
         return "Ghost";
     }
+
     public void SkillDamage()                                                  // 스킬화살 대미지
     {
         if (isDeadLock)
@@ -179,6 +185,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damSkill);
         }
     }
+
     public void BombDamage()                                                   // 폭탄화살 대미지
     {
         if (isDeadLock)
@@ -187,6 +194,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damSkill);
         }
     }
+
     public void DotDamage()                                                    // NPC 도트 대미지
     {
         if (isDeadLock)
@@ -196,6 +204,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damDot);
         }
     }
+
     public void IceDamage()                                                    // 아이스 폭탄 대미지
     {
         if (isDeadLock)
@@ -205,6 +214,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damIce);
         }
     }
+
     public void HeadShotDamage()                                               // 헤드샷 대미지
     {
         // PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
@@ -214,6 +224,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damCritic);
         }
     }
+
     public void NormalDamage()                                                 // 노멀 대미지
     {        
         if (isDeadLock)
@@ -222,6 +233,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, damNormal);
         }
     }
+
     public void Respawn()                                                      // 리스폰 메서드
     {
         PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);
@@ -270,6 +282,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
     }
+
     public IEnumerator PlayerRespawn() /////////////////////////////////////////리스폰 메서드/////////////////////////////////////////////////////////////////////
     {
         deadScreen.gameObject.SetActive(false);
@@ -313,6 +326,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         isAlive = true;
         isDeadLock = true;
     }
+
     public IEnumerator ShowDamageScreen()                                      // 피격 스크린 보여주기
     {
         AudioManager.AM.PlaySE(damage);
@@ -320,30 +334,35 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(0.45f);
         damageScreen.color = Color.clear;
     }
+
     public IEnumerator ShowDeadEffect()                                        // 죽음 효과 보여주기
     {
         effects[0].SetActive(true);
         yield return new WaitForSeconds(3f);
         effects[0].SetActive(false);
     }
+
     public IEnumerator ShowRespawnEffect()                                     // 부활 효과 보여주기
     {
         effects[1].SetActive(true);
         yield return new WaitForSeconds(2);
         effects[1].SetActive(false);
     }
+
     public IEnumerator ShowCri()                                               // 크리티컬 효과 보여주기
     {
         wording_Cr.SetActive(true);
         yield return new WaitForSeconds(1);
         wording_Cr.SetActive(false);
     }
+
     public IEnumerator ShowHit()                                               // 타격 효과 보여주기
     {
         wording_Hit.SetActive(true);
         yield return new WaitForSeconds(1);
         wording_Hit.SetActive(false);
     }
+
     public IEnumerator DamagedDelay()                                          // 데미지시 이중피격 방지(딜레이)
     {
         while (delayTime >= 0)
@@ -367,6 +386,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
             playerColls[2].enabled = false;                                      // 몸통 콜라이더
         }
     }
+
     public IEnumerator MyHpOnOff()                                             // 데미지시 남은HP 보여주기
     {
         myHp.gameObject.SetActive(true);
@@ -374,6 +394,7 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
         yield return StartCoroutine(Fade(1, 0));       // 페이드아웃
         myHp.gameObject.SetActive(false);
     }
+
     public IEnumerator Fade(float start, float end)                            // 데미지 페이드 효과 보여주기
     {
         float currentTime = 0.0f;
@@ -558,11 +579,13 @@ public class AvartarController : MonoBehaviourPunCallbacks, IPunObservable
     {
         StartCoroutine(ShowCri());
     }
+
     [PunRPC]
     public void Wording_H()                                                     // 타격 텍스트 보여주기
     {
         StartCoroutine(ShowHit());
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
