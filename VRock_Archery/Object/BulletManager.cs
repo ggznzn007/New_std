@@ -38,7 +38,6 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         // StartCoroutine(DestroyDelay());
     }  
 
-
     private void OnCollisionEnter(Collision collision)
     {              
         if(!AvartarController.ATC.isAlive)
@@ -124,9 +123,7 @@ public class BulletManager : MonoBehaviourPunCallbacks//Poolable//, IPunObservab
         {
             Destroy(gameObject, 1);
         }
-    }
-
-       
+    }       
 
     [PunRPC]
    public void BulletDir(float speed, int actorNumber)//,int addSpeed)
