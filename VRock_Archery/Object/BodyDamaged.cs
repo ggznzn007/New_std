@@ -26,8 +26,7 @@ public class BodyDamaged : MonoBehaviourPun   // 아처 플레이어 몸통 콜라이더 스�
             {
                 AT.NormalDamage();               
             }
-        }
-       
+        }       
     }
 
     private void OnTriggerEnter(Collider coll)                             
@@ -46,14 +45,12 @@ public class BodyDamaged : MonoBehaviourPun   // 아처 플레이어 몸통 콜라이더 스�
                 AT.SkillDamage();                
             }
         }
-
         if (coll.CompareTag("Effect") && AT.isAlive && DataManager.DM.inGame)      // 독수리 폭탄 도트 대미지
         {
             if (!AT.isDamaged)
             {
                 AT.DotDamage();                
             }
-        }
-      
+        }      
     }
 }
