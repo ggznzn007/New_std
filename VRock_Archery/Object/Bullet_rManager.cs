@@ -22,13 +22,13 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
     [SerializeField] float speed;
     public string revolverImpact;
     public string hitPlayer;
+
     void Start()
     {
         BrM = this;
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, 1.5f);
-      
+        Destroy(gameObject, 1.5f);      
     }
   
     private void OnCollisionEnter(Collision collision)
@@ -111,7 +111,6 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
         }
     }
 
-
     [PunRPC]
     public void BulletDir(float speed, int actorNumber)//,int addSpeed)
     {
@@ -120,6 +119,5 @@ public class Bullet_rManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void DestroyBullet()=> Destroy(gameObject);   
-
+    public void DestroyBullet()=> Destroy(gameObject);
 }
