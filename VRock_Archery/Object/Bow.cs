@@ -28,6 +28,7 @@ public class Bow : XRGrabInteractable
             if (isSelected)
                 UpdateBow(pullMeasurer.PullAmount);
     }
+
     private void UpdateBow(float value)
     {
         Vector3 linePosition = Vector3.forward * Mathf.Lerp(-0.25f, -0.5f, value);
