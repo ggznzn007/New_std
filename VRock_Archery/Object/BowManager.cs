@@ -40,8 +40,7 @@ public class BowManager : MonoBehaviourPun, IPunObservable
     {
         PV = GetComponent<PhotonView>();
     }
-
-    
+        
     void Update()
     {
         if (!PV.IsMine)
