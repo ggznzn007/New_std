@@ -141,5 +141,4 @@ public class AvatarHand_R : MonoBehaviourPunCallbacks, IPunObservable // æ∆πŸ≈∏ 
           }
 
       }*/
-
 }
