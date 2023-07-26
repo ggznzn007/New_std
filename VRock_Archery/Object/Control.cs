@@ -11,19 +11,18 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 public class Control : MonoBehaviourPunCallbacks
 {
-   public XRRayInteractor interactor;
+    public XRRayInteractor interactor;
     public PhotonView PV;
-    
+
     void Start()
-    {   
+    {
         PV = GetComponent<PhotonView>();
         interactor = GetComponent<XRRayInteractor>();
     }
 
-    
     void FixedUpdate()
     {
-        if(!PV.IsMine)
+        if (!PV.IsMine)
         {
             if (NetworkedGrabbing.NG.isBeingHeld)
             {
@@ -34,7 +33,5 @@ public class Control : MonoBehaviourPunCallbacks
                 interactor.enabled = true;
             }
         }
-        
-        
     }
 }
