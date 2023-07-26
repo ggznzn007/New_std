@@ -40,6 +40,5 @@ public class HeadDamaged : MonoBehaviourPun       // 아처 플레이어 머리 콜라이더
                 Debug.Log("폭탄데미지!");
             }
         }
-    }*/
-            
+    }*/            
 }
