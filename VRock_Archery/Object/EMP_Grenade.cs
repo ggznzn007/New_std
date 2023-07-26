@@ -21,18 +21,6 @@ public class EMP_Grenade : MonoBehaviourPunCallbacks
     {
         EG = this;
         PV = GetComponent<PhotonView>();
-    }
-   
-    void Start()
-    {
-        
-    }
-    
-    void Update()
-    {
-        
-    }
-
-    
+    } 
 
 }
