@@ -35,6 +35,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         gunManager = this;
     }
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -98,7 +99,6 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
     }*/
 
-
     public void GetTarget()
     {
         ray = new Ray(firePoint.position, firePoint.forward);
@@ -117,6 +117,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
         //Debug.Log(" ¸íÁßÁöÁ¡ : " + hit.point + "\n °Å¸® : "
         //    + hit.distance + "\n ÀÌ¸§ : " + hit.collider.name + "\n ÅÂ±× : " + hit.transform.tag);
     }
+
     public void FireBullet()                                              // ÄÁÆ®·Ñ·¯ Æ®¸®°Å¸¦ ÀÌ¿ëÇÑ ÃÑ¾Ë ¹ß»ç·ÎÁ÷
     {
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
@@ -150,6 +151,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     {
         fireTime += Time.deltaTime;
     }
+
     public GunManager FindGun()
     {
         foreach (GameObject gun in GameObject.FindGameObjectsWithTag("Gun_Pun"))
