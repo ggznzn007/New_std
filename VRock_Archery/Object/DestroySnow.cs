@@ -33,6 +33,7 @@ public class DestroySnow : MonoBehaviourPunCallbacks, IPunObservable
                 , Quaternion.Lerp(transform.rotation, remoteRot, t));
         }
     }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
