@@ -16,6 +16,7 @@ public class HeadDamaged_S : MonoBehaviourPun // 스노우 플레이어 머리 콜라이더 �
     {
         AT = GetComponentInParent<AvartarController>();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Snowball") && AT.isAlive && DataManager.DM.inGame)  // 기본눈덩이 머리에 맞을 때 대미지
@@ -34,6 +35,5 @@ public class HeadDamaged_S : MonoBehaviourPun // 스노우 플레이어 머리 콜라이더 �
                 AT.HeadShotDamage();
             }
         }
-
     }
 }
