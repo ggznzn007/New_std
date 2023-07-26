@@ -19,6 +19,5 @@ public class DestroyParticle : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().duration);
         Destroy(PV.gameObject);
-    }
-   
+    }   
 }
