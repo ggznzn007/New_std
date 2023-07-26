@@ -61,11 +61,13 @@ public class PullMeasurer : XRBaseInteractable
         if (start && end)
             Gizmos.DrawLine(start.position, end.position);
     }
+
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
         CreateAndSelectArrow(args);
     }
+
     private void CreateAndSelectArrow(SelectEnterEventArgs args)
     {
         // Create arrow, force into interacting hand
