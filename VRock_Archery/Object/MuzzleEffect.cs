@@ -10,9 +10,4 @@ public class MuzzleEffect : MonoBehaviour                  // ÃÑ±¸ È¿°ú
     {
         tr = GetComponent<Transform>();
     }
-
-    private void OnEnable()
-    {
-        
-    }
 }
