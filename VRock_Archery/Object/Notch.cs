@@ -67,7 +67,6 @@ public class Notch : XRSocketInteractor
     {
         if (interactable is IXRHoverInteractable hoverInteractable)
             return CanHover(hoverInteractable);
-
         return false;
     }
 }
