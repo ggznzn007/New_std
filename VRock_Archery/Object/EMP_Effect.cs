@@ -12,8 +12,7 @@ using Random = UnityEngine.Random;
 
 public class EMP_Effect : MonoBehaviourPun
 {
-    public Collider coll;
-    
+    public Collider coll;    
     //public PhotonView PV;
 
     private void Awake()
@@ -33,9 +32,7 @@ public class EMP_Effect : MonoBehaviourPun
         //yield return new WaitForSeconds(0.005f);
         yield return new WaitForSeconds(0.03f);
         coll.enabled = false;        
-    }
-
-   
+    }   
     /*[System.Obsolete]
     private IEnumerator Start()
     {
