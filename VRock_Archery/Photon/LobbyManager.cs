@@ -16,16 +16,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
     [SerializeField] GameObject RedTeam;
     [SerializeField] GameObject BlueTeam;
 
-
-
     public bool isRed = false;
 
     private string mapType;
 
     private void Awake()
-    {
-
-       
+    {       
         if (LobbyIns == null)
         {
             LobbyIns = this;
@@ -50,8 +46,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
         else
         {
             PN.JoinLobby();
-        }
-      
+        }      
     }
 
     public void RedTeamSelected()
@@ -71,8 +66,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
         get => PlayerPrefs.GetString("CurrentRoomName", "");
         set => PlayerPrefs.SetString("CurrentRoomName", value);
     }
-
-
     
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -90,13 +83,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
     public override void OnCreatedRoom()                                             // 방 생성 완료된 후 호출
     {
         Debug.Log($"{PN.CurrentRoom.Name} 방을 생성하였습니다.");
-
     }
 
     public override void OnJoinedRoom()                                              // 방에 들어갔을 때 호출
     {                                                                                                 
-        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
-       
+        Debug.Log($"{PN.CurrentRoom.Name} 방에 {PN.LocalPlayer.NickName} 님이 입장하셨습니다.");       
         PN.LoadLevel("LobbyScene_Real");
     }
 
