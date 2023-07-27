@@ -25,9 +25,6 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     public string spawnBow;
     private GameObject myBow;
     //private GameObject myArrow;
-
-
-
     // public XRController myController;
 
     private void Awake()
