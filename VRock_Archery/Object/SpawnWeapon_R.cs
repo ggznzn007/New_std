@@ -38,7 +38,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
         {
             DeviceR = devicesR[0];
         }
-
         weaponInIt = false;
     }
 
@@ -90,8 +89,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                         return;
                     }
                 }
-            }
-          
+            }          
         }
     }
 
@@ -110,7 +108,5 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
         mySling = PN.Instantiate(slingShot.name, attachPoint.position, attachPoint.rotation);
         return mySling.GetComponent<SlingShot>();
     }
-
-
 }
 
