@@ -26,11 +26,11 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     public string spawnBow;
     private GameObject myBow;
 
-
     private void Awake()
     {
         RW = this;
     }
+
     private void Start()
     {
         List<InputDevice> devicesR = new List<InputDevice>();
@@ -78,7 +78,6 @@ public class SpawnWeapon_RW : MonoBehaviourPun
                     }
                 }
             }
-
 
             if (coll.CompareTag("Skilled"))
             {
