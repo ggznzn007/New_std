@@ -114,6 +114,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks  // 전체적인 포톤 네트워
             }*/
         }
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
@@ -196,7 +197,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks  // 전체적인 포톤 네트워
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
 
-
     public void InitTutoT()                                                          // 아처 선택
     {
         DataManager.DM.currentMap = Map.TUTORIAL_T;
@@ -231,6 +231,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks  // 전체적인 포톤 네트워
         
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
+
     public void InitBlue(int defaultRoomIndex)                                      // 블루팀 선택
     {
         DataManager.DM.currentTeam = Team.BLUE;
