@@ -45,12 +45,6 @@ public class PlayerPhotonSetUp : MonoBehaviourPunCallbacks
         
     }
 
-  
-    void Update()
-    {
-        
-    }
-
     void SetLayerRecursively(GameObject go, int layerNum)
     {
         if (go == null) return;
