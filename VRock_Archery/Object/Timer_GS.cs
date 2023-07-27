@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
 {
     public TextMeshPro timerText;
@@ -20,21 +21,21 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
     //PhotonView PV;
     public bool count;
     public int limitedTime;
-
     /*public float min = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] / 60);
     public float sec = Mathf.FloorToInt((int)PN.CurrentRoom.CustomProperties["Time"] % 60);*/
     readonly ExitGames.Client.Photon.Hashtable setTime = new ExitGames.Client.Photon.Hashtable();
-
 
     private void Awake()
     {
         //realTimer = LimitTime;
         //PV = GetComponent<PhotonView>();
     }
+
     private void Start()
     {
         count = true;
     }
+
     public void Update()
     {
         limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
@@ -71,7 +72,6 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
 
             Application.Quit();
            // PN.LeaveRoom();
-
             Debug.Log("타임오버");
         }
     }
