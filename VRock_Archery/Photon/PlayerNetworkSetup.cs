@@ -18,6 +18,7 @@ using Antilatency.Alt;
 using Antilatency.SDK;
 using static ObjectPooler;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
 {   
     public GameObject LocalXRRigGameObject;
@@ -30,6 +31,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     //public MeshRenderer at_ShieldR;
     //public Collider at_ShieldColl;
    // private bool triggerBtnR;
+
     private void Start()
     {        
         if (photonView.IsMine)                                 // 로컬 플레이어 
@@ -49,6 +51,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             //SetLayerRecursively(go: AvatarHand_R, 0);
         }
     }
+
     private void Update()
     {
         if (!photonView.IsMine) return;
@@ -78,11 +81,13 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
             photonView.RPC(nameof(HideL), RpcTarget.AllBuffered);
     }
+
     public void Show_L()
     {
         if (photonView.IsMine)
             photonView.RPC(nameof(ShowL), RpcTarget.AllBuffered);
     }
+
     public void Hide_R()
     {
         if (photonView.IsMine)
@@ -105,7 +110,6 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     {
         at_L.forceRenderingOff = false;
     }
-
 
     [PunRPC]
     public void HideR()
