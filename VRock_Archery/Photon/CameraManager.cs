@@ -7,6 +7,5 @@ public class CameraManager : MonoBehaviour
 {
     public Camera cam;
 
-    private void Awake() => cam = GetComponent<Camera>();
-    
+    private void Awake() => cam = GetComponent<Camera>();    
 }
