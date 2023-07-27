@@ -93,11 +93,8 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
             {
                 PV.RPC(nameof(StartBtnT), RpcTarget.AllViaServer);                
             }
-
-
         }
     }
-
 
     public void SpawnPlayer()
     {
@@ -110,7 +107,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-
                 break;
 
             case Team.BLUE:
@@ -120,7 +116,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-
                 break;
 
             // 윈도우 프로그램 빌드 시
@@ -137,7 +132,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
                     Info();
                 }
                 break;
-
             default:
                 return;
         }
@@ -158,8 +152,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
           }*/
     }
 
-
-
     void FixedUpdate()
     {
         SetScore();
@@ -173,6 +165,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks      // 아처 게임 관리 
         redScore[0].text = score_BlueKill.ToString();    // 블루팀 점수
         redScore[1].text = score_RedKill.ToString();     // 레드팀 점수
     }
+
     public void UpdateStats()
     {
         playerProp["kills"] = kills;             // 킬 수                                                
