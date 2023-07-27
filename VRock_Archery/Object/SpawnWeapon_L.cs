@@ -113,7 +113,6 @@ public class SpawnWeapon_L : MonoBehaviourPun
         mySling = PN.Instantiate(slingShot.name, attachPoint.position, attachPoint.rotation);
         return mySling.GetComponent<SlingShot>();
     }
-
 }
 
 
