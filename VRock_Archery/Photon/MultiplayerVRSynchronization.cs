@@ -56,7 +56,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     private Quaternion m_NetworkRotation_Body;
     private float m_Angle_Body;
 
-
     //Hands Synch
     [Header("Hands Transform Synch")]
     public Transform leftHandTransform;
@@ -73,9 +72,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     private Vector3 m_Direction_LeftHand;
     private Vector3 m_NetworkPosition_LeftHand;
     private Vector3 m_StoredPosition_LeftHand;
-    
-  
-
     // private Vector3 m_Direction_LeftHandModel;// 추가
     // private Vector3 m_NetworkPosition_LeftHandModel;// 추가
     // private Vector3 m_StoredPosition_LeftHandModel;// 추가
@@ -87,8 +83,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
    
     //    private Quaternion m_NetworkRotation_LeftHandModel;// 추가
     // private float m_Angle_LeftHandModel;// 추가
-
-
 
     //Right Hand Synch
     //Position
@@ -108,16 +102,12 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     private float m_Angle_RightHand;
 
   //   private Quaternion m_NetworkRotation_RightHandCon;// 추가
-    //  private float m_Angle_RightHandCon;// 추가
-
-
-   
+    //  private float m_Angle_RightHandCon;// 추가   
 
     bool m_firstTake = false;
 
     public void Awake()
-    {
-       
+    {       
         m_PhotonView = GetComponent<PhotonView>();
 
         //Main VRPlayer Synch Init
@@ -156,7 +146,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
        //  m_NetworkPosition_RightHandCon = Vector3.zero;
         // m_NetworkRotation_RightHandCon = Quaternion.identity;
     }
-
     
     void OnEnable()
     {
@@ -167,7 +156,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     {
         if (!this.m_PhotonView.IsMine)
         {
-
             generalVRPlayerTransform.position = Vector3.MoveTowards(generalVRPlayerTransform.position, this.m_NetworkPosition_GeneralVRPlayer, this.m_Distance_GeneralVRPlayer * (1.0f / PN.SerializationRate));
             generalVRPlayerTransform.rotation = Quaternion.RotateTowards(generalVRPlayerTransform.rotation, this.m_NetworkRotation_GeneralVRPlayer, this.m_Angle_GeneralVRPlayer * (1.0f / PN.SerializationRate));
 
@@ -194,8 +182,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
             // rightHandCon.localPosition = Vector3.MoveTowards(rightHandCon.localPosition, this.m_NetworkPosition_RightHandCon, this.m_Distance_RightHandCon * (1.0f / PN.SerializationRate));// 추가
           //  rightHandCon.localRotation = Quaternion.RotateTowards(rightHandCon.localRotation, this.m_NetworkRotation_RightHandCon, this.m_Angle_RightHandCon * (1.0f / PN.SerializationRate));// 추가
         }
-
-
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
