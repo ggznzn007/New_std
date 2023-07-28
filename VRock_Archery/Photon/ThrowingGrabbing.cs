@@ -91,6 +91,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
      {
          Destroy(PV.gameObject);
      }*/
+
     [PunRPC]
     public void Grab_EMP()
     {
@@ -102,6 +103,7 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         isBeingHeld = false;
     }
+
     public void OnSelectedEntered()
     {
         Debug.Log("¿‚æ“¥Ÿ");
@@ -153,6 +155,4 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         outline.RemoveHighlight();
     }
-
-
 }
