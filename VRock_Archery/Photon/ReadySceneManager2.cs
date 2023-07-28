@@ -21,6 +21,7 @@ public class ReadySceneManager2 : MonoBehaviourPunCallbacks                     
     public GameObject RedTeam;
     public GameObject BlueTeam;
     public GameObject fadeScreen;
+    public bool isRed = false;
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
@@ -28,7 +29,6 @@ public class ReadySceneManager2 : MonoBehaviourPunCallbacks                     
     private readonly int portNum = 5055;
     private readonly int n = 1;
     private readonly int maxCount = 6;
-    public bool isRed = false;
 
     #region 유니티 메서드 시작 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
