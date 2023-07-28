@@ -213,7 +213,6 @@ public class TutorialManager : MonoBehaviourPunCallbacks  // 아처 튜토리얼 포톤 
         Debug.Log($"{otherPlayer.NickName}님 현재인원:{PN.CurrentRoom.PlayerCount}");
     }
 
-
     [PunRPC]
     public void ForceOff()
     {
