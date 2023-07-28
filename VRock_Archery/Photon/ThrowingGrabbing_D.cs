@@ -35,6 +35,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         bCount = 0;
         outline = GetComponent<SelectionOutline>();
     }
+
     private void Update()
     {
         if (DataManager.DM.currentTeam != Team.ADMIN)
