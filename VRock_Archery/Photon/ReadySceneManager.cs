@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
 using static ObjectPooler;
+
 public class ReadySceneManager : MonoBehaviourPunCallbacks                              // StartScene 스크립트
 {
     public static ReadySceneManager RSM;                                          // 싱글턴
