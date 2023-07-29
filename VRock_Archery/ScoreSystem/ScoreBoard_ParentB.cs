@@ -24,7 +24,6 @@ public class ScoreBoard_ParentB : MonoBehaviourPunCallbacks
     
     private void Start()
     {     
-
         foreach (Player player in PN.PlayerList)
         {
             AddMember(player);
@@ -37,7 +36,6 @@ public class ScoreBoard_ParentB : MonoBehaviourPunCallbacks
         Listing.InitText(player);
         members[player] = Listing;
     }
-
     
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -49,11 +47,9 @@ public class ScoreBoard_ParentB : MonoBehaviourPunCallbacks
         RemoveMember(otherPlayer);
     }
 
-
     void RemoveMember(Player player)
     {
         Destroy(members[player].gameObject);
         members.Remove(player);
-    }
-    
+    }    
 }
