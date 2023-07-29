@@ -20,8 +20,7 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
     
     [SerializeField] GameObject listMember;      
 
-    Dictionary<Player, ScoreBoard_Red> members = new Dictionary<Player, ScoreBoard_Red>();
-    
+    Dictionary<Player, ScoreBoard_Red> members = new Dictionary<Player, ScoreBoard_Red>();    
 
     private void Start()
     {
@@ -32,9 +31,7 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
                 if (DataManager.DM.currentTeam != Team.RED) return;
                 AddMember(player);
             }
-        }
-        
-       
+        }      
     }
 
     void AddMember(Player player)
@@ -42,9 +39,7 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
         ScoreBoard_Red Listing = Instantiate(listMember, holder).GetComponent<ScoreBoard_Red>();
         Listing.InitText(player);
         members[player] = Listing;
-
     }
-
     
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -56,11 +51,9 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
         RemoveMember(otherPlayer);
     }
 
-
     void RemoveMember(Player player)
     {
         Destroy(members[player].gameObject);
         members.Remove(player);
-    }
-  
+    }  
 }
