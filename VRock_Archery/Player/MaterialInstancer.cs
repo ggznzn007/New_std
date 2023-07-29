@@ -14,5 +14,4 @@ public class MaterialInstancer : MonoBehaviour
         m_Renderer.material = Instantiate(m_Renderer.material);
         m_Renderer.material.SetColor("m_Color",m_Color);
     }
-
 }
