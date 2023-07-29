@@ -13,6 +13,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
+
 public class TotalScore : MonoBehaviourPunCallbacks//, IPunObservable
 {
     public static TotalScore TS;
@@ -21,6 +22,7 @@ public class TotalScore : MonoBehaviourPunCallbacks//, IPunObservable
     public int score_Blue;
     public int score_Red;
     //private PhotonView PV;
+
     private void Awake()
     {
         TS = this;
