@@ -64,7 +64,6 @@ public class ScoreBoard : MonoBehaviourPunCallbacks
         RemoveMember(otherPlayer);
     }
 
-
     void RemoveMember(Player player)
     {
         Destroy(members[player].gameObject);
