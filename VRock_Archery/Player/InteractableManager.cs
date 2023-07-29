@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableManager : MonoBehaviour
-{
-    
+{    
     void Start()
     {
         
     }
 
-   
-    void Update()
-    {
-        
-    }
 }
