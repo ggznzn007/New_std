@@ -29,6 +29,7 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
         if(!PN.IsConnected)
         LeaveRoomAndLoadRoomScene();
     }
+
     public void LeaveRoomAndLoadRoomScene()
     {
         if (PN.InRoom)
@@ -75,5 +76,4 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
             PN.LeaveRoom();
         }
     }
-
 }
