@@ -80,6 +80,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         SetScore();
         
     }
+
     void Start()
     {
         DataManager.DM.inBuild = true;
@@ -172,6 +173,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
         redScore[0].text = score_BlueKill.ToString();   // 블루팀 점수
         redScore[1].text = score_RedKill.ToString();     // 레드팀 점수
     }
+
     public void UpdateStats()
     {
         playerProp["kills"] = kills;             // 개인 킬 수
