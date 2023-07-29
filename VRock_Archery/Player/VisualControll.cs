@@ -14,20 +14,16 @@ using Antilatency.TrackingAlignment;
 using Antilatency.DeviceNetwork;
 using Antilatency.Alt;
 using Antilatency.SDK;
+
 public class VisualControll : MonoBehaviourPun
 {
     public Camera myCam;
 
-    private void Start()
-    {
-        
-    }
     void Update()
     {
         if(!photonView.IsMine)
         {
             myCam.cullingMask = SortingLayer.layers.Length;
         }
-
     }
 }
