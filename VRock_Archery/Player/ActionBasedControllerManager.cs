@@ -12,6 +12,7 @@ using UnityEngine.Serialization;
 /// </summary>
 [AddComponentMenu("XR/Action Based Controller Manager")]
 [DefaultExecutionOrder(kControllerManagerUpdateOrder)]
+
 public class ActionBasedControllerManager : MonoBehaviour
 {
     public const int kControllerManagerUpdateOrder = 10;
