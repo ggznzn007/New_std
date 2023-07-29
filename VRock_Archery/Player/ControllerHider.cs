@@ -9,7 +9,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class ControllerHider : MonoBehaviour
 {
    public GameObject controllerObject = null;
-
    // private PhysicsPoser physicsPoser = null;
     private XRDirectInteractor interactor = null;
 
