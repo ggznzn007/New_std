@@ -23,14 +23,11 @@ public class AltTrackingXR : AltTracking
     private Transform _bSpace;
     private Transform _b;
 
-
     //public void Start()
     //{
     //    XRCamera = transform.GetChild(0).GetComponent<Camera>();
     //    HmdPoseDriver = transform.GetChild(0).GetComponent<UnityEngine.SpatialTracking.TrackedPoseDriver>();
-    //}
-
- 
+    //} 
 
     protected override NodeHandle GetAvailableTrackingNode()
     {
