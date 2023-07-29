@@ -17,6 +17,7 @@ using Antilatency.SDK;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
+
 public enum Team    // 팀 선택 데이터
 {
    ADMIN,BLUE,RED
@@ -69,6 +70,7 @@ public class DataManager : MonoBehaviourPun // == PlayerNetwork
     public int teamInt;            // 팀 숫자 0=블루팀, 1=레드팀
 
     public int arrowNum;           // 화살 번호
+
     private void Awake()
     {
         if (DM == null) DM = this;
