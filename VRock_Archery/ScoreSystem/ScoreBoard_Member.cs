@@ -12,6 +12,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
+
 public class ScoreBoard_Member : MonoBehaviourPunCallbacks
 {
     public TMP_Text usernameText;
@@ -25,6 +26,7 @@ public class ScoreBoard_Member : MonoBehaviourPunCallbacks
         myplayer = player;
         usernameText.text = player.NickName;
     }
+
     private void Update()
     {
         int killsRef = (int)myplayer.CustomProperties["kills"];
@@ -32,5 +34,4 @@ public class ScoreBoard_Member : MonoBehaviourPunCallbacks
        /* int deathsRef = (int)myplayer.CustomProperties["deaths"];
         deathsText.text = deathsRef.ToString();*/
     }
-
 }
