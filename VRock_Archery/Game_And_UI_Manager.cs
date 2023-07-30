@@ -16,8 +16,7 @@ public class Game_And_UI_Manager : MonoBehaviourPunCallbacks
     public GameObject gameStartPanel;
     public GameObject lobbyPlayer;
     private GameObject player;
-    public GameObject[] bgObjects;
-    
+    public GameObject[] bgObjects;    
 
     #region 유니티 함수
     void Start()
