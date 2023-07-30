@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AvatarInputConverter : MonoBehaviour
 {
-
     //Avatar Transforms
     public Transform MainAvatarTransform;
     public Transform AvatarHead;
