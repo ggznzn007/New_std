@@ -12,7 +12,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
     void LoadArena()
     {
         if (!PN.IsMasterClient)
@@ -37,16 +36,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-
     public override void OnPlayerLeftRoom(Player other)
     {
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
 
-
         if (PN.IsMasterClient)
         {
             Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PN.IsMasterClient); // called before OnPlayerLeftRoom
-
 
             LoadArena();
         }
