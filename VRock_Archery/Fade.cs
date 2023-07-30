@@ -10,8 +10,6 @@ public class Fade : MonoBehaviour
 {
     private GameObject fadeInPanel;
     private Image image;
-    
-
     private bool isAlpha = false;
 
     private void Awake()
@@ -21,8 +19,7 @@ public class Fade : MonoBehaviour
     }
 
      void Update()
-    {
-       
+    {       
         StartCoroutine(FadeInScreen());
         if(isAlpha)
         {
@@ -44,7 +41,5 @@ public class Fade : MonoBehaviour
             }
         }
         yield return null;
-    }
-
-   
+    }   
 }
