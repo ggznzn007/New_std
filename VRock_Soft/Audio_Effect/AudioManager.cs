@@ -134,6 +134,7 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log("등록된 예비음이 없습니다.");
     }
+
     public void StopSB(string soundName)
     {
         for (int i = 0; i < soundB.Length; i++)
@@ -183,7 +184,5 @@ public class AudioManager : MonoBehaviour
         int rand = Random.Range(0,bgm.Length);
         bgmSpeaker.clip = bgm[rand].clip;
         bgmSpeaker.Play();
-    }
-   
-    
+    }   
 }
