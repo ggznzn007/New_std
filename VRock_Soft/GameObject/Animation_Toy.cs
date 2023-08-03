@@ -6,8 +6,7 @@ public class Animation_Toy : MonoBehaviour
 {
     public Animation anim;
     public GameObject[] meshes;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         anim = GetComponent<Animation>();
