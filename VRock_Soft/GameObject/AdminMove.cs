@@ -34,8 +34,7 @@ public class AdminMove : MonoBehaviourPun
         {
             blueScore.text = WesternManager.WM.score_BlueKill.ToString();
             redScore.text = WesternManager.WM.score_RedKill.ToString();
-        }
-        
+        }        
     }
 
     public void TimerTxt()
@@ -47,8 +46,7 @@ public class AdminMove : MonoBehaviourPun
         else if(DataManager.DM.currentMap == Map.WESTERN)
         {
             timerText.text = WesternManager.WM.timerText.text;
-        }
-        
+        }        
     }
 
     public void SetResolution()
@@ -58,6 +56,5 @@ public class AdminMove : MonoBehaviourPun
 
         Screen.SetResolution(setWidth, setHeight, false); // 창모드
        // Screen.SetResolution(setWidth, setHeight, true); // 풀스크린모드
-    }
-    
+    }    
 }
