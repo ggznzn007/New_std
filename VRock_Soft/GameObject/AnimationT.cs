@@ -16,6 +16,7 @@ public class AnimationT : MonoBehaviourPunCallbacks
 {
     public AudioSource aniAudio;
     public AudioClip aniClip;
+
     public void Emp_Blue()
     {
         if(PN.IsMasterClient)
