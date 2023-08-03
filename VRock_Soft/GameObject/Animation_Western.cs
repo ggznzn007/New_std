@@ -6,8 +6,7 @@ public class Animation_Western : MonoBehaviour
 {
     public Animation anim;
     public GameObject fakePlane;
-    public GameObject[] meshes;
-    
+    public GameObject[] meshes;    
 
     void Start()
     {
