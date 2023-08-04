@@ -18,6 +18,7 @@ public class AnimationW : MonoBehaviourPunCallbacks
     public AudioSource aniAudio;
     public AudioClip aniClip;
     //public Animation anim;
+
     void SpawnDynamite()
     {
         if (PN.IsMasterClient)
@@ -36,5 +37,4 @@ public class AnimationW : MonoBehaviourPunCallbacks
        aniAudio = GetComponent<AudioSource>();
         //anim = GetComponent<Animation>();
     }
-
 }
