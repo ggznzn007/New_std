@@ -87,7 +87,6 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
     [SerializeField] GameObject[] effects;
     [SerializeField] bool isDeadLock;
 
-
     private void Awake()
     {
         ATC = this;
@@ -150,6 +149,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         // HP.transform.forward = -myCam.transform.forward;
         Nickname.transform.forward = -myCam.transform.forward;
     }
+
     public void Initialize()                                                  // 플레이어 초기화 메서드
     {
         // 플레이어 HP & 닉네임 초기화
@@ -333,6 +333,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             PV.RPC(nameof(Damaged), RpcTarget.AllBuffered, grenadePower);
         }
     }
+
     public void CriticalDamage()                                              // 크리티컬(헤드샷) 데미지
     {
         //StartCoroutine(ShowDamageScreen());
@@ -342,6 +343,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             //PV.RPC(nameof(HeadShot), RpcTarget.AllBuffered);
         }
     }
+
     public void NormalDamage()                                                // 일반 데미지
     {
         //StartCoroutine(ShowDamageScreen());
@@ -351,6 +353,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
             PV.RPC(nameof(BodyShot), RpcTarget.AllBuffered);
         }
     }
+
     public void Respawn()                                                     // 리스폰 메서드
     {
         PV.RPC(nameof(RespawnPlayer), RpcTarget.AllBuffered);
@@ -408,6 +411,7 @@ public class AvartarController : MonoBehaviourPun, IPunObservable
         yield return StartCoroutine(Fade(1, 0));       // 페이드아웃
         myHp.gameObject.SetActive(false);
     }
+
     public IEnumerator Fade(float start, float end)                            // 데미지 페이드 효과 보여주기
     {
         float currentTime = 0.0f;
