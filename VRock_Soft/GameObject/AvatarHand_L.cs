@@ -103,5 +103,4 @@ public class AvatarHand_L : MonoBehaviourPun, IPunObservable
             //avatarLeftHand.forceRenderingOff = false;
         }
     }*/
-
 }
