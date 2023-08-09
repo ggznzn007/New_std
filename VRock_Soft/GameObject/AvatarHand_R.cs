@@ -139,5 +139,4 @@ public class AvatarHand_R : MonoBehaviourPun, IPunObservable // 아바타 손 관리하
           }
 
       }*/
-
 }
