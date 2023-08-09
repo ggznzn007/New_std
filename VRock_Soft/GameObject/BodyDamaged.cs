@@ -14,12 +14,13 @@ public class BodyDamaged : MonoBehaviourPun
     public AvartarController AT;
     
    // public GameObject effectEx;
+    // public PhotonView PV;
 
     private void Start()
     {
         AT = GetComponentInParent<AvartarController>();
     }
-    // public PhotonView PV;
+
     private void OnCollisionEnter(Collision collision)                         // 총알 태그 시 메서드
     {
         if (collision.collider.CompareTag("Bullet") && AT.isAlive && DataManager.DM.inGame )
@@ -56,5 +57,4 @@ public class BodyDamaged : MonoBehaviourPun
             }
         }
     }*/
-
 }
