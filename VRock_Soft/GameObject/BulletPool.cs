@@ -113,9 +113,6 @@ public class BulletPool : MonoBehaviourPun // 싱글 플레이 풀방식
 
        }  // 기존 1*/
 
-
-
-
     /* private static BulletPool bulletPooling;
      public static BulletPool BulletPooling { get { return bulletPooling; } }
      public GameObject bulletPrefab;
