@@ -21,9 +21,7 @@ public class ExploreEffect : MonoBehaviour                      // ÃÑ¾Ë ÀÓÆÑÆ® È
     {        
         ObjectPooler.ReturnToPool(gameObject);    // ÇÑ °´Ã¼¿¡ ÇÑ¹ø¸¸
         CancelInvoke();    // Monobehaviour¿¡ Invoke°¡ ÀÖ´Ù¸é 
-    }
-
-    
+    }   
 
     void DeactiveDelay() => gameObject.SetActive(false);*/
 }
