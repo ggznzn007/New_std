@@ -18,7 +18,8 @@ public class Bullet_Red : MonoBehaviourPunCallbacks
     [SerializeField] ParticleSystem exploreEffect;
     [SerializeField] Transform firePoint;
     [SerializeField] int actNumber;
-    [SerializeField] float speed;    
+    [SerializeField] float speed; 
+    
     private void Start()
     {
         BR = this;
@@ -26,7 +27,6 @@ public class Bullet_Red : MonoBehaviourPunCallbacks
         rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 1f);      
     }
-
 
     private void OnCollisionEnter(Collision collsion)
     {
