@@ -14,15 +14,15 @@ public class EMP_Effect : MonoBehaviour
 {
     public CapsuleCollider coll;
     
-    private void Start()
-    {
-        StartCoroutine(CollOnOff());
-       
-    }
     private void Awake()
     {
         coll = GetComponent<CapsuleCollider>();        
-    }  
+    }
+    
+    private void Start()
+    {
+        StartCoroutine(CollOnOff());       
+    }
 
     public IEnumerator CollOnOff()
     {
