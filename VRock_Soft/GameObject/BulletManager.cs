@@ -156,8 +156,6 @@ public class BulletManager : MonoBehaviourPun//Poolable//, IPunObservable //Mono
         }
     }
 
-
-
     [PunRPC]
     public void BulletDir(float speed, int actorNumber)//,int addSpeed)
     {
