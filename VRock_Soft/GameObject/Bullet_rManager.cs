@@ -35,7 +35,6 @@ public class Bullet_rManager : MonoBehaviourPun
             if (this == null) return;
             Destroy(gameObject, 0.5f);
         }
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -124,6 +123,7 @@ public class Bullet_rManager : MonoBehaviourPun
                 PV.RPC(nameof(DestroyBullet), RpcTarget.AllBuffered);
             }
         }
+
         if (collision.collider.CompareTag("Body"))
         {
             if (PV.IsMine)
