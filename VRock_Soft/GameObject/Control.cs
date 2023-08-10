@@ -19,7 +19,6 @@ public class Control : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
         interactor = GetComponent<XRRayInteractor>();
     }
-
     
     void FixedUpdate()
     {
@@ -33,8 +32,6 @@ public class Control : MonoBehaviourPunCallbacks
             {
                 interactor.enabled = true;
             }
-        }
-        
-        
+        }        
     }
 }
