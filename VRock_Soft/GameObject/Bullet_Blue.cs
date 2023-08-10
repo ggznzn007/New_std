@@ -85,5 +85,4 @@ public class Bullet_Blue : MonoBehaviourPunCallbacks
     {
         Destroy(gameObject);       
     }
-
 }
