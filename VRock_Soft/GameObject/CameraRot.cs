@@ -25,6 +25,7 @@ public class CameraRot : MonoBehaviour
     {
         KeyCtrl();       
     }
+
     public void FixedUpdate()
     {
         RotateCtrl();
