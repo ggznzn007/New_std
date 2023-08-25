@@ -84,7 +84,6 @@ public class MultiPool
                 return poolItem.gameObject;
             }
         }
-
         return null;
     }
 
@@ -120,15 +119,11 @@ public class MultiPool
             PoolItem poolItem = poolItemList[i];
 
             if (poolItem.gameObject != null&&poolItem.isActive==true)
-            {
-                
+            {                
                 poolItem.isActive = false;
-                poolItem.gameObject.SetActive(false);
-
-               
+                poolItem.gameObject.SetActive(false);               
             }
         }
-
         activeCount = 0;
     }
 }
