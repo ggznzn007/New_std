@@ -128,7 +128,6 @@ public class MagicTractorBeam : MonoBehaviour
         
     }*/
 
-
     public void EnableBeam()
     {
         //can't enable beam if we have an interactor currently holding something
