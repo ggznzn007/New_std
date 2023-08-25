@@ -58,7 +58,8 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
         {
             transform.SetPositionAndRotation(Vector3.Lerp(transform.position, remotePos, 30 * Time.deltaTime)
                 , Quaternion.Lerp(transform.rotation, remoteRot, 30 * Time.deltaTime));
-        }       
+        }    
+        
         GetTarget();       // 표적에 레이캐스트를 쏴서 타겟팅하는 메서드
         Reload();          // 총을 재장전하는 시간 메서드       
         //WhenDead();       // 플레이어가 죽었을때 총이 사라지는 메서드
@@ -156,6 +157,7 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
             remoteRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
     void Reload()                                   // 총알 재장전 시간
     {
         fireTime += Time.deltaTime;
@@ -209,7 +211,5 @@ public class RevolverManager : MonoBehaviourPun, IPunObservable
     {
         audioSource.Play();
         muzzleFlash.Play();
-    }
-   
-    
+    }   
 }
