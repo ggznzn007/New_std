@@ -27,5 +27,4 @@ public class HP_Nick : MonoBehaviourPunCallbacks
     {
         transform.LookAt(transform.position + Camera.main.transform.rotation * -Vector3.forward, player.transform.rotation * Vector3.up);
     }*/
-
 }
