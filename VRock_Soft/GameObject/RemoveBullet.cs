@@ -19,6 +19,7 @@ public class RemoveBullet : MonoBehaviour
             Debug.Log("총알태그됨");
         }
     }
+
     private void ShowEffect(Collision coll)
     {
         // 충돌지점의 정보를 추출
@@ -33,9 +34,4 @@ public class RemoveBullet : MonoBehaviour
         //BulletEffectPool.EffectPooling.GetBulletEffect();
         
     }
-
-   /* void EndEffect()
-    {
-        
-    }*/
 }
