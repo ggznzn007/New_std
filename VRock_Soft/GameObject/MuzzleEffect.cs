@@ -9,10 +9,5 @@ public class MuzzleEffect : MonoBehaviour                  // ÃÑ±¸ È¿°ú
     private void Awake()
     {
         tr = GetComponent<Transform>();
-    }
-
-    private void OnEnable()
-    {
-        
-    }
+    } 
 }
