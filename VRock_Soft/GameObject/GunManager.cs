@@ -34,11 +34,11 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     private Quaternion remoteRot;
     private Rigidbody rb;
 
-
     private void Awake()
     {
         gunManager = this;
     }
+
     private void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -131,6 +131,7 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
 
          }*/
     }
+
     public void FireBullet()                                              // ÄÁÆ®·Ñ·¯ Æ®¸®°Å¸¦ ÀÌ¿ëÇÑ ÃÑ¾Ë ¹ß»ç·ÎÁ÷
     {
         if (PV.IsMine && Physics.Raycast(ray.origin, ray.direction, out hit) && AvartarController.ATC.isAlive)
@@ -239,6 +240,5 @@ public class GunManager : MonoBehaviourPun, IPunObservable  // ÃÑÀ» °ü¸®ÇÏ´Â ½ºÅ
     /// fireTimeÀÌ delayfireTimeÀ» ³Ñ¾î°¡¸é ¹ß»ç ºÒ°¡
     /// ÃÑ¾ËÀ» ¹ß»çÇÏ°í ³ª¸é ½Ã°£À» ´Ù½Ã 0À¸·Î ÃÊ±âÈ­
     /// </summary>
-
 }
 
