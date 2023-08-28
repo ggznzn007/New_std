@@ -26,6 +26,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     {
         RW = this;
     }
+
     private void Start()
     {
         List<InputDevice> devicesR = new List<InputDevice>();
@@ -51,6 +52,7 @@ public class SpawnWeapon_RW : MonoBehaviourPun
         }
         return null;
     }
+
     private void OnTriggerStay(Collider coll)
     {       
         if (coll.CompareTag("ItemBox_R"))
