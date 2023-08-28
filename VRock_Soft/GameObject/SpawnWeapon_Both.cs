@@ -13,7 +13,6 @@ public class SpawnWeapon_Both : MonoBehaviour
 
     void Start()
     {
-
         List<InputDevice> devices_L = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
         InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
@@ -28,14 +27,13 @@ public class SpawnWeapon_Both : MonoBehaviour
         {
             targetDevice_R = devices_R[0];
         }
+
         if (devices_L.Count > 1)
         {
             targetDevice_L = devices_L[0];
         }
-
-
-
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("ItemBox"))
