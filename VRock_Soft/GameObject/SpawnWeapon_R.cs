@@ -41,7 +41,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
         //DataManager.DM.grabBomb = false;       
     }
 
-
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox_R"))
@@ -66,7 +65,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                 }
             }
         }
-
 
         if (coll.CompareTag("Bomb"))
         {
@@ -111,9 +109,7 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
     {
         myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
         return myGun.GetComponent<GunManager>();
-    }
-
-    
+    }   
 
     /*  public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
       {
