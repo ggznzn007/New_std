@@ -28,7 +28,6 @@ public class SelectionOutline : MonoBehaviour
     public void Highlight()
     {
         m_Highlighted = 1.0f;
-
         Renderer.GetPropertyBlock(m_Block);
         m_Block.SetFloat(m_HighlightActiveID, m_Highlighted);
         Renderer.SetPropertyBlock(m_Block);
@@ -37,7 +36,6 @@ public class SelectionOutline : MonoBehaviour
     public void RemoveHighlight()
     {
         m_Highlighted = 0.0f;
-
         Renderer.GetPropertyBlock(m_Block);
         m_Block.SetFloat(m_HighlightActiveID, m_Highlighted);
         Renderer.SetPropertyBlock(m_Block);
