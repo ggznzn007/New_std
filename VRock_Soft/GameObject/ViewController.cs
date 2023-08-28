@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ViewController : MonoBehaviour
 {        
-
-    // Update is called once per frame
     void Update()
     {
         if(this.transform.rotation.x>45)
