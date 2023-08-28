@@ -60,7 +60,6 @@ public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnersh
             rb.isKinematic = false;
             //gameObject.layer = 12;
         }
-
     }
 
     [PunRPC]
