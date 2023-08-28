@@ -11,6 +11,7 @@ public class SpawnWeapon : MonoBehaviour
     public Transform attachPoint;
     private InputDevice targetDevice;
     private bool weaponInIt = false;
+
     private void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
@@ -23,6 +24,7 @@ public class SpawnWeapon : MonoBehaviour
             targetDevice = devices[0];
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.transform.CompareTag("ItemBox"))
@@ -57,12 +59,6 @@ public class SpawnWeapon : MonoBehaviour
             Debug.Log("아이템박스 태그 종료");
         }
     }
-
-    private void Update()
-    {
-
-    }
-
 
     IEnumerator DestroyGun()
     {
