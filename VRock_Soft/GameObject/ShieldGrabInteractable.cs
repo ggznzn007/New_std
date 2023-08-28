@@ -7,6 +7,7 @@ public class ShieldGrabInteractable : XRGrabInteractable
 {
     public Transform left_Grab;
     public Transform right_Grab;
+
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
        
