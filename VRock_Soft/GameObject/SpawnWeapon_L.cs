@@ -40,8 +40,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
         {
             targetDevice = devices[0];
         }
-        //DataManager.DM.grabBomb = false;
-       
+        //DataManager.DM.grabBomb = false;       
     }   
    
      private void OnTriggerStay(Collider coll)
@@ -104,10 +103,8 @@ public class SpawnWeapon_L : MonoBehaviourPun
                     return;
                 }
             }
-        }     
-
+        } 
     }
-
     
     private GunManager SpawnGun()
     {
