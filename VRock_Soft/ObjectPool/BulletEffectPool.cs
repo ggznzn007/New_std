@@ -35,6 +35,7 @@ public class BulletEffectPool : MonoBehaviour
         }
         return null;
     }
+
     public void CreateBulletEffectPooling()
     {
         GameObject objectPools = new GameObject("EffectPools");
@@ -47,5 +48,4 @@ public class BulletEffectPool : MonoBehaviour
             bulletEffecPool.Add(obj);
         }
     }
-
 }
