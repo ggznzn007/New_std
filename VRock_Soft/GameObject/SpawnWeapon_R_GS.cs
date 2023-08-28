@@ -33,7 +33,6 @@ public class SpawnWeapon_R_GS : MonoBehaviourPun
     }
     private void Start()
     {
-
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
             InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
@@ -55,7 +54,6 @@ public class SpawnWeapon_R_GS : MonoBehaviourPun
         }*/
     }
 
-
     private void OnTriggerStay(Collider coll)
     {
         if (coll.CompareTag("ItemBox") && targetDevice.TryGetFeatureValue(CommonUsages.gripButton, out bool griped))
@@ -69,8 +67,6 @@ public class SpawnWeapon_R_GS : MonoBehaviourPun
                 Debug.Log("총 생성");
                 weaponInIt = true;
                 return;
-
-
 
                 // GameObject myGun = PN.Instantiate("Gun_Pun", attachPoint.position,attachPoint.rotation);  // 포톤서버 오브젝트 생성
                 // myGun.GetComponent<GunManager>().actorNumber = actorNumber;
@@ -88,20 +84,12 @@ public class SpawnWeapon_R_GS : MonoBehaviourPun
                 //myGun.GetPhotonView().OwnerActorNr = this.photonView.OwnerActorNr;
 
                 // SpawnGun(photonView.Owner.ActorNumber);
-
-
-
             }
             else
             {
                 weaponInIt = false;
                 return;
             }
-
-
-
-
         }
-
     }
 }
