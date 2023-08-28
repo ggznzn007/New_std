@@ -113,7 +113,6 @@ public class SpawnWeapon_LW : MonoBehaviourPun
         myGun= PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
         return myGun.GetComponent<RevolverManager>();
     }
-
   /*  private RevolverManager SpawnGun(Transform attachPoint)
     {
         myGun = PN.Instantiate(gun.name, attachPoint.position, attachPoint.rotation);
