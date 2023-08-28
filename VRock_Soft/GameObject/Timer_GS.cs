@@ -35,6 +35,7 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
     {
         count = true;
     }
+
     public void Update()
     {
         limitedTime = (int)PN.CurrentRoom.CustomProperties["Time"];
@@ -83,7 +84,6 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
         PN.Disconnect();
     }
 
-
     /////////////////////////////////// 1 버전
     /* realTimer -= Time.deltaTime;  // 설정시간 감소
 
@@ -111,9 +111,6 @@ public class Timer_GS : MonoBehaviourPunCallbacks//,IPunObservable
            realTimer = 0f;
            PN.Disconnect();
        }*/
-
-
-
 
     /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
