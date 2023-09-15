@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class testMovement2 : MonoBehaviour
 {
     Vector3 worldPosition;
-    public GameObject windObject;
+   // public GameObject windObject;
     new Rigidbody rigidbody;
     public float lifeTime = 10f;
     //public float Hspeed = 4f;
@@ -33,14 +34,14 @@ public class testMovement2 : MonoBehaviour
     bool beingHandled = false;
     Vector3 tempLoc;
     Vector3 newVector;
-
+   
     void Start()
-    {
+    {        
         time = 0f;
         timeStop = 0f;
         timeDelay = 5f;
         // Hspeed = Random.Range(1.1f,2f);
-        Hspeed = 1.5f;
+        Hspeed = 1.7f;
         temp = Random.value > 0.5f ? -30f : 30f;
         startPos = transform.rotation;
         direction = Random.Range(0.1f, 1.0f);
@@ -48,7 +49,7 @@ public class testMovement2 : MonoBehaviour
         initialLoc = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         maxLoc = new Vector3(initialLoc.x + 2.0f, initialLoc.y + 2.0f, initialLoc.z + 2.0f);
         minLoc = new Vector3(initialLoc.x - 2.0f, initialLoc.y - 2.0f, initialLoc.z - 2.0f);
-        rigidbody = gameObject.GetComponent<Rigidbody>();
+        rigidbody = gameObject.GetComponent<Rigidbody>();      
     }
 
     void Update()
@@ -72,7 +73,6 @@ public class testMovement2 : MonoBehaviour
             Hspeed = 2f;
             time = 0f;
             held = false;
-
         }
 
         //After we have waited 5 seconds print the time again.
@@ -103,11 +103,13 @@ public class testMovement2 : MonoBehaviour
             {
                 if (once)
                 {
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(0.2f);
                     Debug.Log("CEK!");
                     once = false;
                 }
+
                 HspeedBack = Vector3.Distance(initialLoc, this.transform.position);
+
                 if (Vector3.Distance(initialLoc, this.transform.position) < 1)
                 {
                     HspeedBack = Vector3.Distance(initialLoc, this.transform.position);
@@ -116,7 +118,7 @@ public class testMovement2 : MonoBehaviour
                 {
                     HspeedBack = 1f;
                 }
-                this.transform.position = Vector3.MoveTowards(this.transform.position, initialLoc, HspeedBack * 1f * Time.deltaTime);
+                this.transform.position = Vector3.MoveTowards(this.transform.position, initialLoc, HspeedBack *1.5f * Time.deltaTime);
             }
         }
 
@@ -133,10 +135,10 @@ public class testMovement2 : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other)
-    {
+    {       
         time = 0f;
         held = true;
-        Hspeed = 1.7f;
+        Hspeed = 2f;
         HspeedBack = 6f;
         Vector3 mousePos = Input.mousePosition;
         if (mousePos.x >= 960)
@@ -165,9 +167,7 @@ public class testMovement2 : MonoBehaviour
         ballPoint.y = 1;
         newVector = ballPoint - clickPoint;
         Vector3 newVector2 = clickPoint - ballPoint;
-
         // this.transform.Translate(newVector*1f);
-
     }
 
     void OnMouseUp()
