@@ -45,7 +45,7 @@ public class FootPrint : MonoBehaviour
     [SerializeField] TMP_Text countdownText;
     public GameObject startPannel;
     public GameObject failPannel;
-    public GameObject successPannel;    
+    public GameObject successPannel;
     public float curSecond;
 
     private Vector3 m_Offset;
@@ -54,9 +54,10 @@ public class FootPrint : MonoBehaviour
     private GameObject myFootReal;
     public bool gamePaused;
     public bool isStart;
+    public bool isReady;
     public int lineCnt;
     private byte[] bg_data1;
-    private byte[] bg_data2;    
+    private byte[] bg_data2;
 
     private void Awake()
     {
@@ -66,12 +67,13 @@ public class FootPrint : MonoBehaviour
 
     void Start()
     {
-        FPM = this;     
+        FPM = this;
         lineCnt = 0;
         LoadTime();
         isStart = false;
+        isReady = false;
         failPannel.SetActive(false);
-        successPannel.SetActive(false);        
+        successPannel.SetActive(false);
         hiddendeadLine.GetComponent<BoxCollider>().enabled = false;
         frontdeadLine.GetComponent<BoxCollider>().enabled = false;
         backdeadLine.GetComponent<BoxCollider>().enabled = false;
@@ -82,7 +84,7 @@ public class FootPrint : MonoBehaviour
         int setWidth = 3200;   // 화면 가로
         int setHeight = 1080;  // 화면 세로
 
-        Screen.SetResolution (setWidth, setHeight, true); // true: 풀스크린, false:창모드
+        Screen.SetResolution(setWidth, setHeight, true); // true: 풀스크린, false:창모드
     }
 
     void Update()
@@ -114,20 +116,23 @@ public class FootPrint : MonoBehaviour
 
     public void BacktoStart()                                                // 재시작
     {
-        isStart = false;        
+        isStart = false;
+        isReady = false;
         curSecond = timeSlider.value;
         DeadLineMove.DLM.gameObject.transform.position = new Vector3(0, 2, -57);
         HiddenLine.HLM.gameObject.transform.position = new Vector3(0, 2, -30.9f);
-        DeadLineMove2.DLM2.gameObject.transform.position = new Vector3(0,0, distanceSlider.value);
+        DeadLineMove2.DLM2.gameObject.transform.position = new Vector3(0, 0, distanceSlider.value);
         hiddendeadLine.GetComponent<BoxCollider>().enabled = false;
         frontdeadLine.GetComponent<BoxCollider>().enabled = false;
         backdeadLine.GetComponent<BoxCollider>().enabled = false;
-        startPannel.SetActive(true);        
+        startPannel.SetActive(true);
+        //   Destroy(footPrint);
     }
 
     public void StartWalk()                                                  // 게임 시작
     {
         startPannel.SetActive(false);
+        isReady = true;
         StartCoroutine(CountDown());
     }
 
@@ -153,7 +158,7 @@ public class FootPrint : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.0f);
             count--;
         }
-        countdownText.text = "START!";            
+        countdownText.text = "START!";
         yield return new WaitForSeconds(1f);
         isStart = true;
         countdownText.gameObject.SetActive(false);
@@ -162,22 +167,24 @@ public class FootPrint : MonoBehaviour
         backdeadLine.GetComponent<BoxCollider>().enabled = true;
     }
 
-    IEnumerator GameFinish()                                                     
+    IEnumerator GameFinish()
     {
         isStart = false;
-        AudioManager.AM.PlaySE("Success");        
-        successPannel.SetActive(true);        
+        isReady = false;
+        AudioManager.AM.PlaySE("Success");
+        successPannel.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         successPannel.SetActive(false);
-        BacktoStart();          
+        BacktoStart();
     }
 
     IEnumerator GameFail()
     {
         isStart = false;
-        AudioManager.AM.PlaySE("Fail");        
+        isReady = false;
+        AudioManager.AM.PlaySE("Fail");
         yield return new WaitForSeconds(0.2f);
-        failPannel.SetActive(true);        
+        failPannel.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         failPannel.SetActive(false);
         BacktoStart();
@@ -228,7 +235,7 @@ public class FootPrint : MonoBehaviour
         PlayerPrefs.SetFloat("BGM_Vol", bgmVol);
         BGM_Speaker.volume = bgmVol;
         bgmText.text = bgmVol.ToString("F1");
-        PlayerPrefs.SetString("bgmTxt",bgmText.text);
+        PlayerPrefs.SetString("bgmTxt", bgmText.text);
     }
 
     public void EX_Vol_Setting()
@@ -240,7 +247,7 @@ public class FootPrint : MonoBehaviour
             EX_Speaker[i].volume = exVol;
         }
         exText.text = exVol.ToString("F1");
-        PlayerPrefs.SetString("exTxt",exText.text);
+        PlayerPrefs.SetString("exTxt", exText.text);
     }
 
     public void LoadAndUpdateValue()                                            // 세팅 값 불러오기
@@ -264,7 +271,7 @@ public class FootPrint : MonoBehaviour
         speedText.text = speedTxt;
         distanceText.text = distanceTxt;
         bgmText.text = bgmTxt;
-        exText.text = exTxt;       
+        exText.text = exTxt;
     }
 
     public void LoadTime()                                                    // 세팅 시간 불러오기
@@ -278,7 +285,7 @@ public class FootPrint : MonoBehaviour
     void FootVisual()                                                            // 발자국 메서드
     {
         if (gamePaused) { return; }
-        if(!gamePaused)
+        if (!gamePaused)
         {
             if (Input.GetMouseButtonDown(0))                                     // 마우스 클릭시 한번만 호출
             {
@@ -287,25 +294,33 @@ public class FootPrint : MonoBehaviour
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f))
                 {
                     Vector3 hitPos = hit.point;
-                    myFoot = Instantiate(footPrint, hitPos, footPrint.transform.rotation);
-                    myFootReal = Instantiate(foot, hitPos, foot.transform.rotation);
-                    m_ZCoord = Camera.main.WorldToScreenPoint(myFoot.transform.position).z;
-                    m_Offset = myFoot.transform.position - GetMouseWorldPosition();
+                    if (isReady)
+                    {
+                        myFoot = Instantiate(footPrint, hitPos, footPrint.transform.rotation);
+                        myFootReal = Instantiate(foot, hitPos, foot.transform.rotation);
+                        m_ZCoord = Camera.main.WorldToScreenPoint(myFoot.transform.position).z;
+                        m_Offset = myFoot.transform.position - GetMouseWorldPosition();
+                    }
                 }
             }
 
             if (Input.GetMouseButton(0))                                         // 마우스 클릭중(드래그) 계속 호출
             {
-                myFoot.transform.position = GetMouseWorldPosition() + m_Offset;
-                myFootReal.transform.position = GetMouseWorldPosition() + m_Offset;
+                if (isReady)
+                {
+                    myFoot.transform.position = GetMouseWorldPosition() + m_Offset;
+                    myFootReal.transform.position = GetMouseWorldPosition() + m_Offset;
+                }
             }
 
             if (Input.GetMouseButtonUp(0))                                       // 마우스 클릭종료 시 한번만 호출
             {
-                StartCoroutine(DelayDestroy());
+                Destroy(myFoot, 0.5f);
+                Destroy(myFootReal, 0.5f);
+                // StartCoroutine(DelayDestroy());
             }
         }
-        
+
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -324,12 +339,12 @@ public class FootPrint : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
 
-    IEnumerator DelayDestroy()                                             // 가상의 봉을 딜레이 후 삭제
+  /*  IEnumerator DelayDestroy()                                             // 가상의 봉을 딜레이 후 삭제
     {
-        yield return Utils.wait;
+        yield return null;
         Destroy(myFoot);
         Destroy(myFootReal);
-    }
+    }*/
 
     void SettingUI()                                                       // 세팅 UI 
     {
@@ -402,6 +417,11 @@ public class FootPrint : MonoBehaviour
 
     public void LoadBackGround()
     {
+        if (Directory.Exists("BackGround") == false)
+        {
+            Directory.CreateDirectory("BackGround");
+        }
+
         string[] files = Directory.GetFiles("BackGround");//(System.IO)생략
         foreach (string file in files)
         {
@@ -424,13 +444,13 @@ public class FootPrint : MonoBehaviour
             RawImage test = startBackGround.GetComponent<RawImage>();
             test.texture = texture2;
         }
-    }  
+    }
 
     public void OpenBrowser_BG_Main()                                            // 배경 불러오기 메서드
     {
         FileBrowser
             .SetFilters(true, new FileBrowser
-            .Filter("Images", ".jpg", ".png","json")
+            .Filter("Images", ".jpg", ".png", "json")
             , new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
         FileBrowser.SetDefaultFilter(".png");
         FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
@@ -438,7 +458,7 @@ public class FootPrint : MonoBehaviour
         StartCoroutine(ShowLoadDialogCoroutine());
     }
 
-    
+
     IEnumerator ShowLoadDialogCoroutine()
     {
         yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.FilesAndFolders, true, null, null, "Load Files and Folders", "Load");
@@ -448,7 +468,7 @@ public class FootPrint : MonoBehaviour
         {
             for (int i = 0; i < FileBrowser.Result.Length; i++)
                 Debug.Log(FileBrowser.Result[i]);
-            
+
             bg_data1 = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
 
             Texture2D texture2 = new(3200, 1080, TextureFormat.ARGB32, false);
@@ -459,7 +479,7 @@ public class FootPrint : MonoBehaviour
 
             // string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
             // FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
-        }       
+        }
     }
 
     public void OpenBrowser_BG_Start()
@@ -489,9 +509,9 @@ public class FootPrint : MonoBehaviour
             test.texture = texture2;
 
             //string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
-           // FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
-        }       
-    }   
+            // FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
+        }
+    }
 
     public void ReStart()                                                // 재시작 
     {
