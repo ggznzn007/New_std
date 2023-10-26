@@ -3,7 +3,7 @@ public class Setting
 {
     public static float delayTime = 3;
     public static WaitForSeconds delay;
-    public static float speed = 7;
+    public static float speed = 5;
     public static float startWaitTime = 1.5f;
     public static float minX = -20f;
     public static float maxX = 20f;
