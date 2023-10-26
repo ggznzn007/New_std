@@ -21,15 +21,15 @@ public class PlayerControl : MonoBehaviour
     {        
         sr = GetComponent<SpriteRenderer>();
         sk = GetComponent<SpriteSkin>();
-        anim = GetComponent<Animator>();
+        
         waitTime = Setting.startWaitTime;       
     }
     private void Start()
     {
-        mySp = Instantiate(mySpot).transform;
-       
+        mySp = Instantiate(mySpot).transform;       
         moveSpot = mySp.GetComponent<Transform>();
-        
+        anim = GetComponent<Animator>();
+       
         /*  mySpot = GameObject.Find(Setting.movingSpots);
           if (mySpot != null)
           {
@@ -44,9 +44,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, moveSpot.position, Setting.speed * Time.deltaTime);
-        //anim.SetBool("IsWalk", true);
-        anim.Play("bird_test");
+        transform.position = Vector3.MoveTowards(transform.position, moveSpot.position, Setting.speed * Time.deltaTime);   
 
         if (Vector2.Distance(transform.position, moveSpot.position) < Setting.distance)
         {
@@ -59,17 +57,24 @@ public class PlayerControl : MonoBehaviour
             else
             {
                 waitTime -= Time.deltaTime;
-               // anim.SetBool("IsWalk", false);
+               // anim.SetBool("IsRight", false);
+               // anim.SetBool("IsLeft", false);
             }
         }
 
         if (moveSpot.position.x < transform.position.x)
         {
             sr.flipX = true;
+            //sr.flipY = false;
+           // anim.SetBool("IsRight", true);
+           // anim.SetBool("IsLeft", false);
         }
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipX = false;
+           // sr.flipY = true;
+          //  anim.SetBool("IsRight", false);
+           // anim.SetBool("IsLeft", true);
         }
     }
 
