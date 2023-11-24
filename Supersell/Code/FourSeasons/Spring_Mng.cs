@@ -1,23 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Spring_Mng : MonoBehaviour
 {
     [SerializeField] GameObject[] flowers;
+  
     void Start()
     {        
-        StartCoroutine(TimeToFade());
+        StartCoroutine(TimeToFade());       
     }
     
     void Update()
     {
-        if(DataManager.Instance.isPlaying)
+        if(DataManager.Instance.isPlaying&&!DataManager.Instance.isPaused)
         {
             if (!DataManager.Instance.isPlaying) return;
             TouchPoint();
-        }        
+        }
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene(0);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            SceneManager.LoadScene(1);
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            SceneManager.LoadScene(2);
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            SceneManager.LoadScene(3);
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            SceneManager.LoadScene(4);
+        }
     }
 
    public void TouchPoint()
@@ -48,12 +71,13 @@ public class Spring_Mng : MonoBehaviour
 
     IEnumerator TimeToFade()
     {
+        yield return new WaitForSeconds(1);
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
         DataManager.Instance.isPlaying = true;
-        yield return new WaitForSecondsRealtime(Settings.SceneTime);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.SceneTime_Spring);
         FadeScreen.Instance.OnFade(FadeState.FadeOut);
         DataManager.Instance.isPlaying = false;
-        yield return new WaitForSecondsRealtime(Settings.DelayTime);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.DelayTime);
         SceneManager.LoadScene(1);
     }
 }
