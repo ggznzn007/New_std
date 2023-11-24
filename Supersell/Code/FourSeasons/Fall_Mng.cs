@@ -18,7 +18,7 @@ public class Fall_Mng : MonoBehaviour
     
     void Update()
     {
-        if (DataManager.Instance.isPlaying)
+        if (DataManager.Instance.isPlaying && !DataManager.Instance.isPaused)
         {
             if (!DataManager.Instance.isPlaying) return;
 
@@ -45,6 +45,27 @@ public class Fall_Mng : MonoBehaviour
                 Destroy(myFoot);
             }
         }
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene(0);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            SceneManager.LoadScene(1);
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            SceneManager.LoadScene(2);
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            SceneManager.LoadScene(3);
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            SceneManager.LoadScene(4);
+        }
     }
 
     Vector3 GetMouseWorldPosition()                                        // 마우스 위치값 함수
@@ -58,10 +79,10 @@ public class Fall_Mng : MonoBehaviour
     {
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
         DataManager.Instance.isPlaying = true;
-        yield return new WaitForSecondsRealtime(Settings.SceneTime);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.SceneTime_Fall);
         FadeScreen.Instance.OnFade(FadeState.FadeOut);
         DataManager.Instance.isPlaying = false;
-        yield return new WaitForSecondsRealtime(Settings.DelayTime);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.DelayTime);
         SceneManager.LoadScene(3);
     }
 }
