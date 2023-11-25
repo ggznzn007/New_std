@@ -14,10 +14,31 @@ public class Winter_Mng : MonoBehaviour
    
     void Update()
     {
-        if (DataManager.Instance.isPlaying)
+        if (DataManager.Instance.isPlaying && !DataManager.Instance.isPaused)
         {
             if (!DataManager.Instance.isPlaying) return;
                 TouchPoint();
+        }
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene(0);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            SceneManager.LoadScene(1);
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            SceneManager.LoadScene(2);
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            SceneManager.LoadScene(3);
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            SceneManager.LoadScene(4);
         }
     }
     public void TouchPoint()
@@ -50,10 +71,10 @@ public class Winter_Mng : MonoBehaviour
     {
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
         DataManager.Instance.isPlaying = true;
-        yield return new WaitForSecondsRealtime(Settings.SceneTime);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.SceneTime_Winter);
         FadeScreen.Instance.OnFade(FadeState.FadeOut);
         DataManager.Instance.isPlaying = false;
-        yield return new WaitForSecondsRealtime(Settings.DelayTime);
-        SceneManager.LoadScene(0);
+        yield return new WaitForSecondsRealtime(DataManager.Instance.DelayTime);
+        SceneManager.LoadScene(4);
     }
 }
