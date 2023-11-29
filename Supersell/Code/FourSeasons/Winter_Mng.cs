@@ -20,26 +20,7 @@ public class Winter_Mng : MonoBehaviour
                 TouchPoint();
         }
 
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            SceneManager.LoadScene(0);
-        }
-        if (Input.GetKey(KeyCode.Alpha2))
-        {
-            SceneManager.LoadScene(1);
-        }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            SceneManager.LoadScene(2);
-        }
-        if (Input.GetKey(KeyCode.Alpha4))
-        {
-            SceneManager.LoadScene(3);
-        }
-        if (Input.GetKey(KeyCode.Alpha5))
-        {
-            SceneManager.LoadScene(4);
-        }
+     
     }
     public void TouchPoint()
     {
@@ -68,7 +49,7 @@ public class Winter_Mng : MonoBehaviour
          Destroy(mySnow);
     }
     IEnumerator TimeToFade()
-    {
+    {        
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
         DataManager.Instance.isPlaying = true;
         yield return new WaitForSecondsRealtime(DataManager.Instance.SceneTime_Winter);
