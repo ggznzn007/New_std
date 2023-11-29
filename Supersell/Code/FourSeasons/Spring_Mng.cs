@@ -19,28 +19,7 @@ public class Spring_Mng : MonoBehaviour
         {
             if (!DataManager.Instance.isPlaying) return;
             TouchPoint();
-        }
-
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            SceneManager.LoadScene(0);
-        }
-        if (Input.GetKey(KeyCode.Alpha2))
-        {
-            SceneManager.LoadScene(1);
-        }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            SceneManager.LoadScene(2);
-        }
-        if (Input.GetKey(KeyCode.Alpha4))
-        {
-            SceneManager.LoadScene(3);
-        }
-        if (Input.GetKey(KeyCode.Alpha5))
-        {
-            SceneManager.LoadScene(4);
-        }
+        }     
     }
 
    public void TouchPoint()
@@ -71,7 +50,7 @@ public class Spring_Mng : MonoBehaviour
 
     IEnumerator TimeToFade()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);        
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
         DataManager.Instance.isPlaying = true;
         yield return new WaitForSecondsRealtime(DataManager.Instance.SceneTime_Spring);
