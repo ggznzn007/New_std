@@ -9,13 +9,14 @@ public class DataManager : Singleton<DataManager>
 {
     #region 변수 집합
     public bool isPlaying;
-    public bool isPaused;
+    public bool isPaused;    
     public float SceneTime_Spring;
     public float SceneTime_Summer;
     public float SceneTime_Fall;
     public float SceneTime_Winter;
     public float SceneTime_Fish;
-    public float SceneTime = 10;
+    public float SceneTime_FishCount;
+    public float SceneTime_FishSize;   
     public float DelayTime = 5;
 
     public GameObject settingPanel;
@@ -24,17 +25,16 @@ public class DataManager : Singleton<DataManager>
     public TMP_InputField fallInput;
     public TMP_InputField winterInput;
     public TMP_InputField fishesInput;
-   // public Slider springSlider;
-  //  public Slider summerSlider;
-  //  public Slider fallSlider;
-  //  public Slider winterSlider;
-    //public Slider fishSlider;
+    public TMP_InputField fishesCountInput;
+    public TMP_InputField fishesSizeInput; 
 
     public TextMeshProUGUI springText;    
     public TextMeshProUGUI summerText;
     public TextMeshProUGUI fallText;
     public TextMeshProUGUI winterText;
     public TextMeshProUGUI fishText;
+    public TextMeshProUGUI fishCountText;
+    public TextMeshProUGUI fishSizeText;
     #endregion
 
     #region 유니티 메서드 집합
@@ -45,7 +45,9 @@ public class DataManager : Singleton<DataManager>
         SceneTime_Fall = 10;
         SceneTime_Winter = 10;
         SceneTime_Fish = 10;
-        isPaused = false;
+        SceneTime_FishCount = 100;
+        SceneTime_FishSize = 1;
+        isPaused = false;       
     }
 
     private void Update()
@@ -55,6 +57,8 @@ public class DataManager : Singleton<DataManager>
         GetFallTime();
         GetWinterTime();
         GetFishTime();
+        GetFishCount();
+        GetFishSize();       
 
         if (Input.GetKeyDown(KeyCode.Escape))                    // ESC누르면 일시정지 상태로 스위칭
         {
@@ -69,10 +73,6 @@ public class DataManager : Singleton<DataManager>
         {
             settingPanel.SetActive(false);           
         }
-
-      
-       
-
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -124,6 +124,22 @@ public class DataManager : Singleton<DataManager>
         string fiText = PlayerPrefs.GetString("setFishtxt");
       //  fishSlider.value = SceneTime_Fish;
         fishText.text = fiText;
+    }
+
+    public void GetFishCount()
+    {
+        SceneTime_FishCount = PlayerPrefs.GetFloat("setFishCount");
+        string fiText = PlayerPrefs.GetString("setFishCounttxt");
+        //  fishSlider.value = SceneTime_Fish;
+        fishCountText.text = fiText;
+    }
+
+    public void GetFishSize()
+    {
+        SceneTime_FishSize = PlayerPrefs.GetFloat("setFishSize");
+        string fiText = PlayerPrefs.GetString("setFishSizetxt");
+        //  fishSlider.value = SceneTime_Fish;
+        fishSizeText.text = fiText;
     }
     #endregion
 
@@ -182,10 +198,24 @@ public class DataManager : Singleton<DataManager>
         string setTime = string.Format("{0:00}분 : {1:00}초", min, sec);
         PlayerPrefs.SetString("setFishtxt", setTime);
     }
-    #endregion
 
-    public void GotoThatScene(int seasons)
+    public void SetFishCount()
     {
-        SceneManager.LoadScene(seasons);
+        SceneTime_FishCount = int.Parse(fishesCountInput.text);
+        PlayerPrefs.SetFloat("setFishCount", SceneTime_FishCount);
+        int temp = (int)SceneTime_FishCount;        
+        string setCount = temp.ToString("F0");
+        PlayerPrefs.SetString("setFishCounttxt", setCount);
     }
+
+    public void SetFishSize()
+    {
+        SceneTime_FishSize = int.Parse(fishesSizeInput.text);
+        PlayerPrefs.SetFloat("setFishSize", SceneTime_FishSize);
+        int temp = (int)SceneTime_FishSize;
+        string setSize = temp.ToString("F0");
+        PlayerPrefs.SetString("setFishSizetxt", setSize);
+    }
+    #endregion
+    
 }
