@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         }
     }
     void Start()
-    {
+    {        
         Board board = FindObjectOfType<Board>();
         allCards = board.GetCards();
 
