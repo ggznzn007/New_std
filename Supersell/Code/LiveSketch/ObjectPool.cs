@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 
 public class ObjectPool : MonoBehaviour
 {
+    #region 변수 선언부
     public static ObjectPool OP;
     public int ObjectCount = 10;   
     public List<Transform> treePoints;
@@ -53,7 +54,12 @@ public class ObjectPool : MonoBehaviour
     private Queue<GameObject> objectPool_Mame = new Queue<GameObject>();
     private Queue<GameObject> objectPool_Scel = new Queue<GameObject>();
     private Queue<GameObject> objectPool_Shun = new Queue<GameObject>();
-    private Queue<GameObject> objectPool_Tuoj = new Queue<GameObject>();   
+    private Queue<GameObject> objectPool_Tuoj = new Queue<GameObject>();  
+    
+    public Vector3 spawnAreaSize = new Vector3(10f, 0f, 10f); // 생성 영역 크기
+    public int maxSpawnAttempts = 100; // 최대 시도 횟수
+    public float minDistance = 2f; // 최소 거리 (겹치지 않게 할 최소 거리)
+    private List<GameObject> spawnedObjects = new List<GameObject>(); // 생성된 오브젝트를 저장할 리스트
 
     private int addCount_Ante;
     private int addCount_Blac;
@@ -76,7 +82,9 @@ public class ObjectPool : MonoBehaviour
     private int addCount_Scel;
     private int addCount_Shun;
     private int addCount_Tuoj;
+    #endregion
 
+    #region 유니티 메서드 집합
     private void Start()
     {
         OP = this;
@@ -103,7 +111,24 @@ public class ObjectPool : MonoBehaviour
         InitializePool_Shun();
         InitializePool_Tuoj();
     }
+    Vector3 GetRandomPosition()
+    {
+        float x = Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2);
+        float z = Random.Range(-spawnAreaSize.z / 2, spawnAreaSize.z / 2);
+        return new Vector3(x, 0, z);
+    }
 
+    bool CheckOverlap(Vector3 newPosition)
+    {
+        foreach (GameObject obj in spawnedObjects)
+        {
+            if (Vector3.Distance(obj.transform.position, newPosition) < minDistance)
+            {
+                return true; // 겹침
+            }
+        }
+        return false; // 겹치지 않음
+    }
     void InitAdd()
     {
         addCount_Ante = 0;
@@ -128,107 +153,197 @@ public class ObjectPool : MonoBehaviour
         addCount_Shun = 0;
         addCount_Tuoj = 0;
     }
-   
-    #region  오브젝트 생성 메서드
+    #endregion
+
+    #region  오브젝트 생성 메서드 집합
     void InitializePool_Ante() //개미핥기 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
+                // 오브젝트 생성 및 위치 설정
+                int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
+                GameObject obj = Instantiate(Ante[i], groundPoints[rand[0]].position, Ante[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Ante.Enqueue(obj);
+                spawnedObjects.Add(obj);
+            }
+        }
+       /* for (int i = 0; i < ObjectCount; i++)
+        {
             //int rand = Random.Range(0, groundPoints.Count);
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
-            GameObject obj = Instantiate(Ante[i], groundPoints[rand[0]].position, Ante[i].transform.rotation);
+            GameObject obj = Instantiate(Ante[i], groundPoints[rand[0]].position, Ante[i].transform.rotation);           
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Ante.Enqueue(obj);
-        }
+        }*/
     }
     void InitializePool_Blac() //악어 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
-            int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
-            GameObject obj = Instantiate(Blac[i], groundPoints[rand[0]].position, Blac[i].transform.rotation);
-            obj.SetActive(false); // 비활성화 상태로 시작
-            objectPool_Blac.Enqueue(obj);
+            Vector3 randomPosition = GetRandomPosition();//추가
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);// 추가
+
+            if (!isOverlapping)//추가
+            {
+                int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
+                GameObject obj = Instantiate(Blac[i], groundPoints[rand[0]].position, Blac[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Blac.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Cham() //카멜레온 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
-            int[] rand = Setting.RandomNumbers(treePoints.Count, 1);
-            GameObject obj = Instantiate(Cham[i], treePoints[rand[0]].position, Cham[i].transform.rotation);
-            obj.SetActive(false); // 비활성화 상태로 시작
-            objectPool_Cham.Enqueue(obj);
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
+                int[] rand = Setting.RandomNumbers(treePoints.Count, 1);
+                GameObject obj = Instantiate(Cham[i], treePoints[rand[0]].position, Cham[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Cham.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Elep() //코끼리 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
-            int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
-            GameObject obj = Instantiate(Elep[i], groundPoints[rand[0]].position, Elep[i].transform.rotation);
-            obj.SetActive(false); // 비활성화 상태로 시작
-            objectPool_Elep.Enqueue(obj);
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
+                int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
+                GameObject obj = Instantiate(Elep[i], groundPoints[rand[0]].position, Elep[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Elep.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Gori() //고릴라 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
-            int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
-            GameObject obj = Instantiate(Gori[i], groundPoints[rand[0]].position, Gori[i].transform.rotation);
-            obj.SetActive(false); // 비활성화 상태로 시작
-            objectPool_Gori.Enqueue(obj);
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
+                int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
+                GameObject obj = Instantiate(Gori[i], groundPoints[rand[0]].position, Gori[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Gori.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Jagu() //재규어 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
-            int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
-            GameObject obj = Instantiate(Jagu[i], groundPoints[rand[0]].position, Jagu[i].transform.rotation);
-            obj.SetActive(false); // 비활성화 상태로 시작
-            objectPool_Jagu.Enqueue(obj);
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
+                int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
+                GameObject obj = Instantiate(Jagu[i], groundPoints[rand[0]].position, Jagu[i].transform.rotation);
+                obj.SetActive(false); // 비활성화 상태로 시작
+                objectPool_Jagu.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Okap() //오카피 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Okap[i], groundPoints[rand[0]].position, Okap[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Okap.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Pois() //독 개구리 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Pois[i], groundPoints[rand[0]].position, Pois[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Pois.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Slot() //나무늘보 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(treePoints.Count, 1);
             GameObject obj = Instantiate(Slot[i], treePoints[rand[0]].position, Slot[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Slot.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Toco() //토코 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(treePoints.Count, 1);
             GameObject obj = Instantiate(Toco[i], treePoints[rand[0]].position, Toco[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Toco.Enqueue(obj);
+            }
         }
     }
 
@@ -236,105 +351,185 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Baro[i], groundPoints[rand[0]].position, Baro[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Baro.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Brac() // 브라키오사우루스 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Brac[i], groundPoints[rand[0]].position, Brac[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Brac.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Camp() // 캡터사우루스 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Camp[i], groundPoints[rand[0]].position, Camp[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Camp.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Hete() // 헤테로돈토사우루스 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Hete[i], groundPoints[rand[0]].position, Hete[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Hete.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Huay() // 후양고사우루스 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Huay[i], groundPoints[rand[0]].position, Huay[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Huay.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Lufe() // 루펜고사우루스 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Lufe[i], groundPoints[rand[0]].position, Lufe[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Lufe.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Mame() // 메멘키사우루스 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Mame[i], groundPoints[rand[0]].position, Mame[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Mame.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Scel() // 스사우루스 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Scel[i], groundPoints[rand[0]].position, Scel[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Scel.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Shun() // 셔노사우루스 - fix
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Shun[i], groundPoints[rand[0]].position, Shun[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Shun.Enqueue(obj);
+            }
         }
     }
     void InitializePool_Tuoj() // 투지안고사우루스 - move
     {
         for (int i = 0; i < ObjectCount; i++)
         {
+            Vector3 randomPosition = GetRandomPosition();
+
+            // 새로운 위치와 기존 위치 사이의 충돌 확인
+            bool isOverlapping = CheckOverlap(randomPosition);
+
+            if (!isOverlapping)
+            {
             int[] rand = Setting.RandomNumbers(groundPoints.Count, 1);
             GameObject obj = Instantiate(Tuoj[i], groundPoints[rand[0]].position, Tuoj[i].transform.rotation);
             obj.SetActive(false); // 비활성화 상태로 시작
             objectPool_Tuoj.Enqueue(obj);
+            }
         }
     }
     #endregion
 
-    #region 오브젝트 사용할때 풀에서 꺼내는 메서드
+    #region 오브젝트 사용할때 풀에서 꺼내는 메서드 집합
     public GameObject GetFromPool_Ante()  // 개미핥기
     {
         if (objectPool_Ante.Count > 0)
@@ -703,7 +898,7 @@ public class ObjectPool : MonoBehaviour
 
     #endregion
 
-    #region 오브젝트 사용 후 풀에 리턴하는 메서드
+    #region 오브젝트 사용 후 풀에 리턴하는 메서드 집합
     public void ReturnToPool_Ante(GameObject obj)
     {
         obj.SetActive(false);
