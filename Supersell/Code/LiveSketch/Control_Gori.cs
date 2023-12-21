@@ -46,25 +46,11 @@ public class Control_Gori : PlayerControl
 
         if (moveSpot.position.x < transform.position.x)
         {
-            sr.flipX = true;
-            //sr.flipY = false;
-            // anim.SetBool("IsRight", true);
-            // anim.SetBool("IsLeft", false);
+            sr.flipX = true;          
         }
         else if (moveSpot.position.x > transform.position.x)
         {
-            sr.flipX = false;
-            // sr.flipY = true;
-            //  anim.SetBool("IsRight", false);
-            // anim.SetBool("IsLeft", true);
+            sr.flipX = false;        
         }
-
-     //   StartCoroutine(DeActive_Gori());
-    }
-
-    public IEnumerator DeActive_Gori()
-    {
-        yield return new WaitForSeconds(Setting.DelTime);
-        ObjectPool.OP.ReturnToPool_Gori(gameObject);
     }
 }
