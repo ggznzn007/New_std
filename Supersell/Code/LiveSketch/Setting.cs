@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 public class Setting
 {
@@ -18,7 +19,7 @@ public class Setting
     public static float distance = 1;
     public static string movingSpots = "MovingSpotGroup";
     public static float posVal = 2.5f;
-    
+        
 
     public static int[] RandomNumbers(int maxCount, int n)
     {
