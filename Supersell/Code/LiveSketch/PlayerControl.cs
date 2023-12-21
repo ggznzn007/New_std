@@ -56,43 +56,17 @@ public class PlayerControl : MonoBehaviour
             }
             else
             {
-                waitTime -= Time.deltaTime;
-               // anim.SetBool("IsRight", false);
-               // anim.SetBool("IsLeft", false);
+                waitTime -= Time.deltaTime;               
             }
         }
 
         if (moveSpot.position.x < transform.position.x)
         {
-            sr.flipY = true;
-            //sr.flipY = false;
-           // anim.SetBool("IsRight", true);
-           // anim.SetBool("IsLeft", false);
+            sr.flipY = true;            
         }
         else if (moveSpot.position.x > transform.position.x)
         {
-            sr.flipY = false;
-           // sr.flipY = true;
-          //  anim.SetBool("IsRight", false);
-           // anim.SetBool("IsLeft", true);
-        }
-
-       // StartCoroutine(DeActive());
-    }
-
-   
-
-   public IEnumerator DeActive()
-    {
-        yield return new WaitForSeconds(Setting.DelTime);        
-        ObjectPool.OP.ReturnToPool_Toco(gameObject);
-    }
-
-    /*public int speed = 10;
-    void Update()
-    {
-        float xMove = Input.GetAxis("Horizontal") * speed * Time.deltaTime; //x축으로 이동할 양
-        float yMove = Input.GetAxis("Vertical") * speed * Time.deltaTime; //y축으로 이동할양
-        this.transform.Translate(new Vector3(xMove, yMove, 0));  //이동
-    }*/ // 키보드 이동
+            sr.flipY = false;          
+        }     
+    }   
 }
