@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using SimpleFileBrowser;
-//using UnityEngine.UIElements;
 using UnityEngine.UI;
 using UnityEditor;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -19,6 +18,7 @@ using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
+    #region 선언부
     public static SpawnManager SM;
     // public List<GameObject> spawnPlayer;
     // public Transform[] spawnPoints;   
@@ -27,6 +27,8 @@ public class SpawnManager : MonoBehaviour
     public Slider totalSlider;
     public TextMeshProUGUI totalNum;
     public GameObject deActivePart;
+    // public Slider speedSlider;
+    // public Slider objSpeedSlider;
 
     private byte[] img_Data;
     private string[] files;
@@ -60,15 +62,14 @@ public class SpawnManager : MonoBehaviour
     private int imgIndex_Scel;
     private int imgIndex_Shun;
     private int imgIndex_Tuoj;
-   
-    private string playerName;
-    private string assetFoldPath = "Asset/Character";
-    // private string scanURL = "http://192.168.0.106:15464/testScan";
-    private bool gamePaused;
 
+    private bool gamePaused;
+    #endregion
+
+    #region 유니티 시스템 메서드 집합
     void Start()
     {
-        SM = this;        
+        SM = this;
         LoadValue();
         Application.runInBackground = true;
         imgIndex_Ante = 0;
@@ -92,7 +93,20 @@ public class SpawnManager : MonoBehaviour
         imgIndex_Scel = 0;
         imgIndex_Shun = 0;
         imgIndex_Tuoj = 0;
+        //  speedSlider.onValueChanged.AddListener(ChangeAnimationSpeed);
+        // objSpeedSlider.onValueChanged.AddListener(ChangeSpeed);
     }
+    /*  void ChangeAnimationSpeed(float newSpeed)
+      {
+          // 슬라이더 값에 따라 애니메이션 속도 변경
+         imgPlayer.GetComponent<Animator>().speed = newSpeed;
+
+      }
+      void ChangeSpeed(float newSpeed)
+      {
+          // 슬라이더 값에 따라 속도 변경       
+         imgPlayer.GetComponent<Control_Ante>().speed = newSpeed;
+      }*/
     void SettingUI()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -107,6 +121,7 @@ public class SpawnManager : MonoBehaviour
             setCanvas.SetActive(false);
         }
     }
+
     public void SetCount()
     {
         float total = totalSlider.value;
@@ -134,13 +149,10 @@ public class SpawnManager : MonoBehaviour
         ScanToImages();
         SettingUI();
         SetCount();
-
     }
-
 
     void ScanToImages()
     {
-
         if (File.Exists(path + "/" + aniName[0] + imgIndex_Ante.ToString() + imgType))
         {
             StartCoroutine(DelayImport_Ante(0));
@@ -226,6 +238,7 @@ public class SpawnManager : MonoBehaviour
             return;
         }
     }
+    #endregion
 
     #region 동물 스폰 메서드 집합
     void DeActiveCon()
@@ -237,15 +250,15 @@ public class SpawnManager : MonoBehaviour
         if (aniGON.Count > totalObject)
         {
             GameObject test = GameObject.Find(aniGON[0]);
-            GameObject part =  Instantiate(deActivePart,test.transform.position, Quaternion.identity);
+            GameObject part = Instantiate(deActivePart, test.transform.position, Quaternion.identity);
             test.LeanScale(new Vector3(0f, 0f, 0f), 1).setEaseLinear();
-            Destroy(test,1);
-            Destroy(part,1);
-            
+            Destroy(test, 1);
+            Destroy(part, 1);
+
             aniGON.RemoveAt(0);
         }
     }
-   
+
     public void SpawnObject_Ante(int index)
     {
         if (!File.Exists(path + "/" + aniName[index] + imgIndex_Ante.ToString() + imgType)) { return; }
@@ -254,10 +267,10 @@ public class SpawnManager : MonoBehaviour
 
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Ante();
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Ante);
-        aniGON.Add("Anteater " + testIdx.ToString() + "(Clone)");        
-        DeActiveCon(); 
+        aniGON.Add("Anteater " + testIdx.ToString() + "(Clone)");
+        DeActiveCon();
         imgIndex_Ante++;
     }
     public void SpawnObject_Blac(int index)
@@ -267,13 +280,12 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Blac.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Blac();
         imgPlayer.LeanScale(new Vector3(0.7f, 0.7f, 0.7f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Blac);
-        aniGON.Add("Black caiman " + testIdx.ToString() + "(Clone)");        
-        DeActiveCon();       
+        aniGON.Add("Black caiman " + testIdx.ToString() + "(Clone)");
+        DeActiveCon();
         imgIndex_Blac++;
     }
-
     public void SpawnObject_Cham(int index)
     {
         if (!File.Exists(path + "/" + aniName[index] + imgIndex_Cham.ToString() + imgType)) { return; }
@@ -283,8 +295,8 @@ public class SpawnManager : MonoBehaviour
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
         imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Cham);
-        aniGON.Add("Chameleon " + testIdx.ToString() + "(Clone)");       
-        DeActiveCon();       
+        aniGON.Add("Chameleon " + testIdx.ToString() + "(Clone)");
+        DeActiveCon();
         imgIndex_Cham++;
     }
     public void SpawnObject_Elep(int index)
@@ -294,10 +306,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Elep.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Elep();
         imgPlayer.LeanScale(new Vector3(0.9f, 0.9f, 0.9f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Elephant " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Elep);        
-        DeActiveCon();        
+        Debug.Log(imgIndex_Elep);
+        DeActiveCon();
         imgIndex_Elep++;
     }
     public void SpawnObject_Gori(int index)
@@ -307,10 +319,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Gori.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Gori();
         imgPlayer.LeanScale(new Vector3(0.6f, 0.6f, 0.6f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Gorilla " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Gori);       
-        DeActiveCon();      
+        Debug.Log(imgIndex_Gori);
+        DeActiveCon();
         imgIndex_Gori++;
     }
     public void SpawnObject_Jagu(int index)
@@ -320,10 +332,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Jagu.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Jagu();
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Jaguar " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Jagu);      
-        DeActiveCon();       
+        Debug.Log(imgIndex_Jagu);
+        DeActiveCon();
         imgIndex_Jagu++;
     }
     public void SpawnObject_Okap(int index)
@@ -333,10 +345,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Okap.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Okap();
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Okapi " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Okap);       
-        DeActiveCon();       
+        Debug.Log(imgIndex_Okap);
+        DeActiveCon();
         imgIndex_Okap++;
     }
     public void SpawnObject_Pois(int index)
@@ -346,10 +358,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Pois.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Pois();
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Pois);
-        aniGON.Add("Poison dart frog " + testIdx.ToString() + "(Clone)");       
-        DeActiveCon();       
+        aniGON.Add("Poison dart frog " + testIdx.ToString() + "(Clone)");
+        DeActiveCon();
         imgIndex_Pois++;
     }
     public void SpawnObject_Slot(int index)
@@ -359,10 +371,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Slot.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Slot();
         imgPlayer.LeanScale(new Vector3(0.5f, 0.5f, 0.5f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Sloth " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Slot);        
-        DeActiveCon();       
+        Debug.Log(imgIndex_Slot);
+        DeActiveCon();
         imgIndex_Slot++;
     }
     public void SpawnObject_Toco(int index)
@@ -372,10 +384,10 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + aniName[index] + imgIndex_Toco.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기          
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Toco();
         imgPlayer.LeanScale(new Vector3(0.3f, 0.3f, 0.3f), 1).setEaseLinear();                                // 생성 효과       
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Toco);
-        aniGON.Add("Toco toucan " + testIdx.ToString() + "(Clone)");       
-        DeActiveCon();       
+        aniGON.Add("Toco toucan " + testIdx.ToString() + "(Clone)");
+        DeActiveCon();
         imgIndex_Toco++;
         /*//Texture2D texture2 = new(3200, 1080, TextureFormat.ARGB32, false,true);       // 빈 텍스처 준비              
           //texture2.LoadImage(img_Data);                                                 // 빈 텍스처에 이미지 데이터 받기
@@ -460,8 +472,8 @@ public class SpawnManager : MonoBehaviour
         SpawnObject_Toco(index);
     }
 
-
     #endregion
+
     #region 공룡 스폰 메서드 집합
     public void SpawnObject_Baro(int index)
     {
@@ -470,9 +482,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Baro.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Baro();
         imgPlayer.LeanScale(new Vector3(1, 1, 1), 1).setEaseLinear();
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);      
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         Debug.Log(imgIndex_Baro);
-        aniGON.Add("Barosaurus " + testIdx.ToString() + "(Clone)");        
+        aniGON.Add("Barosaurus " + testIdx.ToString() + "(Clone)");
         DeActiveCon();
         imgIndex_Baro++;
     }
@@ -483,9 +495,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Brac.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Brac();
         imgPlayer.LeanScale(new Vector3(1, 1, 1), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Brachinosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Brac);       
+        Debug.Log(imgIndex_Brac);
         DeActiveCon();
         imgIndex_Brac++;
     }
@@ -496,9 +508,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Camp.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Camp();
         imgPlayer.LeanScale(new Vector3(.8f, .8f, .8f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Camptosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Camp);       
+        Debug.Log(imgIndex_Camp);
         DeActiveCon();
         imgIndex_Camp++;
     }
@@ -509,9 +521,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Hete.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Hete();
         imgPlayer.LeanScale(new Vector3(.9f, .9f, .9f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Heterodontosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Hete);       
+        Debug.Log(imgIndex_Hete);
         DeActiveCon();
         imgIndex_Hete++;
     }
@@ -522,9 +534,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Huay.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기     
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Huay();
         imgPlayer.LeanScale(new Vector3(.8f, .8f, .8f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Huayangosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Huay);        
+        Debug.Log(imgIndex_Huay);
         DeActiveCon();
         imgIndex_Huay++;
     }
@@ -535,9 +547,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Lufe.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Lufe();
         imgPlayer.LeanScale(new Vector3(.6f, .6f, .6f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);       
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Lufengosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Lufe);        
+        Debug.Log(imgIndex_Lufe);
         DeActiveCon();
         imgIndex_Lufe++;
     }
@@ -548,9 +560,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Mame.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Mame();
         imgPlayer.LeanScale(new Vector3(.7f, .7f, .7f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data); 
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Mamenchisaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Mame);       
+        Debug.Log(imgIndex_Mame);
         DeActiveCon();
         imgIndex_Mame++;
     }
@@ -561,9 +573,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Scel.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Scel();
         imgPlayer.LeanScale(new Vector3(.7f, .7f, .7f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Scelidosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Scel);       
+        Debug.Log(imgIndex_Scel);
         DeActiveCon();
         imgIndex_Scel++;
     }
@@ -574,9 +586,9 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Shun.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Shun();
         imgPlayer.LeanScale(new Vector3(.7f, .7f, .7f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Shunosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Shun);        
+        Debug.Log(imgIndex_Shun);
         DeActiveCon();
         imgIndex_Shun++;
     }
@@ -587,13 +599,12 @@ public class SpawnManager : MonoBehaviour
         img_Data = File.ReadAllBytes(path + "/" + dinoName[index] + imgIndex_Tuoj.ToString() + imgType);  // 해당폴더에서 이미지 데이터 받아오기        
         GameObject imgPlayer = ObjectPool.OP.GetFromPool_Tuoj();
         imgPlayer.LeanScale(new Vector3(.7f, .7f, .7f), 1).setEaseLinear();                                     // 생성 효과
-        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);        
+        imgPlayer.GetComponent<SpriteRenderer>().sprite.texture.LoadImage(img_Data);
         aniGON.Add("Tuojiangosaurus " + testIdx.ToString() + "(Clone)");
-        Debug.Log(imgIndex_Tuoj);       
+        Debug.Log(imgIndex_Tuoj);
         DeActiveCon();
         imgIndex_Tuoj++;
     }
-
 
     IEnumerator DelayImport_Baro(int index)
     {
@@ -645,8 +656,6 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(Setting.delayTime);
         SpawnObject_Tuoj(index);
     }
-    #endregion
-
 
     [Obsolete]
     IEnumerator MakeWebRequestCoroutine()
@@ -661,57 +670,5 @@ public class SpawnManager : MonoBehaviour
         }
 
     }
-
-    /*  IEnumerator DelayImportObject2()
-      {
-          yield return new WaitForSeconds(2);
-          SpawnObject2();
-      }
-  */
-
-
-
-    /* public void OpenBrowser()                                            // 배경 불러오기 메서드
-     {
-         FileBrowser
-             .SetFilters(true, new FileBrowser
-             .Filter("Images", ".jpg", ".png", "json")
-             , new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
-         FileBrowser.SetDefaultFilter(".png");
-         FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
-         FileBrowser.AddQuickLink("Users", "C:\\Users", null);
-         StartCoroutine(ShowLoadDialogCoroutine());
-     }
-
-
-     IEnumerator ShowLoadDialogCoroutine()
-     {
-         yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.FilesAndFolders, true, null, null, "Load Files and Folders", "Load");
-         Debug.Log(FileBrowser.Success);
-
-         if (FileBrowser.Success)
-         {
-             for (int i = 0; i < FileBrowser.Result.Length; i++)
-                 Debug.Log(FileBrowser.Result[i]);
-             img_Data = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);  // 해당폴더에서 이미지 데이터 받아오기
-             Texture2D texture2 = new(3200, 1080, TextureFormat.ARGB32, false);       // 빈 텍스처 준비
-             texture2.LoadImage(img_Data);                                            // 빈 텍스처에 이미지 데이터 받기
-             // 이미지 스프라이트에 만들어진 텍스처 담기
-             Sprite sprite = Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), new Vector2(0.5f, 0.5f));
-             // 프리팹 플레이어를 임시 플레이어(이미지)에 저장
-             imgPlayer = Instantiate(spawnPlayer, spawnPlayer.transform.position, Quaternion.identity);
-             // 플레이어(이미지)에 저장된 정보를 로드
-             SpriteRenderer sp = imgPlayer.GetComponent<SpriteRenderer>();
-             sp.sprite = sprite;
-             // sp.material.mainTexture = texture2;
-             *//* Renderer test = imgPlayer.GetComponent<Renderer>();
-              test.material.mainTexture = texture2;*//*
-
-
-
-
-             // string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
-             // FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
-         }
-     }*/
+    #endregion
 }
