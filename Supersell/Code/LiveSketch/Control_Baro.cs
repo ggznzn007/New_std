@@ -20,8 +20,7 @@ public class Control_Baro : PlayerControl
 
 
         moveSpot.position = new Vector3(Random.Range(Setting.minX, Setting.maxX), Random.Range(Setting.minY, Setting.maxY)
-           , Random.Range(Setting.minZ, Setting.maxZ));
-        
+           , Random.Range(Setting.minZ, Setting.maxZ));        
     }
 
     private void Update()
@@ -38,39 +37,17 @@ public class Control_Baro : PlayerControl
             }
             else
             {
-                waitTime -= Time.deltaTime;
-                // anim.SetBool("IsRight", false);
-                // anim.SetBool("IsLeft", false);
+                waitTime -= Time.deltaTime;              
             }
         }
 
         if (moveSpot.position.x < transform.position.x)
         {
-            sr.flipY = false;
-            //sr.flipY = false;
-            // anim.SetBool("IsRight", true);
-            // anim.SetBool("IsLeft", false);
+            sr.flipY = false;            
         }
         else if (moveSpot.position.x > transform.position.x)
         {
-            sr.flipY = true;
-            // sr.flipY = true;
-            //  anim.SetBool("IsRight", false);
-            // anim.SetBool("IsLeft", true);
+            sr.flipY = true;           
         }
-
-            //StartCoroutine(DeActive_Baro());
-       /* if (ObjectPool.OP.BaroSize)
-        {
-        }*/
-    }
-
-    public IEnumerator DeActive_Baro()
-    {
-        yield return new WaitForSeconds(Setting.DelTime);
-        
-            ObjectPool.OP.ReturnToPool_Baro(gameObject);
-       
-            
     }
 }
