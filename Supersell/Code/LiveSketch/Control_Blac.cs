@@ -18,10 +18,8 @@ public class Control_Blac : PlayerControl
         moveSpot = mySp.GetComponent<Transform>();
         anim = GetComponent<Animator>();
 
-
         moveSpot.position = new Vector3(Random.Range(Setting.minX, Setting.maxX), Random.Range(Setting.minY, Setting.maxY)
           , Random.Range(Setting.minZ, Setting.maxZ));
-
     }
 
     private void Update()
@@ -38,33 +36,17 @@ public class Control_Blac : PlayerControl
             }
             else
             {
-                waitTime -= Time.deltaTime;
-                // anim.SetBool("IsRight", false);
-                // anim.SetBool("IsLeft", false);
+                waitTime -= Time.deltaTime;             
             }
         }
 
         if (moveSpot.position.x < transform.position.x)
         {
-            sr.flipY = true;
-            //sr.flipY = false;
-            // anim.SetBool("IsRight", true);
-            // anim.SetBool("IsLeft", false);
+            sr.flipY = true;         
         }
         else if (moveSpot.position.x > transform.position.x)
         {
-            sr.flipY = false;
-            // sr.flipY = true;
-            //  anim.SetBool("IsRight", false);
-            // anim.SetBool("IsLeft", true);
+            sr.flipY = false;           
         }
-
-      //  StartCoroutine(DeActive_Blac());
-    }
-
-    public IEnumerator DeActive_Blac()
-    {
-        yield return new WaitForSeconds(Setting.DelTime);
-        ObjectPool.OP.ReturnToPool_Blac(gameObject);
     }
 }
