@@ -13,6 +13,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
 {
     public static Manager_Ballon MB;
@@ -63,7 +64,7 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
     {
         "Black","Blue","Green","LightGreen","Orange","Pink","Red","Sky","White","Yellow"
     };
-    
+
     public string targetName;
 
     private Vector3 m_Offset;
@@ -72,13 +73,14 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
     private bool gamePaused;
     private bool gameOver;
 
+
     private void Awake()
     {
-       // SetResolution();                            // 해상도 초기화 메서드 Initialize Resolution Call
+        // SetResolution();                            // 해상도 초기화 메서드 Initialize Resolution Call
     }
 
     private void Start()
-    {        
+    {
         MB = this;
         area = GetComponent<BoxCollider>();         // 풍선 생성범위 초기화 Initialize balloon spawn range
         area.enabled = false;                       // 콜라이더 기능 끄기  Turning off the collider function        
@@ -97,14 +99,14 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
         PaintDeleteDirect();
         GameDone();
     }
-    
+
 
     public void SetInitValue()
     {
-        explodedBallon=0;
+        explodedBallon = 0;
         gameOver = false;
         int rand = Random.Range(0, ballonName.Length);
-        int randGoal = Random.Range(Utils.goalMin,Utils.goalMax);
+        int randGoal = Random.Range(Utils.goalMin, Utils.goalMax);
         targetName = ballonName[rand];
         goalCount = randGoal;
     }
@@ -132,7 +134,7 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
 
     public void PaintDeleteDirect()
     {
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             PaintDelete();
         }
@@ -155,10 +157,26 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
     {
         if (ballCount >= cntSet) return;
         ballCount++;
+
         int selection = Random.Range(0, Ballons.Length);
+        selection = selection switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 3,
+            3 => 4,
+            4 => 5,
+            5 => 6,
+            6 => 7,
+            7 => 8,
+            8 => 9,
+            9 => 0,
+            _ => 1,
+        }; ;
         int selecPos = Random.Range(0, spawnPoints.Length);
-        GameObject selectedPrefab = Ballons[selection];        
-        Transform spawnPosition = spawnPoints[selecPos];       
+        GameObject selectedPrefab = Ballons[selection];
+        Debug.Log(Ballons[selection].name);
+        Transform spawnPosition = spawnPoints[selecPos];
         Instantiate(selectedPrefab, spawnPosition.position, selectedPrefab.transform.rotation);
     }
 
@@ -176,7 +194,6 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
         cntSet--;
     }
 
-
     void TouchThat()                                                       // 풍선 터치 시 메서드 Touch the Ballon method
     {
         if (Input.GetKey(KeyCode.Space))
@@ -187,7 +204,7 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
         Application.Quit(); // 어플리케이션 종료
 #endif   
         }                                // 프로그램 종료
-        if (gamePaused||gameOver) return;
+        if (gamePaused || gameOver) return;
 
         if (Input.GetMouseButtonDown(0))                                     // 마우스 클릭시 한번만 호출
         {
@@ -223,13 +240,13 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
 
     public void GameDone()
     {
-        if(explodedBallon == goalCount)
+        if (explodedBallon == goalCount)
         {
-            gameOver = true;            
+            gameOver = true;
             gameoverPanel.SetActive(true);
             gameInfoText.text = "Great! Awesome!";
-        }       
-        else if(explodedBallon < 0)
+        }
+        else if (explodedBallon < 0)
         {
             gameOver = true;
             gameoverPanel.SetActive(true);
@@ -240,7 +257,7 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
             gameOver = false;
             gameoverPanel.SetActive(false);
         }
-        
+
     }
 
     public void SizeSetting()                                             // 풍선 크기 설정 메서드 Balloon size setting method
