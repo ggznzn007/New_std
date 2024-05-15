@@ -14,8 +14,8 @@ public class SlotMachine : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textThirdReel;    // 세번째 릴 숫자
     [SerializeField] private TextMeshProUGUI textResult;       // 실행 결과 출력
 
-    private float spinDuration = 0.4f;                         // 릴 굴리기 지속시간
-    private float elapsedTime = 0.1f;                             // 숫자 선택 지연시간(릴이 실제돌아가는것처럼)
+    private float spinDuration = 0.7f;                         // 릴 굴리기 지속시간
+    private float elapsedTime = 0.2f;                             // 숫자 선택 지연시간(릴이 실제돌아가는것처럼)
     private bool isStartSpin = false;                          // 이 값이 true이면 릴 굴리기 시작
     private int credits = 10000;                               // 플레이어 소지 금액
 
@@ -34,6 +34,7 @@ public class SlotMachine : MonoBehaviour
 
     private void Awake()
     {
+        textCredits.text = $"보유금액 : {credits + 0:#,###0}원";
         weightReelPoll = new List<int>(100);
         // zeroProbability 개수인 30개만큼 0으로 채워줌
         for (int i = 0; i < zeroProbability; ++i)
@@ -64,6 +65,14 @@ public class SlotMachine : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif    
+        }
         if (!isStartSpin) return;
         elapsedTime += Time.deltaTime;
         int random_spinResult = Random.Range(0, 10);
@@ -116,14 +125,7 @@ public class SlotMachine : MonoBehaviour
         textSecondReel.text = secondReelResult.ToString("D1");
         textThirdReel.text = thirdReelResult.ToString("D1");
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); // 어플리케이션 종료
-#endif    
-        }
+      
 
         if (credits <= 0&&!isStartSpin)
         {
@@ -134,6 +136,7 @@ public class SlotMachine : MonoBehaviour
 
     public void OnClickPull()
     {
+        AudioManager.AM.PlaySE("Button");
         // 필드의 색상과 입력 정보가 바뀌어 있을 수 있으니 초기화
         OnMessage(Color.white, string.Empty);
 
@@ -151,8 +154,8 @@ public class SlotMachine : MonoBehaviour
         {
             credits -= parse;
             // textCredits.text = $"Credits : {credits}";
-            textCredits.text = $"보유금액 : {credits}원";
-
+            textCredits.text = $"보유금액 : {credits+0:#,###0}원";          
+            
             isStartSpin = true;
         }
         else
@@ -171,39 +174,44 @@ public class SlotMachine : MonoBehaviour
             credits += betAmount * 100;
             //credits += int.Parse(inputBetAmount.text) * 100;
             //textCredits.text  = $"Credits : {credits}";
-
-            textResult.text = $"와우~~축하 잭팟!!! {betAmount * 100}원 당첨";
+            AudioManager.AM.PlaySE("Great");
+            textResult.text = $"와우! 대박 잭팟!!! {betAmount * 100 + 0:#,###0}원 당첨";
         }
         else if (firstReelResult == 0 && thirdReelResult == 0)
         {
-            credits += (int)(betAmount * 0.5f);
+            credits += (int)(betAmount * 1.5f);
+            AudioManager.AM.PlaySE("Success");
             //textResult.text = $"There are Two 0! You Win! {betAmount * 0.5f}";
-            textResult.text = $"0이 두개 운이좋군! {betAmount * 0.5f}원 당첨";
+            textResult.text = $"0 두개 일치 성공! {betAmount * 1.5f + 0:#,###0}원 당첨";
         }
         else if (firstReelResult == secondReelResult)
         {
+            AudioManager.AM.PlaySE("Fail");
             //textResult.text = "Oh...My..JackPo..t....";
             textResult.text = "오 마이...갓..아오..";
         }
-        else if (secondReelResult == thirdReelResult)
+       /* else if (secondReelResult == thirdReelResult)
         {
+            AudioManager.AM.PlaySE("Fail");
             // textResult.text = "Oh...My..JackPo..t....";
             textResult.text = "오 마이...갓..아오..";
-        }
+        }*/
         else if (firstReelResult == thirdReelResult)
         {
-            credits += betAmount * 5;
+            credits += betAmount * 10;
+            AudioManager.AM.PlaySE("Success");
             // textResult.text = $"There are Two same number! You Win! {betAmount * 2}";
-            textResult.text = $"숫자 두개 일치 운이좋군! {betAmount * 5}원 당첨";
+            textResult.text = $"숫자 두개 일치 성공! {betAmount * 10 + 0:#,###0}원 당첨";
         }
         else
         {
+            AudioManager.AM.PlaySE("Fail");
             // textResult.text = "YOU LOSE!";
-            textResult.text = "패배...";
+            textResult.text = "실패...";
         }
 
         //textCredits.text = $"Credits : {credits}";
-        textCredits.text = $"보유금액 : {credits}원";
+        textCredits.text = $"보유금액 : {credits + 0:#,###0}원";
     }
 
     private void OnMessage(Color color, string msg)
@@ -216,7 +224,7 @@ public class SlotMachine : MonoBehaviour
     private IEnumerator DelayExit()
     {
         textResult.text = "3초뒤에 게임 자동종료됩니다.";
-        yield return new WaitForSeconds(2.2f);
+        yield return new WaitForSeconds(2);
         textResult.text = "3";
         yield return new WaitForSeconds(1.2f);
         textResult.text = "2";
@@ -224,7 +232,7 @@ public class SlotMachine : MonoBehaviour
         textResult.text = "1";
         yield return new WaitForSeconds(1.2f);
         textResult.text = "안녕~~~ㅎㅎㅎ";
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(1.2f);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
