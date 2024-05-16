@@ -12,7 +12,7 @@ public class SlotMachine : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textFirstReel;    // 첫번째 릴 숫자
     [SerializeField] private TextMeshProUGUI textSecondReel;   // 두번째 릴 숫자
     [SerializeField] private TextMeshProUGUI textThirdReel;    // 세번째 릴 숫자
-    [SerializeField] private TextMeshProUGUI textResult;       // 실행 결과 출력
+    [SerializeField] private TextMeshProUGUI textResult;       // 실행 결과 출력   
 
     private float spinDuration = 0.7f;                         // 릴 굴리기 지속시간
     private float elapsedTime = 0.2f;                             // 숫자 선택 지연시간(릴이 실제돌아가는것처럼)
@@ -61,7 +61,7 @@ public class SlotMachine : MonoBehaviour
         {
             Debug.Log(weightReelPoll[i]);
         }
-    }
+    }    
 
     private void Update()
     {
@@ -123,9 +123,7 @@ public class SlotMachine : MonoBehaviour
 
         textFirstReel.text = firstReelResult.ToString("D1");
         textSecondReel.text = secondReelResult.ToString("D1");
-        textThirdReel.text = thirdReelResult.ToString("D1");
-
-      
+        textThirdReel.text = thirdReelResult.ToString("D1");      
 
         if (credits <= 0&&!isStartSpin)
         {
@@ -175,14 +173,14 @@ public class SlotMachine : MonoBehaviour
             //credits += int.Parse(inputBetAmount.text) * 100;
             //textCredits.text  = $"Credits : {credits}";
             AudioManager.AM.PlaySE("Great");
-            textResult.text = $"와우! 대박 잭팟!!! {betAmount * 100 + 0:#,###0}원 당첨";
+            textResult.text = $"와우! 대박 잭팟!!!\n\n {betAmount * 100 + 0:#,###0}원 당첨";
         }
         else if (firstReelResult == 0 && thirdReelResult == 0)
         {
             credits += (int)(betAmount * 1.5f);
             AudioManager.AM.PlaySE("Success");
             //textResult.text = $"There are Two 0! You Win! {betAmount * 0.5f}";
-            textResult.text = $"0 두개 일치 성공! {betAmount * 1.5f + 0:#,###0}원 당첨";
+            textResult.text = $"0 두개 일치 성공!\n\n {betAmount * 1.5f + 0:#,###0}원 당첨";
         }
         else if (firstReelResult == secondReelResult)
         {
@@ -201,7 +199,7 @@ public class SlotMachine : MonoBehaviour
             credits += betAmount * 10;
             AudioManager.AM.PlaySE("Success");
             // textResult.text = $"There are Two same number! You Win! {betAmount * 2}";
-            textResult.text = $"숫자 두개 일치 성공! {betAmount * 10 + 0:#,###0}원 당첨";
+            textResult.text = $"숫자 두개 일치 성공!\n\n {betAmount * 10 + 0:#,###0}원 당첨";
         }
         else
         {
@@ -222,7 +220,7 @@ public class SlotMachine : MonoBehaviour
 
 
     private IEnumerator DelayExit()
-    {
+    {       
         textResult.text = "3초뒤에 게임 자동종료됩니다.";
         yield return new WaitForSeconds(2);
         textResult.text = "3";
