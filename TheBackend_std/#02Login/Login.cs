@@ -16,12 +16,32 @@ public class Login : LoginBase
 	private	TMP_InputField		inputFieldPW;		// PW 필드 텍스트 정보 추출
 
 	[SerializeField]
-	private	Button				btnLogin;			// 로그인 버튼 (상호작용 가능/불가능)
-	
-	/// <summary>
-	/// "로그인" 버튼을 눌렀을 때 호출
-	/// </summary>
-	public void OnClickLogin()
+	private	Button				btnLogin;           // 로그인 버튼 (상호작용 가능/불가능)
+
+    private void Start()
+    {
+		inputFieldID.Select();		
+    }
+
+    private void Update()
+    {
+        if(inputFieldID.isFocused)
+		{
+			if(Input.GetKeyDown(KeyCode.Tab))
+			{
+				inputFieldPW.Select();
+			}
+		}
+
+		if(Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			OnClickLogin();
+        }
+    }
+    /// <summary>
+    /// "로그인" 버튼을 눌렀을 때 호출
+    /// </summary>
+    public void OnClickLogin()
 	{
 		// 매개변수로 입력한 InputField UI의 색상과 Message 내용 초기화
 		ResetUI(imageID, imagePW);
