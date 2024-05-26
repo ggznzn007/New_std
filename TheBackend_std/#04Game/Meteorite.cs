@@ -2,19 +2,26 @@ using UnityEngine;
 
 public class Meteorite : MonoBehaviour
 {
-	private	GameController	gameController;
+    [SerializeField]
+    private GameObject explosionPrefab;     // Æø¹ß ÀÌÆåÆ® ÇÁ¸®ÆÕ
+    private GameController gameController;
 
-	public void Setup(GameController gameController)
-	{
-		this.gameController = gameController;
-	}
+    public void Setup(GameController gameController)
+    {
+        this.gameController = gameController;
+    }
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if ( collision.CompareTag("Player") )
-		{
-			gameController.GameOver();
-		}
-	}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            // Æø¹ß ÀÌÆåÆ® »ý¼º
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            // ¿î¼® »èÁ¦
+            Destroy(gameObject);
+
+            gameController.GameOver();
+        }
+    }
 }
 
