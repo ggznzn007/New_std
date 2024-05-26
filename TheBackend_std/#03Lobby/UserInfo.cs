@@ -24,7 +24,7 @@ public class UserInfo : MonoBehaviour
 				try
 				{
 					JsonData json = callback.GetReturnValuetoJSON()["row"];
-					
+
 					data.gamerId				= json["gamerId"].ToString();
 					data.countryCode			= json["countryCode"]?.ToString();
 					data.nickname				= json["nickname"]?.ToString();
