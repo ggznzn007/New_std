@@ -17,7 +17,19 @@ public class Nickname : LoginBase
 	[SerializeField]
 	private	Button				btnUpdateNickname;  // "닉네임 설정" 버튼 (상호작용 가능/불가능)
 
-	private void OnEnable()
+    private void Update()
+    {
+		if(inputFieldNickname.isFocused)
+		{
+            inputFieldNickname.Select();
+        }
+
+        /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			OnClickUpdateNickname();
+        }*/
+    }
+    private void OnEnable()
 	{
 		// 닉네임 변경에 실패해 에러 메시지를 출력한 상태에서
 		// 닉네임 변경 팝업을 닫았다가 열 수 있기 때문에 상태를 초기화
