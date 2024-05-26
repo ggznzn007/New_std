@@ -6,5 +6,17 @@ public class MainPanel : MonoBehaviour
 	{
 		Utils.LoadScene(SceneNames.Game);
 	}
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            BtnClickGameStart();
+        }
+        /*if (!Utils.isPaused)
+        {
+           
+        }       */
+    }
 }
 
