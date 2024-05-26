@@ -23,12 +23,48 @@ public class RegisterAccount : LoginBase
 	private	TMP_InputField		inputFieldEmail;		// E-mail 필드 텍스트 정보 추출
 
 	[SerializeField]
-	private	Button				btnRegisterAccount;		// "계정 생성" 버튼 (상호작용 가능/불가능)
+	private	Button				btnRegisterAccount;     // "계정 생성" 버튼 (상호작용 가능/불가능)
 
-	/// <summary>
-	/// "계정 생성" 버튼을 눌렀을 때 호출
-	/// </summary>
-	public void OnClickRegisterAccount()
+    private void Start()
+    {
+        inputFieldID.Select();
+    }
+
+    private void Update()
+    {
+        if (inputFieldID.isFocused)
+        {
+			 if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                inputFieldPW.Select();
+            }
+        }
+
+		if(inputFieldPW.isFocused)
+		{
+            if (Input.GetKeyDown(KeyCode.Tab))
+			{
+				inputFieldConfirmPW.Select();
+			}
+        }
+
+		if(inputFieldConfirmPW.isFocused)
+		{
+            if (Input.GetKeyDown(KeyCode.Tab))
+			{
+				inputFieldEmail.Select();
+			}
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+			CustomSignUp();
+        }
+    }
+    /// <summary>
+    /// "계정 생성" 버튼을 눌렀을 때 호출
+    /// </summary>
+    public void OnClickRegisterAccount()
 	{
 		// 매개변수로 입력한 InputField UI의 색상과 Message 내용 초기화
 		ResetUI(imageID, imagePW, imageConfirmPW, imageEmail);
@@ -80,8 +116,8 @@ public class RegisterAccount : LoginBase
 					if ( callback.IsSuccess() )
 					{
 						SetMessage($"계정 생성 성공. {inputFieldID.text}님 환영합니다.");
-						
-						// 계정 생성에 성공했을 때 해당 계정의 게임 정보 생성
+
+						// 계정 생성 성공 시 해당 계정의 게임 정보 생성
 						BackendGameData.Instance.GameDataInsert();
 
 						// Lobby 씬으로 이동
