@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
         // 현재 점수 정보를 바탕으로 랭킹 데이터 갱신
         dailyRank.Process(score);
 
-        // 경험치 증가 및 레벨업 여부 검사
+      /*  // 경험치 증가 및 레벨업 여부 검사 // 임시
         // (현재 레벨 시스템에 대한 설정이 없기 때문에 경험치의 최대치를 100으로 가정)
         // (게임을 한번 플레이할 때마다 경험치는 25씩 증가)
         BackendGameData.Instance.UserGameData.experience += 25;
@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
         }
 
         // 게임 정보 업데이트
-        BackendGameData.Instance.GameDataUpdate();
+        BackendGameData.Instance.GameDataUpdate();*/
     }
 }
 
