@@ -159,6 +159,8 @@ public class BackendGameData
                     Debug.Log($"게임 정보 데이터 수정에 성공했습니다. : {callback}");
 
                     action?.Invoke();
+
+                    onGameDataLoadEvent?.Invoke();
                 }
                 else
                 {
