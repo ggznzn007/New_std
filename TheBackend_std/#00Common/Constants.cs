@@ -8,5 +8,7 @@ public static class Constants
 	public static readonly string LEVEL_CHART = "123376";
 
 	public static readonly string GOODS_CHART_NAME = "재화차트";
+
+    public static readonly int EXPIRATION_DAYS = 3;
 }
 
