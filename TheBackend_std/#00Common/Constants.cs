@@ -1,16 +1,15 @@
 public static class Constants
 {
-	public static readonly string	USER_DATA_TABLE	= "USER_DATA";
-	public static readonly string	DAILY_RANK_UUID	= "726b3350-199e-11ef-9daf-a73703f3dc37";
-	public static readonly string   TOTAL_RANK_UUID = "321e27a0-1a69-11ef-a7bb-a1c62064f2a4";
-	public static readonly int      MAX_RANK_LIST = 15;
+	public static readonly string	USER_DATA_TABLE		= "USER_DATA";
+	public static readonly string	DAILY_RANK_UUID		= "0fa14490-085a-11ee-b506-7d5eaba96eff";
+	public static readonly int		MAX_RANK_LIST		= 20;
 
-	public static readonly string LEVEL_CHART = "123376";
+	public static readonly string	LEVEL_CHART			= "82683";
 
-	public static readonly string GOODS_CHART_NAME = "재화차트";
+	public static readonly string	GOODS_CHART_NAME	= "재화차트";
 
-    public static readonly int EXPIRATION_DAYS = 3;
+	public static readonly int		EXPIRATION_DAYS		= 3;
 
-    public static readonly string RANDOM_GUILD_UUID = "ea6bade0-199d-11ef-a200-ab9b7a37ba3e";
+	public static readonly string	RANDOM_GUILD_UUID	= "6a675fc0-3084-11ee-99ec-b1646f9340c5";
 }
 
