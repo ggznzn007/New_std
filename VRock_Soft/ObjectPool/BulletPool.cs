@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
-public class BulletPool : MonoBehaviourPun // 싱글 플레이 풀방식
+public class BulletPool : MonoBehaviourPun //  싱글 플레이 풀방식
 {
     /*[SerializeField] private GameObject poolBullet;
     [SerializeField] private int allocateCount;
