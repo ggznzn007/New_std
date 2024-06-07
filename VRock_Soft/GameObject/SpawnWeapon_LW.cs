@@ -31,15 +31,13 @@ public class SpawnWeapon_LW : MonoBehaviourPun
     {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
-            InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
 
         if (devices.Count > 0)
         {
             DeviceL = devices[0];
-        }
-       // DataManager.DM.grabGun = false;
-      //  DataManager.DM.grabBomb = false;
+        }     
     }    
  
     private void OnTriggerStay(Collider coll)
@@ -104,8 +102,7 @@ public class SpawnWeapon_LW : MonoBehaviourPun
                     return;
                 }
             }
-        }
-          
+        }          
     }
 
     private RevolverManager SpawnGun()
