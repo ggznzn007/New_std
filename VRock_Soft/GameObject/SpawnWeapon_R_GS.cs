@@ -35,15 +35,13 @@ public class SpawnWeapon_R_GS : MonoBehaviourPun
     {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
-            InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
 
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
-        }
-        /* remotePos = attachPoint.position;
-         remoteRot = attachPoint.rotation;*/
+        }       
     }
 
     private void FixedUpdate()
