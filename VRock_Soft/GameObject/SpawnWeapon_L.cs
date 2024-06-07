@@ -31,7 +31,7 @@ public class SpawnWeapon_L : MonoBehaviourPun
     {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics leftControllerCharacteristics =
-            InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(leftControllerCharacteristics, devices);
 
        // HandL = GetComponentInChildren<MeshRenderer>();
@@ -84,7 +84,6 @@ public class SpawnWeapon_L : MonoBehaviourPun
                     return;
                 }
             }
-
         }
 
         if(coll.CompareTag("Shield"))
