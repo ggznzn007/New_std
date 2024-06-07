@@ -31,14 +31,13 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
     {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
-            InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
         // HandR = GetComponentInChildren<MeshRenderer>();
         if (devices.Count > 0)
         {
             targetDevice = devices[0];
-        }
-        //DataManager.DM.grabBomb = false;       
+        }         
     }
 
     private void OnTriggerStay(Collider coll)
@@ -82,7 +81,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                     return;
                 }
             }
-
         }
 
         if (coll.CompareTag("Shield"))
@@ -102,7 +100,6 @@ public class SpawnWeapon_R : MonoBehaviourPun//, IPunObservable  // ¼Õ¿¡¼­ ÃÑÀ» 
                 }
             }
         }
-
     }
 
     private GunManager SpawnGun()
