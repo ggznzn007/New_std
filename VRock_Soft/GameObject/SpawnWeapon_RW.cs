@@ -31,16 +31,13 @@ public class SpawnWeapon_RW : MonoBehaviourPun
     {
         List<InputDevice> devicesR = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
-            InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devicesR);
 
         if (devicesR.Count > 0)
         {
             DeviceR = devicesR[0];
         }
-
-       // DataManager.DM.grabGun = false;
-       // DataManager.DM.grabBomb = false;
     }   
    
     public RevolverManager FindGun()
