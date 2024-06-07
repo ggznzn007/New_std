@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiPool
-{
-    // 오브젝트 풀로 관리되는 오브젝트 정보
+public class MultiPool // 모든 오브젝트의 메모리 관리를 위한 풀
+{    
     private class PoolItem
     {
         public bool isActive;            // 게임오브젝트의 활성화,비활성화 정보
