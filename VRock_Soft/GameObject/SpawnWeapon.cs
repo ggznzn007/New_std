@@ -16,7 +16,7 @@ public class SpawnWeapon : MonoBehaviour
     {
         List<InputDevice> devices = new List<InputDevice>();
         InputDeviceCharacteristics rightControllerCharacteristics =
-            InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+        InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
         InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
 
         if (devices.Count > 0)
@@ -48,7 +48,6 @@ public class SpawnWeapon : MonoBehaviour
                 weaponInIt=false;
                 return;
             }
-
         }
     }
 
