@@ -6,7 +6,7 @@ using Photon.Realtime;
 using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
-public class Nick_HP : MonoBehaviourPunCallbacks //,IPunObservable
+public class Nick_HP : MonoBehaviourPunCallbacks // 플레이어의 머리 상단에 뜨는 닉네임과 HP바
 {
     public Camera myCam;
     public GameObject hp_Bar;
