@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
-public class BulletEffectPool : MonoBehaviour
+public class BulletEffectPool : MonoBehaviour  // 총알효과 메모리풀
 {
     public static BulletEffectPool EffectPooling;
     public GameObject bulletEffecPrefab;
