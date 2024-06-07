@@ -11,17 +11,17 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 
-public class RevolverManager : MonoBehaviourPun, IPunObservable
+public class RevolverManager : MonoBehaviourPun, IPunObservable  // 리볼버 매니저
 {
     public static RevolverManager RM;
-    [Header("총알 프리팹")][SerializeField] GameObject bullet;
-    [Header("총구 위치")][SerializeField] Transform firePoint;
-    [Header("총알 속도")][SerializeField] float speed;
-    [Header("총알 소유권")][SerializeField] bool isBulletMine;
-    [Header("액터넘버")][SerializeField] int actorNumber;
-    public PhotonView PV;                           // 포톤뷰
-    public bool isBeingHeld = false;
-    public bool isGrip;
+    [Header("총알 프리팹")][SerializeField] GameObject bullet;       // 리볼버 총알 프리팹
+    [Header("총구 위치")][SerializeField] Transform firePoint;       // 리볼버 총구 위치
+    [Header("총알 속도")][SerializeField] float speed;               // 리볼버 총알 속도
+    [Header("총알 소유권")][SerializeField] bool isBulletMine;       // 리볼버 총알의 소유권(포톤서버에서필요)
+    [Header("액터넘버")][SerializeField] int actorNumber;            // 플레이어 액터 넘버
+    public PhotonView PV;                                          // 포톤뷰
+    public bool isBeingHeld = false;                               //
+    public bool isGrip;                                            // 리볼버를 쥐고 있는 여부
 
     private RaycastHit hit;                          // 레이캐스트광선 히트
     private Ray ray;                                 // 레이캐스트 광선
