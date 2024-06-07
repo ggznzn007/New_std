@@ -9,7 +9,9 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-
+/// <summary>
+/// 방패를 쥐고 놓고 하는 모든 동작을 포톤서버와 연동하여 다른플레이어들에게 전달
+/// </summary>
 public class Shield : XRGrabInteractable//MonoBehaviourPunCallbacks, IPunOwnershipCallbacks
 {
     public static Shield SD;
