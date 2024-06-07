@@ -7,7 +7,7 @@ using System;
 using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
-public class PoolScript : MonoBehaviourPun
+public class PoolScript : MonoBehaviourPun///
 {
    /* [PunRPC]
     void SetActiveRPC(bool bull)
