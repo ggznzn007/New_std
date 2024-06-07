@@ -7,7 +7,7 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 
-public class Poolable : MonoBehaviourPun  // 싱글 플레이 풀방식
+public class Poolable : MonoBehaviourPun  //  싱글 플레이 풀방식
 {
     /*protected BulletPool pool;
 
