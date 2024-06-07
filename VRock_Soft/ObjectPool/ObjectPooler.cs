@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 
 
-public class ObjectPooler : MonoBehaviourPun //, IPunPrefabPool
+public class ObjectPooler : MonoBehaviourPun //,  IPunPrefabPool
 {
     /*[System.Serializable]
 
