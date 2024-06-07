@@ -15,7 +15,5 @@ public class TwoHandGrabInteractable : XRGrabInteractable
     void Update()
     {
         
-    }
-
-    
+    }    
 }
