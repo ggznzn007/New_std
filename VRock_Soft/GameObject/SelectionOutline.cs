@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class SelectionOutline : MonoBehaviour
+public class SelectionOutline : MonoBehaviour   // 쉐이더 아웃라인 효과 제어
 {
     [FormerlySerializedAs("renderer")]
     public Renderer Renderer;
