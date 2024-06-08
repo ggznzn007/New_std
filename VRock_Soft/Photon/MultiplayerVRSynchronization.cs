@@ -9,7 +9,6 @@ using PN = Photon.Pun.PN;
 
 public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
 {
-
     private PhotonView m_PhotonView;
 
     //Main VRPlayer Transform Synch
@@ -26,12 +25,9 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     private Quaternion m_NetworkRotation_GeneralVRPlayer;
     private float m_Angle_GeneralVRPlayer;
 
-
     //Main Avatar Transform Synch
     [Header("Main Avatar Transform Synch")]
     public Transform mainAvatarTransform;
-
-
 
     //Position
     private float m_Distance_MainAvatar;
@@ -59,7 +55,6 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     private Quaternion m_NetworkRotation_Body;
     private float m_Angle_Body;
 
-
     //Hands Synch
     [Header("Hands Transform Synch")]
     public Transform leftHandTransform;
@@ -75,9 +70,7 @@ public class MultiplayerVRSynchronization : MonoBehaviourPun, IPunObservable
     
     private Vector3 m_Direction_LeftHand;
     private Vector3 m_NetworkPosition_LeftHand;
-    private Vector3 m_StoredPosition_LeftHand;
-    
-  
+    private Vector3 m_StoredPosition_LeftHand;  
 
     // private Vector3 m_Direction_LeftHandModel;// 추가
     // private Vector3 m_NetworkPosition_LeftHandModel;// 추가
