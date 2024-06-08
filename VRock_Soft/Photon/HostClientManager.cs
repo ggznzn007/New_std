@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
+
 public class HostClientManager : MonoBehaviourPunCallbacks
 {
     private void Awake()
