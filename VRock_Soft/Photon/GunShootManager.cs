@@ -11,8 +11,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class GunShootManager : MonoBehaviourPunCallbacks                                      // 토이
 {
-    public static GunShootManager GSM;
-
+    public static GunShootManager GSM;                              // 싱글턴
     [Header("카운트다운 텍스트")]
     [SerializeField] TextMeshPro countText;
     [Header("게임 제한시간 텍스트")]
@@ -89,8 +88,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 //Shield_Blue();
                 //Shield_Red();
             }
-            SpawnPlayer();
-            
+            SpawnPlayer();            
         }
     }
 
@@ -106,7 +104,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 spawnPlayer = PN.Instantiate(redTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 레드팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-
                 break;
 
             case Team.BLUE:
@@ -116,7 +113,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                 spawnPlayer = PN.Instantiate(blueTeam.name, Vector3.zero, Quaternion.identity);
                 Debug.Log($"{PN.CurrentRoom.Name} 방에 블루팀{PN.LocalPlayer.NickName} 님이 입장하셨습니다.");
                 Info();
-
                 break;
 
             // 윈도우 프로그램 빌드 시
@@ -133,7 +129,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
                     Info();
                 }
                 break;
-
             default:
                 return;
         }
@@ -168,16 +163,17 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
 
         }*/
     }
+
     public IEnumerator ExitGame()
     {
         yield return new WaitForSeconds(1);
         photonView.RPC(nameof(ForceOff), RpcTarget.AllViaServer);
     }
+
     void FixedUpdate()
     {
         SetScore();
-        Timer();
-      
+        Timer();      
     }
    
     public void SetScore()
@@ -185,6 +181,7 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         blueScore.text = score_BlueKill.ToString();   // 블루팀 점수
         redScore.text = score_RedKill.ToString();     // 레드팀 점수
     }
+
     public void UpdateStats()
     {
         playerProp["kills"] = kills;             // 개인 킬 수                                                
@@ -397,7 +394,6 @@ public class GunShootManager : MonoBehaviourPunCallbacks                        
         PN.Destroy(spawnPlayer);
         DataManager.DM.isReady = false;
         SceneManager.LoadScene(0);
-
     }
 
     [ContextMenu("포톤 서버 정보")]
