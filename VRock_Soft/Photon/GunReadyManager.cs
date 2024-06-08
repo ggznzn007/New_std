@@ -11,7 +11,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
 
-public class GunReadyManager : MonoBehaviourPunCallbacks
+public class GunReadyManager : MonoBehaviourPunCallbacks  // 포톤서버와 본게임 전 로비매니저와 연결 스크립트
 {
     public static GunReadyManager GRM;
     [Header("페이드인 스크린")]
@@ -85,7 +85,6 @@ public class GunReadyManager : MonoBehaviourPunCallbacks
         /* RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000 }; // 방 옵션
          PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);*/
     }
-
 
     #region 포톤 서버 콜백 메서드 시작//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
