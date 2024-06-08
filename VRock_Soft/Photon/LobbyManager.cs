@@ -15,17 +15,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
     public static LobbyManager LobbyIns;
     [SerializeField] GameObject RedTeam;
     [SerializeField] GameObject BlueTeam;
-
-
-
     public bool isRed = false;
 
     private string mapType;
 
     private void Awake()
-    {
-
-       
+    {       
         if (LobbyIns == null)
         {
             LobbyIns = this;
@@ -50,8 +45,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
         else
         {
             PN.JoinLobby();
-        }
-      
+        }      
     }
 
     public void RedTeamSelected()
@@ -71,8 +65,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks                          /
         get => PlayerPrefs.GetString("CurrentRoomName", "");
         set => PlayerPrefs.SetString("CurrentRoomName", value);
     }
-
-
     
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
