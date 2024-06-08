@@ -9,13 +9,11 @@ using PN = Photon.Pun.PN;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.SceneManagement;
+
 public class LoadingSceneManager : MonoBehaviourPunCallbacks
 {    
     void Awake()
-    {
-        
+    {        
        // GameObject.Find("Photon Manager").GetComponent<PhotonManager_Ver_2>().SpawnPlayer(); 
-    }
-
-    
+    }    
 }
