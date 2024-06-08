@@ -39,7 +39,6 @@ public class GunShootingManager : MonoBehaviourPunCallbacks                     
     private bool count;
     private int limitedTime;
     readonly Hashtable setTime = new Hashtable();
-
     [Header("∆¿º±≈√ ∆«¥‹")]
     public bool isRed = false;
 
