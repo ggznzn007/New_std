@@ -16,7 +16,5 @@ public class LocalPlayerUIManager : MonoBehaviour
     {
         Back_Button.GetComponent<Button>().onClick.AddListener(VirtualWorldManager.Instance.LeaveRoomAndLoadRoomScene);
         
-    }
-
-    
+    }    
 }
