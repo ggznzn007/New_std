@@ -7,9 +7,7 @@ public class LocalController : MonoBehaviour
 {
     [SerializeField] bool _showDebugValues = false;
     /*[SerializeField] */public Transform _relativeTo;
-
     [SerializeField] InputActionAsset _actionMap;
-
     [Header( "Input Actions:" )]
     [Header( "Events" )]
     [SerializeField] public InputActionProperty _gripGrab;
