@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AvatarInputConverter : MonoBehaviour
+public class AvatarInputConverter : MonoBehaviour  // VR 아바타 Input 컨버터 스크립트
 {
-
     //Avatar Transforms
     public Transform MainAvatarTransform;
     public Transform AvatarHead;
@@ -20,11 +19,8 @@ public class AvatarInputConverter : MonoBehaviour
     public Transform XRHand_Right;
 
     public Vector3 headPositionOffset;
-    public Vector3 handRotationOffset;
-
+    public Vector3 handRotationOffset;    
     
-
-    // Update is called once per frame
     void Update()
     {
         //Head and Body synch
