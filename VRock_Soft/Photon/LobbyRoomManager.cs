@@ -14,7 +14,6 @@ public class LobbyRoomManager : MonoBehaviourPunCallbacks
     public static LobbyRoomManager instance = null;
     private string mapType;
     public bool master() => PN.LocalPlayer.IsMasterClient;
-
     /*[SerializeField] GameObject host;
     [SerializeField] GameObject RedTeamPlayer;
     [SerializeField] GameObject BlueTeamPlayer;*/
