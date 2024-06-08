@@ -3,7 +3,7 @@
 using Antilatency.SDK;
 using Antilatency.DeviceNetwork;
 
-public class AltTrackingXR : AltTracking
+public class AltTrackingXR : AltTracking  // Antilatency GPS 추적 트래킹 장치 연결 스크립트
 {
     public Camera XRCamera;
     public UnityEngine.SpatialTracking.TrackedPoseDriver HmdPoseDriver;
@@ -54,7 +54,6 @@ public class AltTrackingXR : AltTracking
             {
                 result = _trackingLibrary.createPlacement(placementCode);
             }
-
             return result;
         }
     }
@@ -77,7 +76,6 @@ public class AltTrackingXR : AltTracking
         {
             StopTrackingAlignment();
         }
-
         var placement = GetPlacement();
         _alignment = _alignmentLibrary.createTrackingAlignment(placement.rotation, ExtrapolationTime);
 
@@ -90,7 +88,6 @@ public class AltTrackingXR : AltTracking
         {
             return;
         }
-
         _alignment.Dispose();
         _alignment = null;
     }
