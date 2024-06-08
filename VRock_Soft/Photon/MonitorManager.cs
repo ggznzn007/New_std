@@ -12,14 +12,6 @@ public class MonitorManager : MonoBehaviour
             {
                 item.Activate();
             }
-        }
-    
+        }    
     }
- 
-    void Update()
-    {
-      
-
-    }
-   
 }
