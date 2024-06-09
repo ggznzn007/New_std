@@ -13,11 +13,7 @@ public class PlayerSpawner : MonoBehaviourPunCallbacks
 {
     private GameObject player;
     int[] nums = { 1, 1, 2, 2, 3, 3 };
-    private void Start()
-    {
-
-    }
-
+  
     public override void OnJoinedRoom()
     {       
         if (PN.IsConnectedAndReady)
