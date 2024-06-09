@@ -145,6 +145,4 @@ public class ThrowingGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallback
     {
         outline.RemoveHighlight();
     }
-
-
 }
