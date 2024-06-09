@@ -13,17 +13,13 @@ using UnityEngine.SceneManagement;
 public class SnowCraftManager : MonoBehaviourPunCallbacks                               // StartScene 스크립트
 {
     public static SnowCraftManager snowCraftManager;                                          // 싱글턴
-
-
     public GameObject teamUI;
     public GameObject gameUI;
     public GameObject localPlayer;
     public GameObject fadeScreen;
     public GameObject RedTeam;
     public GameObject BlueTeam;
-
     //private GameObject ownPlayer;
-
 
     private readonly string gameVersion = "1.0";
     private readonly string masterAddress = "125.134.36.239";
