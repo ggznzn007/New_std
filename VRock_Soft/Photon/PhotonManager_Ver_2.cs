@@ -24,17 +24,14 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
     public GameObject gameStartPanel;
     public GameObject lobbyPlayer;
     private GameObject player;
-    public GameObject[] bgObjects;
-    
-   
+    public GameObject[] bgObjects;   
     
     private PlayerListing _playerListing;
     private List<PlayerListing> _listings = new List<PlayerListing>();
     //private int nextTeam = 1;
     //private int myTeam = PN.CountOfPlayers;
     //private PhotonView PV;
-
-   
+       
     void Awake()
     {
         PN.AutomaticallySyncScene = true;                                           // 같은 룸의 유저들에게 자동으로 씬 동기화 
@@ -45,7 +42,6 @@ public class PhotonManager_Ver_2 : MonoBehaviourPunCallbacks  // 포톤과 게임매니
         }
         Singleton = this;
     }
-
 
     void Update()
     {
