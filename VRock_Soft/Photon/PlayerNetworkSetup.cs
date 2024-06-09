@@ -18,6 +18,7 @@ using Antilatency.Alt;
 using Antilatency.SDK;
 using static ObjectPooler;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
 {
     public GameObject LocalXRRigGameObject;
@@ -37,8 +38,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             SetLayerRecursively(go: AvatarBody, 9);            
             //SetLayerRecursively(go: AvatarHand_L, 0);
             //SetLayerRecursively(go: AvatarHand_R, 0);
-            //Camera.main.cullingMask = Camera.main.cullingMask & ~(1 << LayerMask.NameToLayer("LocalAvatarHands"));// 레이어 제거
-            
+            //Camera.main.cullingMask = Camera.main.cullingMask & ~(1 << LayerMask.NameToLayer("LocalAvatarHands"));// 레이어 제거     
         }
         else                                                   // 리모트 플레이어
         {
@@ -50,6 +50,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
             // SetLayerRecursively(go: AvatarHand_R, 10);
         }
     }
+
     private void Update()
     {
         if (!photonView.IsMine) return;
@@ -97,7 +98,6 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         at_L.forceRenderingOff = false;
     }
 
-
     [PunRPC]
     public void HideR()
     {
@@ -109,5 +109,4 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
     {
         at_R.forceRenderingOff = false;
     }
-
 }
