@@ -41,7 +41,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
             PN.JoinLobby();
         }
     }
-
     #region UI Callback Methods
     public void JoinRandomRoom()
     {
