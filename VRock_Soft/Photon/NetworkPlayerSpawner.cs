@@ -25,6 +25,7 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 */
+
     /*public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
