@@ -44,6 +44,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
             this.gameObject.layer = 6;
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Cube") || collision.collider.CompareTag("FloorBox"))
@@ -87,7 +88,6 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
                     PV.RPC(nameof(DestroyGun), RpcTarget.AllBuffered);
                 }
             }
-
         }
     }
 
@@ -155,7 +155,4 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks//, IPunOwnershipCallb
 
         }
     */
-
-
-
 }
