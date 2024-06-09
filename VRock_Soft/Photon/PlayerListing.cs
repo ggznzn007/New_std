@@ -16,10 +16,8 @@ using Antilatency.Alt;
 using Antilatency.SDK;
 public class PlayerListing : MonoBehaviour
 {
-
     public Player Player { get; private set; }
    //public RoomInfo RoomInfo { get; private set; }
-
     public void SetPlayerInfo(Player player)
     {
         Player = player;
