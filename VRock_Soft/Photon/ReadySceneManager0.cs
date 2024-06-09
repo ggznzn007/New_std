@@ -72,6 +72,7 @@ public class ReadySceneManager0 : MonoBehaviourPunCallbacks
         /*RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000 }; // 방 옵션
         PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);*/
     }
+
     public void InitiliazeBlueTeam()      // 블루팀 버튼                            // 로비 진입 후 팀선택 패널에서 블루팀선택 메서드
     {
         isRed = false;
@@ -83,7 +84,6 @@ public class ReadySceneManager0 : MonoBehaviourPunCallbacks
         /* RoomOptions options = new RoomOptions() { IsOpen = true, IsVisible = true, MaxPlayers = 10, EmptyRoomTtl = 1000 }; // 방 옵션
          PN.JoinOrCreateRoom("LobbyRoom", options, TypedLobbyInfo.Default);*/
     }
-
 
     #region 포톤 서버 콜백 메서드 시작//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
