@@ -33,6 +33,7 @@ public class ThrowingGrabbing_D : MonoBehaviourPunCallbacks, IPunOwnershipCallba
         rb = GetComponent<Rigidbody>();       
         outline = GetComponent<SelectionOutline>();        
     }
+
     private void FixedUpdate()
     {      
         if (isBeingHeld)
