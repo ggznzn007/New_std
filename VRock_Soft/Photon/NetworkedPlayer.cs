@@ -26,7 +26,6 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
            
     private PhotonView PV;
     
-
     public void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -46,14 +45,7 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
             SetLayerRecursively(go: AvatarHand_L, 0);
             SetLayerRecursively(go: AvatarHand_R, 0);
         }
-
     }
-
-    private void Start()
-    {
-        
-    }
-       
 
     private void Update()
     {
@@ -68,9 +60,5 @@ public class NetworkedPlayer : MonoBehaviourPunCallbacks
         {
             trans.gameObject.layer = layerNum;
         }
-    }
-
-   
-
-    
+    }    
 }
