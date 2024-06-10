@@ -11,24 +11,10 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviourPunCallbacks                                  // LobbyScene_Real 스크립트
-{
-    //public static SpawnManager SpawnPlayer;
+{    
     [SerializeField] GameObject BlueTeam;
     [SerializeField] GameObject RedTeam;
-    private GameObject player;
-
-
-
-    private void Awake()
-    {
-        /*if (SpawnPlayer != null && SpawnPlayer != this)
-        {
-            Destroy(this.gameObject);
-        }
-        SpawnPlayer = this;*/
-
-
-    }
+    private GameObject player;    
 
     private void Start()
     {
