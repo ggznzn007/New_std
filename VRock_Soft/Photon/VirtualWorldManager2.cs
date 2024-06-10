@@ -14,10 +14,8 @@ public class VirtualWorldManager2 : MonoBehaviourPunCallbacks
 {
     public static VirtualWorldManager2 virtualWorldManager2;
 
-
     private void Awake()
     {
-
         if (virtualWorldManager2 != null && virtualWorldManager2 != this)
         {
             Destroy(this.gameObject);
@@ -30,6 +28,7 @@ public class VirtualWorldManager2 : MonoBehaviourPunCallbacks
         if (!PN.IsConnected)
             LeaveRoomAndLoadRoomScene2();
     }
+
     public void LeaveRoomAndLoadRoomScene2()
     {
         if (PN.InRoom)
@@ -76,5 +75,4 @@ public class VirtualWorldManager2 : MonoBehaviourPunCallbacks
             PN.LeaveRoom();
         }
     }
-
 }
