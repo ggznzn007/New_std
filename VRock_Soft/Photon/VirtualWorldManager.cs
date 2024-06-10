@@ -70,10 +70,8 @@ public class VirtualWorldManager : MonoBehaviourPunCallbacks
     {
         var dict = PN.CurrentRoom.Players;
         if (PN.SetMasterClient(dict[dict.Count - 1]))
-        {
-            
+        {            
             PN.LeaveRoom();
         }
     }
-
 }
