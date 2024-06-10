@@ -79,19 +79,15 @@ public class TutorialManager : MonoBehaviourPunCallbacks
                     break;
 
             }
-            //SpawnPlayer();
-           
+            //SpawnPlayer();          
 
             if (PN.IsMasterClient)
             {
                 InvokeRepeating(nameof(SpawnBomb), 10, 35);
                 SpawnShield();
             }
-
         }
     }
-
-
 
     public void SpawnPlayer()
     {
@@ -241,7 +237,6 @@ public class TutorialManager : MonoBehaviourPunCallbacks
 
         PN.Destroy(spawnPlayer);
         SceneManager.LoadScene(0);
-
         //PN.LoadLevel(0);
     }
 
@@ -269,5 +264,4 @@ public class TutorialManager : MonoBehaviourPunCallbacks
             PN.Destroy(spawnPlayer);
         }
     }
-
 }
