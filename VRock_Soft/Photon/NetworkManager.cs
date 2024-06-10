@@ -22,7 +22,7 @@ public class DefaultRoom
     public int maxPLayer;
 }
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacks  // 포톤네트워크 매니저 스크립트
 {
     public static NetworkManager NM;
 
@@ -118,6 +118,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }*/
         }
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) { StartToServer_Admin(); }             // 관리자        접속
@@ -235,6 +236,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         PN.JoinOrCreateRoom(roomSettings.Name, roomOptions, TypedLobby.Default);
     }
+
     public void InitBlue(int defaultRoomIndex)                                      // 블루팀 선택
     {
         DataManager.DM.currentTeam = Team.BLUE;
