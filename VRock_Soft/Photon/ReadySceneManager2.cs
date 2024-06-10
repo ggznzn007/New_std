@@ -16,7 +16,6 @@ public class ReadySceneManager2 : MonoBehaviourPunCallbacks                     
     public GameObject mainBG;
     public GameObject startUI;
     public GameObject teamSelectUI;
-
     public GameObject localPlayer;
     public GameObject RedTeam;
     public GameObject BlueTeam;
