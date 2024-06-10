@@ -55,6 +55,7 @@ public class TutorialManager2 : MonoBehaviourPunCallbacks
             }
         }
     }
+
     private void Update()
     {
         // 윈도우 프로그램 빌드 시
