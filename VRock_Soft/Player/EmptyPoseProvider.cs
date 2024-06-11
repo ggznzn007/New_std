@@ -8,7 +8,6 @@ public class EmptyPoseProvider : BasePoseProvider
     {
         output.position = Vector3.zero;
         output.rotation = Quaternion.identity;
-
         return PoseDataFlags.NoData;
     }
 }
