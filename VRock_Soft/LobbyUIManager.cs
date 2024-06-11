@@ -13,13 +13,7 @@ public class LobbyUIManager : MonoBehaviour
         /*gamePanel.SetActive(false);
         selectPanel.SetActive(true);*/
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void GeneralPlayer()
     {
        
