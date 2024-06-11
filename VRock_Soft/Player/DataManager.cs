@@ -17,6 +17,7 @@ using Antilatency.SDK;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
+
 public enum Team    // 팀 선택 데이터
 {
    ADMIN,BLUE,RED
