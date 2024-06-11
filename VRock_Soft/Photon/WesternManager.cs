@@ -63,12 +63,14 @@ public class WesternManager : MonoBehaviourPunCallbacks
     private GameObject bombBlue;
     private GameObject barrels_Blue;
     private GameObject barrels_Red;
+
     private void Awake()
     {
         WM = this;
         DataManager.DM.currentMap = Map.WESTERN;
         SetScore();
     }
+
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -154,6 +156,7 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
         }     */
     }
+
     void FixedUpdate()
     {
         SetScore();
@@ -196,7 +199,6 @@ public class WesternManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
 
     public void SpawnDynamite()
     {
