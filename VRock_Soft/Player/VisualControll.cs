@@ -18,10 +18,7 @@ public class VisualControll : MonoBehaviourPun
 {
     public Camera myCam;
 
-    private void Start()
-    {
-        
-    }
+ 
     void Update()
     {
         if(!photonView.IsMine)
