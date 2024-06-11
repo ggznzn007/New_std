@@ -26,17 +26,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player other)
     {
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-
-
         if (PN.IsMasterClient)
         {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PN.IsMasterClient); // called before OnPlayerLeftRoom
-
-
             LoadArena();
         }
     }
-
 
     public override void OnPlayerLeftRoom(Player other)
     {
