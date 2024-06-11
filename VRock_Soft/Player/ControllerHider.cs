@@ -17,7 +17,6 @@ public class ControllerHider : MonoBehaviour
     {
        // physicsPoser = GetComponent<PhysicsPoser>();
         interactor = GetComponent<XRDirectInteractor>();    
-
     }
 
     private void OnEnable()
