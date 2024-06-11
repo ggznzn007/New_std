@@ -26,6 +26,7 @@ public class HandComplete : MonoBehaviour
             _handMesh.enabled = !_handMesh.enabled;
         }
     }
+
     private void Start()
     {
         InitializeHand();
@@ -50,8 +51,6 @@ public class HandComplete : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
     private void Update()
     {
         //Since our target device might not register at the start of the scene, we continously check until one is found.
