@@ -18,6 +18,7 @@ public class FPS_Count : MonoBehaviour
     float fps;
     float worstFps = 100f;
     //string text;
+
     private void Awake()
     {
         /* int w = Screen.width, h = Screen.height;
@@ -44,13 +45,9 @@ public class FPS_Count : MonoBehaviour
 
     private void Update()
     {
-        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-        
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;        
     }
-
-   
-
-    
+        
     IEnumerator worstReset() //코루틴으로 5초 간격으로 최저 프레임 리셋해줌.
     {
         while (true)
