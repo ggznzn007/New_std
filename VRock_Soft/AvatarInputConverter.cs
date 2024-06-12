@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AvatarInputConverter : MonoBehaviour
 {
-
     //Avatar Transforms
     public Transform MainAvatarTransform;
     public Transform AvatarHead;
@@ -23,9 +22,6 @@ public class AvatarInputConverter : MonoBehaviour
     public Vector3 headPositionOffset;
     public Vector3 handRotationOffset;
     
-
-
-    // Update is called once per frame
     void Update()
     {
         //XRHead.position = headPositionOffset;
