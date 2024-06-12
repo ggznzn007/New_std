@@ -32,8 +32,7 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
                 if (DataManager.DM.currentTeam != Team.RED) return;
                 AddMember(player);
             }
-        }
-        
+        }       
        
     }
 
@@ -42,9 +41,7 @@ public class ScoreBoard_ParentR : MonoBehaviourPunCallbacks
         ScoreBoard_Red Listing = Instantiate(listMember, holder).GetComponent<ScoreBoard_Red>();
         Listing.InitText(player);
         members[player] = Listing;
-
     }
-
     
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
