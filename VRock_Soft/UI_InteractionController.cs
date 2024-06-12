@@ -21,7 +21,6 @@ public class UI_InteractionController : MonoBehaviour
 
     [SerializeField]
     GameObject UICanvasGameobject;
-
   
     private void OnEnable()
     {
@@ -63,9 +62,7 @@ public class UI_InteractionController : MonoBehaviour
             UIController.GetComponent<XRInteractorLineVisual>().enabled = true;
 
             //Deactivating Base Controller by disabling its XR Direct Interactor
-            BaseController.GetComponent<XRDirectInteractor>().enabled = false;
-
-          
+            BaseController.GetComponent<XRDirectInteractor>().enabled = false;          
 
             //Activating the UI Canvas Gameobject
             UICanvasGameobject.SetActive(true);
