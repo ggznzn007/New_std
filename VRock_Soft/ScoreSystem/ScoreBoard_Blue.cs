@@ -28,6 +28,7 @@ public class ScoreBoard_Blue : MonoBehaviourPunCallbacks
         myplayer = player;        
         
     }
+
     private void Update()
     {
         int killsRef = (int)myplayer.CustomProperties["kills"];
