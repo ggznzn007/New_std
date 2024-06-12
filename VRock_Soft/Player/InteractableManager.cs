@@ -5,14 +5,5 @@ using UnityEngine;
 public class InteractableManager : MonoBehaviour
 {
     
-    void Start()
-    {
-        
-    }
 
-   
-    void Update()
-    {
-        
-    }
 }
