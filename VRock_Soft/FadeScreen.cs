@@ -18,11 +18,9 @@ public class FadeScreen : MonoBehaviour
     private Image image; // 페이드 바탕이미지
     private FadeState fadeState;
 
-
     private void Awake()
     {
         //FadeSingleton();
-
         image = GetComponent<Image>();
 
 
@@ -109,5 +107,4 @@ public class FadeScreen : MonoBehaviour
             }
         }
     }
-
 }
