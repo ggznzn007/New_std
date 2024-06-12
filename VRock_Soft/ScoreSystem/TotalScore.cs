@@ -13,6 +13,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
+
 public class TotalScore : MonoBehaviourPunCallbacks//, IPunObservable
 {
     public static TotalScore TS;
