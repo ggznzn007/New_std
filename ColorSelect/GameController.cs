@@ -37,7 +37,6 @@ public class GameController : MonoBehaviour
     private void Awake()
     {        
         Initialzing();
-
         SetColors();
     }   
 
