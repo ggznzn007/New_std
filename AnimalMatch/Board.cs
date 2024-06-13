@@ -57,10 +57,8 @@ public class Board : MonoBehaviour
         // (col -(colCount/2)) * spaceX + (spaceX/2);
         // -2, -0.7, 0.7, 2
 
-
         int rowCount = 5;
         int colCount = 4;
-
         int cardIndex = 0;
 
         for (int row = 0; row < rowCount; row++)
