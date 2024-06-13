@@ -16,6 +16,7 @@ public class BlockSpawner : MonoBehaviour
         // 셀 크기
         int cellSize = 300 - 50 * (blockCount - 2);
         gridLayout.cellSize = new Vector2 (cellSize, cellSize);
+
         // 가로에 배치된 셀 개수
         gridLayout.constraintCount = blockCount;
 
@@ -28,7 +29,6 @@ public class BlockSpawner : MonoBehaviour
                blockList.Add(block);
             }
         }
-
         return blockList;
     }
 }
