@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour {
-
+public class Ball : MonoBehaviour
+{
     public Paddle paddle;
     float mag;
     GameObject Col;
