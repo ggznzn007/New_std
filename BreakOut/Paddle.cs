@@ -84,6 +84,7 @@ public class Paddle : MonoBehaviour
         WinPanel.SetActive(false);
         GameOverPanel.SetActive(false);
     }
+
     // 喉钒 积己
     void BlockGenerator()
     {
@@ -104,6 +105,7 @@ public class Paddle : MonoBehaviour
             BlockCol[i].gameObject.SetActive(true);
         }
     }
+
     // 公茄 风橇
     IEnumerator InfinityLoop()
     {
