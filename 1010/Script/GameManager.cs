@@ -351,7 +351,6 @@ public class GameManager : MonoBehaviour
 
     public void BlockInput(CellScript cellScript, int colorIndex, Vector3 lastPos, Vector3[] ShapePos)
     {
-
         // 블럭을 놓는 메소드
         for (int i = 0; i < ShapePos.Length; i++)
         {
