@@ -68,7 +68,6 @@ public class Percent_Spawner : MonoBehaviour
                 return i;
             }
         }
-
         return 0;
     }
 }
