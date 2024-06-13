@@ -18,7 +18,6 @@ public class SoundManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
         sound = GetComponent<AudioSource>();
     }
 
