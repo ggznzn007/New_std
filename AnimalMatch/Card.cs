@@ -57,6 +57,5 @@ public class Card : MonoBehaviour
         {
             GameManager.instance.CardClicked(this);
         }
-
     }
 }
