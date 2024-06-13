@@ -8,9 +8,7 @@ public class Circle : Shape
     public override double GetArea()
     {
         return 2 * Math.PI * Radius;
-    }
-
-  
+    }  
 }
 
 public class Triangle : Shape
