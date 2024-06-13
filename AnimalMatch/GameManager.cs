@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+
     void Start()
     {        
         Board board = FindObjectOfType<Board>();
