@@ -18,8 +18,5 @@ namespace Abstract_Virtual01
         public abstract void Skill_W();
         public abstract void Skill_E();
         public abstract void Skill_R();
-
-    }
-
-    
+    }    
 }
