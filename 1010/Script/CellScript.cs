@@ -12,7 +12,6 @@ public class CellScript : MonoBehaviour
 
     void Start()
     {
-
         BlockPos = transform.parent.position;
         GM = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
 
