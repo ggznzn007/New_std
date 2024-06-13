@@ -12,12 +12,12 @@ public class Block : MonoBehaviour, IPointerDownHandler
         get => image.color;
     }
 
-
     public void Setup(GameController gameController)
     {
         image = GetComponent<Image>();
         this.gameController = gameController;
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         gameController.CheckBlock(Color);
