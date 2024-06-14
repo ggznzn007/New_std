@@ -16,6 +16,7 @@ namespace Singleton01
             Console.ReadKey();
         }
     }
+
     //싱글톤 클래스
     class Singleton
     {
