@@ -18,10 +18,12 @@ namespace CSharp_BridgePattern
             implementor.Operation();
         }
     }
+
     abstract class Implementor
     {
         public abstract void Operation();
     }
+
     class RefinedAbstraction : Abstraction
     {
         public override void Operation()
@@ -29,6 +31,7 @@ namespace CSharp_BridgePattern
             implementor.Operation();
         }
     }
+
     class ConcreteImplementorA : Implementor
     {
         public override void Operation()
@@ -36,6 +39,7 @@ namespace CSharp_BridgePattern
             Console.WriteLine("ConcreteImplementorA Operation");
         }
     }
+
     class ConcreteImplementorB : Implementor
     {
         public override void Operation()
@@ -43,6 +47,7 @@ namespace CSharp_BridgePattern
             Console.WriteLine("ConcreteImplementorB Operation");
         }
     }
+
     class Program
     {
         static void Main(string[] args)
