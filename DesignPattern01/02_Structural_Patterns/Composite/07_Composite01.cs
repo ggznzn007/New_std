@@ -67,6 +67,7 @@ namespace CSharp_CompositePattern
             Console.WriteLine(new String('-', depth) + name);
         }
     }
+
     class Program
     {
         static void Main(string[] args)
