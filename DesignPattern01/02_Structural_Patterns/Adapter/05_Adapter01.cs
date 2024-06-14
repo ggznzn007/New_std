@@ -20,6 +20,7 @@ namespace Adapter
             }
             Console.ReadKey();
         }
+
         /// <summary>
         /// 타겟 클래스
         /// </summary>
@@ -34,6 +35,7 @@ namespace Adapter
                 Console.WriteLine("New Unit Stopped !");
             }
         }
+
         /// <summary>
         /// 어뎁터클래스
         /// </summary>
@@ -49,6 +51,7 @@ namespace Adapter
                 _adaptee.StopMove();
             }
         }
+
         /// <summary>
         /// 어뎁티 클래스
         /// </summary>
