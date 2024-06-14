@@ -6,12 +6,14 @@ public interface Controller
     // 추상 함수
     void Execute(Model model);
 }
+
 // Model 인터페이스
 public interface Model
 {
     // 추상 함수
     String GetData();
 }
+
 // MVC 형태의 프레임워크에서 Model 클래스(파라미터)
 public class ParameterModel : Model
 {
@@ -30,6 +32,7 @@ public class ParameterModel : Model
         return this.data;
     }
 }
+
 // MVC 형태의 프레임워크에서 Controller 클래스
 public class MainController : Controller
 {
@@ -40,6 +43,7 @@ public class MainController : Controller
         Console.WriteLine("Execute - " + model.GetData());
     }
 }
+
 class Program
 {
     // 실행 함수
