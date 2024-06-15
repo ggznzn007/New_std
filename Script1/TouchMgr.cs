@@ -13,6 +13,7 @@ public class TouchMgr : MonoBehaviour
     {
         ARCam = GameObject.Find("ARCamera").GetComponent<Camera>();
     }
+
     void Update()
     {
 #if UNITY_EDITOR
