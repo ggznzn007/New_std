@@ -37,8 +37,6 @@ public class FishSpawner02 : MonoBehaviour
         int selection = Random.Range(0, fishPrefabs.Length);
         GameObject selectedPrefab = fishPrefabs[selection];
         Vector3 spawnPos = GetRandomPosition(); //랜덤위치함수
-        GameObject instance = Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
-        
-    }
-    
+        GameObject instance = Instantiate(selectedPrefab, spawnPos, Quaternion.identity);        
+    }    
 }
