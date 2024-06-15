@@ -10,13 +10,13 @@ public class Patrol02 : MonoBehaviour
         LOOK_AT,
         DAYDREAM
     }
+
     [SerializeField] protected MoveType moveType = MoveType.WAY_POINT;//이동방식
     [SerializeField] private float speed = 14.0f;//이동속도
     [SerializeField] private float damping = 2.0f;//회전속도
     [SerializeField] private Transform[] points;//모든 웨이포인트를 저장할 배열    
     private Transform tr;//컴포넌트를 저장할 변수
     private int nextIdx = 1;//다음에 이동해야 할 위치의 인덱스 변수    
-
 
     void Start()
     {
@@ -28,6 +28,7 @@ public class Patrol02 : MonoBehaviour
             points = patrolPointGroup.GetComponentsInChildren<Transform>();
         }
     }
+
     void Update()
     {
         switch (moveType)
@@ -41,6 +42,7 @@ public class Patrol02 : MonoBehaviour
                 break;
         }
     }
+
     protected void MoveWayPoint()
     {
 
@@ -54,9 +56,6 @@ public class Patrol02 : MonoBehaviour
         //전진 방향으로 이동 처리        
         tr.Translate(Vector3.forward * Time.deltaTime * speed);
     }
-
-
-
 
     void OnTriggerEnter(Collider collision)
     {
@@ -78,5 +77,4 @@ public class Patrol02 : MonoBehaviour
             this.transform.Translate(Vector3.back * speed * Time.deltaTime);
         }
     }
-
 }
