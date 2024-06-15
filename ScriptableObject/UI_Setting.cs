@@ -47,7 +47,6 @@ public class UI_Setting : ScriptableObject
         }
     }
 
-
     public string language = "KOR";
 
     public Color themeColor;
