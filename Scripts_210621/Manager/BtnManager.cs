@@ -14,20 +14,15 @@ public class BtnManager : MonoBehaviour
     public GameObject ErrorPopup;
 
     public void NextpopUp()
-    {
-        
+    {        
         popupNextPrefab[0].SetActive(true);
-        popupNowPrefab[0].SetActive(false);
-        
-       
+        popupNowPrefab[0].SetActive(false);   
     }
 
     public void PrepopUp()
-    {
-       
+    {       
         popupNowPrefab[0].SetActive(true);
-        popupNextPrefab[0].SetActive(false);
-       
+        popupNextPrefab[0].SetActive(false);       
     }
 
     public void ClosePopup()
@@ -35,7 +30,6 @@ public class BtnManager : MonoBehaviour
         popupNowPrefab[0].SetActive(false);
         popupNextPrefab[0].SetActive(false);
     }
-
 
     //아래 kkm 메서드
     public void BtnMyRecords()
@@ -46,6 +40,7 @@ public class BtnManager : MonoBehaviour
         }
         nextPupUp.SetActive(true);
     }
+
     public void BtnClose()
     {        
         if (DecoGarden.decoGarden.pupUPobj != null)
@@ -74,6 +69,5 @@ public class BtnManager : MonoBehaviour
     public void CloseErrorPopup()
     {
         ErrorPopup.SetActive(false);
-
     }
 }
