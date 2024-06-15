@@ -47,13 +47,6 @@ public class EntityDatabase
 	}
 }
 
-
-
-
-
-
-
-
 /* using System.Linq;
  * public BaseGameEntity[] GetAllEntitys()
 	{
