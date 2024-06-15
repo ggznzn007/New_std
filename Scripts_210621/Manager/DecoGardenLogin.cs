@@ -14,13 +14,12 @@ public class DecoGardenLogin : MonoBehaviour
     Touch touchLogin;
     public bool isPlant = false;
     static List<ARRaycastHit> p_Hits = new List<ARRaycastHit>();
-    // Start is called before the first frame update
+    
     void Start()
     {
         cameraLogin = GameObject.Find("AR Camera").GetComponent<Camera>();
     }
-    // Update is called once per frame
-
+   
     private void Update()
     {
         if (Input.touchCount > 0)
@@ -48,7 +47,6 @@ public class DecoGardenLogin : MonoBehaviour
                     trs.gameObject.SetActive(false);
 
                 }
-
             }
         }
     }
