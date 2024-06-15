@@ -38,17 +38,13 @@ public class DecoGarden : MonoBehaviour
         decoGarden = this; //GetComponent<DecoGarden>();//Garden 스크립트를 다른곳에서 가져오기 위해서
         canvastf = GameObject.Find("Canvas").transform;
     }
+
     public void Select(int num)//식물선택
     {
-      
-
-
         if (plantPrefab != null)
         {
             placeObject = plantPrefab[num];
             Debug.Log("선택한 식물 프리팹 :" + num);
-
-
 
             if (PlaceObjectsOnPlane.PlaceObjectsOn.spawnedGround != null)
             {
@@ -59,9 +55,7 @@ public class DecoGarden : MonoBehaviour
                 //plantPosCollection.SetActive(true);//식물을 선택한 후 놓을 화살표UI 활성화
 
                 //Transform tr = PlaceObjectsOnPlane.PlaceObjectsOn.groundPrefab.transform.GetChild(5);
-                //tr.gameObject.SetActive(true);
-
-                
+                //tr.gameObject.SetActive(true);                
                 GameObject collection = PlaceObjectsOnPlane.PlaceObjectsOn.spawnedGround.GetComponent<GardenStageArrow>().plantPosCollectionGarden;
                 collection.SetActive(true);
                 GameObject[] ar = PlaceObjectsOnPlane.PlaceObjectsOn.spawnedGround.GetComponent<GardenStageArrow>().arrowsArrayGarden;
@@ -73,22 +67,17 @@ public class DecoGarden : MonoBehaviour
                     Debug.Log("-------------------------childCount : " + n);
                     if (n == 1)
                     {
-
                         //ar[i].transform.parent.gameObject.SetActive(true);
                         ar[i].transform.gameObject.SetActive(true);
                     }
-                }
-               
+                }               
                 Debug.Log("debug : 화살표 활성화");
-
             }
-
         }
     }
 
     private void Update()
     {
-
         if (Input.touchCount > 0 && (touch = Input.GetTouch(0)).phase == TouchPhase.Began && isbtnDecoFinish == false) //터치를 할 때마다 실행
         {
             TouchArrow();
@@ -97,16 +86,13 @@ public class DecoGarden : MonoBehaviour
 
     public void TouchArrow()
     {
-
         if (touch.phase == TouchPhase.Began)
         {
-
             Camera camera = GameObject.Find("AR Camera").GetComponent<Camera>();
             Ray ray;
             ray = camera.ScreenPointToRay(Input.mousePosition);
             //ray = camera.ScreenPointToRay(touch.position);//카메라를 기준으로 터치한 곳에 레이를 쏜다
             RaycastHit hit;
-
 
             if (Physics.Raycast(ray, out hit, 300f, 1 << 8))//터치한 것이 화살표이면
             {
@@ -131,7 +117,6 @@ public class DecoGarden : MonoBehaviour
                         //transform.parent.gameObject.SetActive(false);
                     }
                 }
-
                 //for (int i = 0; i < arrowsArray.Length; i++)
                 //{
 
@@ -144,8 +129,7 @@ public class DecoGarden : MonoBehaviour
                 //}
             }
             else if (Physics.Raycast(ray, out hit, 300f, 1 << 9))//식물이면
-            {
-                
+            {                
                 string plantName = hit.transform.gameObject.name;  //터치한 식물의 이름을 얻기위해  
                 plantNum = plantName.Substring(0, 2); //앞에 2자리만 받기위해서 
                 Debug.Log("debug : plantNum = " + plantNum);
@@ -218,7 +202,6 @@ public class DecoGarden : MonoBehaviour
         hit.transform.gameObject.SetActive(false);//화살표 비활성화
         plants.Add(flower);//리스트에 식물 프리팹 추가
                            //식물이 배치되어있지 않은 화살표 제거
-
     }
 
     IEnumerator coFlowerDestroyParticle(RaycastHit hit)
@@ -233,7 +216,6 @@ public class DecoGarden : MonoBehaviour
         GameObject temp = hit.transform.parent.Find("arrow").gameObject; //arrow오브젝트 찾기
         temp.SetActive(true);//arrow 활성화
         Destroy(hit.transform.gameObject);//식물 프리팹 파괴
-
     }
 
     public void removePlants()//홈버튼을 눌렀을 때 실행되는 함수
@@ -304,7 +286,4 @@ public class DecoGarden : MonoBehaviour
     {
         btnDecoFinish.GetComponentInChildren<Text>().text = "Observe";
     }
-
-
-
 }
