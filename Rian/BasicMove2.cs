@@ -29,8 +29,5 @@ public class BasicMove2 : MonoBehaviour
 
         if (Input.GetButtonDown("Jump")) { moveSpeed += moveSpeed; }
         else if (Input.GetButtonDown("Fire3")) { moveSpeed -= moveSpeed / 2; } 
-
-
     }
-
 }
