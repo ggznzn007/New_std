@@ -9,7 +9,6 @@ public class BuyPlantPopUp : MonoBehaviour
     public GameObject ErrorPopup;
     int oxygentCnt;  
 
-
     private void Awake()
     {
         oxygentCnt = GameManager.inst.oxygenCnt;
@@ -19,6 +18,7 @@ public class BuyPlantPopUp : MonoBehaviour
     {
         UserName.text = PlayerPrefs.GetString("User");
     }
+
     public void btnYes()
     {
         if ((oxygentCnt % 1000) >= 50)
@@ -33,5 +33,4 @@ public class BuyPlantPopUp : MonoBehaviour
         //    ErrorPopup.SetActive(true);
         //}
     }
-
 }
