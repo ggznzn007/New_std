@@ -54,6 +54,5 @@ public class AudioManager : MonoBehaviour
             source.pitch = 1.0f;
 
         source.PlayOneShot(clip);
-    }
-     
+    }     
 }
