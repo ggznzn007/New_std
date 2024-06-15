@@ -13,12 +13,11 @@ public class APIManager : MonoBehaviour
     public ArrayList emotionlist = new ArrayList(); //유저 감정분석
     private string emotion = "";
 
-
     public void sendText(string answer)
     {
         StartCoroutine(Sentimental(answer));
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
         StartCoroutine(GeoCode(35.1536142f, 129.0495141f));
@@ -30,13 +29,7 @@ public class APIManager : MonoBehaviour
 
         objectGPS = GameObject.Find("GPS");
         textGPS = objectGPS.GetComponent<Text>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    } 
 
     IEnumerator GeoCode(float lat,float lng)
     {
@@ -48,6 +41,7 @@ public class APIManager : MonoBehaviour
         {
             www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             yield return www.SendWebRequest();
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -58,9 +52,7 @@ public class APIManager : MonoBehaviour
                 var N = JSONNode.Parse(data);
                 var n2 = N["results"];
                 
-                var loc = n2[0]["address_components"];
-
-                
+                var loc = n2[0]["address_components"];                
                 
                 print(loc);
 
@@ -78,6 +70,7 @@ public class APIManager : MonoBehaviour
         {
             www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             yield return www.SendWebRequest();
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -94,7 +87,6 @@ public class APIManager : MonoBehaviour
                 var w = N["weather"][0]["main"];
                 var country = N["sys"]["country"];
                 var city = N["name"];
-
 
                 textWeather.text = "Temperature: " + temp.ToString() + "°C" + "  Humidity:  " + humidity.ToString() + "  Weather:  " + w.ToString();
                 textGPS.text = "Country :  " + country.ToString() + "   City : " + city.ToString();
@@ -130,6 +122,7 @@ public class APIManager : MonoBehaviour
             www.SetRequestHeader("Content-Type", "application/json");
             //www.SetRequestHeader("json", "true");
             yield return www.SendWebRequest();
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
