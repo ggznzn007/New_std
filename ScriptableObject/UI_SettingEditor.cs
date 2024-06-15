@@ -8,6 +8,7 @@ using UnityEditor;
 public class UI_SettingEditor : Editor
 {
     [MenuItem("Assets/Open UI Setting")]
+
     public static void OpenInspector()
     {
         Selection.activeObject = UI_Setting.Instance;
