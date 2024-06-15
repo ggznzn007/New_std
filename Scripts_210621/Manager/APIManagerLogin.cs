@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class APIManagerLogin : MonoBehaviour
 {
     System.DateTime dateTime = System.DateTime.Now;
+
     void Start()
     {
         PlayerPrefs.SetString("Date", dateTime.ToString("yyyy-MM-dd")); //날짜 저장
@@ -15,6 +16,7 @@ public class APIManagerLogin : MonoBehaviour
         StartCoroutine(Weather("Busan"));
         StartCoroutine(Sentimental("Programming is fun."));
     }
+
     IEnumerator GeoCode(float lat, float lng)
     {
         var latlng = lat + "," + lng;
@@ -55,6 +57,7 @@ public class APIManagerLogin : MonoBehaviour
         {
             www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             yield return www.SendWebRequest();
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -73,7 +76,6 @@ public class APIManagerLogin : MonoBehaviour
                 var city = N["name"];
 
                 //replace를 활용
-
                 //print(temp);
                 //print(humidity);
                 //print(w);
