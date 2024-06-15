@@ -23,6 +23,7 @@ public class Patrol_01 : MonoBehaviour
     {
         MovePatrolPoint();
     }
+
     void MovePatrolPoint()
     {
         // 현재 위치에서 다음 웨이포인트로 향하는 벡터를 계산
@@ -49,6 +50,5 @@ public class Patrol_01 : MonoBehaviour
             // 콜라이더가 물고기 또는 플레이어와 태그되면 물리반응
             this.transform.Translate(Vector3.back * damping * Time.deltaTime);
          }
-     }
-   
+     }   
 }
