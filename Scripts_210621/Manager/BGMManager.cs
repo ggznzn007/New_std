@@ -8,6 +8,7 @@ public class Sound
     public string soundName;
     public AudioClip clip;
 }
+
 public class BGMManager : MonoBehaviour
 {
     public static BGMManager instance;
