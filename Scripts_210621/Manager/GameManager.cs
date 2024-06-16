@@ -28,9 +28,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //StartGame();
-
-        //////////앱 실행시 시간차 구하기//////////
+               //////////앱 실행시 시간차 구하기//////////
         string lastTime = PlayerPrefs.GetString("SaveQuitTime");
         System.DateTime lastDateTime = System.DateTime.Parse(lastTime);
         System.TimeSpan compareTime = (System.DateTime.Now - lastDateTime);
@@ -46,17 +44,15 @@ public class GameManager : MonoBehaviour
         ////////////////////////////////////////////////
     }
 
-
     private void OnApplicationQuit()
     {
         //앱 종료시 시간 저장해놓기//
         PlayerPrefs.SetString("SaveQuitTime", System.DateTime.Now.ToString());
         ////////////////////////////
     }
+
     void Update()
     {
-
-
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKeyDown(KeyCode.Escape))  // 백키가 눌렸을때
@@ -64,46 +60,20 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0f; // 먼저 시간을 정지시킨다.
                 ExitPanel.SetActive(true);
             }
-
         }
     }
-
 
     public void ExitYes()
     {
         Application.Quit();   // 앱을 종료
     }
+
     public void ExitNo()
     {
         Time.timeScale = 1f; // 먼저 시간을 다시 가도록 원복 
         ExitPanel.SetActive(false); // Exit 팝업창을 지운다.
     }
-
-    //Called when the game starts.
-    public void StartGame()
-    {
-
-    }
-
-    //Called when the wave is over.
-    public void EndWave()
-    {
-
-    }
-
-    //Called when all waves have been killed off.
-    public void WinGame()
-    {
-
-    }
-
-    //Called when the player dies.
-    public void LoseGame()
-    {
-        //GameUI.inst.SetEndGameText(false);
-
-    }
-
+  
     //Loads the menu scene.
     void ReturnToMenu()
     {
@@ -123,6 +93,4 @@ public class GameManager : MonoBehaviour
             Debug.Log("이미지로 저장되었습니다");
         }
     }
-
-
 }
