@@ -17,9 +17,7 @@ public class MoveCtrl : MonoBehaviour
     public Transform[] points;//모든 웨이포인트를 저장할 배열
     private Transform tr;//컴포넌트를 저장할 변수
     private int nextIdx = 1;//다음에 이동해야 할 위치의 인덱스 변수
-
-
-    // Start is called before the first frame update
+    
     void Start()
     {    
         tr = GetComponent<Transform>();//트랜스폼 컴포넌트 추출 후 변수에 저장
@@ -27,12 +25,10 @@ public class MoveCtrl : MonoBehaviour
         if (wayPointGroup != null)
         {
             //웨이포인트 자식으로 있는 모든 게임오브젝트의 트랜스폼 컴포넌트 추출
-            points = wayPointGroup.GetComponentsInChildren<Transform>();
-            
+            points = wayPointGroup.GetComponentsInChildren<Transform>();            
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         switch (moveType)
@@ -82,9 +78,5 @@ public class MoveCtrl : MonoBehaviour
             nextIdx = (++nextIdx >= points.Length) ? 1 : nextIdx;
             
         }
-
     }
-
-    
-   
 }
