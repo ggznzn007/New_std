@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExcelLoad : MonoBehaviour
 {
     public Entity_TypicalQuestions item;
-    // Start is called before the first frame update
+   
     void Start()
     {
         int cnt = item.sheets[0].list.Count;
@@ -20,7 +20,5 @@ public class ExcelLoad : MonoBehaviour
             Debug.Log(item.sheets[0].list[i].Answer3);
             
         }*/
-    }
-
-   
+    }   
 }
