@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class AnswerText : MonoBehaviour
 {
     public TextMeshProUGUI RecordDate; //기록 날짜
@@ -46,11 +47,7 @@ public class AnswerText : MonoBehaviour
         Weather.text = "Temp" + PlayerPrefs.GetString("temp") + "(°C), " + PlayerPrefs.GetString("Weather");             //날씨
         Location.text = "Country :  " + PlayerPrefs.GetString("Country") + "   City : " + PlayerPrefs.GetString("City"); //위치
     }
-
-    private void Update()
-    {
-
-    }
+    
     public void SaveUserAnswer()
     {
         PlayerPrefs.SetString("Question", questionText.showquestion);
@@ -66,8 +63,7 @@ public class AnswerText : MonoBehaviour
         
         for(int i = 0; i < loadquestions.Length; i++)
             */
-        
-        
+                
         if (PlayerPrefs.GetString("Answer").Length > 2)
         {
             answer = PlayerPrefs.GetString("Answer");
@@ -86,6 +82,7 @@ public class AnswerText : MonoBehaviour
             ErrorPopup.SetActive(true);
         }
     }
+
     public void NextQuestion()
     {
         CompleteUI.SetActive(true); //Complete 활성화
