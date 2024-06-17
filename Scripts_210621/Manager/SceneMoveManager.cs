@@ -49,6 +49,7 @@ public class SceneMoveManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
+
     public void MoveScene(string scene)
     {
         SceneManager.LoadScene(scene);
@@ -75,6 +76,7 @@ public class SceneMoveManager : MonoBehaviour
 
         screen.SetActive(true);
     }
+
     public void BtnNext()
     {
         switch (n)
@@ -170,6 +172,7 @@ public class SceneMoveManager : MonoBehaviour
         }
         startbutton.SetActive(true);        
     }
+
     public void TutorialSaveInfo()
     {
         if (tutorialAnswer.text.Length > 2)
