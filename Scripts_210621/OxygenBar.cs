@@ -22,8 +22,7 @@ public class OxygenBar : MonoBehaviour
         oxSlider.value = 0.0f;
         OxygenAdd();        //초당 산소 추가
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         /*if (oxcnt >= 1)
@@ -39,8 +38,6 @@ public class OxygenBar : MonoBehaviour
 
         PlayerPrefs.SetInt("TotalOxygen", oxcnt);
     }
-
-
 
     void OxygenAdd()
     {
