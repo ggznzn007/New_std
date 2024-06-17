@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class ScreenCapture : MonoBehaviour
 {
-    void Update()
-    {
-        /*if (Application.platform == RuntimePlatform.Android)
-        {
-            if (Input.GetKey(KeyCode.Escape))
-            {
-                // any function
-                Application.Quit();
-            }
-        }*/
-    }
-
     public void _ScreenCaputure()
     {
         AndroidUtils.instance.TakeHiResShot();
@@ -29,5 +17,4 @@ public class ScreenCapture : MonoBehaviour
             Debug.Log("이미지로 저장되었습니다");
         }
     }
-
 }
