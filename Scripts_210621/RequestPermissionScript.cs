@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.Android;
 
 public class RequestPermissionScript : MonoBehaviour
-{
-    
+{    
     void Start()
     {
         Permission.RequestUserPermission(Permission.FineLocation);
