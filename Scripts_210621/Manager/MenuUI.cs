@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-
-
-
 /// <summary>
 /// Manages the UI elements for the main menu.
 /// </summary>
@@ -66,9 +63,7 @@ public class MenuUI : MonoBehaviour
             Oxygen.SetActive(false);
         }
         
-    }
-
-    
+    }    
 
     //Loads options from PlayerPrefs and sets them to the UI elements on the options screen.
     void LoadOptions ()
@@ -96,10 +91,7 @@ public class MenuUI : MonoBehaviour
         //Application.Quit();
         
             
-    }
-
-    
-    
+    }   
 
     //Called when the "Options" button (gear icon) on the menu screen is pressed.
     public void OnOptionsButton ()
@@ -138,6 +130,5 @@ public class MenuUI : MonoBehaviour
         AudioListener.volume = volumeSlider.value;
         PlayerPrefs.SetFloat("Volume", AudioListener.volume);
     }
-     
      
 }
