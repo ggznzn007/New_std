@@ -9,6 +9,7 @@ public class Particle
     public string paticleName;
     public GameObject gameObject;
 }
+
 public class ParticleManager : MonoBehaviour
 {
     public static ParticleManager instance;
@@ -30,6 +31,7 @@ public class ParticleManager : MonoBehaviour
 
     //Instance
     void Awake() { instance = this; }
+
     public void PlayFaiEf(string _paticleName, Pose hitPose, float delayTime)
     {
         for (int i = 0; i < Feffect.Length; i++)
@@ -39,8 +41,7 @@ public class ParticleManager : MonoBehaviour
                 //GameObject particleF = Instantiate(Feffect[i].gameObject, Vector3.zero, Quaternion.identity);
                 GameObject particleF = Instantiate(Feffect[i].gameObject, 
                     hitPose.position /*+ new Vector3(0f, 0.2f, 0f)*/, hitPose.rotation);
-                Destroy(particleF, delayTime);             
-                
+                Destroy(particleF, delayTime);                      
             }
         }
     }
@@ -59,6 +60,7 @@ public class ParticleManager : MonoBehaviour
             }
         }
     }
+
     public void PlayBtnEf(string _paticleName, Pose hitPose, float delayTime)
     {
         for (int i = 0; i < Beffect.Length; i++)
@@ -68,8 +70,7 @@ public class ParticleManager : MonoBehaviour
                 GameObject particleB = Instantiate(Beffect[i].gameObject,
                     hitPose.position, hitPose.rotation);
 
-                Destroy(particleB, delayTime);
-                
+                Destroy(particleB, delayTime);                
             }
         }
     }
@@ -95,8 +96,7 @@ public class ParticleManager : MonoBehaviour
         {
             if (_paticleName == Eeffect[i].paticleName)
             {
-                Instantiate(Eeffect[i].gameObject, Vector3.zero, Quaternion.identity);
-                
+                Instantiate(Eeffect[i].gameObject, Vector3.zero, Quaternion.identity);                
             }
         }
     }
