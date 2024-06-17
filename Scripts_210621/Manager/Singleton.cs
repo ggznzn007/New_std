@@ -30,7 +30,6 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
      *     //Your code goes here
      * }
      * */
-
     protected virtual void Awake()
     {
         if (instance == null)
