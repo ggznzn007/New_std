@@ -21,10 +21,10 @@ public class QuestionText : MonoBehaviour
 
     public void Click()
     {
-/*        Debug.Log(item.sheets[0].list.Count);
-        int max = item.sheets[0].list.Count-1;
-        Debug.Log(max);
-        int ran = Random.Range(0, max);*/
+        /*        Debug.Log(item.sheets[0].list.Count);
+                int max = item.sheets[0].list.Count-1;
+                Debug.Log(max);
+                int ran = Random.Range(0, max);*/
 
         int cnt = item.sheets[0].list.Count;
         int ran = Random.Range(0, cnt);
@@ -33,16 +33,15 @@ public class QuestionText : MonoBehaviour
         showanswer1 = item.sheets[0].list[ran].Answer1;
         showanswer2 = item.sheets[0].list[ran].Answer2;
         showanswer3 = item.sheets[0].list[ran].Answer3;
-               
+
         QuestionsText();
         AnswersText();
+        /*        item.sheets[0].list.RemoveAt(ran);*/
 
-/*        item.sheets[0].list.RemoveAt(ran);*/
-          
     }
     void QuestionsText()
     {
-        StartCoroutine(CoQuestionText());        
+        StartCoroutine(CoQuestionText());
     }
 
     IEnumerator CoQuestionText()
@@ -53,18 +52,18 @@ public class QuestionText : MonoBehaviour
     }
     void AnswersText()
     {
-        StartCoroutine(CoAnswersText());        
+        StartCoroutine(CoAnswersText());
     }
 
-    IEnumerator CoAnswersText ()
+    IEnumerator CoAnswersText()
     {
         getAnswer.text = "";
         yield return new WaitForSeconds(5f);
-        getAnswer.text = showanswer1; 
+        getAnswer.text = showanswer1;
         yield return new WaitForSeconds(5f);
         getAnswer.text = showanswer2;
         yield return new WaitForSeconds(5f);
         getAnswer.text = showanswer3;
-        yield return new WaitForSeconds(5f);        
+        yield return new WaitForSeconds(5f);
     }
 }
