@@ -9,8 +9,8 @@ using UnityEngine.XR.ARSubsystems;
 /// at a given location acquired via a raycast.
 /// </summary>
 [RequireComponent(typeof(ARSessionOrigin))]
-    [RequireComponent(typeof(ARRaycastManager))]
-    public class MakeAppearOnPlane : MonoBehaviour
+[RequireComponent(typeof(ARRaycastManager))]
+public class MakeAppearOnPlane : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("A transform which should be made to appear to be at the touch point.")]
