@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // android device only
 public class AndroidUtils : MonoBehaviour
 {
