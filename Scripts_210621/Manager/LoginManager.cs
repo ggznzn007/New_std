@@ -23,16 +23,13 @@ public class LoginManager : MonoBehaviour
     public TextMeshProUGUI PlantDate;  //심는 날짜
     public TextMeshProUGUI Weather;    //날씨
     public TextMeshProUGUI Location;  //위치
-    public TextMeshProUGUI RecordDate; //일기 기록
-    
-    
+    public TextMeshProUGUI RecordDate; //일기 기록    
 
     private void Update()
     {
         PopupAnswer.text = PlayerPrefs.GetString("TutorialAnswer"); //튜토리얼 답변 출력
         PlantDate.text = PlayerPrefs.GetString("Date");  //오늘 날짜 출력
         RecordDate.text = PlayerPrefs.GetString("Date");
-
 
         Weather.text = "Temp" + PlayerPrefs.GetString("temp") + "(°C), " + PlayerPrefs.GetString("Weather") ;
         Location.text = "Country :  " + PlayerPrefs.GetString("Country") +"   City : " + PlayerPrefs.GetString("City");
@@ -57,6 +54,7 @@ public class LoginManager : MonoBehaviour
             nickName.text = "";
         }
     }
+
     public void enrollNickName()//별명 등록
     {
         if (nickName.text.Length < 2)
@@ -68,6 +66,7 @@ public class LoginManager : MonoBehaviour
             Debug.Log("Id 등록 완료");
         }
     }
+
     public void enrollPassWord()//비밀번호 등록
     {
         if (gardenName.text.Length < 2)
@@ -82,7 +81,6 @@ public class LoginManager : MonoBehaviour
 
     public void SaveInfo() //저장 버튼을 눌렀을 때 호출되는 함수
     {
-
         PlayerPrefs.SetString("User", nickName.text);
         PlayerPrefs.SetString("Garden", gardenName.text);
         PlayerPrefs.SetString("Age", age.text);
@@ -113,12 +111,7 @@ public class LoginManager : MonoBehaviour
 
             scenemovemanager.TutorialTalk();
         }
-
-
-    }
-
-    
-    
+    }    
 
     public void ButtonDestroy()
     {
