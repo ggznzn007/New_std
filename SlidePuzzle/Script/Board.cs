@@ -87,7 +87,6 @@ Application.Quit();
 
             yield return null;
         }
-
         // 그리드레이아웃을 사용하여 자식의 위치를 바꾸는 것으로 설정해서
         // 타일리스트의 마지막에 있는 요소가 무조건 빈 타일
         EmptyTilePosition = tileList[tileList.Count - 1].GetComponent<RectTransform>().localPosition;
