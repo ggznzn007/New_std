@@ -16,7 +16,6 @@ public class SE_Manager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
         sound = GetComponent<AudioSource>();
     }
 
