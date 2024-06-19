@@ -2,8 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TypeWriterEffect : MonoBehaviour {
-
+public class TypeWriterEffect : MonoBehaviour
+{
 	public float delay = 0.1f;
 	private string fullText;
 	private string currentText = "";
