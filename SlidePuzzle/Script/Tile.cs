@@ -76,7 +76,6 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
             yield return null;
         }
-
         IsCorrected = correctPosition == GetComponent<RectTransform>().localPosition ? true : false;
         // 처음 숫자를 배치했을때 correctPosition을 설정하고, 
         // 이 값과 현재위치가 같으면 퍼즐이 제 위치에 있다고 판단 = true가 됨
