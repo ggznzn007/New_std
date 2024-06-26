@@ -22,8 +22,6 @@ public class HiddenHand : MonoBehaviour                           // 손으로 터치
     public string Yellow = "Yellow";
     public string Sky = "Sky";*/
 
-
-
     private void OnCollisionEnter(Collision collision)
     {       
         for (int i = 0; i < colorName.Length; i++)           // 컬러에 따라 
@@ -46,11 +44,7 @@ public class HiddenHand : MonoBehaviour                           // 손으로 터치
                 {
                     Manager_Ballon.MB.explodedBallon--;
                 }
-            }  
-            
-            
+            }              
         }       
-    }
-
-   
+    }   
 }
