@@ -15,7 +15,6 @@ public class FollowPath : MonoBehaviour
     private int wayPointCount;                          // 이동가능한 웨이포인트 개수
     private int currentIndex;                           // 현재 웨이포인트 인덱스    
 
-
     private void Awake()
     {
         wayPointCount = wayPoints.Length;
@@ -54,7 +53,6 @@ public class FollowPath : MonoBehaviour
             // waiteTime 시간 동안 대기
             yield return wait;
         }
-
         Debug.Log("모든 경로 탐색 완료!!!");
     }
 
@@ -83,5 +81,4 @@ public class FollowPath : MonoBehaviour
         if (isPlayOnAwake) btn.SetActive(false);
         else btn.SetActive(true);
     }
-
 }
