@@ -37,5 +37,4 @@ public class BallonCtrl : MonoBehaviour
             Manager_Ballon.MB.ballCount--;
         }
     }
-
 }
