@@ -81,6 +81,7 @@ public class Player_Color : MonoBehaviour
             {
                 PlayerDie();
             }
+
             else
             {
                 AudioManager.AM.PlaySE("Ball");
@@ -92,6 +93,7 @@ public class Player_Color : MonoBehaviour
                 gameController.CollosionWithWall();
             }
         }
+
         else if (collision.CompareTag("DeathWall"))
         {
             PlayerDie();
@@ -117,7 +119,5 @@ public class Player_Color : MonoBehaviour
         gameController.GameOver();
         // 플레이어 비활성화
         gameObject.SetActive(false);
-    }
-
-  
+    }  
 }
