@@ -9,7 +9,6 @@ public class LerpMove : MonoBehaviour
     [SerializeField] private AnimationCurve moveCurve;
     [SerializeField] private bool isRight = false;
 
-
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -70,6 +69,4 @@ public class LerpMove : MonoBehaviour
 
         Debug.Log("Left Goal!");
     }
-
-
 }
