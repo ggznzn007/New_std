@@ -24,9 +24,6 @@ public static class Utils
 
             maxCount--;
         }
-
         return result;
     }
-
-
 }
