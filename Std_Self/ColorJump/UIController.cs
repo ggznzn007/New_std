@@ -28,6 +28,7 @@ public class UIController : MonoBehaviour
         {
             textScore.text = score.ToString("D2");
         }
+
         else
         {
             textScore.text = score.ToString();
@@ -37,7 +38,6 @@ public class UIController : MonoBehaviour
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
-
         textHighScore.text = $"최고기록 : {PlayerPrefs.GetInt("HighScore")}";
     }
 
@@ -47,10 +47,12 @@ public class UIController : MonoBehaviour
         {
             GameController.GC.isPlaying = !GameController.GC.isPlaying;
         }
+
         if(!GameController.GC.isPlaying)
         {
             volumePanel.SetActive(true);            
         }
+
         else
         {
             volumePanel.SetActive(false);            
