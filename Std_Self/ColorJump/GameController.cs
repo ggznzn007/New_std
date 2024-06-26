@@ -43,7 +43,6 @@ public class GameController : MonoBehaviour
 
                 yield break;
             }
-
             yield return null;
         }
     }
@@ -64,7 +63,6 @@ public class GameController : MonoBehaviour
                 Instantiate(wallPrefab, leftWalls);
                 // 오른쪽 벽 생성
                 Instantiate(wallPrefab, rightWalls);
-
             }
         }
 
@@ -137,7 +135,6 @@ public class GameController : MonoBehaviour
             // 벽 추가
             SpawnWalls();
         }
-
         // 벽, 플레이어 색상 설정
         SetColors();
     }
