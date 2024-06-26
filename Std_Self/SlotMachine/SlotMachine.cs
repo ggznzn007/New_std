@@ -120,7 +120,6 @@ public class SlotMachine : MonoBehaviour
                 CheckBet();
             }
         }
-
         textFirstReel.text = firstReelResult.ToString("D1");
         textSecondReel.text = secondReelResult.ToString("D1");
         textThirdReel.text = thirdReelResult.ToString("D1");      
@@ -217,7 +216,6 @@ public class SlotMachine : MonoBehaviour
         imageBetAmount.color = color;
         textResult.text = msg;
     }
-
 
     private IEnumerator DelayExit()
     {       
