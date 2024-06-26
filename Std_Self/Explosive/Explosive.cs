@@ -53,7 +53,6 @@ public class Explosive : MonoBehaviour
                 rigidbody.AddExplosionForce(explosionForce,transform.position, explosionRadius);
             }
         }
-
         Destroy(gameObject);
     }
 }
