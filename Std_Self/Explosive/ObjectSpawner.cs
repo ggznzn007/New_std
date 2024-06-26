@@ -12,6 +12,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             SpawnObject(0);
         }
+
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnObject(1);
