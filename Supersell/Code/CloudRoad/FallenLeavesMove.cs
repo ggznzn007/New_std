@@ -8,15 +8,12 @@ public class FallenLeavesMove : MonoBehaviour
     public float mSpeed = 1f;
     bool left;
     Vector3 newVector;
-    
-
 
     void Start()
     {
         FL = this;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (SpawnManager.SM.isHold)
@@ -37,8 +34,7 @@ public class FallenLeavesMove : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision coll)
-    {
-            
+    {            
         if (coll.collider.CompareTag("Foot"))
         {
             StartCoroutine(DelayReduceSpeed());
@@ -69,8 +65,7 @@ public class FallenLeavesMove : MonoBehaviour
             clickPoint.y = 1;
             ballPoint.y = 1;
             newVector = ballPoint - clickPoint;
-            Vector3 newVector2 = clickPoint - ballPoint;
-            
+            Vector3 newVector2 = clickPoint - ballPoint;            
         }
     }
 
@@ -95,8 +90,6 @@ public class FallenLeavesMove : MonoBehaviour
     public IEnumerator RotStop()
     {
         yield return new WaitForSeconds(2);
-        transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;        
-        
-        
+        transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;                
     }
 }
