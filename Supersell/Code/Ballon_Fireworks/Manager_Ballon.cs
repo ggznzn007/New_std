@@ -73,7 +73,6 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
     private bool gamePaused;
     private bool gameOver;
 
-
     private void Awake()
     {
         // SetResolution();                            // 해상도 초기화 메서드 Initialize Resolution Call
@@ -99,7 +98,6 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
         PaintDeleteDirect();
         GameDone();
     }
-
 
     public void SetInitValue()
     {
@@ -257,7 +255,6 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
             gameOver = false;
             gameoverPanel.SetActive(false);
         }
-
     }
 
     public void SizeSetting()                                             // 풍선 크기 설정 메서드 Balloon size setting method
