@@ -44,6 +44,7 @@ public class Manager : MonoBehaviour                     // 불꽃놀이 매니저
         Zoominout();
         SettingUI();
     }
+
     public void SetResolution()                     // 해상도 세팅 메서드 Resolution setting method
     {
         int setWidth = 3200;   // 화면 가로
@@ -174,7 +175,6 @@ public class Manager : MonoBehaviour                     // 불꽃놀이 매니저
         }
     }
 
-
     void MoveObj()                                         // 카메라 움직임 메서드 Camera movement method
     {
         if (gamePaused) return;
@@ -257,5 +257,4 @@ public class Manager : MonoBehaviour                     // 불꽃놀이 매니저
             // FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
         }
     }
-
 }
