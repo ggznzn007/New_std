@@ -20,8 +20,7 @@ public class LoadFiles : MonoBehaviour
         if(Backgroud != null )
         {
             StartCoroutine(LoadIMG());
-        }
-               
+        }               
     }
 
     IEnumerator LoadIMG()
