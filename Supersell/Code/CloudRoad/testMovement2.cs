@@ -130,6 +130,7 @@ public class testMovement2 : MonoBehaviour
         beingHandled = false;
 
     }
+
     void OnMouseDown()
     {
         Debug.Log("masukkeneternytDestroyer");
@@ -176,6 +177,7 @@ public class testMovement2 : MonoBehaviour
         // held=false;
         // once=false;
     }
+
     void Destruction()
     {
         Destroy(this.gameObject);
