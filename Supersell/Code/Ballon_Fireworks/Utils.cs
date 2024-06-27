@@ -22,5 +22,4 @@ public class Utils:MonoBehaviour
 
     public static int goalMin = 4;
     public static int goalMax = 20;
-
 }
