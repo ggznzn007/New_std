@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     private Vector3 m_Offset;
     private float m_ZCoord;
     private GameObject myFoot;
+
     void Start()
     {
         SM = this;
@@ -28,6 +29,7 @@ public class SpawnManager : MonoBehaviour
             FallenLeavesMove.FL.mSpeed = 1f;
             }
         }
+
         if (Input.GetMouseButton(0))
         {
             isHold = true;
@@ -53,14 +55,13 @@ public class SpawnManager : MonoBehaviour
            
             //Debug.Log(coll[i]);
         }
+
         if(Input.GetMouseButtonUp(0)) 
         {
              Destroy(myFoot);
             //StartCoroutine(DelayFalse());
         }
     }
-
-
 
     private void SpawnBombAtPos(Vector3 spawnPosition)
     {
