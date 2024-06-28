@@ -97,18 +97,15 @@ namespace WPM
         TickerTextAnimator tickerTextAnimator;
         bool isClick;
         CallbackHandler callback;
-
         GlobeClickEvent globeClick;
 
         void Start()
-        {
-            
+        {            
             map = WorldMapGlobe.instance;
             isClick = false;
 
             map.OnCountryClick += Map_OnCountryClick;
         }
-
 
         private void Update()
         {            
@@ -149,7 +146,6 @@ namespace WPM
             
             map.FlyToLocation(map.countries[countryIndex].mainRegion.latlonCenter);
         }
-
 
         IEnumerator GetWeather(string country, float lat, float lon)
         {            
@@ -222,12 +218,9 @@ namespace WPM
                 {
                     dtText.text = dt.ToString();
                 }
-
                 // dtText.text = time.ToString();               
             }
-        }
-
-     
+        }     
 
         public DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
