@@ -93,9 +93,7 @@ public class ClickMove1 : MonoBehaviour
     {
         catState = newState;
         isOnWay = true;
-    }
-
-  
+    }  
 
     private void OnTriggerEnter(Collider coll)
     {
