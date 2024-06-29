@@ -10,7 +10,6 @@ public class GetInformation : MonoBehaviour
     public UnityEngine.UI.Button[] asia;        // 나라정보를 담은 이미지 버튼들
     public GameObject[] nations; // 지도상의 나라들
 
-
     public void InfoOn(int number)
     {
         if (!DataManager.DM.isInfoOpen)
