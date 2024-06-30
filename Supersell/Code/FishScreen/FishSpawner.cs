@@ -96,6 +96,7 @@ public class FishSpawner : MonoBehaviour
         mousePoint.z = m_ZCoord;
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
+
     IEnumerator DelayDestroy()                                             // 가상의 봉을 딜레이 후 삭제
     {
         yield return null;
