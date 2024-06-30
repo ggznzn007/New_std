@@ -11,10 +11,8 @@ public class UI_Manager : MonoBehaviour
 
     void Start()
     {
-
        // widthSlider.onValueChanged.AddListener(delegate { WidthValueChange(); }); 
     }
-
     
     public void WidthValueChange()
     {      
