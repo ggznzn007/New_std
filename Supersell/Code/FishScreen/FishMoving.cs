@@ -21,10 +21,12 @@ public class FishMoving : MonoBehaviour
         tr = GetComponent<Transform>();                                                  // 트랜스폼 컴포넌트 추출 후 변수에 저장
         anim = GetComponent<Animator>();
         GameObject wayPointGroup = GameObject.Find("WayPointGroup");                     // 게임오브젝트를 검색해 변수에 저장
+        
         if (wayPointGroup != null)
         {                                                                   // 웨이포인트 자식으로 있는 모든 게임오브젝트의 트랜스폼 컴포넌트 추출
             wayPoints = wayPointGroup.GetComponentsInChildren<Transform>();
         }
+
         nextIdx = Random.Range(1, wayPoints.Length);
         MovetoWayPoint();
     }
@@ -96,6 +98,7 @@ public class FishMoving : MonoBehaviour
         anim.Update(0);
         anim.updateMode = AnimatorUpdateMode.AnimatePhysics;
     }
+
     IEnumerator BacktoWay()
     {
         OnWaypoint = false;
