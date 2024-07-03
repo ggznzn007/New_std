@@ -97,13 +97,8 @@ public class bombSpawnner : MonoBehaviour
                 Sprite tempS = Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), Vector2.zero);
                 test.sprite = tempS;
             }
-
-
-
             // test.setTexture("HEHE",texture2);
-
         }
-
     }
 
     void Update()
