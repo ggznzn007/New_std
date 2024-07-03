@@ -22,22 +22,7 @@ public class ChangeEmit : MonoBehaviour
         // oldColor = mat.color;
         //  InvokeRepeating(nameof(RandomColor), 1, 5);
     }
-    private void Update()
-    {
-        /*timer -= Time.smoothDeltaTime;
-        if (timer <= 5f)
-        {
-            timer = 5f;
-        }*/
-    //  RandomColor();
-       
-        
-        
-       
-        //
-        // StartCoroutine(LerpColor());
-    }
-
+    
     Color RandomColor()
     {
         oldColor = new Color(Random.Range(44, 191), Random.Range(44, 191), Random.Range(44, 191), 1);
@@ -68,5 +53,4 @@ public class ChangeEmit : MonoBehaviour
         }
         //return true;
     }
-
 }
