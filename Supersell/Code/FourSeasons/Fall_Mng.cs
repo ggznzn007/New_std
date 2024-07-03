@@ -14,7 +14,6 @@ public class Fall_Mng : MonoBehaviour
     {        
         StartCoroutine(TimeToFade());
     }
-
     
     void Update()
     {
