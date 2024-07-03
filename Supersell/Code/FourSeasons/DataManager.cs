@@ -216,6 +216,5 @@ public class DataManager : Singleton<DataManager>
         string setSize = temp.ToString("F0");
         PlayerPrefs.SetString("setFishSizetxt", setSize);
     }
-    #endregion
-    
+    #endregion    
 }
