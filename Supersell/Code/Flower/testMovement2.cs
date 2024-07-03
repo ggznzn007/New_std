@@ -80,6 +80,7 @@ public class testMovement2 : MonoBehaviour
         {
             swt = true;
         }
+
         if (transform.position.x <= initialLoc.x)
         {
             swt = false;
@@ -96,6 +97,7 @@ public class testMovement2 : MonoBehaviour
             // this.transform.position = Vector3.MoveTowards(this.transform.position ,newVector,Hspeed*Time.deltaTime);
             // this.transform.Rotate(Vector3.up, Time.deltaTime * 400f);
         }
+
         else
         {
             // this.transform.position = Vector3.MoveTowards(this.transform.position,initialLoc,3f*Time.deltaTime);
@@ -114,6 +116,7 @@ public class testMovement2 : MonoBehaviour
                 {
                     HspeedBack = Vector3.Distance(initialLoc, this.transform.position);
                 }
+
                 if (Vector3.Distance(initialLoc, this.transform.position) < 0.01)
                 {
                     HspeedBack = 1f;
@@ -154,10 +157,12 @@ public class testMovement2 : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         // Vector3 clickPoint = ray.GetPoint (10) ; 
         Vector3 clickPoint;
+
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             clickPoint = hitInfo.point;
         }
+
         else
         {
             clickPoint = new Vector3(0f, 0f, 0f);
@@ -175,6 +180,7 @@ public class testMovement2 : MonoBehaviour
         // held=false;
         // once=false;
     }
+
     void Destruction()
     {
         Destroy(this.gameObject);
