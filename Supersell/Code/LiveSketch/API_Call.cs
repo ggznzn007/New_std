@@ -13,11 +13,7 @@ public class API_Call : MonoBehaviour
         public bool success { get; set; }
     }
     private string scanURL = "http://192.168.0.106:15464/testScan";
-    void Start()
-    {
-
-    }
-
+   
     void ReFresch()
     {
         StartCoroutine(GetRequest("http://192.168.0.106:15464/testScan"));
