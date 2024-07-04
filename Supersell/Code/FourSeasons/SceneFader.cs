@@ -4,15 +4,5 @@ using UnityEngine;
 
 public class SceneFader : Singleton<SceneFader>
 {
-   
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        
-    }
+  
 }
