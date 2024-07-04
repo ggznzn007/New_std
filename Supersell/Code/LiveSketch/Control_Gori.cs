@@ -12,16 +12,15 @@ public class Control_Gori : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
     {
         mySp = Instantiate(mySpot).transform;
         moveSpot = mySp.GetComponent<Transform>();
         anim = GetComponent<Animator>();
 
-
         moveSpot.position = new Vector3(Random.Range(Setting.minX, Setting.maxX), Random.Range(Setting.minY, Setting.maxY)
          , Random.Range(Setting.minZ, Setting.maxZ));
-
     }
 
     private void Update()
