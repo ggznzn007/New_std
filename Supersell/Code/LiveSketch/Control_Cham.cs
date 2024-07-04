@@ -12,12 +12,9 @@ public class Control_Cham : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
     {     
         anim = GetComponent<Animator>();
-    }
-    private void Update()
-    {
-      
     }
 }
