@@ -16,9 +16,7 @@ public class FadeScreen : Singleton<FadeScreen>
     private FadeState fadeState;
 
     private void Awake()
-    {
-        //FadeSingleton();
-
+    {      
         image = GetComponent<Image>();
 
         // FadeIn 알파값이 1 ~ 0으로 화면이 점점 밝아짐
@@ -48,22 +46,6 @@ public class FadeScreen : Singleton<FadeScreen>
                 break;                
         }
     }
-
-    /*public void FadeSingleton()
-    {
-        if (fade == null)
-        {
-            fade = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            if (fade != this)
-            {
-                Destroy(this.gameObject);
-            }
-        }
-    }*/
 
     private IEnumerator Fade(float start, float end)
     {
