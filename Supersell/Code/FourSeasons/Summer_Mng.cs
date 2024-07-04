@@ -15,7 +15,6 @@ public class Summer_Mng : MonoBehaviour
         StartCoroutine(TimeToFade());
     }
 
-
     void Update()
     {
         if (DataManager.Instance.isPlaying && !DataManager.Instance.isPaused)
