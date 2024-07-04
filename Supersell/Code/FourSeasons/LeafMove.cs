@@ -21,7 +21,6 @@ public class LeafMove : MonoBehaviour
         rb.Sleep();        
     }
 
-
     void Update()
     {
         if (target != null)                                                   // 나뭇잎 물리적용 메서드
