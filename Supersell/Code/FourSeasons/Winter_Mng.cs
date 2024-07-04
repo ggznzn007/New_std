@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class Winter_Mng : MonoBehaviour
 {
     [SerializeField] GameObject[] snowFlakes;
+
     void Start()
     {            
         StartCoroutine(TimeToFade());
     }
-
    
     void Update()
     {
@@ -18,10 +18,9 @@ public class Winter_Mng : MonoBehaviour
         {
             if (!DataManager.Instance.isPlaying) return;
                 TouchPoint();
-        }
-
-     
+        }     
     }
+
     public void TouchPoint()
     {
         if (Input.GetMouseButtonDown(0))
@@ -48,6 +47,7 @@ public class Winter_Mng : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.1f);
          Destroy(mySnow);
     }
+
     IEnumerator TimeToFade()
     {        
         FadeScreen.Instance.OnFade(FadeState.FadeIn);
