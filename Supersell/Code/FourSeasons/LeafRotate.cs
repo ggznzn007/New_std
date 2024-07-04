@@ -8,6 +8,7 @@ public class LeafRotate : MonoBehaviour
     float rotSpeed = 70f;
     LeafMove lM;
     //float newRotSpeed;
+
     void Start()
     {
         startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -16,8 +17,7 @@ public class LeafRotate : MonoBehaviour
     }
 
     void Update()
-    {
-       
+    {       
         if (startPos != transform.position)
         {
             if (Vector3.Distance(transform.position, startPos) < 10)
@@ -30,10 +30,8 @@ public class LeafRotate : MonoBehaviour
             {
                 this.transform.Rotate(Vector3.forward, rotSpeed * Time.deltaTime);
                 rotSpeed = 1;
-            }
-            
-        }
-        
+            }            
+        }        
     }
 
     IEnumerator DelRot()
