@@ -37,8 +37,7 @@ public class CaptureManager : MonoBehaviour
         texture2D.Apply();
         var data = texture2D.EncodeToPNG();
         File.WriteAllBytes("Capture/Image.png", data);
-        Debug.Log("ÂûÄ¬");
-       
+        Debug.Log("ÂûÄ¬");       
     }
 
     void CaptureToPng()
@@ -47,8 +46,6 @@ public class CaptureManager : MonoBehaviour
         string filePath = Path.Combine(Application.dataPath, num+"_"+fileName);
         ScreenCapture.CaptureScreenshot(filePath);
         Debug.Log(num+fileName);
-        Debug.Log("ÂûÄ¬");
-        
+        Debug.Log("ÂûÄ¬");        
     }
-
 }
