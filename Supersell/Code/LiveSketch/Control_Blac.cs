@@ -12,6 +12,7 @@ public class Control_Blac : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
     {
         mySp = Instantiate(mySpot).transform;
