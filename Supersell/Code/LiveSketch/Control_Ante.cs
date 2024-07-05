@@ -5,9 +5,9 @@ using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
 public class Control_Ante : PlayerControl
-{
-   
+{   
     public float speed =1;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -15,6 +15,7 @@ public class Control_Ante : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
     {
         mySp = Instantiate(mySpot).transform;
