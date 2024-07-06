@@ -12,5 +12,4 @@ public class DataManager : MonoBehaviour
         DM = this;
         DontDestroyOnLoad(DM);
     }
-
 }
