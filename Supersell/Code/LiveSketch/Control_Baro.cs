@@ -12,6 +12,7 @@ public class Control_Baro : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
     {
         mySp = Instantiate(mySpot).transform;
