@@ -129,6 +129,7 @@ public class ObjectPool : MonoBehaviour
         }
         return false; // 겹치지 않음
     }
+
     void InitAdd()
     {
         addCount_Ante = 0;
