@@ -15,8 +15,6 @@ public class LayoutSorter : MonoBehaviour
         parentsRenderer = transform.parent.GetComponent<SpriteRenderer>();        
     }
 
-
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Obstacle"))
@@ -39,6 +37,7 @@ public class LayoutSorter : MonoBehaviour
             Debug.Log("triggerExit");
             Obstacle ob = collision.GetComponent<Obstacle>();
             obstacles.Remove(ob);
+
             if (obstacles.Count == 0)
             {
                 parentsRenderer.sortingOrder = 200;
@@ -48,8 +47,6 @@ public class LayoutSorter : MonoBehaviour
                 obstacles.Sort();
                 parentsRenderer.sortingOrder = obstacles[0].mySpriteRenderer.sortingOrder - 1;
             }
-
         }
-
     }
 }
