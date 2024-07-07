@@ -12,13 +12,9 @@ public class Control_Lufe : PlayerControl
 
         waitTime = Setting.startWaitTime;
     }
+
     private void Start()
-    {       
-        anim = GetComponent<Animator>();
-    }
-
-    private void Update()
     {
-
+        anim = GetComponent<Animator>();
     }
 }
