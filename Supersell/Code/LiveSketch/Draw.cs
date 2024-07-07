@@ -19,8 +19,7 @@ namespace Shady
                 Cam = Camera.main;
             }//if end
         }//Start() eend
-
-        // Update is called once per frame
+       
         void Update()
         {
             if (Input.GetMouseButtonDown(0))
