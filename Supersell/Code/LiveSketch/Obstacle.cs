@@ -24,6 +24,4 @@ public class Obstacle : MonoBehaviour, IComparable<Obstacle>
     {
         mySpriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-
 }
