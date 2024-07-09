@@ -18,8 +18,7 @@ public class Setting
     public static float scale = 2f;
     public static float distance = 1;
     public static string movingSpots = "MovingSpotGroup";
-    public static float posVal = 2.5f;
-        
+    public static float posVal = 2.5f;        
 
     public static int[] RandomNumbers(int maxCount, int n)
     {
