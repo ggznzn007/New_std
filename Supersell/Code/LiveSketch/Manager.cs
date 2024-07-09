@@ -8,15 +8,15 @@ public class Manager : MonoBehaviour
     public GameObject spotPrefab;
 
     GameObject myChar;
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
             myChar = Instantiate(playerPrefab,playerPrefab.transform.position,Quaternion.identity);
            // StartCoroutine(DelayNull());
-         
-
         }
+
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Destroy(myChar);
