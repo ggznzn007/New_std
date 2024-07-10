@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour
     protected List<Transform> spots = new();
 
     public int setPoint;
+
     private void Awake()
     {        
         sr = GetComponent<SpriteRenderer>();
@@ -24,6 +25,7 @@ public class PlayerControl : MonoBehaviour
         
         waitTime = Setting.startWaitTime;       
     }
+
     private void Start()
     {
         mySp = Instantiate(mySpot).transform;       
