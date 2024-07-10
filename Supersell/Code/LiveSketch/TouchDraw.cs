@@ -5,6 +5,7 @@ using UnityEngine;
 public class TouchDraw : MonoBehaviour
 {
     Coroutine drawing;
+
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
