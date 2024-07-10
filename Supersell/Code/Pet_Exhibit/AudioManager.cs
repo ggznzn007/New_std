@@ -75,11 +75,7 @@ public class AudioManager : MonoBehaviour
             }
         }
         Debug.Log("등록된 효과음이 없습니다.");
-    }
-
-   
-
-   
+    }  
 
     public void PlayeBGM(int set)
     {        
