@@ -24,15 +24,6 @@ public class DeadLineMove : MonoBehaviour
         }
     }
 
-    /*private void OnCollisionEnter(Collision coll)
-    {
-        if (coll.collider.CompareTag("Finish"))
-        {
-            Destroy(gameObject);
-            FootPrint.instance.FinishWalk();
-        }      
-    }*/
-
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Finish"))
