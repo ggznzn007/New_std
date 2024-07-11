@@ -23,12 +23,4 @@ public class DeadLineMove2 : MonoBehaviour
             this.transform.position = Vector3.MoveTowards(this.transform.position, endPoint, speed / disSpeed);
         }
     }
-   
-   /* private void OnTriggerEnter(Collider coll)
-    {       
-        if (coll.CompareTag("Player"))
-        {            
-            FootPrint.FPM.FailWalk();
-        }
-    }*/
 }
