@@ -321,7 +321,6 @@ public class FootPrint : MonoBehaviour
             }
         }
 
-
         if (Input.GetKey(KeyCode.Space))
         {
 #if UNITY_EDITOR
