@@ -11,12 +11,16 @@ public class Animation_Ctrl02 : MonoBehaviour
     [Header("캐릭터위치")]
     [SerializeField] Vector3 movement = new Vector3();
     Animator animator;
+
     void Start()
     { animator = GetComponent<Animator>(); }
+
     void Update()
     { UpdateState(); }
+
     protected void FixedUpdate()
     { MoveCharacter(); }
+
     protected void MoveCharacter()
     {
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.World);
@@ -33,6 +37,7 @@ public class Animation_Ctrl02 : MonoBehaviour
         transform.LookAt(transform.position);
         //transform.LookAt(transform.position + movement);
     }
+
     protected void UpdateState()
     {
         if (Input.GetKeyDown(KeyCode.Z)) { animator.SetTrigger("Spin"); }
@@ -49,5 +54,4 @@ public class Animation_Ctrl02 : MonoBehaviour
         if (collision.gameObject.tag == "Terrain")
         { animator.SetTrigger("Fall"); }
     }
-
 }
