@@ -9,10 +9,7 @@ public class Animation_Ctrl : MonoBehaviour
     public void Animation_ctrl(string str)
     {
         ani = GetComponent<Animator>();
-
         // ani.SetInteger("motion", ani_num);
-        ani.SetTrigger(str);
-        
-    }
-  
+        ani.SetTrigger(str);        
+    }  
 }
