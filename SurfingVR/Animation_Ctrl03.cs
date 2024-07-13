@@ -13,19 +13,24 @@ public class Animation_Ctrl03 : Animation_Ctrl02
         fall = 4,
         recall = 5
     }
+
     protected float moveSpeed = 15f;
     Vector3 movement = new Vector3();
     Animator animator;
     string aniState = "AnyState";
+   
     protected
+
     void Start()
     {
         animator = GetComponent<Animator>();
     }
+
     void Update()
     {
         UpdateState();
     }
+
     new protected void FixedUpdate()
     {
         MoveCharacter();
@@ -44,6 +49,7 @@ public class Animation_Ctrl03 : Animation_Ctrl02
         transform.LookAt(transform.position + movement);
 
     }
+
     new protected void UpdateState()
     {
         if (Input.GetKeyDown(KeyCode.Z))
@@ -78,7 +84,5 @@ public class Animation_Ctrl03 : Animation_Ctrl02
         }
         else if (Input.GetButtonDown("Fire1")) { moveSpeed += moveSpeed; }
         else if (Input.GetButtonDown("Fire2")) { moveSpeed -= moveSpeed * (float)0.5; }
-
-
     }
 }
