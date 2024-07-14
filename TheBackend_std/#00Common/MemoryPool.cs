@@ -48,7 +48,6 @@ public class MemoryPool
 			poolItem.gameObject	= GameObject.Instantiate(poolObject);
 			poolItem.gameObject.SetActive(false);
 			poolItem.gameObject.transform.SetParent(poolParent);
-
 			poolItemList.Add(poolItem);
 		}
 	}
