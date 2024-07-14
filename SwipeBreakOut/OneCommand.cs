@@ -25,8 +25,6 @@ public class OneCommand : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) { if (CompareTag("Ball")) StartCoroutine(OnTriggerEnter2D_BALL(col)); }
     #endregion
 
-
-
     #region GameManager.Cs
     [Header("GameManagerValue")]
     public float groundY = -55.489f;
@@ -48,8 +46,6 @@ public class OneCommand : MonoBehaviour
     bool timerStart, isDie, isNewRecord, isBlockMoving;
     float timeDelay;
 
-
-
     #region 시작
     void Awake_GM()
     {
@@ -70,22 +66,15 @@ public class OneCommand : MonoBehaviour
         }
         camera.rect = rect;
 
-
         // 시작
         BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
     }
 
-
-
     public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-
 
     public void VeryFirstPosSet(Vector3 pos) { if (veryFirstPos == Vector3.zero) veryFirstPos = pos; }
     #endregion
-
-
 
     #region 블럭
     void BlockGenerator()
@@ -100,7 +89,6 @@ public class OneCommand : MonoBehaviour
             isNewRecord = true;
         }
 
-
         // 점수에 따른 블럭복사개수 정하기
         int count;
         int randBlock = Random.Range(0, 24);
@@ -108,7 +96,6 @@ public class OneCommand : MonoBehaviour
         else if (score <= 20) count = randBlock < 8 ? 1 : (randBlock < 16 ? 2 : 3);
         else if (score <= 40) count = randBlock < 9 ? 2 : (randBlock < 18 ? 3 : 4);
         else count = randBlock < 8 ? 2 : (randBlock < 16 ? 3 : (randBlock < 20 ? 4 : 5));
-
 
         // 스폰좌표에 블럭, 초록구 생성
         List<Vector3> SpawnList = new List<Vector3>();
@@ -126,20 +113,16 @@ public class OneCommand : MonoBehaviour
         }
         Instantiate(P_GreenOrb, SpawnList[Random.Range(0, SpawnList.Count)], QI).transform.SetParent(BlockGroup);
 
-
         // 블럭 내리기
         isBlockMoving = true;
         for (int i = 0; i < BlockGroup.childCount; i++) StartCoroutine(BlockMoveDown(BlockGroup.GetChild(i)));
     }
-
-
 
     IEnumerator BlockMoveDown(Transform TR)
     {
         yield return new WaitForSeconds(0.2f);
         Vector3 targetPos = TR.position + new Vector3(0, -12.8f, 0);
         BlockColorChange();
-
 
         // 막줄이면 게임오버 트리거, 콜라이더 비활성화
         if (targetPos.y < -50)
@@ -148,7 +131,6 @@ public class OneCommand : MonoBehaviour
             for (int i = 0; i < BallGroup.childCount; i++)
                 BallGroup.GetChild(i).GetComponent<CircleCollider2D>().enabled = false;
         }
-
 
         // 0.3초간 블럭 이동
         float TT = 1.5f;
@@ -166,7 +148,6 @@ public class OneCommand : MonoBehaviour
             if (TR.position == targetPos) break;
         }
         isBlockMoving = false;
-
 
         // 이동되고 난 후 막줄이면 블럭이면 게임오버, 초록구면 파괴
         if (targetPos.y < -50)
@@ -200,8 +181,6 @@ public class OneCommand : MonoBehaviour
         }
     }
 
-
-
     public void BlockColorChange()
     {
         // 블럭텍스트 / 스코어를 7등분해서 색을 칠함
@@ -224,17 +203,12 @@ public class OneCommand : MonoBehaviour
     }
     #endregion
 
-
-
     void Update_GM()
     {
         if (isDie) return;
-
-
         // 마우스 첫번째 좌표
         if (Input.GetMouseButtonDown(0) && firstPos == Vector3.zero)
             firstPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
-
 
         // 모든 움직임이 끝나면 쏠 수 있음
         shotable = true;
@@ -242,9 +216,7 @@ public class OneCommand : MonoBehaviour
             if (BallGroup.GetChild(i).GetComponent<OneCommand>().isMoving) shotable = false;
         if (isBlockMoving) shotable = false;
 
-
         if (!shotable) return;
-
 
         // 모든 공이 바닥에 부딪히면 한 번 실행
         if (shotTrigger && shotable)
@@ -257,10 +229,8 @@ public class OneCommand : MonoBehaviour
             for (int i = 0; i < GreenBallGroup.childCount; i++) StartCoroutine(GreenBallMove(GreenBallGroup.GetChild(i)));
         }
 
-
         timeDelay += Time.deltaTime;
         if (timeDelay < 0.1f) return; // 0.1초 딜레이로 너무 빠르게 손 떼면 라인이 남는 버그 제거
-
 
         bool isMouse = Input.GetMouseButton(0);
         if (isMouse)
@@ -271,17 +241,11 @@ public class OneCommand : MonoBehaviour
             gap = (secondPos - firstPos).normalized;
             gap = new Vector3(gap.y >= 0 ? gap.x : gap.x >= 0 ? 1 : -1, Mathf.Clamp(gap.y, 0.2f, 1), 0);
 
-
-
-
-
             // 화살표, 공 미리보기
             Arrow.transform.position = veryFirstPos;
             Arrow.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(gap.y, gap.x) * Mathf.Rad2Deg);
             BallPreview.transform.position =
                 Physics2D.CircleCast(new Vector2(Mathf.Clamp(veryFirstPos.x, -54, 54), groundY), 1.7f, gap, 10000, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Block")).centroid; // 1.8
-
-
 
             RaycastHit2D hit = Physics2D.Raycast(veryFirstPos, gap, 10000, 1 << LayerMask.NameToLayer("Wall"));
 
@@ -294,11 +258,9 @@ public class OneCommand : MonoBehaviour
         BallPreview.SetActive(isMouse);
         Arrow.SetActive(isMouse);
 
-
         if (Input.GetMouseButtonUp(0))
         {
             if ((secondPos - firstPos).magnitude < 1) return;
-
             // 라인 초기화
             MouseLR.SetPosition(0, Vector3.zero);
             MouseLR.SetPosition(1, Vector3.zero);
@@ -311,8 +273,6 @@ public class OneCommand : MonoBehaviour
         }
     }
 
-
-
     IEnumerator BallCountTextShow(int greenBallCount)
     {
         // 초록공 합쳐지기 전후 공 개수 보여주기
@@ -323,7 +283,6 @@ public class OneCommand : MonoBehaviour
 
         if (BallGroup.childCount > score) Destroy(BallGroup.GetChild(BallGroup.childCount - 1).gameObject);
         BallCountText.text = "x" + BallGroup.childCount.ToString();
-
 
         // 바닥에 떨어진 초록공 +로 표시하기
         if (greenBallCount != 0)
@@ -339,8 +298,6 @@ public class OneCommand : MonoBehaviour
         }
     }
 
-
-
     IEnumerator GreenBallMove(Transform TR)
     {
         // 바닥에 떨어진 초록공 최초좌표로 0.17초간 이동
@@ -353,8 +310,6 @@ public class OneCommand : MonoBehaviour
             if (TR.position == veryFirstPos) { Destroy(TR.gameObject); yield break; }
         }
     }
-
-
 
     void FixedUpdate_GM()
     {
@@ -374,8 +329,6 @@ public class OneCommand : MonoBehaviour
     }
     #endregion
 
-
-
     #region BallScript.Cs
     [Header("BallScriptValue")]
     public GameObject GreenBall;
@@ -384,11 +337,7 @@ public class OneCommand : MonoBehaviour
 
     OneCommand GM;
 
-
-
     void Start_BALL() => GM = GameObject.FindWithTag("GameManager").GetComponent<OneCommand>();
-
-
 
     public void Launch(Vector3 pos)
     {
@@ -397,13 +346,10 @@ public class OneCommand : MonoBehaviour
         RB.AddForce(pos * 7000);
     }
 
-
-
     IEnumerator OnCollisionEnter2D_BALL(Collision2D col)
     {
         GameObject Col = col.gameObject;
         Physics2D.IgnoreLayerCollision(2, 2);
-
 
         // 가로로 움직일경우 아래로 내림
         Vector2 pos = RB.velocity.normalized;
@@ -412,7 +358,6 @@ public class OneCommand : MonoBehaviour
             RB.velocity = Vector2.zero;
             RB.AddForce(new Vector2(pos.x > 0 ? 1 : -1, -0.2f).normalized * 7000);
         }
-
 
         // 바닥충돌시 최초좌표로 이동
         if (Col.CompareTag("Ground"))
@@ -429,7 +374,6 @@ public class OneCommand : MonoBehaviour
             }
         }
 
-
         // 블럭충돌시 블럭숫자 1씩 줄이다 0이되면 부숨
         if (Col.CompareTag("Block"))
         {
@@ -443,7 +387,6 @@ public class OneCommand : MonoBehaviour
                 else { GM.S_Block[i].Play(); break; }
             }
 
-
             if (blockValue > 0)
             {
                 BlockText.text = blockValue.ToString();
@@ -456,8 +399,6 @@ public class OneCommand : MonoBehaviour
             }
         }
     }
-
-
 
     IEnumerator OnTriggerEnter2D_BALL(Collider2D col)
     {
