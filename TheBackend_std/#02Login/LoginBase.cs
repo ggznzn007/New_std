@@ -48,8 +48,7 @@ public class LoginBase : MonoBehaviour
 			GuideForIncorrectlyEnteredData(image, $"\"{result}\" 필드를 채워주세요.");
 
 			return true;
-		}
-		
+		}		
 		return false;
 	}
 }
