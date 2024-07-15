@@ -18,10 +18,7 @@ public class Login : LoginBase
 	[SerializeField]
 	private	Button				btnLogin;           // 로그인 버튼 (상호작용 가능/불가능)
 
-    private void Start()
-    {
-		inputFieldID.Select();		
-    }
+    private void Start() => inputFieldID.Select();
 
     private void Update()
     {
