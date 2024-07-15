@@ -35,7 +35,6 @@ public class Progress : MonoBehaviour
 
 			yield return null;
 		}
-
 		// action이 null이 아니면 action 메소드 실행
 		action?.Invoke();
 	}
