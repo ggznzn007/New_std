@@ -60,7 +60,6 @@ public class GuildMemberEdit : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 		overlayBackground.SetActive(false);
-
 		backendGuildSystem.GetMyGuildInfo();
 	}
 }
