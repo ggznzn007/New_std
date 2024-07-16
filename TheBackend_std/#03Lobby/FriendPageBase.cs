@@ -41,7 +41,6 @@ public class FriendPageBase : MonoBehaviour
 	public void DeactivateAll()
 	{
 		textSystem.SetActive(true);
-
 		memoryPool.DeactivateAllPoolItems();
 	}
 
