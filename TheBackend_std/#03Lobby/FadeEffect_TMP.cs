@@ -10,8 +10,7 @@ public class FadeEffect_TMP : MonoBehaviour
 
 	private void Awake()
 	{
-		effectText = GetComponent<TextMeshProUGUI>();
-		
+		effectText = GetComponent<TextMeshProUGUI>();		
 		// 처음 알파값을 0으로 설정
 		Color color		 = effectText.color;
 		color.a			 = 0;
@@ -21,7 +20,6 @@ public class FadeEffect_TMP : MonoBehaviour
 	public void FadeOut(string text)
 	{
 		effectText.text = text;
-
 		StartCoroutine(OnFade(1, 0));
 	}
 
