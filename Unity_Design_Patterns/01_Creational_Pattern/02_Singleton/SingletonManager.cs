@@ -30,7 +30,6 @@ public class SingletonManager : MonoBehaviour // ½Ì±ÛÅæÄÄÆ÷³ÍÆ® ¿¹½Ã
         }
     }
 
-
     private void Awake()
     {
         var objs = FindObjectsOfType<SingletonManager>();
