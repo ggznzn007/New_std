@@ -14,8 +14,7 @@ public class FactoryUse : MonoBehaviour
         factory = GetComponent<Factory>();
 
         unit1 = factory.CreateUnit(UnitType.Marine);
-        unit2 = factory.CreateUnit(UnitType.Firebat);
-        
+        unit2 = factory.CreateUnit(UnitType.Firebat);        
 
         StartCoroutine("UnitAction");
     }
