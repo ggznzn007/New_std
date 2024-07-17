@@ -20,5 +20,4 @@ public class BuilderUse : MonoBehaviour
         Vehicle motorCycle = motorCycleBuilder.getVehicle();
         Debug.Log(motorCycle.GetPartsList());
     }
-
 }
