@@ -23,8 +23,6 @@ public class HomeManager : MonoBehaviour
         Debug.Log("LivingroomClone Details");
         Debug.LogFormat("Couch: {0} / Light: {1}", livingroomClone.Couch, livingroomClone.Light);
 
-
-
         InnerRoom innerRoom = new InnerRoom();
         innerRoom.Bed = 2;
         innerRoom.Light = 15;
@@ -42,6 +40,4 @@ public class HomeManager : MonoBehaviour
         Debug.Log("innerRoomClone Details");
         Debug.LogFormat("Bed: {0} / Light: {1}", innerRoomClone.Bed, innerRoomClone.Light);
     }
-
-
 }
