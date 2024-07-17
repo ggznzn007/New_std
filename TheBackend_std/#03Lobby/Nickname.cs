@@ -23,12 +23,8 @@ public class Nickname : LoginBase
 		{
             inputFieldNickname.Select();
         }
-
-        /*if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-		{
-			OnClickUpdateNickname();
-        }*/
     }
+
     private void OnEnable()
 	{
 		// 닉네임 변경에 실패해 에러 메시지를 출력한 상태에서
