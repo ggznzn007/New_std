@@ -30,5 +30,4 @@ public class BuilderUse : MonoBehaviour
         car.transform.position = new Vector3(-3f, 0, 0);
         motorCycle.transform.position = new Vector3(3f, 0, 0);
     }
-
 }
