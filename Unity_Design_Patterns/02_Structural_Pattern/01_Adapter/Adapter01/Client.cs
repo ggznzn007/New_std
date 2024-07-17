@@ -6,7 +6,6 @@ public class Client : MonoBehaviour
 {
     void Start()
     {
-
         MallardDuck duck = new MallardDuck();
         WildTurkey turkey = new WildTurkey();
         Duck turkeyAdapter = new TurkeyAdapter(turkey);
