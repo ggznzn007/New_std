@@ -19,5 +19,4 @@ public class TurkeyAdapter : Duck
     {
         turkey.fly();
     }
-
 }
