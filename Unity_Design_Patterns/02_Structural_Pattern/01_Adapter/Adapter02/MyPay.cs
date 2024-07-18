@@ -6,7 +6,6 @@ public class MyPay : MonoBehaviour
 {
     void Start()
     {
-
         // for PayX : 원래 이렇게 사용중 ...
 
         PayImpl myPay = new PayImpl();
