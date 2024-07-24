@@ -16,5 +16,4 @@ public class Cider : MonoBehaviour, CarbonatedDrink
     {
         return name;
     }
-
 }
