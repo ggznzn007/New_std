@@ -3,7 +3,6 @@ using UnityEngine;
 // 우리 회사에서 PayY 인터페이스 구현
 public class PayImpl : PayY, PayX // 다중 상속  = 어댑터가 됨
 {
-
     // for PayY
     private string customerCardNum;
 
@@ -18,7 +17,6 @@ public class PayImpl : PayY, PayX // 다중 상속  = 어댑터가 됨
         Debug.Log("PayY (Set)");
         this.customerCardNum = customerCardNum;
     }
-
     // ------------------------------------------------------
 
     // for PayX Method
