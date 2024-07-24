@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FlyweightUse : MonoBehaviour
 {
-
     void Start()
     {
         Cola coke1 = DrinkFactory.getDrink("코카콜라");
@@ -16,5 +15,4 @@ public class FlyweightUse : MonoBehaviour
         
         Debug.Log("name : " + coke1.getName()); 
     }
-
 }
