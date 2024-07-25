@@ -59,5 +59,4 @@ public class PlayerCommand : MonoBehaviour
 			btnB.Execute();
 		}
 	}
-
 }
