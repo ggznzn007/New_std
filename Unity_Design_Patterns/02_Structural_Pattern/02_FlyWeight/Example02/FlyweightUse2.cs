@@ -22,6 +22,4 @@ public class FlyweightUse2 : MonoBehaviour
             Debug.Log("name : " + cider1.GetComponent<Cider>().getName());
         }
     }
-
-
 }
