@@ -10,5 +10,4 @@ public class IronMan : MonoBehaviour, IWeapon
         GameObject bullet = Instantiate(obj) as GameObject;
         bullet.transform.position = initialPosition;
     }
-
 }
