@@ -5,8 +5,7 @@ using UnityEngine;
 public class Cannon : MonoBehaviour
 {
 	float power = 5000.0f;
-	Vector3 velocity;
-	
+	Vector3 velocity;	
 
 	void Start()
 	{
@@ -22,5 +21,4 @@ public class Cannon : MonoBehaviour
 		yield return new WaitForSeconds(2.5f);
 		Destroy(this.gameObject);
 	}
-
 }
