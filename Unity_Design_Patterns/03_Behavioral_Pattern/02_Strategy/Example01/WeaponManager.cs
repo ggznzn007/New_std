@@ -22,7 +22,6 @@ public class WeaponManager : MonoBehaviour
 
     private void setWeaponType(WeaponType weaponType)
     {
-
         Component c = gameObject.GetComponent<IWeapon>() as Component;  // 현재 게임 오브젝트의 IWeapon 타입의 컴포넌트를 가져온다.
 
         if (c != null)
