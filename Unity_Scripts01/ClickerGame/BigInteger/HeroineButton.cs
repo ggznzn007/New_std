@@ -35,6 +35,7 @@ public class HeroineButton : MonoBehaviour
     public bool isPurchased = false;
 
     public Button heroineButton;
+
     private void Start()
     {
         DataController.Instance.LoadHeroineButton(this);
@@ -47,6 +48,7 @@ public class HeroineButton : MonoBehaviour
     {
         SoundController.instance.Playsound(SoundController.instance.heroineClick);
     }
+
     public void PurchaseItem()
     {
         if (DataController.Instance.Gold >= currentCost)
@@ -146,9 +148,9 @@ public class HeroineButton : MonoBehaviour
 
         }
     }
+
     private void FixedUpdate()
     {
-
         PurchaseActiveHero();
         UpdateUI();
     }
