@@ -28,14 +28,13 @@ public class UpgradeButton : MonoBehaviour
 
     public float upgradePow;
 
-
     public Button upgradeButton;
+
     private void Start()
     {
         DataController.Instance.LoadUpgradeButton(this);    
         
-        UpdateUI();
-        
+        UpdateUI();        
     }
 
     public void UpgradeSE()
@@ -57,13 +56,11 @@ public class UpgradeButton : MonoBehaviour
         else
         {
             upgradeButton.interactable = false;
-        }
-            
+        }            
     }
     
     public void PurchaseUpgrade()
-    {
-        
+    {        
         if (DataController.Instance.Gold>=currentCost)
         {
             DataController.Instance.Gold -=currentCost;
@@ -81,7 +78,6 @@ public class UpgradeButton : MonoBehaviour
         goldByUpgrade += startGoldByUpgrade * (BigInteger)Mathf.Pow(upgradePow, (int)level);
         currentCost += startCurrentCost * (BigInteger)Mathf.Pow(costPow, (int)level);        
     }
-
     
     public void UpdateUI()
     {        
