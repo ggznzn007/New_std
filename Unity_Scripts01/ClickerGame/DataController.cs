@@ -42,11 +42,11 @@ public class DataController : MonoBehaviour
         return DateTime.FromBinary(timeBinaryInLong);
     }
 
-
     void UpdateLastPlayDate()
     {
         PlayerPrefs.SetString("Time", DateTime.Now.ToBinary().ToString());
     }
+
     public void OnApplicationQuit()
     {
         Debug.Log("Callback");
@@ -57,6 +57,7 @@ public class DataController : MonoBehaviour
     {
         UpdateLastPlayDate();
     }
+
     public string GetCommaGold()
     {
         return string.Format("{0:#,###}", Gold);
@@ -71,6 +72,7 @@ public class DataController : MonoBehaviour
     {
         return string.Format("{0:#,###}", GetGoldPerSec());
     }
+
     public long Gold
     {
         get
@@ -87,9 +89,7 @@ public class DataController : MonoBehaviour
         {
             PlayerPrefs.SetString("Gold", value.ToString());
         }
-    }
-
-   
+    }   
 
     public int GoldPerClick
     {
@@ -104,8 +104,7 @@ public class DataController : MonoBehaviour
     }
 
     public int TimeAfterLastPlay
-    {
-        
+    {        
         get
         {
             DateTime currentTime = DateTime.Now;
@@ -119,7 +118,6 @@ public class DataController : MonoBehaviour
     {
         heroineButtons = FindObjectsOfType<HeroineButton>();
     }
-
 
     private void Start()
     {
@@ -208,7 +206,5 @@ public class DataController : MonoBehaviour
         }
         
         return goldPerSec;
-    }
-
-    
+    }    
 }
