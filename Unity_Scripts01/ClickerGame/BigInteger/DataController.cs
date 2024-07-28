@@ -188,8 +188,6 @@ public class DataController : MonoBehaviour
         }
     }
 
-
-
     public BigInteger GoldPerClick
     {
         get
@@ -212,9 +210,9 @@ public class DataController : MonoBehaviour
         if(!focus)
         {
             UpdateLastPlayDate();
-        }
-        
+        }        
     }
+
     public void OnApplicationQuit()
     {
         UpdateLastPlayDate();       
@@ -225,8 +223,7 @@ public class DataController : MonoBehaviour
         if(!pause)
         {
             UpdateLastPlayDate();
-        }
-           
+        }           
     }
 
     private void Awake()
@@ -248,13 +245,10 @@ public class DataController : MonoBehaviour
         string timeString = PlayerPrefs.GetString("Time");
         long timeBigInteger = Convert.ToInt64(timeString);
         return DateTime.FromBinary(timeBigInteger);
-
-
     }
 
     public long timeAfterLastPlay
     {
-
         get
         {
             DateTime currentTime = DateTime.Now;
@@ -269,6 +263,7 @@ public class DataController : MonoBehaviour
         Gold += GetGoldPerSec() * (BigInteger)timeAfterLastPlay;
         InvokeRepeating(nameof(UpdateLastPlayDate), 0f, 5f);
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -283,6 +278,7 @@ public class DataController : MonoBehaviour
 #endif
         }
     }
+
     public void LoadUpgradeButton(UpgradeButton upgradeButton)
     {
         string key = upgradeButton.upgradeName;
@@ -321,7 +317,6 @@ public class DataController : MonoBehaviour
         HeroineButton.currentCost = BigInteger.Parse(tmpCurrent);
         string tmpGoldPerS = PlayerPrefs.GetString(key + "_goldPerSec", HeroineButton.goldPerSec.ToString());
         HeroineButton.goldPerSec = BigInteger.Parse(tmpGoldPerS);
-
 
         /*HeroineButton.level = PlayerPrefs.GetInt(key + "_level");
         HeroineButton.currentCost = PlayerPrefs.GetInt(key + "_cost", (int)HeroineButton.startCurrentCost);
