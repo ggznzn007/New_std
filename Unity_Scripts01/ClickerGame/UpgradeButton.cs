@@ -62,7 +62,6 @@ public class UpgradeButton : MonoBehaviour
         goldByUpgrade += startGoldByUpgrade * (int)Mathf.Pow(upgradePow, level);
         currentCost += startCurrentCost * (int)Mathf.Pow(costPow, level);
     }
-
     
     public void UpdateUI()
     {        
