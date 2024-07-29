@@ -13,7 +13,6 @@ public class SoundController : MonoBehaviour
     public AudioClip playerHit;          
     public AudioClip heroineClick;
 
-
     private void Awake()
     {
         if (instance == null)
