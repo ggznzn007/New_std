@@ -46,6 +46,7 @@ public class HeroineButton : MonoBehaviour
     {
         SoundController.instance.Playsound(SoundController.instance.heroineClick);
     }
+
     public void PurchaseItem()
     {
         if(DataController.Instance.Gold >=currentCost)
@@ -75,8 +76,7 @@ public class HeroineButton : MonoBehaviour
     public void UpdateItem()
     {
         goldPerSec = (int)(goldPerSec) + startGoldPerSec * (int)Mathf.Pow(upgradePow, level);
-        currentCost = (int)(currentCost*0.6f) + startCurrentCost * (int)Mathf.Pow(costPow, level);
-        
+        currentCost = (int)(currentCost*0.6f) + startCurrentCost * (int)Mathf.Pow(costPow, level);        
     }
 
     public void UpdateUI()
@@ -96,15 +96,14 @@ public class HeroineButton : MonoBehaviour
         else
         {
             canvasGroup.alpha = 0.6f;
-        }
-
-        
+        }        
     }
 
     public string GetCommaGold(int data)
     {
         return string.Format("{0:#,###}", data);
     }
+
     private void Update()
     {
         UpdateUI();
