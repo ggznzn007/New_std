@@ -15,7 +15,5 @@ public class UIManager : MonoBehaviour
         goldDisplayer.text = " 총 재산: " + DataController.Instance.GetCommaGold()+"원";
         goldPerClickDisplayer.text = " 클릭당 추가금액: " + DataController.Instance.GetCommaClick() + "원";
         goldPerSecDisplayer.text = " 초당 추가금액: " + DataController.Instance.GetCommaSec() + "원";
-    }
-
-    
+    }    
 }
