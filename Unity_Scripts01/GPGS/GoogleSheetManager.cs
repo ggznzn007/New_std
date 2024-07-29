@@ -66,7 +66,6 @@ public class GoogleSheetManager : MonoBehaviour
 		StartCoroutine(Post(form));
 	}
 
-
 	public void Login()
 	{
 		if (!SetIDPass())
@@ -83,7 +82,6 @@ public class GoogleSheetManager : MonoBehaviour
 		StartCoroutine(Post(form));
 	}
 
-
 	void OnApplicationQuit()
 	{
 		WWWForm form = new WWWForm();
@@ -91,7 +89,6 @@ public class GoogleSheetManager : MonoBehaviour
 
 		StartCoroutine(Post(form));
 	}
-
 
 	public void SetValue()
 	{
@@ -102,7 +99,6 @@ public class GoogleSheetManager : MonoBehaviour
 		StartCoroutine(Post(form));
 	}
 
-
 	public void GetValue()
 	{
 		WWWForm form = new WWWForm();
@@ -110,10 +106,6 @@ public class GoogleSheetManager : MonoBehaviour
 
 		StartCoroutine(Post(form));
 	}
-
-
-
-
 
 	IEnumerator Post(WWWForm form)
 	{
@@ -125,7 +117,6 @@ public class GoogleSheetManager : MonoBehaviour
 			else print("웹의 응답이 없습니다.");
 		}
 	}
-
 
 	void Response(string json)
 	{
