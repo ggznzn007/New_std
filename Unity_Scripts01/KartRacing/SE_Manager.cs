@@ -12,6 +12,7 @@ public class SE_Manager : MonoBehaviour
     public AudioClip goal;
     public AudioClip lap;
     public AudioClip[] count;
+
     private void Awake()
     {
         if (instance == null)
