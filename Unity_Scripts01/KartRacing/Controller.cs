@@ -9,7 +9,6 @@ public class Controller : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
     public RectTransform stick;
     Vector3 playerRotate;
 
-
     Car player;
     Animator playerAni;
     bool onMove;
@@ -25,6 +24,7 @@ public class Controller : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
         playerAni = player.GetComponent<Animator>();
         StartCoroutine("PlayerMove");
     }
+
     public void OnDrag(PointerEventData eventData)
     {
         stick.position = eventData.position;
