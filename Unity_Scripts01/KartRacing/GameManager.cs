@@ -45,9 +45,8 @@ public class GameManager : MonoBehaviour
         }
         SpeedSet();
         BestLapTimeSet();
-
-
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -65,7 +64,6 @@ Application.Quit();
     public void GameStart()
     {
         StartCoroutine("StartCount");
-
     }
 
     void BestLapTimeSet()
@@ -157,6 +155,7 @@ Application.Quit();
             yield return null;
         }
     }
+
     void SpeedSet()
     {
         for (int i = 0; i < car.Length; i++)
