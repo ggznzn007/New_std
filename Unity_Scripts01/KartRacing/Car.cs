@@ -10,7 +10,6 @@ public class Car : MonoBehaviour
     int nextTarget;
     public bool player;
 
-
     public void StartAI()
     {
         if (!player)
