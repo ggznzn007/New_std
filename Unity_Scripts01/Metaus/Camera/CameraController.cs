@@ -23,6 +23,5 @@ public class CameraController : MonoBehaviour
             rect.x = (1f - scalewidth) / 2f;
         }
         camera.rect = rect;
-
     }
 }
