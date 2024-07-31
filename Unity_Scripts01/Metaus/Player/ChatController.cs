@@ -13,12 +13,12 @@ public class ChatController : MonoBehaviour
     [SerializeField] private TMP_InputField inputField; // 대화 입력창
     [SerializeField] private TMP_Text userName;
 
-
     private string ID_defalut = "크리에이터 구찌";
     private string ID;
     
     TouchScreenKeyboard keyboard;
     string chattingInputText;
+
     private void Start()
     {
         if(Social.localUser.authenticated)
@@ -30,14 +30,14 @@ public class ChatController : MonoBehaviour
         {
             userName.text = ID_defalut;
             ID = userName.text;
-        }
-        
+        }        
     }
 
     public void OpenKeyboard()
     {
         keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
     }
+
     private void FixedUpdate()
     {
         if (inputField.enabled)
@@ -57,9 +57,7 @@ public class ChatController : MonoBehaviour
                     { if (this.keyboard.text.Length > 0) OnEndEditEventMethod(); });
                 }
             }
-
         }
-
     }
 
     public void OnEndEditEventMethod()
@@ -68,7 +66,6 @@ public class ChatController : MonoBehaviour
         {
             UpdateChat();
         }
-
     }
 
     public void UpdateChat()
@@ -82,9 +79,5 @@ public class ChatController : MonoBehaviour
         Destroy(clone, 30f);
 
         inputField.text = ""; // 초기화  
-
-
     }
-
-
 }
