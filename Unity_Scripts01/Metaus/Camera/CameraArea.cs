@@ -22,10 +22,12 @@ public class CameraArea : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }    
+
     private void FixedUpdate()
     {
         CameraMoving();
     }
+
     public void CameraMoving() // 캐릭터의 위에 따라 카메라가 이동하도록 하는 메서드
     {
         // Mathf.SmoothDamp는 천천히 값을 증가시키는 메서드이다.
@@ -38,6 +40,5 @@ public class CameraArea : MonoBehaviour
         Mathf.Clamp(transform.position.y, minPos.y, maxPos.y),
         Mathf.Clamp(transform.position.z, transform.position.z, transform.position.z));
     }
-
 }
 
