@@ -19,8 +19,7 @@ public class NPC_DefCtrl : MonoBehaviour
     
     public void Start()
     {
-        npcCanvas.gameObject.SetActive(false);
-        
+        npcCanvas.gameObject.SetActive(false);        
         npcText.transform.position = gameObject.transform.position;
         npcTextBox.gameObject.transform.position = gameObject.transform.position;
     }
@@ -50,7 +49,6 @@ public class NPC_DefCtrl : MonoBehaviour
         npcText.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
     }*/
 
-
     IEnumerator TextBoxOpen()
     {
         GetNPCTextBox();
@@ -63,7 +61,6 @@ public class NPC_DefCtrl : MonoBehaviour
     {
         npcTextBox.transform.LeanMove(new Vector3(transform.position.x, transform.position.y, 0), 0.2f);
         npcTextBox.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-
         yield return null;
     }
     
@@ -73,7 +70,6 @@ public class NPC_DefCtrl : MonoBehaviour
         npcCanvas.gameObject.SetActive(false);
         npcTextBox.gameObject.SetActive(false);
     }
-
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -86,11 +82,8 @@ public class NPC_DefCtrl : MonoBehaviour
             {
                 StartCoroutine(TextBoxOpen());
             }
-
         }
-    }
-
-   
+    }   
 
     public void OnTriggerExit2D(Collider2D collision)
     {
