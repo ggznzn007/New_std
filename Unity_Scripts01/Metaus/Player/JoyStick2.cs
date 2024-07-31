@@ -9,6 +9,7 @@ public class JoyStick2 : MonoBehaviour
     Animator anim;
     bool isDrag;
     float limit;
+
     private void Start()
     {
         playerCtrl2_script = GetComponent<PlayerCtrl2>();
@@ -45,6 +46,7 @@ public class JoyStick2 : MonoBehaviour
             }
         }
     }
+
     // 스틱을 누르면 호출
     public void ClickStick()
     {
