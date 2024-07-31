@@ -22,16 +22,19 @@ public class NPCController : MonoBehaviour
         //npcText.transform.position = gameObject.transform.position;
         npcTextBox.gameObject.transform.position = gameObject.transform.position;
     }
+
     public void TextBtn()
     {
         StartCoroutine(TextBoxClose());
         StartCoroutine(EventBoxOpen());
     }
+
     public void AcceptBtn()
     {
         SceneManager.LoadSceneAsync("RouletteScene", LoadSceneMode.Additive);        
         StartCoroutine(EventBoxClose());
     }
+
     public void RejectBtn()
     {
         StartCoroutine(EventBoxClose());
@@ -48,7 +51,6 @@ public class NPCController : MonoBehaviour
     {
         npcTextBox.transform.LeanMove(new Vector3(transform.position.x, transform.position.y, 0), 0.2f);
         npcTextBox.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-
         yield return null;
     }
 
@@ -58,12 +60,12 @@ public class NPCController : MonoBehaviour
         eventBox.transform.LeanScale(Vector2.one, 0.2f);
         yield return null;
     }
+
      IEnumerator EventBoxClose()
     {
         eventBox.transform.LeanMove(new Vector3(transform.position.x, (transform.position.y + 1f), 0), 0.2f);
         eventBox.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-        yield return null;
-        
+        yield return null;        
     }
 
      IEnumerator NPCCanvasOff()
@@ -71,7 +73,6 @@ public class NPCController : MonoBehaviour
         yield return new WaitForSeconds(5f);
         npcCanvas.gameObject.SetActive(false);
     }
-
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -83,9 +84,7 @@ public class NPCController : MonoBehaviour
             {
                 //StartCoroutine(TypingText());
                 StartCoroutine(TextBoxOpen());
-
             }
-
         }
     }
 
