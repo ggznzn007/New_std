@@ -13,23 +13,21 @@ public class BGMPlayer : MonoBehaviour
     public static BGMPlayer instance;
 
     [Header("Set Sounds Sources")]
-    [SerializeField] Sound[] bgmSounds; // 배경음 목록
-    
+    [SerializeField] Sound[] bgmSounds; // 배경음 목록    
 
     [Header("BGM Player")]
-    [SerializeField] AudioSource bgmPlayer; // 배경음 플레이어
-    
+    [SerializeField] AudioSource bgmPlayer; // 배경음 플레이어    
 
     public void Start()
     {
         instance = this;
         PlayRandomBGM();
     }
+
     public void PlayRandomBGM()
     {
         int random = Random.Range(0, 3);
         bgmPlayer.clip = bgmSounds[random].clip;
         bgmPlayer.Play();
-    }   
-    
+    }       
 }
