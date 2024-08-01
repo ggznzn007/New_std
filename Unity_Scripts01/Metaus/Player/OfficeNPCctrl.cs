@@ -13,6 +13,7 @@ public class OfficeNPCctrl : MonoBehaviour
    // public Image npcText;
     public PlayerController player;
     public PlayerController2 player2;
+
     public void Start()
     {        
         npcCanvas.gameObject.SetActive(false);         
@@ -39,7 +40,6 @@ public class OfficeNPCctrl : MonoBehaviour
             npcText.sprite = textImg[randTxt];
         }
     }*/
-
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -74,7 +74,6 @@ public class OfficeNPCctrl : MonoBehaviour
                 StartCoroutine(TextBoxClose());
             }
             NewMethod();
-
         }
     }
 
