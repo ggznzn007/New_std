@@ -18,8 +18,7 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer userImg; // 구글 유저 이미지를 캐릭터의 이미지로 
     public GameObject voiceLockImage, voiceUnLockImage, voiceBtn;
     public Sprite[] voice_Btn;
-    public GameObject dayTime, officeRoom;
-    
+    public GameObject dayTime, officeRoom;    
 
     public float speed; // 캐릭터 이동 속도
     public bool isCantMove; // 캐릭터 움직임 여부                          
@@ -43,10 +42,12 @@ public class PlayerController : MonoBehaviour
         limit = backGround.rect.width * .27f;
         // anim = GetComponent<Animator>();        
     }
+
     private void Update()
     {
         GetGPGSImage();
     }
+
     public void GetGPGSImage()
     {
         if(Social.localUser.authenticated)
@@ -62,12 +63,11 @@ public class PlayerController : MonoBehaviour
         {
             userImg.sprite = userImg.sprite;
             userName.text = userName.text;
-        }
-        
+        }        
     }
+
     private void FixedUpdate()
     {
-
         if (settings2_script.isTouch == false)
         {
             JoyStickMove(); // 조이스틱
@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     public void JoyStickMove()
     {
         if (!isCantMove && isDrag)
@@ -148,12 +149,14 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     // 스틱을 누르면 호출
     public void ClickStick()
     {
         isDrag = true;
         isCantMove = false;
     }
+
     // 게임 종료 누르면 호출
     public void ClickQuit()
     {
@@ -161,6 +164,7 @@ public class PlayerController : MonoBehaviour
         ((PlayGamesPlatform)Social.Active).SignOut();
         DestoyPlayer(); //캐릭터 삭제
     }
+
     public void ClickFriends()
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -184,6 +188,7 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
     public void ClickVoice()
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -200,6 +205,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     public void ClickEmoticon()
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -219,6 +225,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     public void ClickChat()
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -241,39 +248,45 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
     public void Emo_Hi()
     {
         StartCoroutine(Co_Emo_Hi());
     }
+
     public void Emo_Bye()
     {
         StartCoroutine(Co_Emo_Bye());
     }
+
     public void Emo_Like()
     {
         StartCoroutine(Co_Emo_Like());
     }
+
     public void Emo_Sad()
     {
         StartCoroutine(Co_Emo_Sad());
     }
+
     public void Emo_Sup()
     {
         StartCoroutine(Co_Emo_Sup());
     }
+
     public void Emo_Love()
     {
         StartCoroutine(Co_Emo_Love());
     }
+
     // 캐릭터 삭제
     public void DestoyPlayer()
     {
         Destroy(this.gameObject);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-
         if (collision.tag == "StairUp")
         {
 
@@ -303,20 +316,8 @@ public class PlayerController : MonoBehaviour
             dayTime.gameObject.SetActive(true);
             officeRoom.gameObject.SetActive(false);
         }
-
-
-
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.tag == "Player")
-        {
-
-
-
-        }
-    }
+      
     IEnumerator FriendsPanelOpen()
     {
         friendsPanel.transform.LeanMoveLocal(new Vector3(0f, 100f), 0.2f);
@@ -324,6 +325,7 @@ public class PlayerController : MonoBehaviour
         friendsSwich = false;
         yield return null;
     }
+
     IEnumerator FriendsPanelClose()
     {
         friendsPanel.transform.LeanMoveLocal(new Vector3(300f, 1020f), 0.2f);
@@ -331,6 +333,7 @@ public class PlayerController : MonoBehaviour
         friendsSwich = true;
         yield return null;
     }
+    
     IEnumerator VoiceLock()
     {
         voiceBtn.GetComponent<Image>().sprite = voice_Btn[1];
@@ -341,6 +344,7 @@ public class PlayerController : MonoBehaviour
         voiceLockImage.transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
         voiceSwich = false;
     }
+
     IEnumerator VoiceUnLock()
     {
         voiceBtn.GetComponent<Image>().sprite = voice_Btn[0];
@@ -351,6 +355,7 @@ public class PlayerController : MonoBehaviour
         voiceUnLockImage.transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
         voiceSwich = true;
     }
+
     IEnumerator EmoticonPanelOpen()
     {
         panel.transform.LeanMoveLocal(new Vector3(287.59f, -459.44f), 0.2f);
@@ -358,6 +363,7 @@ public class PlayerController : MonoBehaviour
         emoticonSwich = false;
         yield return null;
     }
+
     IEnumerator EmoticonPanelClose()
     {
         panel.transform.LeanMoveLocal(new Vector3(287.59f, -838.82f), 0.2f);
@@ -365,6 +371,7 @@ public class PlayerController : MonoBehaviour
         emoticonSwich = true;
         yield return null;
     }
+
     IEnumerator ChattingOpen()
     {
         chatting.transform.LeanMoveLocal(new Vector3(0f, 250f), 0.2f);
@@ -373,6 +380,7 @@ public class PlayerController : MonoBehaviour
         chattingSwich = false;
         yield return null;
     }
+
     IEnumerator ChattingClose()
     {
         chatting.transform.LeanMoveLocal(new Vector3(448f, -903f), 0.2f);
@@ -389,6 +397,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         emoticons[0].transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
     }
+
     IEnumerator Co_Emo_Bye()
     {
         emoticons[1].transform.position = new Vector3(this.transform.position.x, (this.transform.position.y + 1.65f), 1);
@@ -396,6 +405,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         emoticons[1].transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
     }
+
     IEnumerator Co_Emo_Like()
     {
         emoticons[2].transform.position = new Vector3(this.transform.position.x, (this.transform.position.y + 1.65f), 1);
@@ -403,6 +413,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         emoticons[2].transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
     }
+
     IEnumerator Co_Emo_Sad()
     {
         emoticons[3].transform.position = new Vector3(this.transform.position.x, (this.transform.position.y + 1.65f), 1);
@@ -410,6 +421,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         emoticons[3].transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
     }
+
     IEnumerator Co_Emo_Sup()
     {
         emoticons[4].transform.position = new Vector3(this.transform.position.x, (this.transform.position.y + 1.65f), 1);
@@ -417,6 +429,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         emoticons[4].transform.LeanScale(Vector3.zero, 0.2f).setEaseOutBack();
     }
+
     IEnumerator Co_Emo_Love()
     {
         emoticons[5].transform.position = new Vector3(this.transform.position.x, (this.transform.position.y + 1.65f), 1);
