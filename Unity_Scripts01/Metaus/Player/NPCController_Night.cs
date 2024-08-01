@@ -22,17 +22,20 @@ public class NPCController_Night : MonoBehaviour
         npcText.transform.position = this.gameObject.transform.position;
         npcTextBox.gameObject.transform.position = this.gameObject.transform.position;
     }
+
     public void TextBtn2()
     {
         Debug.Log("Clicked Btn");
         StartCoroutine(TextBoxClose2());
         StartCoroutine(EventBoxOpen2());
     }
+
     public void AcceptBtn2()
     {
         SceneManager.LoadSceneAsync("RouletteScene_Night", LoadSceneMode.Additive);        
         StartCoroutine(EventBoxClose2());
     }
+
     public void RejectBtn2()
     {
         StartCoroutine(EventBoxClose2());
@@ -49,7 +52,6 @@ public class NPCController_Night : MonoBehaviour
     {
         npcTextBox.transform.LeanMove(new Vector3(transform.position.x, transform.position.y, 0), 0.2f);
         npcTextBox.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-
         yield return null;
     }
 
@@ -59,6 +61,7 @@ public class NPCController_Night : MonoBehaviour
         eventBox.transform.LeanScale(Vector2.one, 0.2f);
         yield return null;
     }
+
     IEnumerator EventBoxClose2()
     {
         eventBox.transform.LeanMove(new Vector3(transform.position.x, (transform.position.y + 1f), 0), 0.2f);
@@ -72,7 +75,6 @@ public class NPCController_Night : MonoBehaviour
         npcCanvas.gameObject.SetActive(false);
     }
 
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
@@ -83,7 +85,6 @@ public class NPCController_Night : MonoBehaviour
             {                //StartCoroutine(TypingText());
                 StartCoroutine(TextBoxOpen2());
             }
-
         }
     }
 
