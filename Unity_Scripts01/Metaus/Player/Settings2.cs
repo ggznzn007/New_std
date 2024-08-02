@@ -18,10 +18,10 @@ public class Settings2 : MonoBehaviour
     {      
        joyStick = playerController_script.joyStick;       
     }
+
     // 설정 버튼 누르면 호출
     public void ClickSetting()
-    {
-       
+    {       
         if (settingSwich)
         {
             joyStick.SetActive(false);
@@ -34,8 +34,7 @@ public class Settings2 : MonoBehaviour
         {
             joyStick.SetActive(true);
             StartCoroutine(SettingClose());
-        }
-        
+        }        
     }
     
     IEnumerator SettingOpen()
@@ -78,10 +77,5 @@ public class Settings2 : MonoBehaviour
         LoadingUIController.Instance.LoadScene("Main");
         //캐릭터 삭제
         playerController_script.DestoyPlayer();
-    }
-
-
-  
-  
-   
+    }   
 }
