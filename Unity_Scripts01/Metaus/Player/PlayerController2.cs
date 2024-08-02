@@ -41,10 +41,12 @@ public class PlayerController2 : MonoBehaviour
         limit = backGround.rect.width * .27f;
         // anim = GetComponent<Animator>();        
     }
+
     private void Update()
     {
         GetGPGSImage();
     }
+
     public void GetGPGSImage()
     {
         if (Social.localUser.authenticated)
@@ -62,6 +64,7 @@ public class PlayerController2 : MonoBehaviour
             userName.text = userName.text;
         }
     }
+
     private void FixedUpdate()
     {
 
