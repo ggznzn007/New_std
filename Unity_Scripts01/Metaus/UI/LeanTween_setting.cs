@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LeanTween_setting : MonoBehaviour
-{
-    
+{    
    private void Start()
     {
         this.transform.LeanScale(new Vector2(.9f,.9f), 0.6f).setLoopPingPong();
-    }
-
-   
+    }   
     
     public void Open()
     {
@@ -20,7 +17,5 @@ public class LeanTween_setting : MonoBehaviour
     public void Close()
     {
         transform.LeanScale(Vector2.zero, 1f).setEaseInBack();
-    }
-
-    
+    }    
 }
