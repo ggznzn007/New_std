@@ -27,7 +27,6 @@ public class Settings : MonoBehaviour
     {
         gameObject.SetActive(false);
         playerCtrl_script.isCantMove = false;
-
     }
 
     // 터치이동을 누르면 호출
