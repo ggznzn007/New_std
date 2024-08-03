@@ -9,8 +9,7 @@ using UnityEngine.UI;
 public class Fade_IN : MonoBehaviour
 {
     private GameObject fadeInPanel;
-    private Image image;
-    
+    private Image image;    
 
     private bool isAlpha = false;
 
@@ -43,7 +42,5 @@ public class Fade_IN : MonoBehaviour
             }
         }
         yield return null;
-    }
-
-   
+    }   
 }
