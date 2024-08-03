@@ -48,6 +48,7 @@ public class PlayerCtrl : MonoBehaviour
             isCool = true;
         }
     }
+
     private void FixedUpdate()
     {
         // ÄðÅ¸ÀÓ
