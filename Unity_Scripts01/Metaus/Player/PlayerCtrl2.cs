@@ -16,9 +16,7 @@ public class PlayerCtrl2 : MonoBehaviour
 
     Animator anim;
     GameObject coll;
-    KillCtrl killctrl_script;
-
-   
+    KillCtrl killctrl_script;   
 
     public float speed;
 
@@ -52,6 +50,7 @@ public class PlayerCtrl2 : MonoBehaviour
             isCool = true;
         }*/
     }
+
     private void FixedUpdate()
     {
 
