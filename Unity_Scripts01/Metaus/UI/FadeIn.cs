@@ -22,14 +22,12 @@ public class FadeIn : MonoBehaviour
     void FixedUpdate()
     {
         // Fade 애니메이션 재생.  
-        PlayFadeIn();
-        
+        PlayFadeIn();        
     }
 
     // Fade 애니메이션 함수.  
     public void PlayFadeIn()
-    {
-        
+    {        
             // 경과 시간 계산.  
             // 2초(animTime)동안 재생될 수 있도록 animTime으로 나누기.  
             time += Time.deltaTime / animTime;
@@ -43,12 +41,10 @@ public class FadeIn : MonoBehaviour
 
         //Destroy(gameObject, 2.2f);
         Invoke("FadeSetActive", 2f);
-
     }
 
     public void FadeSetActive()
     {
         this.gameObject.SetActive(false);         
     }
-
 }
