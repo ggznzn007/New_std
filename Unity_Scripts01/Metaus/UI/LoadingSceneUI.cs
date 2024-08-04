@@ -32,6 +32,7 @@ public class LoadingSceneUI : MonoBehaviour
     {
         return Instantiate(Resources.Load<LoadingSceneUI>("LoadingUI"));
     }
+
     private void Awake()
     {
         if (instance != this)
