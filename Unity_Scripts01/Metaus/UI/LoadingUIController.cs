@@ -65,10 +65,6 @@ public class LoadingUIController : MonoBehaviour
     [SerializeField] Sprite[] sprites;
     [SerializeField] Sprite[] gameTips;
 
-    private void Start()
-    {
-        
-    }
     public void LoadScene(string sceneName)
     {
         gameObject.SetActive(true);
@@ -85,7 +81,6 @@ public class LoadingUIController : MonoBehaviour
             loadingInfo.text = info_Text.Substring(0, i);
 
             yield return new WaitForSeconds(0.1f);
-
         }
     }
 
@@ -137,7 +132,6 @@ public class LoadingUIController : MonoBehaviour
 
                 if (progressBar.fillAmount >= 1f)
                 {
-
                     op.allowSceneActivation = true;
                     yield break;
                 }
