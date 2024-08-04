@@ -31,8 +31,7 @@ public class LoadingSceneCtrl : MonoBehaviour
         {
             yield return null;
             if (op.progress < 0.3f)
-            {
-                
+            {                
                 progressBar.fillAmount = op.progress;
             }
             else
