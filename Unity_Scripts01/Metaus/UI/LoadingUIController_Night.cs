@@ -59,11 +59,6 @@ public class LoadingUIController_Night : MonoBehaviour
     [SerializeField] Image backGround;
     [SerializeField] Sprite[] sprites;
 
-    private void Start()
-    {
-
-
-    }
     public void LoadScene(string sceneName)
     {
         gameObject.SetActive(true);
