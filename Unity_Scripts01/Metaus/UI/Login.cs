@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
-    public GameObject selectView;
-    
-    
+    public GameObject selectView;    
 
     // 공간 선택 창 호출
     public void ClickLogin()
