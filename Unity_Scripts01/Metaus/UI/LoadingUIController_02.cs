@@ -59,11 +59,6 @@ public class LoadingUIController_02 : MonoBehaviour
     [SerializeField] Image backGround;
     [SerializeField] Sprite[] sprites;
 
-    private void Start()
-    {
-
-
-    }
     public void LoadScene(string sceneName)
     {
         gameObject.SetActive(true);
@@ -82,7 +77,6 @@ public class LoadingUIController_02 : MonoBehaviour
             loadingInfo.text = info_Text.Substring(0, i);
 
             yield return new WaitForSeconds(0.1f);
-
         }
     }
 
@@ -133,7 +127,6 @@ public class LoadingUIController_02 : MonoBehaviour
 
                 if (progressBar.fillAmount >= 1f)
                 {
-
                     op.allowSceneActivation = true;
                     yield break;
                 }
