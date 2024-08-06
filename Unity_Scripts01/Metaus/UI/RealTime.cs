@@ -6,10 +6,9 @@ using UnityEngine.UI;
 
 public class RealTime : MonoBehaviour
 {
-    
     public Text dayTxt;
     public Text timeTxT;
-   
+
     void Update()
     {
         GetCurrentDate();
@@ -24,8 +23,5 @@ public class RealTime : MonoBehaviour
         string dayTime = DateTime.Now.ToString("t");
 
         timeTxT.text = dayTime;
-
     }
-
-    
 }
