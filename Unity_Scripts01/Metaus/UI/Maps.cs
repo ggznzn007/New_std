@@ -13,7 +13,6 @@ public class Maps : MonoBehaviour
          this.gameObject.SetActive(false);
          selectView.SetActive(true);
      }
-
   
     // 채팅창 활성화
     public void ClickChat()
