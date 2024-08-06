@@ -11,12 +11,10 @@ public class RouletteController_Night : MonoBehaviour
     public Button rouletteStart;
 
     bool rolling;
-
-    // Start is called before the first frame update
+    
     float initSpeed = 1000;
     float breakSpeed = 800;
     float keepSpeedTimeMin = 1, keepSpeedTimeMax = 3;
-
 
     float currentTime;
     float currentSpeed;
@@ -35,14 +33,12 @@ public class RouletteController_Night : MonoBehaviour
         StartCoroutine(RouletteRoll());
     }
 
-
     //call when you want to roll the roulette
     public void Roll()
     {
         rolling = true;
         currentSpeed = initSpeed;
         currentTime = Random.Range(keepSpeedTimeMin, keepSpeedTimeMax);
-
     }
 
     private IEnumerator RouletteRoll()
@@ -81,10 +77,8 @@ public class RouletteController_Night : MonoBehaviour
                 yield return new WaitForSeconds(1.5f);
                 finalImage.transform.LeanMove(new Vector3(finalImage.transform.position.x, finalImage.transform.position.y, 0), 0.2f);
                 finalImage.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-
             }
         }
-
     }
 
     public void BackToMain()
@@ -93,5 +87,4 @@ public class RouletteController_Night : MonoBehaviour
         this.gameObject.transform.LeanScale(Vector2.zero, 1f).setEaseOutBack();
         SceneManager.UnloadSceneAsync("RouletteScene_Night");
     }
-
 }
