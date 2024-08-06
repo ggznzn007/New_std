@@ -13,16 +13,19 @@ public class MainMenu : MonoBehaviour
             Application.Quit();           
         }        
     }
+
     public void ClickEnter()
     {        
         StartCoroutine(GetLoadingUI());        
     }
+
    private IEnumerator GetLoadingUI()
     {
         this.transform.LeanScale(Vector2.zero, 3f).setEaseInBack();
         yield return new WaitForSeconds(0.5f);
         LoadingUIController.Instance.LoadScene("GPGSLogin2");
     }
+
     public void ClickQuit()
     {
         // 유니티 에디터
