@@ -8,18 +8,17 @@ using GooglePlayGames.BasicApi;
 
 public class NightTime : MonoBehaviour
 {
-   
     private void Awake()
     {
         NightTimePlayerSpawn();
     }
+
     public void ClickQuit()
     {
-
         LoadingUIController.Instance.LoadScene("Main");
         ((PlayGamesPlatform)Social.Active).SignOut();
-
     }
+
     public void NightTimePlayerSpawn()
     {
         GameObject player2 = Instantiate(Resources.Load("InPlayer2"), new Vector3(-6, 14, 0), Quaternion.identity) as GameObject;
@@ -29,7 +28,7 @@ public class NightTime : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {            
+        {
             LoadingUIController.Instance.LoadScene("Main");
         }
     }
@@ -38,6 +37,4 @@ public class NightTime : MonoBehaviour
     {
         LoadingUIController.Instance.LoadScene("Main");
     }
-
-    
 }
