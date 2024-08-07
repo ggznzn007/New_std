@@ -13,8 +13,8 @@ public class Select : MonoBehaviour
     public Text userName;    
     ArrayList popUplist;
 
-
     private bool bWaitingForAuth = false;
+
     public void Start()
     {
         Camera.main.transform.parent = this.transform.parent;
@@ -29,10 +29,8 @@ public class Select : MonoBehaviour
         {            
             userImage.texture = userImage.texture;
             userName.text = userName.text;
-        }
-        
+        }        
     }
-
 
     private void Update()
     {
@@ -50,10 +48,7 @@ public class Select : MonoBehaviour
         // ((PlayGamesPlatform)Social.Active).SignOut();
         // LoadingSceneCtrl.LoadScene("GPGSLogin");
         // LoadingUIController.Instance.LoadScene("GPGSLogin");
-
-
     }
-
 
     // 공간 1 호출
     public void ClickSelect1()
@@ -91,7 +86,6 @@ public class Select : MonoBehaviour
     {
         StartCoroutine(GetPopUp6());
     }
-
 
     IEnumerator GetPopUp1()
     {
@@ -134,6 +128,4 @@ public class Select : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         popUp[5].transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
     }
-
-
 }
