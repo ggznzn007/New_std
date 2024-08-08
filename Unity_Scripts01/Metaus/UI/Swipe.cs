@@ -13,13 +13,7 @@ public class Swipe : MonoBehaviour
     private float time;
     private Button takeTheBtn;
     int btnNumber;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
         pos = new float[transform.childCount];
@@ -77,8 +71,6 @@ public class Swipe : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     private void GecisiDuzenle(float distance, float[] pos, Button btn)
@@ -100,6 +92,7 @@ public class Swipe : MonoBehaviour
         }
 
     }
+
     public void WhichBtnClicked(Button btn)
     {
         btn.transform.name = "clicked";
@@ -113,9 +106,6 @@ public class Swipe : MonoBehaviour
                 scroll_pos = (pos[btnNumber]);
                 runIt = true;
             }
-        }
-
-       
+        }       
     }
-
 }
