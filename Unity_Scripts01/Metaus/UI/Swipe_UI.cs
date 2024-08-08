@@ -72,12 +72,10 @@ public class Swipe_UI : MonoBehaviour
                 runIt = true;
             }
         }
-
-
     }
+
     private void UpdateSwipeUI() // 메뉴 스와이프해서 페이지 이동
-    {
-        
+    {        
         pos = new float[transform.childCount];        
         distance = 1f / (pos.Length - 1f);
 
