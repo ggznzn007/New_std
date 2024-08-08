@@ -8,6 +8,7 @@ public class TabButton : MonoBehaviour
     Image backGround;
     public Sprite idleImg;
     public Sprite seletedImg;
+
     private void Awake()
     {
         backGround = GetComponent<Image>();
