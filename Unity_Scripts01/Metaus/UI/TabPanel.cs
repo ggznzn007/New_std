@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class TabPanel : MonoBehaviour
 {
-   public List<TabButton> tabButtons;
-   public List<GameObject> contentsPanels;
+    public List<TabButton> tabButtons;
+    public List<GameObject> contentsPanels;
     int seleted = 0;
+
     private void Start()
     {
         TabClick(seleted);
@@ -15,7 +16,7 @@ public class TabPanel : MonoBehaviour
     {
         for (int i = 0; i < contentsPanels.Count; i++)
         {
-            if(i==id)
+            if (i == id)
             {
                 contentsPanels[i].SetActive(true);
                 tabButtons[i].Seleted();
