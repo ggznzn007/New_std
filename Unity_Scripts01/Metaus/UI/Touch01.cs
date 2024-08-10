@@ -19,6 +19,7 @@ public class Touch01 : MonoBehaviour
         }
         spawnsTime += Time.deltaTime;
     }
+
     public void EffectCreate()
     {
         Vector3 mPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
