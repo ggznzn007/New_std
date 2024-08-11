@@ -13,7 +13,6 @@ public class TouchEffect : MonoBehaviour
     float maxSize = 0.6f;
     public Color[] colors;
 
-
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
@@ -21,9 +20,7 @@ public class TouchEffect : MonoBehaviour
         direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
         float size = Random.Range(minSize, maxSize);
         transform.localScale = new Vector2(size, size);
-
     }
-
 
     void Update()
     {
