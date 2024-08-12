@@ -17,13 +17,13 @@ public class Mission2 : MonoBehaviour
 
     bool isDrag, isPlay;
     Vector2 originPos;
+
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rect_handle = handle.GetComponent<RectTransform>();
         originPos = rect_handle.anchoredPosition;
         missionCtrl_script = FindObjectOfType<MissionCtrl>();
-
     }
 
     private void FixedUpdate()
@@ -71,7 +71,6 @@ public class Mission2 : MonoBehaviour
                 MissionSuccess();
                 isPlay = false;
             }
-
         }
     }
 
@@ -116,6 +115,7 @@ public class Mission2 : MonoBehaviour
         }
         isPlay = true;
     }
+
     // 엑스버튼 누르면 호출
     public void ClickCancel()
     {
