@@ -12,6 +12,7 @@ public class Mission1 : MonoBehaviour
     Animator anim;
     PlayerCtrl playerCtrl_script;
     MissionCtrl missionCtrl_script;
+
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -83,5 +84,4 @@ public class Mission1 : MonoBehaviour
         ClickCancel();
         missionCtrl_script.MissionSuccess(GetComponent<CircleCollider2D>());
     }
-
 }
