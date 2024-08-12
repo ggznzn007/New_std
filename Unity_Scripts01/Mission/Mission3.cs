@@ -11,6 +11,7 @@ public class Mission3 : MonoBehaviour
     Animator anim;
     PlayerCtrl playerCtrl_script;
     MissionCtrl missionCtrl_script;
+
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -25,14 +26,12 @@ public class Mission3 : MonoBehaviour
 
         // 초기화
         inputText.text = "";
-        keyCode.text = "";
-       
+        keyCode.text = "";       
 
         // 키코드랜덤
         for (int i = 0; i < 7; i++)
         {
-            keyCode.text += Random.Range(0, 10);
-            
+            keyCode.text += Random.Range(0, 10);            
         }
     }
 
@@ -70,13 +69,10 @@ public class Mission3 : MonoBehaviour
         playerCtrl_script.MissionEnd();
     }
 
-
-
     // 미션 성공시 호출
     public void MissionSuccess()
     {
         ClickCancel();
         missionCtrl_script.MissionSuccess(GetComponent<CircleCollider2D>());
     }
-
 }
