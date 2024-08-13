@@ -22,6 +22,7 @@ public class MissionCtrl : MonoBehaviour
         player4.transform.localScale = new Vector3(1.2f, 1.2f, 1);        
         player4.GetComponent<PlayerCtrl>().isMission = true;
     }
+
     // 미션 초기화
     public void MissionReset()
     {
@@ -53,7 +54,6 @@ public class MissionCtrl : MonoBehaviour
 
             Invoke("Change", 3f);
         }
-
     }
 
     // 화면 전환
