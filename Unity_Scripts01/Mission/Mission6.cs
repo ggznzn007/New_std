@@ -85,12 +85,8 @@ public class Mission6 : MonoBehaviour
                 {
                     line.SetPosition(1, new Vector3(0, 0, -10));
                 }
-
-
-
                 isDrag = false;
             }
-
         }
     }
 
@@ -117,6 +113,7 @@ public class Mission6 : MonoBehaviour
             rights[rand].anchoredPosition = temp;
         }
     }
+
     // 엑스버튼 누르면 호출
     public void ClickCancel()
     {
