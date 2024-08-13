@@ -51,7 +51,6 @@ public class Mission5 : MonoBehaviour
             }
 
             rotate.eulerAngles = new Vector3(0, 0, 90 * rect_handle.anchoredPosition.y / 238);
-
          
             // 색변경
             if (rect_handle.anchoredPosition.y > -5 && rect_handle.anchoredPosition.y < 5)
@@ -62,7 +61,6 @@ public class Mission5 : MonoBehaviour
             {
                 rotate.GetComponent<Image>().color = red;
             }
-
         }
     }
 
@@ -84,8 +82,8 @@ public class Mission5 : MonoBehaviour
         }
         rect_handle.anchoredPosition = new Vector2(184, rand);
         isPlay = true;
-
     }
+
     // 엑스버튼 누르면 호출
     public void ClickCancel()
     {
