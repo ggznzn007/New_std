@@ -7,7 +7,6 @@ public class Cube : MonoBehaviour
     [SerializeField] Rigidbody rbody;
     [SerializeField] Renderer render;
 
-
     [SerializeField] float upForce = 1f;
     [SerializeField] float sideForce = 0.1f;
 
