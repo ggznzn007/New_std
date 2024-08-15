@@ -41,8 +41,6 @@ public class ObjectPooler : MonoBehaviour
 		"    ObjectPooler.ReturnToPool(gameObject);    // 한 객체에 한번만 \n" +
 		"    CancelInvoke();    // Monobehaviour에 Invoke가 있다면 \n}";
 
-
-
 	public static GameObject SpawnFromPool(string tag, Vector3 position) =>
 		inst._SpawnFromPool(tag, position, Quaternion.identity);
 
