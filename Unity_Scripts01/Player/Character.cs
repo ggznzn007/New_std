@@ -9,7 +9,6 @@ public class Character : MonoBehaviour
     protected Vector2 direction;
     private Animator animator;
 
-
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -32,6 +31,5 @@ public class Character : MonoBehaviour
         animator.SetFloat("x", direction.x);
         animator.SetFloat("y", direction.y);
     }
-
 }
  
