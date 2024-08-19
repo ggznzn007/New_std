@@ -11,20 +11,15 @@ public class ChatController : MonoBehaviour
     [SerializeField] private Transform parentContent; // 대화가 출력되는 스크롤뷰 컨텐츠
     [SerializeField] private TMP_InputField inputField; // 대화 입력창
 
-
     private string ID = "Chemy Cast";
     TouchScreenKeyboard keyboard;
     string chattingInputText;
-    private void Start()
-    {
-
-
-    }
-
+      
     public void OpenKeyboard()
     {
         keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
     }
+
     private void FixedUpdate()
     {
         if (inputField.enabled)
@@ -44,9 +39,7 @@ public class ChatController : MonoBehaviour
                     { if (this.keyboard.text.Length > 0) OnEndEditEventMethod(); });
                 }
             }
-
         }
-
     }
 
     public void OnEndEditEventMethod()
@@ -55,7 +48,6 @@ public class ChatController : MonoBehaviour
         {
             UpdateChat();
         }
-
     }
 
     public void UpdateChat()
@@ -69,9 +61,5 @@ public class ChatController : MonoBehaviour
         Destroy(clone, 20f);
 
         inputField.text = ""; // 초기화  
-
-
     }
-
-
 }
