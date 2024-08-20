@@ -11,7 +11,6 @@ public class Joystick : MonoBehaviourPunCallbacks, IDragHandler, IPointerUpHandl
     private Image jsImage;
     private Vector2 inputVector;
 
-
     void Start()
     {
         bgImage = GetComponent<Image>();
@@ -54,5 +53,4 @@ public class Joystick : MonoBehaviourPunCallbacks, IDragHandler, IPointerUpHandl
     {
         return inputVector.y;
     }
-
 }
