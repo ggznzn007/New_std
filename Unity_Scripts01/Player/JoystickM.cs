@@ -16,6 +16,7 @@ public class JoystickM : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         rect = GetComponent<RectTransform>();
         widethHalf = rect.sizeDelta.x * 0.5f;
     }
+
     public void OnDrag(PointerEventData eventData)
     {
        touch = (eventData.position - rect.anchoredPosition)/ widethHalf;
