@@ -42,6 +42,7 @@ public class Card : MonoBehaviour
             {
                 cardRenderer.sprite = animalSprite;
             }
+
             else
             {
                 cardRenderer.sprite = backSprite;
