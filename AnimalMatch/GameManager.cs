@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     {        
         Board board = FindObjectOfType<Board>();
         allCards = board.GetCards();
-
         currentTime = timeLimit;
         StartCoroutine(FlipAllCardRoutine());
     }
@@ -56,7 +55,6 @@ public class GameManager : MonoBehaviour
         FlipAllCards();
         yield return new WaitForSeconds(0.5f);
         isFlipping = false;
-
         yield return StartCoroutine(CountDownTimerRoutine());
     }
 
@@ -69,7 +67,6 @@ public class GameManager : MonoBehaviour
             SetCurrentTimeText();
             yield return null;
         }
-
         GameOver(false);
     }
 
