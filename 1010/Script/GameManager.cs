@@ -51,10 +51,12 @@ public class GameManager : MonoBehaviour
             bgm.GetComponent<AudioSource>().Pause(); // BGM 잠깐 멈춤
             SoundManager.instance.Playsound(SoundManager.instance.blockClick); // 블럭선택소리 재생
             backPanel.SetActive(true); // 메뉴창(뒤로가기) 활성화
+
             if (newScore > beforeScore)
             {
                 backpanelScore.text = "새로운 기록 : " + newScore.ToString();
             }
+
             else
             {
                 backpanelScore.text = "현재기록 : " + newScore.ToString(); // 현재점수 표시
@@ -106,18 +108,22 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.instance.Playsound(SoundManager.instance.blockSet); // 블럭생성소리 재생    
         yield return new WaitForSeconds(0.09f);
+
         if (BlockPos[0])
         {
             StartCoroutine(SpawnFirstBlock());
         }
+
         if (BlockPos[1])
         {
             StartCoroutine(SpawnSecondBlock());
         }
+
         if (BlockPos[2])
         {
             StartCoroutine(SpawnThirdBlock());
         }
+
         yield return new WaitForSeconds(0.1f);
         ShuffleColor(ShapeColors); // 3개의 블럭을 놓은 후 놓는 블럭의 색을 변경
         yield return null;
@@ -136,6 +142,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(1, 4);
@@ -145,6 +152,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(2, 5);
@@ -154,6 +162,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(0, 4);
@@ -163,6 +172,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 6000 && newScore < 7500)
         {
             int rand = Random.Range(1, 5);
@@ -172,6 +182,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[0].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 7500)
         {
             int rand = Random.Range(0, 5);
@@ -194,6 +205,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(6, 9);
@@ -203,6 +215,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(7, 10);
@@ -212,6 +225,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(5, 9);
@@ -221,6 +235,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 6000 && newScore < 7500)
         {
             int rand = Random.Range(6, 10);
@@ -230,6 +245,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[1].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 7500)
         {
             int rand = Random.Range(5, 10);
@@ -252,6 +268,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 1500 && newScore < 3000)
         {
             int rand = Random.Range(11, 14);
@@ -261,6 +278,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 3000 && newScore < 4500)
         {
             int rand = Random.Range(12, 15);
@@ -270,6 +288,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 4500 && newScore < 6000)
         {
             int rand = Random.Range(10, 14);
@@ -279,6 +298,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 6000 && newScore < 7500)
         {
             int rand = Random.Range(11, 15);
@@ -288,6 +308,7 @@ public class GameManager : MonoBehaviour
             CurShape.DOMove(BlockPos[2].position, 0.4f);
             yield return null;
         }
+
         else if (newScore >= 7500)
         {
             int rand = Random.Range(10, 15);
