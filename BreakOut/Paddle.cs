@@ -54,6 +54,7 @@ public class Paddle : MonoBehaviour
 #else
     void Awake() { Screen.SetResolution(540, 960, false); }
 #endif
+
     // 뒤로가기 키 누르면 일시정지
     void Update()
     {
