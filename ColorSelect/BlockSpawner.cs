@@ -4,10 +4,8 @@ using UnityEngine.UI;
 
 public class BlockSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private Block blockPrefab;         // 블록 프리팹
-    [SerializeField]
-    private GridLayoutGroup gridLayout;     // 그리드레이아웃그룹 컴포넌트  
+    [SerializeField] private Block blockPrefab;         // 블록 프리팹
+    [SerializeField] private GridLayoutGroup gridLayout;     // 그리드레이아웃그룹 컴포넌트  
 
     public List<Block> SpawnBlocks(int blockCount)
     {            
