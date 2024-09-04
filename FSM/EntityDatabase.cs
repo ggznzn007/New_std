@@ -34,7 +34,6 @@ public class EntityDatabase
 				return entity.Value;
 			}
 		}
-
 		return null;
 	}
 
