@@ -17,8 +17,7 @@ public class Player_Controller : MonoBehaviour
         if(Input.GetKeyDown("1")) {ChangeState(PlayerState.Idle);}
         else if(Input.GetKeyDown("2")) {ChangeState(PlayerState.Walk);}
         else if(Input.GetKeyDown("3")) {ChangeState(PlayerState.Run);}
-        else if(Input.GetKeyDown("4")) {ChangeState(PlayerState.Attack);}
-        
+        else if(Input.GetKeyDown("4")) {ChangeState(PlayerState.Attack);}        
     }
 
     private void UpdateState()
@@ -38,7 +37,6 @@ public class Player_Controller : MonoBehaviour
                 Debug.Log("플레이어 공격중");
                 break;
         }
-
     }
 
     private void ChangeState(PlayerState newState)
