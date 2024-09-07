@@ -69,7 +69,6 @@ public class StateMachine<T> where T : BaseGameEntity  //class
 		{
 			return true;
 		}
-
 		return false;
 	}
 }
