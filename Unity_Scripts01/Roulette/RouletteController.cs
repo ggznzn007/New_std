@@ -13,11 +13,9 @@ public class RouletteController : MonoBehaviour
 
     bool rolling;
 
-    // Start is called before the first frame update
     float initSpeed = 1000;
     float breakSpeed = 800;
     float keepSpeedTimeMin = 1, keepSpeedTimeMax = 3;
-
 
     float currentTime;
     float currentSpeed;
@@ -33,18 +31,15 @@ public class RouletteController : MonoBehaviour
 
     private void Update()
     {
-        StartCoroutine(RouletteRoll());
-       
+        StartCoroutine(RouletteRoll());       
     }
-
     
     //call when you want to roll the roulette
     public void Roll()
     {
         rolling = true;
         currentSpeed = initSpeed;
-        currentTime = Random.Range(keepSpeedTimeMin, keepSpeedTimeMax);
-        
+        currentTime = Random.Range(keepSpeedTimeMin, keepSpeedTimeMax);        
     }
 
      private IEnumerator RouletteRoll()
@@ -82,17 +77,8 @@ public class RouletteController : MonoBehaviour
                 rolling = false;
                 yield return new WaitForSeconds(1.5f);
                 finalImage.transform.LeanMove(new Vector3(finalImage.transform.position.x, finalImage.transform.position.y, 0), 0.2f);
-                finalImage.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();
-                
+                finalImage.transform.LeanScale(Vector2.zero, 0.2f).setEaseOutBack();                
             }
         }
-
-    }
-
-    public void BackToMain()
-    {
-        //SceneManager.LoadScene("DayTime");
-
-    }
-    
+    }   
 }
