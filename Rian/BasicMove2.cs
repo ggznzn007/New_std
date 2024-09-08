@@ -8,7 +8,6 @@ public class BasicMove2 : MonoBehaviour
     [SerializeField] protected float moveSpeed;
     protected float xAxis;
     protected float zAxis;
-
     Vector3 moveVec;
     Animator ani;
     
