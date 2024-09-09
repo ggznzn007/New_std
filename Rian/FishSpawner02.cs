@@ -8,6 +8,7 @@ public class FishSpawner02 : MonoBehaviour
     [SerializeField] int fishCount; // 생성할 물고기 수
     private BoxCollider area; // 물고기 생성 범위를 위한 공간
     private List<GameObject> fish = new List<GameObject>();// 물고기 리스트
+
     void Start()
     {
         area = GetComponent<BoxCollider>();
