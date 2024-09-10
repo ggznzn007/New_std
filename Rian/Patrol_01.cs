@@ -19,6 +19,7 @@ public class Patrol_01 : MonoBehaviour
             patrolPoints = patrolPointGroup.GetComponentsInChildren<Transform>();
         }
     }
+
     void Update()
     {
         MovePatrolPoint();
