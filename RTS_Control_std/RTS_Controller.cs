@@ -14,7 +14,6 @@ public class RTS_Controller : MonoBehaviour
         UnitList = spawner.SpawnUnits();
     }
 
-
     // 마우스 클릭으로 유닛 선택시 호출
     public void ClickSelectUnit(UnitController newUnit)
     {
@@ -60,7 +59,6 @@ public class RTS_Controller : MonoBehaviour
 
         selUnitList.Clear();
     }
-
 
     private void SelectUnit(UnitController newUnit)
     {
