@@ -26,6 +26,5 @@ public class UnitSpawner : MonoBehaviour
         }
 
         return unitList;
-
     }
 }
