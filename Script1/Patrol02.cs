@@ -45,7 +45,6 @@ public class Patrol02 : MonoBehaviour
 
     protected void MoveWayPoint()
     {
-
         //현재 위치에서 다음 웨이포인트로 향하는 벡터를 계산
         Vector3 direction = points[nextIdx].position - tr.position;
         //direction.y = 0f;
