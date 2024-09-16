@@ -138,8 +138,6 @@ public class AndroidUtils : MonoBehaviour
 
         return TempImage;
     }
-
-
 #else
     void Awake()
     {
