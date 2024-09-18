@@ -41,18 +41,15 @@ public class UI_Setting : ScriptableObject
                     AssetDatabase.CreateAsset(_instance, SettingFilePath);
                 }
             }
-
 #endif
             return _instance;
         }
     }
 
     public string language = "KOR";
-
     public Color themeColor;
     public Sprite emptyThumbnailSprite;
     public GameObject popupPrefab;
-
     public Font defaultFont;
     public int defaultFontSize = 100;
     public Color defaultFontColor = Color.blue;
