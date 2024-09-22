@@ -23,7 +23,6 @@ public class APIManager : MonoBehaviour
         StartCoroutine(GeoCode(35.1536142f, 129.0495141f));
         StartCoroutine(Weather("Busan"));
         /*StartCoroutine(Sentimental("I am afraid!"));*/
-
         objectWeather = GameObject.Find( "Weather");
         textWeather = objectWeather.GetComponent<Text>();
 
