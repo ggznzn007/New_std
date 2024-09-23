@@ -39,8 +39,6 @@ public class APIManagerLogin : MonoBehaviour
 
                 var loc = n2[0]["address_components"];
 
-
-
                 print(loc);
 
                 PlayerPrefs.SetString("location", loc);
@@ -74,7 +72,6 @@ public class APIManagerLogin : MonoBehaviour
                 var w = N["weather"][0]["main"];
                 var country = N["sys"]["country"];
                 var city = N["name"];
-
                 //replace를 활용
                 //print(temp);
                 //print(humidity);
