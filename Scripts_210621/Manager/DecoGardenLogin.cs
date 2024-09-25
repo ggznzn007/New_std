@@ -45,7 +45,6 @@ public class DecoGardenLogin : MonoBehaviour
                     //Vector3 Pos = hit.transform.position;
                     Transform trs = PlaceObjectsOnPlaneLogin.PlaceObjectsOnLogin.spawnedObject.transform.GetChild(5);
                     trs.gameObject.SetActive(false);
-
                 }
             }
         }
