@@ -14,18 +14,8 @@ public class GameUI : MonoBehaviour
 
     //Instance
     public static GameUI inst;
+
     void Awake () { inst = this; }
-
-    private void Start()
-    {
-        
-    }
-
-    void Update ()
-    {
-        
-    }
-    
        
     IEnumerator Count(float target, float current)
     {
