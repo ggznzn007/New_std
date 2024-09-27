@@ -11,6 +11,7 @@ public class MoveCtrl : MonoBehaviour
         LOOK_AT,
         DAYDREAM
     }
+
     public MoveType moveType = MoveType.WAY_POINT;//이동방식
     public float speed = 0.5f;//이동속도
     public float damping = 1.0f;//회전속도
@@ -72,7 +73,6 @@ public class MoveCtrl : MonoBehaviour
         //웨이포인트에 충돌 여부 판단
         if (coll.CompareTag("WAY_POINT"))
         {
-
             //맨 마지막 웨이포인트에 도달했을 때 처음 인덱스로 변경
             nextIdx = Random.Range(0, 12); //임의의 포인트로 이동
             nextIdx = (++nextIdx >= points.Length) ? 1 : nextIdx;
