@@ -61,8 +61,7 @@ public class MenuUI : MonoBehaviour
         if (screen == Gallery)
         {
             Oxygen.SetActive(false);
-        }
-        
+        }        
     }    
 
     //Loads options from PlayerPrefs and sets them to the UI elements on the options screen.
