@@ -21,11 +21,6 @@ public class QuestionText : MonoBehaviour
 
     public void Click()
     {
-        /*        Debug.Log(item.sheets[0].list.Count);
-                int max = item.sheets[0].list.Count-1;
-                Debug.Log(max);
-                int ran = Random.Range(0, max);*/
-
         int cnt = item.sheets[0].list.Count;
         int ran = Random.Range(0, cnt);
 
