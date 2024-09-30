@@ -73,7 +73,6 @@ public class SceneMoveManager : MonoBehaviour
             DialougeText.text = "Touch to summon your own Fairy!";            
             //BtnNextobj.SetActive(true);//유니티 실행할때 켜놓을 것
         }
-
         screen.SetActive(true);
     }
 
