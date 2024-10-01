@@ -35,7 +35,6 @@ public class OxygenBar : MonoBehaviour
         oxSlider.value = slidercount;            //나머지 출력 = 게이지 표시
         levelcnt = (oxcnt / 1000) + 1;            //몫 출력 = 정원 레벨
         LevelNumber.text = $"{levelcnt}";
-
         PlayerPrefs.SetInt("TotalOxygen", oxcnt);
     }
 
