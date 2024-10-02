@@ -132,7 +132,6 @@ Application.Quit();
         while(true)
         {
             Playtime++;
-
             yield return new WaitForSeconds(1f);
         }
     }
