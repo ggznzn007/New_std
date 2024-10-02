@@ -18,6 +18,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public bool IsCorrected { private set; get; } = false;
 
     private int numeric;
+
     public int Numeric
     {
         set
