@@ -19,7 +19,6 @@ public class Player_Color : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         rb2D.isKinematic = true;
         /* rb2D.velocity = new (moveSpeed, jumpForce);
-
          StartCoroutine(UpdateInput());*/
     }
 
@@ -56,7 +55,6 @@ public class Player_Color : MonoBehaviour
             {
                 JumpTo();
             }
-
             yield return null;
         }
     }
