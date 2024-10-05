@@ -2,7 +2,6 @@ using UnityEngine;
 
 public static class Utils
 {   
-
    public static int[] RandomNumberics(int maxCount, int n)
     {
         // 0 ~ maxCount까지의 숫자 중 겹치지 않는 n개의 난수가 필요할 때 사용
