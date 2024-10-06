@@ -66,7 +66,6 @@ public class LerpMove : MonoBehaviour
                 isRight = false;
             }           
         }
-
         Debug.Log("Left Goal!");
     }
 }
