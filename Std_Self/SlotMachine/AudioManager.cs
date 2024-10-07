@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
         GetBGMVolume();
         GetSEVolume();
     }
+
     public void PlayeRandomBGM()
     {
         int rand = Random.Range(0, bgm.Length);
