@@ -36,6 +36,7 @@ public class SlotMachine : MonoBehaviour
     {
         textCredits.text = $"보유금액 : {credits + 0:#,###0}원";
         weightReelPoll = new List<int>(100);
+
         // zeroProbability 개수인 30개만큼 0으로 채워줌
         for (int i = 0; i < zeroProbability; ++i)
         {
