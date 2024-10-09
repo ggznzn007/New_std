@@ -53,6 +53,7 @@ public class AudioManager : MonoBehaviour
         }
         Debug.Log("등록된 효과음이 없습니다.");        
     } 
+
     public void PlayeRandomBGM()
     {
         int rand = Random.Range(0,bgm.Length);
