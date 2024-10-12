@@ -11,7 +11,7 @@ using WPM;
 public class ClickStar : MonoBehaviour
 {
 
-    WorldMapGlobe map;              // 에셋 지구본
+    WorldMapGlobe map;       // 에셋 지구본
 
     void Start()
     {
