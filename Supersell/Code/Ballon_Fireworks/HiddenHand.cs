@@ -40,6 +40,7 @@ public class HiddenHand : MonoBehaviour                           // 손으로 터치
                 {
                     Manager_Ballon.MB.explodedBallon++;
                 }
+
                 else
                 {
                     Manager_Ballon.MB.explodedBallon--;
