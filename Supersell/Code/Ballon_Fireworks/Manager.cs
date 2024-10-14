@@ -97,23 +97,23 @@ public class Manager : MonoBehaviour                     // 불꽃놀이 매니저
             }
         }
 
-        if (Input.GetMouseButton(0))                                         // 마우스 클릭중(드래그) 계속 호출
+       /* if (Input.GetMouseButton(0))                                         // 마우스 클릭중(드래그) 계속 호출
         {
             //myHand.transform.position = GetMouseWorldPosition() + m_Offset;
-            /* int rand = Random.Range(0, fireParticles.Length);
-             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            int rand = Random.Range(0, fireParticles.Length);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-             if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-             {
-                 if (exCount>=30) return;
-                 Vector3 hitPos = hit.point;                
-                 Instantiate(fireParticles[rand], hitPos, fireParticles[rand].transform.rotation);                
-                 exCount++;
-                 // myHand = Instantiate(fireParticles[rand], hitPos, fireParticles[rand].transform.rotation);
-                 // m_ZCoord = Camera.main.WorldToScreenPoint(myHand.transform.position).z;
-                 //  m_Offset = myHand.transform.position - GetMouseWorldPosition();
-             }*/
-        }
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            {
+                if (exCount >= 30) return;
+                Vector3 hitPos = hit.point;
+                Instantiate(fireParticles[rand], hitPos, fireParticles[rand].transform.rotation);
+                exCount++;
+                // myHand = Instantiate(fireParticles[rand], hitPos, fireParticles[rand].transform.rotation);
+                // m_ZCoord = Camera.main.WorldToScreenPoint(myHand.transform.position).z;
+                //  m_Offset = myHand.transform.position - GetMouseWorldPosition();
+            }
+        }*/
 
         if (Input.GetMouseButtonUp(0))                                       // 마우스 클릭종료 시 한번만 호출
         {           
