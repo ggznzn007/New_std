@@ -73,10 +73,10 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
     private bool gamePaused;
     private bool gameOver;
 
-    private void Awake()
+   /* private void Awake()
     {
         // SetResolution();                            // 해상도 초기화 메서드 Initialize Resolution Call
-    }
+    }*/
 
     private void Start()
     {
@@ -171,6 +171,7 @@ public class Manager_Ballon : MonoBehaviour                 // 풍선 매니저
             9 => 0,
             _ => 1,
         }; ;
+
         int selecPos = Random.Range(0, spawnPoints.Length);
         GameObject selectedPrefab = Ballons[selection];
         Debug.Log(Ballons[selection].name);
