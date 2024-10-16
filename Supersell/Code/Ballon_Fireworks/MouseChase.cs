@@ -23,7 +23,6 @@ public class MouseChase : MonoBehaviour
     {
         _mousePos = Input.mousePosition;
         _mousePos.z = _distanceFromCamera;
-
         _nextPos = Camera.main.ScreenToWorldPoint(_mousePos);
         transform.position = Vector3.Lerp(transform.position, _nextPos, _ChasingSpeed);
     }
