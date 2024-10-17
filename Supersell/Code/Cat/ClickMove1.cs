@@ -48,7 +48,6 @@ public class ClickMove1 : MonoBehaviour
          }
 
          MovetoWay();*/
-
         UpdateState();
 
         if (Input.GetKeyDown(KeyCode.Escape))
