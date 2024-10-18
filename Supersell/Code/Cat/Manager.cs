@@ -16,10 +16,12 @@ public class Manager : MonoBehaviour
         {
             isBlack = !isBlack;
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             isYellow = !isYellow;
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             isWhite = !isWhite;
@@ -34,6 +36,7 @@ public class Manager : MonoBehaviour
         {
             catsPrefab[0].SetActive(true);
         }
+
         else
         {
             catsPrefab[0].SetActive(false);
