@@ -55,6 +55,7 @@ public class bombSpawnner : MonoBehaviour
         }
 
         string[] files2 = System.IO.Directory.GetFiles("flower");
+
         foreach (string file in files2)
         {
             //       //Do work on the files here
@@ -92,6 +93,7 @@ public class bombSpawnner : MonoBehaviour
         {
             canvasObj.SetActive(true);
         }
+
         else
         {
             canvasObj.SetActive(false);
@@ -239,6 +241,5 @@ public class bombSpawnner : MonoBehaviour
 
 
     // }
-
 }
 
