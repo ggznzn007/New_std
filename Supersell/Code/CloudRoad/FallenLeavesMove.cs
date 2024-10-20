@@ -22,9 +22,7 @@ public class FallenLeavesMove : MonoBehaviour
             // transform.position = Vector3.Lerp(transform.position, newVector, 0.0001f);
           //  transform.GetComponent<Rigidbody>().AddForce(newVector);
         }
-           // transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-        
+           // transform.GetComponent<Rigidbody>().velocity = Vector3.zero;        
         //transform.Translate(mSpeed * Time.deltaTime * newVector);
         /* mSpeed -= 0.1f;
          if(mSpeed <= 0f )
@@ -50,18 +48,22 @@ public class FallenLeavesMove : MonoBehaviour
             {
                 left = true;
             }
+
             left = (Random.value > 0.5f);
             Vector3 ballPoint = this.transform.position;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 clickPoint;
+
             if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
                 clickPoint = hitInfo.point;
             }
+
             else
             {
                 clickPoint = new Vector3(0f, 0f, 0f);
             }
+
             clickPoint.y = 1;
             ballPoint.y = 1;
             newVector = ballPoint - clickPoint;
