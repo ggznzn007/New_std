@@ -36,7 +36,6 @@ public class LoadFiles : MonoBehaviour
             Backgroud = GameObject.Find("Cube");
             Renderer test = Backgroud.GetComponent<Renderer>();
             test.material.mainTexture = texture2;
-
             string savePath = Application.persistentDataPath + "/Image";           
         }
     }
