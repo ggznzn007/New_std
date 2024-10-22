@@ -18,15 +18,15 @@ public class SpawnManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             isHold = true;
             //Vector3 mouseScreenPosition = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo,100f))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {
-                SpawnBombAtPos(hitInfo.point);                
-            FallenLeavesMove.FL.mSpeed = 1f;
+                SpawnBombAtPos(hitInfo.point);
+                FallenLeavesMove.FL.mSpeed = 1f;
             }
         }
 
@@ -37,9 +37,9 @@ public class SpawnManager : MonoBehaviour
             Collider[] coll = Physics.OverlapSphere(myFoot.transform.position, 10);
             foreach (Collider collider in coll)
             {
-                if(collider.gameObject !=null)
+                if (collider.gameObject != null)
                 {
-                    collider.GetComponent<Rigidbody>().AddForce(collider.transform.position,ForceMode.Impulse);
+                    collider.GetComponent<Rigidbody>().AddForce(collider.transform.position, ForceMode.Impulse);
                     StartCoroutine(FallenLeavesMove.FL.BacktoSpeed());
                     StartCoroutine(FallenLeavesMove.FL.RotStop());
                 }
@@ -52,13 +52,13 @@ public class SpawnManager : MonoBehaviour
                 StartCoroutine(DelayFalse());
                 
             }*/
-           
+
             //Debug.Log(coll[i]);
         }
 
-        if(Input.GetMouseButtonUp(0)) 
+        if (Input.GetMouseButtonUp(0))
         {
-             Destroy(myFoot);
+            Destroy(myFoot);
             //StartCoroutine(DelayFalse());
         }
     }
@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnBombAtPos(Vector3 spawnPosition)
     {
         spawnPosition.y = 1;
-        myFoot = Instantiate(Foot, spawnPosition, Quaternion.identity);     
+        myFoot = Instantiate(Foot, spawnPosition, Quaternion.identity);
     }
 
     Vector3 GetMouseWorldPosition()                                        // 마우스 위치값 함수
