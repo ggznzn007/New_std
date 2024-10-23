@@ -57,7 +57,6 @@ public class testResolution : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, Utils.maxPosZ);
         }
-
         /*  float mouseX = Input.GetAxis("Mouse X");                        회전코드
           float mouseY = Input.GetAxis("Mouse Y");
           transform.Rotate(Vector3.up * speed_rota * mouseX);
