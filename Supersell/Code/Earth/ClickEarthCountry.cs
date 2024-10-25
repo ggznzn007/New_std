@@ -100,7 +100,7 @@ namespace WPM
         GlobeClickEvent globeClick;
 
         void Start()
-        {            
+        {
             map = WorldMapGlobe.instance;
             isClick = false;
 
@@ -108,23 +108,16 @@ namespace WPM
         }
 
         private void Update()
-        {            
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit();
+                Application.Quit();
 #endif   
             }
         }
-
-        /*public float ComputeCenteredHorizontalOffset()
-        {
-            Vector3 centerLocation = map.GetCurrentMapLocation();
-            Vector2 uv = Conversion.GetUVFromSpherePoint(centerLocation);
-            return uv.x;
-        }*/
 
         private void Map_OnCountryClick(int countryIndex, int regionIndex, int buttonIndex)
         {
@@ -135,7 +128,7 @@ namespace WPM
             Debug.Log("Country = " + country);
 
             // map.FlyToLocation(map.countries[countryIndex].mainRegion.latlonCenter);
-                        
+
             if (isClick) return;
             StartCoroutine(GetWeather(country, latlon.x, latlon.y));
         }
@@ -143,12 +136,12 @@ namespace WPM
         IEnumerator CenterTo(int countryIndex)
         {
             yield return new WaitForSeconds(0.0001f);
-            
+
             map.FlyToLocation(map.countries[countryIndex].mainRegion.latlonCenter);
         }
 
         IEnumerator GetWeather(string country, float lat, float lon)
-        {            
+        {
             string srcCountry = country;
             country = UnityWebRequest.EscapeURL(country);
             string url = $"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={APP_ID}&lang={lang}&units=metric";
@@ -220,7 +213,7 @@ namespace WPM
                 }
                 // dtText.text = time.ToString();               
             }
-        }     
+        }
 
         public DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
