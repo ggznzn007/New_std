@@ -15,6 +15,7 @@ public class ClickMouse : MonoBehaviour
             isDoubleClicked = true;
             doubleClickedTime = -1.0f;
         }
+
         else
         {
             isDoubleClicked = false;
