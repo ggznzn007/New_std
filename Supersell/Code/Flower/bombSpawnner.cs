@@ -76,7 +76,6 @@ public class bombSpawnner : MonoBehaviour
             Renderer test = hand.GetComponent<Renderer>();
             test.material.mainTexture = texture2;
             // test.setTexture("HEHE",texture2);
-
         }
 
         string[] files2 = System.IO.Directory.GetFiles("flower");
@@ -105,7 +104,6 @@ public class bombSpawnner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             gamePaused = !gamePaused;
-
         //Now we enable and disable the game object!
         if (gamePaused)
         {
