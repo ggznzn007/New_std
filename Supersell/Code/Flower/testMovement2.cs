@@ -54,14 +54,13 @@ public class testMovement2 : MonoBehaviour
 
     void Update()
     {
-        if ( /*some case  */ !beingHandled)
+        if (!beingHandled)
             StartCoroutine(ExampleCoroutine());
     }
 
     IEnumerator ExampleCoroutine()
     {
         //Print the time of when the function is first called.
-
         beingHandled = true;
         //yield on a new YieldInstruction that waits for 5 seconds.
         Vector2 pos = this.transform.position;
