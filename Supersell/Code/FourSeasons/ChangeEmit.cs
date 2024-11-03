@@ -17,8 +17,7 @@ public class ChangeEmit : MonoBehaviour
         mat = GetComponent<SkinnedMeshRenderer>().material;
         //mat.EnableKeyword("_EmissionColor");
         //Debug.Log("_Emission working");
-        //StartCoroutine(LerpColor());
-        
+        //StartCoroutine(LerpColor());        
         // oldColor = mat.color;
         //  InvokeRepeating(nameof(RandomColor), 1, 5);
     }
