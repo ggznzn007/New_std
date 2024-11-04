@@ -18,7 +18,6 @@ public class FadeScreen : Singleton<FadeScreen>
     private void Awake()
     {      
         image = GetComponent<Image>();
-
         // FadeIn 알파값이 1 ~ 0으로 화면이 점점 밝아짐
         // StartCoroutine(Fade(1,0));
 
