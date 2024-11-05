@@ -24,7 +24,6 @@ public class CaptureManager : MonoBehaviour
             capInt++;
             CaptureToPng();            
         }
-
         PlayerPrefs.SetInt("preInt", capInt);
         PlayerPrefs.SetString("preString", num);
     }
