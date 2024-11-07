@@ -45,6 +45,7 @@ public class Control_Brac : PlayerControl
         {
             sr.flipY = false;          
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipY = true;          
