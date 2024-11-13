@@ -47,6 +47,7 @@ public class Control_Gori : PlayerControl
         {
             sr.flipX = true;          
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipX = false;        
