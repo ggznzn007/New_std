@@ -9,7 +9,6 @@ public class Control_Hete : PlayerControl
     {
         sr = GetComponent<SpriteRenderer>();
         sk = GetComponent<SpriteSkin>();
-
         waitTime = Setting.startWaitTime;
     }
 
