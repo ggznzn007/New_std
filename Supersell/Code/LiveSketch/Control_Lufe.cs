@@ -9,7 +9,6 @@ public class Control_Lufe : PlayerControl
     {
         sr = GetComponent<SpriteRenderer>();
         sk = GetComponent<SpriteSkin>();
-
         waitTime = Setting.startWaitTime;
     }
 
