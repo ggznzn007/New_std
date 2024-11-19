@@ -45,6 +45,7 @@ public class Control_Okap : PlayerControl
         {
             sr.flipX = true;
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipX = false;
