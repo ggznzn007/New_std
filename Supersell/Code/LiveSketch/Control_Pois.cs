@@ -9,7 +9,6 @@ public class Control_Pois : PlayerControl
     {
         sr = GetComponent<SpriteRenderer>();
         sk = GetComponent<SpriteSkin>();
-
         waitTime = Setting.startWaitTime;
     }
 
@@ -45,6 +44,7 @@ public class Control_Pois : PlayerControl
         {
             sr.flipX = true;           
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipX = false;           
