@@ -45,6 +45,7 @@ public class Control_Scel : PlayerControl
         {
             sr.flipX = false;        
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipX = true;          
