@@ -45,6 +45,7 @@ public class Control_Tuoj : PlayerControl
         {
             sr.flipY = true;           
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipY = false;          
