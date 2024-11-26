@@ -22,6 +22,7 @@ public class EasyDrawing : MonoBehaviour
         {
             CreateBrush();
         }
+
         if (Input.GetKey(KeyCode.Mouse0))
         {
             Vector2 mousePos = d_Cam.ScreenToWorldPoint(Input.mousePosition);
