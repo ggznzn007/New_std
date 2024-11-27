@@ -42,6 +42,7 @@ public class LayoutSorter : MonoBehaviour
             {
                 parentsRenderer.sortingOrder = 200;
             }
+
             else
             {
                 obstacles.Sort();
