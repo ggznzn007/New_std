@@ -20,12 +20,10 @@ public class LineGenerator : MonoBehaviour
             GameObject newLine = Instantiate(linePrefab);
             activeLine = newLine.GetComponent<Line>();
         }
-
         if (Input.GetMouseButtonUp(0))
         {
             activeLine = null;
         }
-
         if (activeLine != null)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
