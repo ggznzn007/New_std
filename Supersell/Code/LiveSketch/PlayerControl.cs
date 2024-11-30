@@ -21,8 +21,7 @@ public class PlayerControl : MonoBehaviour
     private void Awake()
     {        
         sr = GetComponent<SpriteRenderer>();
-        sk = GetComponent<SpriteSkin>();
-        
+        sk = GetComponent<SpriteSkin>();        
         waitTime = Setting.startWaitTime;       
     }
 
@@ -66,6 +65,7 @@ public class PlayerControl : MonoBehaviour
         {
             sr.flipY = true;            
         }
+
         else if (moveSpot.position.x > transform.position.x)
         {
             sr.flipY = false;          
