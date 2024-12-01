@@ -30,7 +30,6 @@ public class DeadLineMove : MonoBehaviour
         {            
             FootPrint.FPM.FinishWalk();
         }
-
         if(coll.CompareTag("Player"))
         {            
             FootPrint.FPM.FailWalk();
