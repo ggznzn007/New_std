@@ -83,7 +83,6 @@ public class FootPrint : MonoBehaviour
     {
         int setWidth = 3200;   // 화면 가로
         int setHeight = 1080;  // 화면 세로
-
         Screen.SetResolution(setWidth, setHeight, true); // true: 풀스크린, false:창모드
     }
 
@@ -103,12 +102,10 @@ public class FootPrint : MonoBehaviour
             int sec = (int)curSecond;
             int minutes = sec / 60; // 분 계산
             int seconds = sec % 60; // 초 계산
-
             // string formattedTime = string.Format("{0:00}m:{1:00}s", minutes, seconds);
             string formattedTime = string.Format("{00:00}:{01:00}", minutes, seconds);
             secText.text = formattedTime;
         }
-
         FootVisual();
         MoveObj();
         Zoominout();
