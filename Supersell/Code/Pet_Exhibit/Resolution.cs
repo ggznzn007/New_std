@@ -13,7 +13,6 @@ public class Resolution : MonoBehaviour
 
         float screenY = Camera.main.orthographicSize * 2;
         float screenX = screenY / Screen.height * Screen.width;
-
         transform.localScale = new Vector2(Mathf.Ceil(screenX/spriteX), Mathf.Ceil(screenY/spriteY));
     }
 }
