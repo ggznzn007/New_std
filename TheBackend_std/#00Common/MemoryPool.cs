@@ -43,7 +43,6 @@ public class MemoryPool
 		for ( int i = 0; i < increaseCount; ++ i )
 		{
 			PoolItem poolItem = new PoolItem();
-
 			poolItem.isActive = false;
 			poolItem.gameObject	= GameObject.Instantiate(poolObject);
 			poolItem.gameObject.SetActive(false);
