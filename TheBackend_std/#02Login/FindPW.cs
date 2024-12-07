@@ -13,7 +13,6 @@ public class FindPW : LoginBase
 	private	Image				imageEmail;			// E-mail 필드 색상 변경
 	[SerializeField]
 	private	TMP_InputField		inputFieldEmail;	// E-mail 필드 텍스트 정보 추출
-
 	[SerializeField]
 	private	Button				btnFindPW;			// "비밀번호 찾기" 버튼 (상호작용 가능/불가능)
 
