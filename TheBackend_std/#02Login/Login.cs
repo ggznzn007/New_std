@@ -14,7 +14,6 @@ public class Login : LoginBase
 	private	Image				imagePW;			// PW 필드 색상 변경
 	[SerializeField]
 	private	TMP_InputField		inputFieldPW;		// PW 필드 텍스트 정보 추출
-
 	[SerializeField]
 	private	Button				btnLogin;           // 로그인 버튼 (상호작용 가능/불가능)
 
