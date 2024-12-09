@@ -37,7 +37,6 @@ public class FadeEffect_TMP : MonoBehaviour
 			Color color		 = effectText.color;
 			color.a			 = Mathf.Lerp(start, end, percent);
 			effectText.color = color;
-
 			yield return null;
 		}
 	}
