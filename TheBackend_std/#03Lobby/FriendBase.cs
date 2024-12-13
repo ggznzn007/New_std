@@ -32,7 +32,6 @@ public class FriendBase : MonoBehaviour
                 Debug.LogError($"서버 시간 불러오기에 실패했습니다. : {callback}");
                 return;
             }
-
             // JSON 데이터 파싱 성공
             try
             {
