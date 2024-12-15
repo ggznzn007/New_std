@@ -17,7 +17,6 @@ public class Guild : MonoBehaviour
 	{
 		backendGuildSystem		= guildSystem;
 		this.guildData			= guildData;
-
 		textGuildName.text		= guildData.guildName;
 		textMasterNickname.text	= guildData.master.nickname;
 		textMemberCount.text	= $"{guildData.memberCount}/100";
