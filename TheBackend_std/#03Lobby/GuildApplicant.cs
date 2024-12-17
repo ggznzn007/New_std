@@ -16,7 +16,6 @@ public class GuildApplicant : MonoBehaviour
 	{
 		textNickname.text	= memberData.nickname;
 		textLevel.text		= $"Lv. {memberData.level}";
-
 		backendGuildSystem	= guildSystem;
 		guildApplicantsPage	= applicantsPage;
 		guildMemberData		= memberData;
