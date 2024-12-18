@@ -49,7 +49,6 @@ public class GuildApplicantsPage : MonoBehaviour
 	public void DeactivateAll()
 	{
 		textSystem.SetActive(true);
-
 		memoryPool.DeactivateAllPoolItems();
 	}
 }
