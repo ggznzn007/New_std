@@ -29,6 +29,7 @@ public class GuildDefaultPage : MonoBehaviour
 		{
 			textLog.FadeOut("존재하지 않는 길드입니다.");
 		}
+
 		else
 		{
 			// 길드 팝업 페이지 활성화
