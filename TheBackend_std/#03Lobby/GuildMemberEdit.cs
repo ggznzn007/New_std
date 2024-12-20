@@ -29,6 +29,7 @@ public class GuildMemberEdit : MonoBehaviour
 			textViceMaster.text = "임원\n해제";
 			buttonViceMaster.onClick.AddListener(OnClickReleaseViceMaster);
 		}
+
 		else
 		{
 			textViceMaster.text = "임원\n임명";
