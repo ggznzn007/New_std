@@ -65,6 +65,7 @@ public class Nickname : LoginBase
 				// 닉네임 변경에 성공했을 때 onNicknameEvent에 등록되어 있는 이벤트 메소드 호출
 				onNicknameEvent?.Invoke();
 			}
+
 			// 닉네임 변경 실패
 			else
 			{
