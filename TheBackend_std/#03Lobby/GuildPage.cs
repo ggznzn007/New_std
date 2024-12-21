@@ -46,6 +46,7 @@ public class GuildPage : MonoBehaviour
 			textMemberCount.text = $"길드 인원 {backendGuildSystem.otherGuildData.memberCount}/100";
 			backendGuildSystem.GetGuildMemeberList(backendGuildSystem.otherGuildData.guildInDate);
 		}
+
 		else
 		{
 			textMemberCount.text	= $"길드 인원 {backendGuildSystem.myGuildData.memberCount}/100";
