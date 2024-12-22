@@ -31,7 +31,6 @@ public class EnemySpawner : MonoBehaviour
 				GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
 				enemy.GetComponent<Enemy>().Setup(gameController);
 			}
-
 			// spawnCycleTime 시간동안 대기
 			yield return new WaitForSeconds(spawnCycleTime);
 		}
