@@ -39,7 +39,6 @@ public class FadeEffect : MonoBehaviour
 			Color color = spriteRenderer.color;
 			color.a = Mathf.Lerp(start, end, percent);
 			spriteRenderer.color = color;
-
 			yield return null;
 		}
 	}
