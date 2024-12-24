@@ -30,7 +30,6 @@ public class ScaleEffect : MonoBehaviour
 			percent = current / effectTime;
 
 			effectText.fontSize = Mathf.Lerp(start, end, percent);
-
 			yield return null;
 		}
 	}
