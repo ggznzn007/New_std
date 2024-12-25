@@ -33,6 +33,7 @@ public static class BackendChartData
 					{
 						Debug.LogWarning("데이터가 존재하지 않습니다.");
 					}
+
 					else
 					{
 						for ( int i = 0; i < jsonData.Count; ++ i )
