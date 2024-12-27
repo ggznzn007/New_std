@@ -50,6 +50,7 @@ public class BackendCouponSystem : MonoBehaviour
 				// 쿠폰에 있는 모든 아이템 저장
 				SaveToLocal(jsonData);
 			}
+
 			// JSON 데이터 파싱 실패
 			catch ( System.Exception e )
 			{
@@ -65,10 +66,12 @@ public class BackendCouponSystem : MonoBehaviour
 		{
 			textResult.FadeOut("쿠폰 발행 개수가 소진되었거나 기간이 만료된 쿠폰입니다.");
 		}
+
 		else if ( callback.GetMessage().Contains("이미 사용하신 쿠폰") )		// 한 명의 사용자가 동일한 쿠폰 중첩 사용
 		{
 			textResult.FadeOut("해당 쿠폰은 이미 사용하셨습니다.");
 		}
+
 		else
 		{
 			textResult.FadeOut("쿠폰 코드가 잘못되었거나 이미 사용한 쿠폰입니다.");
@@ -104,6 +107,7 @@ public class BackendCouponSystem : MonoBehaviour
 			// 플레이어의 재화 정보를 서버에 업데이트
 			BackendGameData.Instance.GameDataUpdate();
 		}
+
 		// JSON 데이터 파싱 실패
 		catch ( System.Exception e )
 		{
