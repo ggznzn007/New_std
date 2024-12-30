@@ -40,6 +40,7 @@ public class BackendFriendSystem : MonoBehaviour
 
             Debug.Log($"{nickname}의 inDate 값은 {inDate} 입니다.");
         }
+
         // JSON 데이터 파싱 실패
         catch (Exception e)
         {
