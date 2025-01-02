@@ -111,6 +111,7 @@ public class BackendGameData
                     Debug.LogError(e);
                 }
             }
+
             // 실패했을 때
             else
             {
