@@ -141,6 +141,7 @@ public class BackendGuildSystem : MonoBehaviour
 					}
 				});
 			}
+
 			// JSON 데이터 파싱 실패
 			catch ( Exception e )
 			{
