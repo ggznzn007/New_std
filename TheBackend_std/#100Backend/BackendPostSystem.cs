@@ -87,6 +87,7 @@ public class BackendPostSystem : MonoBehaviour
 
                             post.isCanReceive = true;
                         }
+
                         else
                         {
                             Debug.LogWarning($"아직 지원되지 않는 차트 정보입니다. : {itemJson["chartName"].ToString()}");
