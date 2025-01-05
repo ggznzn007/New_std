@@ -63,6 +63,7 @@ public class DailyRankLoader : MonoBehaviour
 
                         Debug.LogWarning("데이터가 존재하지 않습니다.");
                     }
+
                     else
                     {
                         int rankerCount = rankDataJson.Count;
