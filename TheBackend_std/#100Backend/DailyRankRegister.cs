@@ -28,6 +28,7 @@ public class DailyRankRegister : MonoBehaviour
             {
                 rowInDate = callback.FlattenRows()[0]["inDate"].ToString();
             }
+
             else
             {
                 Debug.LogError("데이터가 존재하지 않습니다.");
