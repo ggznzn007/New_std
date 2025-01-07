@@ -55,6 +55,7 @@ public class GuildMember : MonoBehaviour
 				if ( timeSpan.TotalHours < 24 )	textLastLogin.text = $"{timeSpan.TotalHours:F0}시간 전";
 				else							textLastLogin.text = $"{timeSpan.TotalDays:F0}일 전";
 			}
+
 			// JSON 데이터 파싱 실패
 			catch ( Exception e )
 			{
