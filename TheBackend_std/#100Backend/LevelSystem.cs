@@ -22,7 +22,6 @@ public class LevelSystem : MonoBehaviour
 			// 레벨 1 증가
 			BackendGameData.Instance.UserGameData.level ++;
 		}
-
 		// 게임 정보 업데이트
 		BackendGameData.Instance.GameDataUpdate();
 
