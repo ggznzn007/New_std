@@ -29,6 +29,7 @@ public class PostData
 				result += $"| {itemKey} : {postReward[itemKey]}개\n";
 			}
 		}
+
 		else
 		{
 			result += "지원하지 않는 아이템입니다.";
