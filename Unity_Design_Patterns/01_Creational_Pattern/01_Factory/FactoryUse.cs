@@ -6,8 +6,7 @@ public class FactoryUse : MonoBehaviour
 {
     Factory factory = null;
     GameObject unit1 = null;
-    GameObject unit2 = null;
-    
+    GameObject unit2 = null;    
 
     public void Start()
     {
