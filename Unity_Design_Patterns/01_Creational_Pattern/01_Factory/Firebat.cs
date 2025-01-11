@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class Firebat : Unit
 {
-    void Start()
-    {
-        Debug.Log("Firebat 积己 !!!");
-    }
+    void Start() { Debug.Log("Firebat 积己 !!!"); }
 
-    public override void Move()
-    {
-        Debug.Log("Firebat 捞悼 !!!");
-    }
+    public override void Move() { Debug.Log("Firebat 捞悼 !!!"); }
 }
