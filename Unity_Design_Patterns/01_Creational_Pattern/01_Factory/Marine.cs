@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class Marine : Unit
 {
-    void Start()
-    {
-        Debug.Log("Marine 积己 !!!");
-    }
+    void Start() { Debug.Log("Marine 积己 !!!"); }
 
-    public override void Move()
-    {
-        Debug.Log("Marine 捞悼 !!!");
-    }
+    public override void Move() { Debug.Log("Marine 捞悼 !!!"); }
 }
