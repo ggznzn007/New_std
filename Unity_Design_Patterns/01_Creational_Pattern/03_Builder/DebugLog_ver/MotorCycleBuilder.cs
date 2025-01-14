@@ -4,10 +4,7 @@ class MotorCycleBuilder : IVehicleBuilder
 {
     private Vehicle _vehicle;
 
-    public Vehicle getVehicle()
-    {
-        return _vehicle;
-    }
+    public Vehicle getVehicle() { return _vehicle; }
 
     public MotorCycleBuilder()
     {
