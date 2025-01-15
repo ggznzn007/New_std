@@ -14,10 +14,7 @@ class CarBuilder : MonoBehaviour, IVehicleBuilder
 
     private Vehicle _vehicle;
 
-    public Vehicle getVehicle()
-    {
-        return _vehicle;
-    }
+    public Vehicle getVehicle() { return _vehicle; }
 
     public void makeVehicle()
     {
