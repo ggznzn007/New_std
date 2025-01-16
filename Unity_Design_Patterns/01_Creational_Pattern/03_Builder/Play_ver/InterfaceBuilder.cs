@@ -11,8 +11,4 @@ interface IVehicleBuilder
     void BuildWheels(); // 바퀴 만들기
 }
 
-public enum VehicleType
-{
-    Car,
-    MotorCycle
-}
+public enum VehicleType { Car, MotorCycle }
