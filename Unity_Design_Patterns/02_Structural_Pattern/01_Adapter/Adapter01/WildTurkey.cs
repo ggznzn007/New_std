@@ -4,14 +4,7 @@ using UnityEngine;
 
 public class WildTurkey : Turkey
 {
-    public void gobble()
-    {
-        Debug.Log("Ä¥¸éÁ¶ : ¿ï±â(°í¸£¸¤°í¸£¸¤)");
-    }
+    public void gobble() { Debug.Log("Ä¥¸éÁ¶ : ¿ï±â(°í¸£¸¤°í¸£¸¤)"); }
 
-    public void fly()
-    {
-        Debug.Log("Ä¥¸éÁ¶ : ³¯±â");
-
-    }
+    public void fly() { Debug.Log("Ä¥¸éÁ¶ : ³¯±â"); }
 }
