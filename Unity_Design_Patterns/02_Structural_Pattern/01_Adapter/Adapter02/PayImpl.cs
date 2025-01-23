@@ -20,13 +20,7 @@ public class PayImpl : PayY, PayX // ´ÙÁß »ó¼Ó  = ¾î´ğÅÍ°¡ µÊ
     // ------------------------------------------------------
 
     // for PayX Method
-    public string getCreditCardNum()
-    {
-        return getCustomerCardNum();
-    }
+    public string getCreditCardNum() { return getCustomerCardNum(); }
 
-    public void setCreditCardNum(string creditCardNum)
-    {
-        setCustomerCardNum(creditCardNum);
-    }
+    public void setCreditCardNum(string creditCardNum) { setCustomerCardNum(creditCardNum); }
 }
