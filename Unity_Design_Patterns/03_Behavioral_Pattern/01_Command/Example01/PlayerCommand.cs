@@ -35,6 +35,7 @@ public class PlayerCommand : MonoBehaviour
 			txt1.text = "A - Attack";
 			txt2.text = "D - Defense";
 		}
+
 		else
 		{
 			btnA = new CommandDefense(this, shield, cannon, firePos);
@@ -49,11 +50,11 @@ public class PlayerCommand : MonoBehaviour
 	// 버튼을 누르면 단지 버튼의 Execute()만 호출
 	void Update()
 	{
-
 		if (Input.GetKeyDown("a"))
 		{
 			btnA.Execute();
 		}
+
 		else if (Input.GetKeyDown("d"))
 		{
 			btnB.Execute();
