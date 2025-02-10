@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponType
-{
-    Hawkeye,
-    Blackwidow,
-    IronMan
-}
+public enum WeaponType { Hawkeye, Blackwidow, IronMan }
 
 public class WeaponManager : MonoBehaviour
 {
