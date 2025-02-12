@@ -42,8 +42,7 @@ public class DataController : MonoBehaviour
         int placeN = 4; // 네자리 단위로 끊어서 표현
         BigInteger value = data; // 빅인티저에 골드를 대입
         List<BigInteger> numList = new List<BigInteger>();
-        long p = (int)Mathf.Pow(10, placeN);       
-
+        long p = (int)Mathf.Pow(10, placeN);  
         do
         {
             numList.Add((long)(value % p));            
