@@ -8,32 +8,20 @@ using System.Numerics;
 public class HeroineButton : MonoBehaviour
 {
     public TextMeshProUGUI itemDisplayer;
-
     public CanvasGroup canvasGroup;
-
     public Slider slider;
-
     public string itemName;
-
     public BigInteger level = 1;
-
     [HideInInspector]
     public BigInteger currentCost = 9000;
-
     public BigInteger startCurrentCost = 9000;
-
     [HideInInspector]
     public BigInteger goldPerSec;
-
     public BigInteger startGoldPerSec = 9000;
-
     public float costPow;
-
     public float upgradePow;
-
     [HideInInspector]
     public bool isPurchased = false;
-
     public Button heroineButton;
 
     private void Start()
@@ -140,12 +128,10 @@ public class HeroineButton : MonoBehaviour
         if (DataController.Instance.Gold >= currentCost)
         {
             heroineButton.interactable = true;
-
         }
         else
         {
             heroineButton.interactable = false;
-
         }
     }
 
