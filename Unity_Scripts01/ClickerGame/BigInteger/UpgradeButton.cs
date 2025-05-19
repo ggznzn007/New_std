@@ -8,26 +8,17 @@ using System.Numerics;
 public class UpgradeButton : MonoBehaviour
 {
     public TextMeshProUGUI upgradeDisplayer;
-
     public string upgradeName;
-
     [HideInInspector] // 인스펙터 상에서 값을 숨김
-    public BigInteger goldByUpgrade;
-   
+    public BigInteger goldByUpgrade;   
     public BigInteger startGoldByUpgrade = 10000; // 게임 시작 시 기초값
-
     [HideInInspector]
     public BigInteger currentCost = 10000;
-
     public BigInteger startCurrentCost = 10000;
-
     [HideInInspector]
     public BigInteger level = 1;
-
     public float costPow;
-
     public float upgradePow;
-
     public Button upgradeButton;
 
     private void Start()
