@@ -49,10 +49,10 @@ public class HeroineButton : MonoBehaviour
 
     public void PurchaseItem()
     {
-        if(DataController.Instance.Gold >=currentCost)
+        if (DataController.Instance.Gold >= currentCost)
         {
             isPurchased = true;
-            DataController.Instance.Gold -=currentCost;
+            DataController.Instance.Gold -= currentCost;
             level++;
             UpdateItem();
             UpdateUI();
@@ -62,11 +62,11 @@ public class HeroineButton : MonoBehaviour
 
     IEnumerator AddGoldLoop()
     {
-        while(true)
+        while (true)
         {
-            if(isPurchased)
+            if (isPurchased)
             {
-                DataController.Instance.Gold+=goldPerSec;
+                DataController.Instance.Gold += goldPerSec;
             }
 
             yield return new WaitForSeconds(1.0f);
@@ -76,12 +76,12 @@ public class HeroineButton : MonoBehaviour
     public void UpdateItem()
     {
         goldPerSec = (int)(goldPerSec) + startGoldPerSec * (int)Mathf.Pow(upgradePow, level);
-        currentCost = (int)(currentCost*0.6f) + startCurrentCost * (int)Mathf.Pow(costPow, level);        
+        currentCost = (int)(currentCost * 0.6f) + startCurrentCost * (int)Mathf.Pow(costPow, level);
     }
 
     public void UpdateUI()
     {
-        itemDisplayer.text = itemName + " Level " + level + "\n\n구매금액: " + GetCommaGold(currentCost) + "원"+ 
+        itemDisplayer.text = itemName + " Level " + level + "\n\n구매금액: " + GetCommaGold(currentCost) + "원" +
             "\n초당 추가금액: " + GetCommaGold(goldPerSec) + "원";
 
         slider.minValue = 0;
@@ -89,14 +89,14 @@ public class HeroineButton : MonoBehaviour
 
         slider.value = DataController.Instance.Gold;
 
-        if(isPurchased)
+        if (isPurchased)
         {
             canvasGroup.alpha = 1.0f;
         }
         else
         {
             canvasGroup.alpha = 0.6f;
-        }        
+        }
     }
 
     public string GetCommaGold(int data)
