@@ -9,8 +9,8 @@ public class SoundController : MonoBehaviour
     AudioSource sound;
 
     [Header("AudioClip")]
-    public AudioClip upgradeClick;        
-    public AudioClip playerHit;          
+    public AudioClip upgradeClick;
+    public AudioClip playerHit;
     public AudioClip heroineClick;
 
     private void Awake()
