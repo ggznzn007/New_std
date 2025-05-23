@@ -12,7 +12,7 @@ public class UpgradeButton : MonoBehaviour
 
     [HideInInspector] // 인스펙터 상에서 값을 숨김
     public int goldByUpgrade;
-   
+
     public int startGoldByUpgrade = 1; // 게임 시작 시 기초값
 
     [HideInInspector]
@@ -45,11 +45,11 @@ public class UpgradeButton : MonoBehaviour
 
     public void PurchaseUpgrade()
     {
-        if(DataController.Instance.Gold>=currentCost)
+        if (DataController.Instance.Gold >= currentCost)
         {
-            DataController.Instance.Gold -=currentCost;
+            DataController.Instance.Gold -= currentCost;
             level++;
-            DataController.Instance.GoldPerClick+=goldByUpgrade;
+            DataController.Instance.GoldPerClick += goldByUpgrade;
 
             UpdateUpgrade();
             UpdateUI();
@@ -62,11 +62,11 @@ public class UpgradeButton : MonoBehaviour
         goldByUpgrade += startGoldByUpgrade * (int)Mathf.Pow(upgradePow, level);
         currentCost += startCurrentCost * (int)Mathf.Pow(costPow, level);
     }
-    
+
     public void UpdateUI()
-    {        
-        upgradeDisplayer.text ="  \t"+upgradeName + " Level " + level 
+    {
+        upgradeDisplayer.text = "  \t" + upgradeName + " Level " + level
             + "\n\n구매금액: " + GetCommaGold(currentCost) + "원"
-            +"\n클릭당 추가금액:\n " + GetCommaGold(goldByUpgrade) + "원";
+            + "\n클릭당 추가금액:\n " + GetCommaGold(goldByUpgrade) + "원";
     }
 }
